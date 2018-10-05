@@ -1,0 +1,124 @@
+@import "mixins";
+
+$hiweb_field_file_width: 120px;
+
+.hiweb-field-file, .hiweb-field-image {
+	width: $hiweb_field_file_width;
+	&, &.ui.reveal {
+		display: inline-block;
+	}
+
+	.content {
+		width: $hiweb_field_file_width;
+	}
+
+	.thumbnail {
+		@include position_stretch_2();
+		background: 50% 50% no-repeat;
+		background-size: cover;
+		@include opacity(0);
+	}
+
+	[data-segment="1"] {
+		width: $hiweb_field_file_width;
+		height: 120px;
+		background: url(../img/pattern-1.jpg);
+
+		[data-icon] {
+			position: absolute;
+			top: 20px;
+			left: 28px;
+			font-size: 56px;
+			line-height: 1;
+			vertical-align: middle;
+			@include transition(all, .5s, ease-in-out, .5s);
+		}
+	}
+
+	&[data-has-file="1"] {
+		[data-icon="select"] {
+			//display: none;
+			@include opacity(0);
+			@include transform(scale(2));
+		}
+		[data-icon="deselect"] {
+			//display: none;
+			@include opacity(1);
+		}
+
+		[data-click="select"] {
+			display: none;
+		}
+		[data-click="edit"], [data-click="deselect"] {
+			//display: inherit;
+		}
+		[data-file-nonselect-text] {
+			display: none;
+		}
+		[data-file-name] {
+			display: block;
+			white-space: nowrap;
+		}
+		&[data-file-image="image"] {
+			[data-segment="1"] {
+				background: url(../img/pattern-4.png);
+				.icon {
+					@include opacity(0);
+				}
+			}
+			.thumbnail {
+				@include opacity(1);
+			}
+		}
+
+	}
+
+	&[data-has-file="0"] {
+		[data-icon="select"] {
+			//display: none;
+			@include opacity(.3);
+		}
+		[data-icon="deselect"] {
+			//display: none;
+			@include opacity(0);
+			@include transform(scale(.5));
+		}
+		[data-click="select"] {
+			//display: inherit;
+		}
+		[data-click="edit"], [data-click="deselect"] {
+			display: none;
+		}
+		[data-file-nonselect-text] {
+			display: block;
+		}
+		[data-file-name] {
+			display: none;
+		}
+	}
+
+	[data-segment="2"] {
+		width: $hiweb_field_file_width;
+		height: 134px;
+		background-image: url(../img/pattern-5d.png);
+
+		[data-click="select"] {
+			position: relative;
+			top: 28px;
+			margin-right: -8px;
+		}
+		.buttons {
+			position: relative;
+			top: 34px;
+			.button:last-child {
+				margin-right: -8px;
+			}
+		}
+	}
+
+	[data-tooltip][data-inverted]:after {
+		font-size: 8pt;
+		font-weight: 100;
+	}
+
+}

@@ -1,0 +1,1 @@
+<meta name="viewport" content="<?= hiweb_theme\head::$meta_viewport ?>">

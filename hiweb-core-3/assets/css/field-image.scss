@@ -1,0 +1,91 @@
+@import "mixins";
+
+.hiweb-field-image {
+	display: inline-block;
+	padding: 1px;
+	background: #fff;
+	border: 1px solid #e5e5e5;
+
+
+	.image-select {
+		color: #444;
+		border: 1px solid #ccc;
+		display: block;
+		min-height: 85px;
+		min-width: 85px;
+		max-width: 100%;
+		position: relative;
+		text-align: center;
+		text-decoration: none;
+		overflow: hidden;
+		@include box-shadow(15px, .1, 0px, 0px, false);
+
+		.thumbnail {
+			@include background_image();
+			@include position_stretch(1px);
+			@include transition();
+		}
+
+		.overlay {
+			@include transition(all, 0.2s);
+			@include position_stretch();
+			@include opacity(0);
+		}
+
+		.dashicons {
+			font-size: 34px;
+			line-height: 34px;
+			width: 34px;
+			height: 34px;
+			position: relative;
+			top: 50%;
+			@include opacity(.4);
+			@include transition(all, 0.2s);
+			@include transform(translateY(-50%));
+		}
+		.dashicons[data-icon="deselect"] {
+			@include opacity(.0);
+			@include text-shadow(10px, 0, 0, rgba(255,255,255,.8));
+		}
+
+		&:hover {
+			background: none !important;
+
+			.dashicons {
+				@include opacity(1);
+				@include transition(all, .1s);
+				@include transform(translateY(-50%) scale(1.4));
+			}
+
+			.thumbnail {
+				@include transition(all, 0.2s);
+				@include transform(scale(1.2));
+				@include opacity(.4);
+				@include filter(blur(6px) brightness(3) grayscale(50%));
+			}
+			.overlay {
+				@include opacity(0.75);
+			}
+		}
+	}
+
+	&[data-has-image="1"] {
+		.image-select {
+			background: url(../img/pattern-4.png) 50% 50%;
+		}
+		.dashicons[data-icon="select"] {
+			display: none;
+		}
+	}
+
+	&[data-has-image="0"] .dashicons[data-icon="deselect"] {
+		display: none;
+	}
+
+	&[data-image-small="1"]{
+		.image-select .thumbnail {
+			background-size: auto;
+		}
+	}
+
+}
