@@ -1,0 +1,96 @@
+@import "../../../hiweb-core-3/assets/css/mixins";
+
+.hiweb-theme-slider {
+	&.full-height {
+		.owl-item {
+			height: 100vh;
+		}
+	}
+
+	&.aspect-16-9 {
+		.owl-item {
+			@include aspect-ratio(16, 9);
+			min-height: 300px;
+		}
+	}
+
+	&.aspect-2-1 {
+		.owl-item {
+			@include aspect-ratio(2, 1);
+			min-height: 280px;
+		}
+	}
+
+	&.aspect-4-3 {
+		.owl-item {
+			@include aspect-ratio(4, 3);
+			min-height: 480px;
+		}
+	}
+
+	.owl-item {
+		overflow: hidden;
+
+		.slide {
+			background: black;
+			@include position_stretch_2();
+
+			&.image {
+				img {
+					@include position_stretch_2();
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+			&.video {
+				video {
+					@include position_stretch_2();
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+			&.darken:after {
+				content: ' ';
+				@include position_stretch_2();
+				display: block;
+				background-color: rgba(0, 0, 0, .65);
+			}
+			.content {
+				@include vertical_middle;
+				left: 0;
+				right: 0;
+				width: 100%;
+				text-align: center;
+				z-index: 10;
+			}
+			&.darken .content {
+				color: #fff;
+			}
+
+		}
+
+	}
+
+	.owl-dots {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 5%;
+		text-align: center;
+		.owl-dot {
+			width: 12px;
+			height: 12px;
+			background-color: rgba(255, 255, 255, .25);
+			@include box-shadow();
+			@include transition();
+			@include border_radius(20px);
+			padding: 4px;
+			margin: auto 5px;
+			&.active {
+				background-color: rgba(255, 255, 255, 1);
+			}
+		}
+	}
+}

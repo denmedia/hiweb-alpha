@@ -50,7 +50,7 @@
 
 		public function hooks(){
 			includes::mmenu();
-			includes::jquery_touchswipe();
+			includes::touchswipe();
 			add_action( 'hiweb_theme_body_prefix_after', function(){
 				get_template_part( HIWEB_THEME_PARTS . '/modules/mmenu/body_prefix_after' );
 				$this->nav_menu()->root_classes[] = 'mm-menu_offcanvas';

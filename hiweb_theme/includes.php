@@ -126,7 +126,7 @@
 		}
 
 
-		static function jquery_touchswipe(){
+		static function touchswipe(){
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.touchSwipe/jquery.touchSwipe.min.js', [ self::jquery() ] );
 		}
 
@@ -137,6 +137,13 @@
 			} else {
 				self::css( HIWEB_DIR_VENDORS . '/font-awesome-5/css/all.min.css' );
 			}
+		}
+
+
+		static function owl_carousel(){
+			self::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css' );
+			self::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css' );
+			self::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] );
 		}
 
 	}
