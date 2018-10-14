@@ -31,7 +31,7 @@
 
 		public function the(){
 			?>
-			<button type="<?= self::get_data( 'type' ) ?>"><?= self::get_data( 'label' ) ?></button>
+			<button type="<?= self::get_data( 'type' ) ?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>><?= self::get_data( 'label' ) ?></button>
 			<?php
 		}
 

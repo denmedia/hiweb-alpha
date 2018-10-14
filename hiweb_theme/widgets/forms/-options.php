@@ -4,6 +4,7 @@
 	 * User: denmedia
 	 * Date: 11.10.2018
 	 * Time: 11:18
+	 * @var \hiweb_theme\widgets\forms self
 	 */
 
 	namespace hiweb_theme\widgets;
@@ -33,16 +34,30 @@
 	button::add_repeat_field( $INPUTS );
 	//
 
+	$strtr_descriptions = [];
+	foreach(
+		forms::get_strtr_templates( [
+			'{data-list}' => 'Список заполненных данных',
+			'{name}' => 'Содержимое данного поля (вместо {name} укажите имя поля)'
+		], true ) as $key => $descript
+	){
+		$strtr_descriptions[] = '<code>' . $key . '</code> - ' . $descript;
+	}
+	$strtr_descriptions = implode( ', ', $strtr_descriptions );
+
 	///Options
 	self::$options_object = add_admin_menu_page( self::$options_name, '<i class="fas fa-cog"></i> Опции', 'edit.php?post_type=' . self::$post_type_name );
 	add_field_text( 'email' )->placeholder( get_bloginfo( 'admin_email' ) )->label( 'Адрес поты, на который будет отправляться сообщения.' )->description( 'Этот адрес будет стандартным для приема сообщений. Если оставить поле пустым, письма будут отправляться на адрес супер-администратора <b>' . get_bloginfo( 'admin_email' ) . ' <a href="' . get_admin_url( null, 'options-general.php#home-description' ) . '" data-tooltip="Изменить этот адрес" title="Изменить этот адрес"><i class="fas fa-pencil-alt"></i></a></b> Для каждой формы так же можно установить индивидуальный адрес. Так же можно указать несколько адресов через запятую или пробел, например: <code>info@email.com admin@email.com</code>' )->LOCATION()->ADMIN_MENUS( self::$options_name );
 
 	add_field_separator( 'Шаблоны писем' )->LOCATION( true );
-	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->VALUE( 'На сайте {site-name} была отправлена форма' )->get_parent_field()->LOCATION( true );
-	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->VALUE( '<h3>На сайте <a href="#{home-url}">{site-name}</a> была заполнена форма.</h3>Посетитель указал следующие данные:<hr>{data-list}' )->get_parent_field()->LOCATION( true );
+	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->VALUE( 'На сайте {site-name} была отправлена форма' )->get_parent_field()->LOCATION( true );
+	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->VALUE( '<h3>На сайте <a href="#{home-url}">{site-name}</a> была заполнена форма.</h3>Посетитель указал следующие данные:<hr>{data-list}' )->get_parent_field()->LOCATION( true );
 	add_field_checkbox( 'send-client-email' )->label_checkbox( 'Отправлять письмо заполнителю формы по указанному адресу, в случае, если в форме было поле email и оно было заполнено.' )->LOCATION( true );
-	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->VALUE( 'Вы заполнили форму на сайте {site-name}' )->get_parent_field()->LOCATION( true );
-	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->VALUE( '<h3>Вы заполнили форму на сайте <a href="#{home-url}">{site-name}</a>, указав данные</h3><hr>{data-list}' )->get_parent_field()->LOCATION( true );
+	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->VALUE( 'Вы заполнили форму на сайте {site-name}' )->get_parent_field()->LOCATION( true );
+	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->VALUE( 'Вы указали данные на сайте <a href="#{home-url}">{site-name}</a>
+{data-list}
+<hr>
+С уважением, <a href="#{home-url}">{site-name}</a>' )->get_parent_field()->LOCATION( true );
 
 	add_field_separator( 'Статус отправки формы AJAX', 'Иконки и сообщения о статусе отправки' )->LOCATION( true );
 	add_field_fontawesome( 'icon-process' )->VALUE( 'fal fa-clock' )->get_parent_field()->label( 'Иконка процесса отправки' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
@@ -51,7 +66,7 @@
 	add_field_fontawesome( 'icon-error' )->VALUE( 'fal fa-comment-times' )->get_parent_field()->label( 'Иконка ошибки во время отправки' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
 	add_field_textarea( 'text-process' )->VALUE( 'Отправка сообщения...' )->get_parent_field()->label( 'Текст отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	add_field_textarea( 'text-success' )->VALUE( 'Спасибо, сообщение было отправлено.' )->get_parent_field()->label( 'Текст удачной отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
-	add_field_textarea( 'text-warn' )->VALUE( 'Сообщение не отправлено, не верно заполнена форма:' )->get_parent_field()->label( 'Текст ошибки заполненной формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
+	add_field_textarea( 'text-warn' )->VALUE( 'Сообщение не отправлено, не верно заполнена форма' )->get_parent_field()->label( 'Текст ошибки заполненной формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	add_field_textarea( 'text-error' )->VALUE( 'Ошибка во время отправки сообщения, попробуйте снова.' )->get_parent_field()->label( 'Текст ошибки в процессе отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	//
 

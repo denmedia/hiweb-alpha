@@ -83,7 +83,7 @@ $font_0: 'Font Awesome 5 Pro';
 			}
 			&.hover > ul {
 				display: block;
-				visibility: visible;
+				visibility: visible !important;
 				@include opacity(1);
 				@include transition(opacity, .3s, ease-out);
 			}

@@ -1,16 +1,22 @@
-<div class="hiweb-theme-widget-form-status-wrap" style="display: none;">
-	<div class="hiweb-theme-widget-form-status"  data-form-status-id="<?=get_the_form_id()?>" data-status="wait">
+<div class="hiweb-theme-widget-form-status-wrap" data-form-status-id="<?= get_the_form_id() ?>">
+	<div class="hiweb-theme-widget-form-status">
 		<div class="icon wait">
-			<i class="far fa-clock"></i>
+			<i class="<?= get_field( 'icon-process', \hiweb_theme\widgets\forms::$options_name ) ?>"></i>
 		</div>
 		<div class="icon success">
-			<i class="far fa-comment-check"></i>
+			<i class="<?= get_field( 'icon-success', \hiweb_theme\widgets\forms::$options_name ) ?>"></i>
+		</div>
+		<div class="icon warn">
+			<i class="<?= get_field( 'icon-warn', \hiweb_theme\widgets\forms::$options_name ) ?>"></i>
 		</div>
 		<div class="icon error">
-			<i class="far fa-times"></i>
+			<i class="<?= get_field( 'icon-error', \hiweb_theme\widgets\forms::$options_name ) ?>"></i>
 		</div>
 		<div class="message">
-			Отправка...
+			<?=get_field('text-process', \hiweb_theme\widgets\forms::$options_name)?>
+		</div>
+		<div class="status-close">
+			<button data-form-status-close>OK</button>
 		</div>
 	</div>
 </div>

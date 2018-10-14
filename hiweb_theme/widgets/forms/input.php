@@ -69,7 +69,7 @@
 		public function the(){
 			$this->the_prefix();
 			?>
-			<div class="input"><input name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
+			<div class="input"><input type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
 			<?php
 			$this->the_sufix();
 		}

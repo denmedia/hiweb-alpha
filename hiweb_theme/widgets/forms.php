@@ -48,6 +48,9 @@
 			foreach( $data as $key => $raw ){
 				$R[ $key ] = $return_descriptions ? $raw[1] : $raw[0];
 			}
+			if( is_array( $additions ) ) foreach( $additions as $key => $raw ){
+				$R[ $key ] = is_array( $raw ) ? ( $return_descriptions ? $raw[1] : $raw[0] ) : $raw;
+			}
 			return $R;
 		}
 
@@ -68,10 +71,10 @@
 		 * @return array
 		 */
 		static function get_input_classes(){
-			if(!is_array(self::$input_classes)){
+			if( !is_array( self::$input_classes ) ){
 				self::$input_classes = [];
-				foreach(\hiweb\file(__DIR__.'/forms/inputs')->get_sub_files(['php']) as $class_file){
-					self::$input_classes[$class_file->filename] = ('hiweb_theme\\widgets\\forms\\inputs\\'.$class_file->filename);
+				foreach( \hiweb\file( __DIR__ . '/forms/inputs' )->get_sub_files( [ 'php' ] ) as $class_file ){
+					self::$input_classes[ $class_file->filename ] = ( 'hiweb_theme\\widgets\\forms\\inputs\\' . $class_file->filename );
 				}
 			}
 			return self::$input_classes;
@@ -102,7 +105,7 @@
 		 * @return form
 		 */
 		static function get_the_form(){
-			return self::get(self::get_the_ID());
+			return self::get( self::get_the_ID() );
 		}
 
 	}

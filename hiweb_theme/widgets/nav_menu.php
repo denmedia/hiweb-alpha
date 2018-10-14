@@ -74,7 +74,7 @@
 			public function the_list( $parent_id = 0, $depth = 0 ){
 				if( $depth <= $this->depth && $this->has_subitems( $parent_id ) ){
 					?>
-					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>">
+					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?=$depth > 0 ? 'style="visibility: hidden;"' : ''?>>
 						<?php
 							foreach( $this->get_items( $parent_id ) as $item ){
 								$active = path::is_page( $item->url );

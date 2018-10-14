@@ -9,10 +9,6 @@
 	namespace hiweb_theme;
 
 
-	use hiweb\context;
-	use hiweb\files;
-
-
 	class includes{
 
 		static $defer_script_files = [];
@@ -188,6 +184,11 @@
 		 */
 		static function jquery_form(){
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] );
+		}
+
+
+		static function jquery_mask(){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] );
 		}
 
 	}

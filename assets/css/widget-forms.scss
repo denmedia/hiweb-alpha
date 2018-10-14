@@ -1,45 +1,170 @@
-[data-form-status-id] {
-	text-align: center;
-	.icon {
-		text-align: center;
-		font-size: 48pt;
-		padding: 20px 0;
-		display: none;
-		&.wait {
-			color: dodgerblue;
+@import "../../hiweb-core-3/assets/css/mixins";
+
+@mixin hiweb-theme-widgets-forms-placeholder {
+	color: grey;
+	font-weight: 100;
+}
+
+.hiweb-theme-widget-form {
+	position: relative;
+
+	.hiweb-theme-widget-form-inside {
+		padding: 1em;
+		@include transition(filter);
+
+
+
+		.input-wrap {
+			margin-bottom: .5em;
+
+			.label {
+				font-size: .9em;
+				@include transition(color, 2s, ease-in-out, 2s);
+
+				.required {
+					color: red;
+					font-weight: 900;
+				}
+			}
+
+			[name] {
+				width: 100%;
+				padding: .2em .4em;
+				background-color: rgba(200, 200, 200, .1);
+				@include transition(color background-color border-color, 3s, ease-in-out, .5s);
+				border: solid 1px grey;
+				&:focus {
+					outline: none;
+				}
+
+				&::-webkit-input-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
+				&::-moz-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
+				&:-moz-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
+				&:-ms-input-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
+
+				&[placeholder] {text-overflow: ellipsis;}
+				&::-moz-placeholder {text-overflow: ellipsis;}
+				&:-moz-placeholder {text-overflow: ellipsis;}
+				&:-ms-input-placeholder {text-overflow: ellipsis;}
+
+				&::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
+				&::-moz-placeholder                {opacity: 1; transition: opacity 0.3s ease;}
+				&:-moz-placeholder                 {opacity: 1; transition: opacity 0.3s ease;}
+				&:-ms-input-placeholder            {opacity: 1; transition: opacity 0.3s ease;}
+				&:focus::-webkit-input-placeholder {opacity: .3; transition: opacity 0.3s ease;}
+				&:focus::-moz-placeholder          {opacity: .3; transition: opacity 0.3s ease;}
+				&:focus:-moz-placeholder           {opacity: .3; transition: opacity 0.3s ease;}
+				&:focus:-ms-input-placeholder      {opacity: .3; transition: opacity 0.3s ease;}
+			}
+
+			[type="checkbox"] {
+				width: unset;
+			}
+
+			&.require-error {
+				.label {
+					color: darkred;
+				}
+
+				[name] {
+					color: darkred;
+					background-color: rgba(125, 0, 0, .3);
+					border-color: rgba(255, 0, 0, .8);
+				}
+			}
+
 		}
-		&.success {
-			color: darkgreen;
+
+
+		[type="submit"] {
+			cursor: pointer;
 		}
-		&.warn {
-			color: darkorange;
+
+	}
+
+	.hiweb-theme-widget-form-status-wrap {
+		@include position_stretch_2();
+		background-color: rgba(255, 255, 255, .75);
+		@include opacity(0);
+		visibility: hidden;
+		@include transition(opacity visibility);
+
+		.hiweb-theme-widget-form-status {
+			text-align: center;
+			@include vertical_middle;
+			left: 15px;
+			right: 15px;
+
+			.icon {
+				text-align: center;
+				font-size: 48pt;
+				padding: 20px 0;
+				display: none;
+				&.wait {
+					color: dodgerblue;
+				}
+				&.success {
+					color: darkgreen;
+				}
+				&.warn {
+					color: darkorange;
+				}
+				&.error {
+					color: darkred;
+				}
+			}
 		}
-		&.error {
-			color: darkred;
+		.message {
+			text-align: center;
+			padding: 18px 0;
+		}
+		.status-close {
+			display: none;
+			text-align: center;
+			[data-form-status-close] {
+				cursor: pointer;
+			}
 		}
 	}
+
+	&[data-status="wait"], &[data-status="success"], &[data-status="warn"], &[data-status="error"] {
+		.hiweb-theme-widget-form-inside {
+			@include filter(blur(2px));
+		}
+		.hiweb-theme-widget-form-status-wrap {
+			@include opacity(1);
+			visibility: visible;
+		}
+	}
+
 	&[data-status="wait"] {
 		.icon.wait { display: block; }
 	}
 	&[data-status="success"] {
 		.icon.success { display: block; }
+		.status-close  {
+			display: block;
+		}
 	}
 	&[data-status="warn"] {
 		.icon.warn { display: block; }
+		.status-close  {
+			display: block;
+		}
 	}
 	&[data-status="error"] {
 		.icon.error { display: block; }
+		.status-close  {
+			display: block;
+		}
 	}
-	.message {
-		text-align: center;
-		padding: 18px 0;
-	}
+
+}
+
+.hiweb-theme-widget-form-modal {
+	padding: .6em .2em;
 }
 
 .hiweb-theme-widget-form-modal-wrap {
 	display: none;
-}
-
-.hiweb-theme-widget-form-modal {
-	padding: 2em;
 }

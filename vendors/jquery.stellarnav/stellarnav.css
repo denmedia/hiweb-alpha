@@ -55,7 +55,7 @@
       transition: opacity 0.2s ease-out 0.2s, visibility 0.2s ease-out 0.2s; }
     .stellarnav li.has-sub.hover > ul {
       display: block;
-      visibility: visible;
+      visibility: visible !important;
       -webkit-opacity: 1;
       -moz-opacity: 1;
       -ms-opacity: 1;

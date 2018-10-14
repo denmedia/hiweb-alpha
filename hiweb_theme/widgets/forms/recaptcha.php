@@ -11,6 +11,7 @@
 
 	use hiweb\strings;
 	use hiweb_theme\includes;
+	use hiweb_theme\widgets\forms;
 
 
 	class recaptcha{
@@ -20,7 +21,7 @@
 		 * @return string
 		 */
 		static function get_recaptcha_key( $public = true ){
-			return get_field( ( $public ? 'recaptcha-public-key' : 'recaptcha-private-key' ), self::$options_name_recapthca );
+			return get_field( ( $public ? 'public-key' : 'private-key' ), forms::$options_name_recapthca );
 		}
 
 
@@ -54,7 +55,6 @@
 		static function the_input(){
 			if( trim( self::get_recaptcha_key() ) == '' ) return;
 			include_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key(), [], false );
-			includes::defer_script_file( 'forms-recaptcha' );
 			$id_rand = strings::rand();
 			?>
 			<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" value="">

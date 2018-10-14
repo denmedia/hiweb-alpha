@@ -28,14 +28,13 @@
 
 
 		public function the(){
+			$this->the_prefix();
 			?>
-			<div class="input input-<?= self::get_name() ?>">
-				<div class="label"><?= self::get_data( 'label' ) ?></div>
-				<div class="input">
-					<textarea name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::get_tag_pair( 'rows' ) ?>></textarea>
-				</div>
+			<div class="input">
+				<textarea name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::get_tag_pair( 'rows' ) ?>></textarea>
 			</div>
 			<?php
+			$this->the_sufix();
 		}
 
 

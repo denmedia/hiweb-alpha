@@ -27,5 +27,13 @@
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) );
 		}
 
+		public function the(){
+			$this->the_prefix();
+			?>
+			<div class="input"><input type="text" <?=$this->get_tag_pair('data-input-mask','mask')?> name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
+			<?php
+			$this->the_sufix();
+		}
+
 
 	}

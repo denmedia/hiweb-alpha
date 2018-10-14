@@ -1,60 +1,106 @@
-jQuery(document).ready(function () {
+var hiweb_theme_widget_forms = {
 
-    var $form_widgets = $('.hiweb-theme-widget-form');
-    $form_widgets.each(function () {
-        var $form = $(this);
+    form_root_seletor: '.hiweb-theme-widget-form',
+    wrap_root_selector: '',
+    status_root_selector: '.hiweb-theme-widget-form-status',
+    recaptcha_local_selector: 'input[name="recaptcha-token"]',
+
+    init: function () {
+        var $form_widgets = $(hiweb_theme_widget_forms.form_root_seletor);
+        $form_widgets.each(function () {
+            $(this).find('button[type="submit"]').removeAttr('disabled');
+            hiweb_theme_widget_forms.make($(this));
+        });
+    },
+
+    make: function ($form) {
+        //Vars
+        var has_recaptcha = $form.find('input[name="recaptcha-token"]').length > 0;
+        ///EVENTS
+        //Require Reset
+        $form.on('keyup change', '[name]', function () {
+            $(this).removeClass('require-error').parent().removeClass('require-error').parent().removeClass('require-error');
+        });
         $form.on('submit', function (e) {
+            $(this).removeClass('require-error').parent().removeClass('require-error').parent().removeClass('require-error');
             e.preventDefault(); // prevent native submit
-            var $form_status = $('[data-form-status-id="' + $form.data('form-id') + '"]');
-            $form_status.attr('data-status', 'wait');
-            if (!$form_status.is('[data-wait-message]')) {
-                $form_status.attr('data-wait-message', $form_status.find('.message').html());
+            hiweb_theme_widget_forms.set_status($form, 'wait');
+            if (has_recaptcha) {
+                hiweb_theme_widget_forms.recapthca_get_token($form, function () {
+                    hiweb_theme_widget_forms.submit($form);
+                });
             } else {
-                $form_status.find('.message').html($form_status.data('wait-message'));
+                hiweb_theme_widget_forms.submit($form);
             }
-            var $fancybox = $.fancybox.open({
-                src: $form_status,
-                type: 'inline',
-                closeExisting: false,
-                animationEffect: 'zoom-in-out'
-            });
-            $form.ajaxSubmit({
-                dataType: 'json',
-                success: function (response) {
-                    $fancybox.close({
-                        afterClose: function () {
-                            $fancybox.destroy();
-                        }
-                    });
-                    $fancybox = $.fancybox.open({
-                        src: $form_status,
-                        type: 'inline',
-                        closeExisting: false,
-                        animationEffect: 'zoom-in-out'
-                    });
-                    if (!response.hasOwnProperty('success')) {
-                        $form_status.data('status', 'error');
-                    } else {
-                        $form_status.attr('data-status', response.status);
-                        $form_status.find('.message').html(response.message);
-                        if (response.status == 'success') {
+        });
+        $form.on('click tap', '[data-form-status-close]', function (e) {
+            e.preventDefault();
+            hiweb_theme_widget_forms.set_status($form, '');
+        });
+        if (typeof $form.find('[data-input-mask]').mask === 'function') {
+            var $input = $form.find('[data-input-mask]');
+            $input.mask($input.data('input-mask'));
+        }
 
+    },
+
+    recapthca_get_token: function ($form, success_fn) {
+        var $input_token = $form.find(hiweb_theme_widget_forms.recaptcha_local_selector);
+        if ($input_token.length > 0) {
+            grecaptcha.execute($input_token.data('key')).then(function (token) {
+                $input_token.val(token);
+                if (typeof success_fn === 'function') success_fn($form, $input_token);
+                //$input_token.closest('form').find('[type="submit"]').removeAttr('disabled');
+            });
+        }
+    },
+
+    set_status: function ($form, $status, message) {
+        //default status message set
+        var $form_status = $form.find(hiweb_theme_widget_forms.status_root_selector);
+        if (!$form_status.is('[data-wait-message]')) {
+            $form_status.attr('data-wait-message', $form_status.find('.message').html());
+        } else {
+            $form_status.find('.message').html($form_status.data('wait-message'));
+        }
+        //
+        //Set status and message
+        if (!$status) $status = '';
+        $form.attr('data-status', $status);
+        if (message) $form_status.find('.message').html(message);
+    },
+
+    submit: function ($form) {
+        $form.ajaxSubmit({
+            dataType: 'json',
+            success: function (response) {
+                if (!response.hasOwnProperty('success')) {
+                    hiweb_theme_widget_forms.set_status($form, 'error', 'Сервер вернул не верные данные');
+                } else {
+                    hiweb_theme_widget_forms.set_status($form, response.status, response.message);
+                    if (response.status === 'success') {
+                        $form.trigger('reset');
+                        setTimeout(function () {
+                            $.fancybox.close(true);
+                            hiweb_theme_widget_forms.set_status($form, '');
+                        }, 1500);
+                    }
+
+                    if (response.hasOwnProperty('error_inputs')) {
+                        for (var index in response.error_inputs) {
+                            var name = response.error_inputs[index];
+                            $form.find('[name="' + name + '"]').addClass('require-error').parent().addClass('require-error').parent().addClass('require-error');
                         }
                     }
-                    setTimeout(function () {
-                        $fancybox.close({
-                            afterClose: function () {
-                                $fancybox.destroy();
-                            }
-                        });
-                    }, 1000);
-                },
-                error: function (response) {
-                    console.error(response);
                 }
-            })
+            },
+            error: function (response) {
+                console.error(response);
+                hiweb_theme_widget_forms.set_status($form, 'error', 'Неизвестная ошибка, попробуйте снова');
+            }
         });
-    });
+    }
 
+};
 
-});
+jQuery(document).ready(hiweb_theme_widget_forms.init);

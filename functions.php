@@ -20,4 +20,4 @@
 
 	\hiweb\path::include_dir( HIWEB_THEME_INCLUDE_DIR, [ 'php' ] );
 
-	hiweb_theme\hooks::init();
+	require_once HIWEB_THEME_INCLUDE_DIR . '/-hooks.php';
