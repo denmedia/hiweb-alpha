@@ -16,10 +16,8 @@
 	if( !defined( 'HIWEB_THEME_VENDORS_URL' ) ) define( 'HIWEB_THEME_VENDORS_URL', \hiweb\path::path_to_url( HIWEB_THEME_VENDORS_DIR ) );
 	if( !defined( 'HIWEB_THEME_INCLUDE_DIR' ) ) define( 'HIWEB_THEME_INCLUDE_DIR', HIWEB_THEME_DIR . '/hiweb_theme' );
 	if( !defined( 'HIWEB_THEME_MODULES_DIR' ) ) define( 'HIWEB_THEME_MODULES_DIR', HIWEB_THEME_DIR . '/modules' );
-	if( !defined( 'HIWEB_THEME_PARTS' ) ) define( 'HIWEB_THEME_PARTS', 'hiweb_theme_parts' );
+	if( !defined( 'HIWEB_THEME_PARTS' ) ) define( 'HIWEB_THEME_PARTS', 'parts' );
 
 	\hiweb\path::include_dir( HIWEB_THEME_INCLUDE_DIR, [ 'php' ] );
 
 	hiweb_theme\hooks::init();
-
-	show_admin_bar( false );

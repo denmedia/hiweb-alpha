@@ -12,5 +12,12 @@
 	class footer{
 
 		static $use_wp_footer = true;
+		static $layout = 'default';
+
+
+		static function the(){
+			get_template_part( HIWEB_THEME_PARTS . '/footer/layout', self::$layout );
+			if( self::$use_wp_footer ) wp_footer();
+		}
 
 	}

@@ -15,6 +15,9 @@
 
 	class includes{
 
+		static $defer_script_files = [];
+
+
 		/**
 		 * @param        $filePathOrUrl
 		 * @param array  $deeps
@@ -84,6 +87,18 @@
 
 
 		/**
+		 * @param string $includ_name - script name inside hiweb_theme/includes/rest-{$include_name}.min.js
+		 */
+		static function defer_script_file( $includ_name, $add_unique = true ){
+			if( $add_unique ){
+				self::$defer_script_files[ $includ_name ] = $includ_name;
+			} else {
+				self::$defer_script_files[] = $includ_name;
+			}
+		}
+
+
+		/**
 		 * @param bool $include_migrate_js
 		 * @return bool
 		 */
@@ -109,7 +124,7 @@
 
 
 		static function hamburgers(){
-			self::js( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburders.min.js', [ 'jquery' ] );
+			self::js( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburders.min.js', [ self::jquery() ] );
 			self::css( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburgers.min.css' );
 		}
 
@@ -120,13 +135,13 @@
 		}
 
 
-		static function mmenu(){
+		static function jquery_mmenu(){
 			self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.css' );
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ self::jquery() ] );
 		}
 
 
-		static function touchswipe(){
+		static function jquery_touchswipe(){
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.touchSwipe/jquery.touchSwipe.min.js', [ self::jquery() ] );
 		}
 
@@ -144,6 +159,35 @@
 			self::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css' );
 			self::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css' );
 			self::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] );
+		}
+
+
+		static function jquery_sticky(){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.sticky/jquery.sticky.min.js', [ self::jquery( true ) ] );
+		}
+
+
+		static function jquery_mhead(){
+			self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.css' );
+			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.js', [ self::jquery() ] );
+		}
+
+
+		static function isotope(){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] );
+		}
+
+
+		static function wp_default_css(){
+			self::css( HIWEB_THEME_VENDORS_DIR . '/wp-default.min.css' );
+		}
+
+
+		/**
+		 * vendors/jquery.form/jquery.form.min.js
+		 */
+		static function jquery_form(){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] );
 		}
 
 	}

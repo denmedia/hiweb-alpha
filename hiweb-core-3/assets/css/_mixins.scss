@@ -220,3 +220,42 @@
 	-webkit-order: $order;
 	order: $order;
 }
+
+@mixin font-size-media($font-size) {
+	font-size: $font-size;
+	@media all and (max-width: 992px) {
+		font-size: $font-size * 0.90;
+	}
+	@media all and (max-width: 768px) {
+		font-size: $font-size * 0.84;
+	}
+	@media all and (max-width: 576px) {
+		font-size: $font-size * 0.78;
+	}
+}
+
+@mixin font-size-media-x2($font-size) {
+	font-size: $font-size;
+	@media all and (max-width: 992px) {
+		font-size: $font-size * 0.86;
+	}
+	@media all and (max-width: 768px) {
+		font-size: $font-size * 0.78;
+	}
+	@media all and (max-width: 576px) {
+		font-size: $font-size * 0.62;
+	}
+}
+
+@mixin font-size-media-x3($font-size) {
+	font-size: $font-size;
+	@media all and (max-width: 992px) {
+		font-size: $font-size * 0.75;
+	}
+	@media all and (max-width: 768px) {
+		font-size: $font-size * 0.50;
+	}
+	@media all and (max-width: 576px) {
+		font-size: $font-size * 0.35;
+	}
+}

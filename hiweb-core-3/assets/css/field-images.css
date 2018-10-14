@@ -98,6 +98,7 @@
         max-width: 260px;
         overflow: hidden; }
       .hiweb-field-images [data-images-wrap] li:hover .inner {
+        z-index: 100;
         position: absolute;
         top: 0;
         right: 0;

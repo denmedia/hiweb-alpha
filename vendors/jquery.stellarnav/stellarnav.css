@@ -20,11 +20,9 @@
       padding: 15px;
       display: block;
       text-decoration: none;
-      color: #777;
       font-size: inherit;
       font-family: inherit;
-      box-sizing: border-box;
-      transition: all .3s ease-out; }
+      box-sizing: border-box; }
     .stellarnav li li {
       display: block; }
       .stellarnav li li.has-sub > a:after {
@@ -43,6 +41,31 @@
       content: '\f104';
       font-family: "Font Awesome 5 Pro";
       margin-right: 10px; }
+    .stellarnav li.has-sub ul {
+      visibility: hidden;
+      -webkit-opacity: 0;
+      -moz-opacity: 0;
+      -ms-opacity: 0;
+      -o-opacity: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      -webkit-transition: opacity 0.2s ease-out 0.2s, visibility 0.2s ease-out 0.2s;
+      -moz-transition: opacity 0.2s ease-out 0.2s, visibility 0.2s ease-out 0.2s;
+      -o-transition: opacity 0.2s ease-out 0.2s, visibility 0.2s ease-out 0.2s;
+      transition: opacity 0.2s ease-out 0.2s, visibility 0.2s ease-out 0.2s; }
+    .stellarnav li.has-sub.hover > ul {
+      display: block;
+      visibility: visible;
+      -webkit-opacity: 1;
+      -moz-opacity: 1;
+      -ms-opacity: 1;
+      -o-opacity: 1;
+      opacity: 1;
+      filter: alpha(opacity=100);
+      -webkit-transition: opacity 0.3s ease-out;
+      -moz-transition: opacity 0.3s ease-out;
+      -o-transition: opacity 0.3s ease-out;
+      transition: opacity 0.3s ease-out; }
     .stellarnav li.has-sub > a:after {
       content: '\f107';
       font-family: "Font Awesome 5 Pro";
@@ -59,7 +82,6 @@
       position: absolute;
       z-index: 9900;
       text-align: left;
-      display: none;
       background: #ddd; }
       .stellarnav ul ul ul {
         top: 0;
@@ -90,16 +112,12 @@
       color: black; }
     .stellarnav.light ul ul {
       background: white; }
-    .stellarnav.light li a {
-      color: #000; }
   .stellarnav.dark {
     background: black; }
     .stellarnav.dark .menu-toggle {
       color: white; }
     .stellarnav.dark ul ul {
       background: black; }
-    .stellarnav.dark li a {
-      color: #fff; }
   .stellarnav.fixed {
     position: fixed;
     width: 100%;
@@ -208,8 +226,6 @@
         background: rgba(255, 255, 255, 0.08); }
   .stellarnav nav > ul > li {
     display: inline-block; }
-    .stellarnav nav > ul > li > a {
-      padding: 20px 40px; }
     .stellarnav nav > ul > li:hover > ul > li:hover > ul {
       opacity: 1;
       visibility: visible;

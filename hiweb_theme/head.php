@@ -31,6 +31,8 @@
 
 		static $show_restApi_link = false;
 
+		static $use_wp_embed = false;
+
 
 		/**
 		 * Print head tag and body prefix
@@ -38,6 +40,24 @@
 		static function the(){
 			get_template_part( HIWEB_THEME_PARTS . '/head/head' );
 			get_template_part( HIWEB_THEME_PARTS . '/body/prefix' );
+		}
+
+
+		/**
+		 * @return string
+		 */
+		static function get(){
+			ob_start();
+			self::the();
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * @return string
+		 */
+		public function __toString(){
+			return self::get();
 		}
 
 

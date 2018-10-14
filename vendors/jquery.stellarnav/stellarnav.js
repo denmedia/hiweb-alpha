@@ -137,11 +137,11 @@
 			var setTriggers = function() {
 				nav.find('li').on('mouseenter', function(){
 					$(this).addClass('hover');
-					$(this).children('ul').stop(true, true).slideDown(250);
+					//$(this).children('ul').stop(true, true).slideDown(250);
 				});
 				nav.find('li').on('mouseleave', function(){
 					$(this).removeClass('hover');
-					$(this).children('ul').stop(true, true).slideUp(250);
+					//$(this).children('ul').stop(true, true).slideUp(250);
 				});
 			}
 			windowCheck();
