@@ -18,8 +18,8 @@
 		class nav_menu{
 
 			public $id = 'mobile-menu';
-			public $root_classes = [];
-			//public $root_tag = 'nav';
+			protected $root_classes = [];
+			protected $root_tags = [];
 			//public $use_ul_li = true;
 			public $depth = 2;
 			public $nav_location = 'mobile-menu';
@@ -35,6 +35,48 @@
 
 			public function __construct( $nav_location ){
 				$this->nav_location = $nav_location;
+				$this->add_tag( 'data-arrows', (bool)$this->use_stellarnav_showArrows );
+			}
+
+
+			/**
+			 * @param $class
+			 * @return $this
+			 */
+			public function add_class( $class ){
+				$this->root_classes[] = $class;
+				return $this;
+			}
+
+
+			/**
+			 * @return string
+			 */
+			public function get_classes(){
+				return implode( ' ', $this->root_classes );
+			}
+
+
+			/**
+			 * @param string $name
+			 * @param string $value
+			 * @return $this
+			 */
+			public function add_tag( $name, $value = '' ){
+				$this->root_tags[ $name ] = $value;
+				return $this;
+			}
+
+
+			/**
+			 * @return string
+			 */
+			public function get_tags(){
+				$R = [];
+				foreach( $this->root_tags as $name => $value ){
+					$R[] = $name . '="' . htmlentities( $value ) . '"';
+				}
+				return implode( ' ', $R );
 			}
 
 
@@ -74,7 +116,7 @@
 			public function the_list( $parent_id = 0, $depth = 0 ){
 				if( $depth <= $this->depth && $this->has_subitems( $parent_id ) ){
 					?>
-					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?=$depth > 0 ? 'style="visibility: hidden;"' : ''?>>
+					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden;"' : '' ?>>
 						<?php
 							foreach( $this->get_items( $parent_id ) as $item ){
 								$active = path::is_page( $item->url );
@@ -99,12 +141,12 @@
 					includes::js( HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.js', [ includes::jquery() ] );
 					$this->root_classes[] = 'stellarnav';
 					?>
-					<div id="<?= $this->id ?>" data-arrows="<?= (bool)$this->use_stellarnav_showArrows ?>" <?= arrays::is_empty( $this->root_classes ) ? '' : 'class="' . implode( ' ', $this->root_classes ) . '"' ?>>
+					<div id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= $this->get_classes() == '' ?: 'class="' . $this->get_classes() . '"' ?>>
 					<nav>
 					<?php
 				} else {
 					?>
-					<nav id="<?= $this->id ?>" <?= arrays::is_empty( $this->root_classes ) ? '' : 'class="' . implode( ' ', $this->root_classes ) . '"' ?>>
+					<nav id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= arrays::is_empty( $this->root_classes ) ? '' : 'class="' . implode( ' ', $this->root_classes ) . '"' ?>>
 					<?php
 				}
 				$this->the_list( 0 );

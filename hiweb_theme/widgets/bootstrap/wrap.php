@@ -18,7 +18,6 @@
 		private $rows = [];
 		private $id = '';
 		protected $classes = [ 'hiweb-theme-bootstrap-wrap' ];
-		protected $class_container = 'container';
 		protected $wrap_tag = 'div';
 
 
@@ -45,18 +44,13 @@
 		}
 
 
+		/**
+		 * @param $class
+		 * @return $this
+		 */
 		public function add_class( $class ){
 			$this->classes[] = $class;
-		}
-
-
-		public function set_container(){
-			$this->class_container = 'container';
-		}
-
-
-		public function set_container_fluid(){
-			$this->class_container = 'container-fluid';
+			return $this;
 		}
 
 
@@ -72,7 +66,7 @@
 
 
 		public function get_classes(){
-			$R = [ $this->class_container ];
+			$R = [];
 			foreach( $this->classes as $class ){
 				$class = trim( $class );
 				if( $class != '' ) $R[] = $class;

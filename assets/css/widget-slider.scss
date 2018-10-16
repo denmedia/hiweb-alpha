@@ -10,21 +10,21 @@
 	&.aspect-16-9 {
 		.owl-item {
 			@include aspect-ratio(16, 9);
-			min-height: 480px;
+			min-height: 350px;
 		}
 	}
 
 	&.aspect-2-1 {
 		.owl-item {
 			@include aspect-ratio(2, 1);
-			min-height: 480px;
+			min-height: 320px;
 		}
 	}
 
 	&.aspect-4-3 {
 		.owl-item {
 			@include aspect-ratio(4, 3);
-			min-height: 480px;
+			min-height: 400px;
 		}
 	}
 
@@ -58,7 +58,7 @@
 				background-color: rgba(0, 0, 0, .65);
 			}
 			.content {
-				@include vertical_middle;
+				@include vertical_middle(43%);
 				left: 0;
 				right: 0;
 				width: 100%;

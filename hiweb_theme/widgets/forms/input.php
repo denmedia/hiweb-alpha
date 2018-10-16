@@ -58,18 +58,40 @@
 		}
 
 
+		/**
+		 * @return bool
+		 */
+		public function is_required(){
+			return $this->get_data( 'require' ) == 'on';
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		public function is_required_empty_label(){
+			return $this->get_data( 'label' ) == '' && $this->is_required();
+		}
+
+
 		public function the_prefix(){
 			?>
 			<div class="input-wrap input-wrap-<?= self::get_name() ?>">
-			<div class="label"><?= self::get_data( 'label' ) ?> <?= $this->get_data( 'require' ) !== '' ? '<span class="required">*</span>' : '' ?></div>
-			<?php
+			<?php if( self::get_data( 'label' ) != '' ){
+				?>
+				<label class="label"><?= self::get_data( 'label' ) ?> <?= $this->is_required() ? '<span class="required">*</span>' : '' ?></label>
+				<?php
+			} elseif( self::is_required_empty_label() ) {
+				?>
+				<div class="required-empty-label">
+				<?php
+			}
 		}
 
 
 		public function the(){
 			$this->the_prefix();
-			?>
-			<div class="input"><input type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
+			?><input tabindex="" type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/>
 			<?php
 			$this->the_sufix();
 		}
@@ -79,6 +101,11 @@
 			?>
 			</div>
 			<?php
+			if( self::is_required_empty_label() ){
+				?>
+				</div>
+				<?php
+			}
 		}
 
 	}

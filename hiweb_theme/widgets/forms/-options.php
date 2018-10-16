@@ -51,8 +51,13 @@
 
 	add_field_separator( 'Шаблоны писем' )->LOCATION( true );
 	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->VALUE( 'На сайте {site-name} была отправлена форма' )->get_parent_field()->LOCATION( true );
-	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->VALUE( '<h3>На сайте <a href="#{home-url}">{site-name}</a> была заполнена форма.</h3>Посетитель указал следующие данные:<hr>{data-list}' )->get_parent_field()->LOCATION( true );
-	add_field_checkbox( 'send-client-email' )->label_checkbox( 'Отправлять письмо заполнителю формы по указанному адресу, в случае, если в форме было поле email и оно было заполнено.' )->LOCATION( true );
+	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->VALUE( '<h3>На сайте <a href="#{home-url}">{site-name}</a> была заполнена форма "{form-title}".</h3>
+Посетитель указал следующие данные:
+<hr>
+{data-list}
+<hr>
+С уважением, <a href="#{home-url}">{site-name}</a>' )->get_parent_field()->LOCATION( true );
+	add_field_checkbox( 'send-client-email' )->label_checkbox( 'Отправлять письмо заполнителю формы по указанному им адресу, в случае, если в форме было поле email и оно было корректно заполнено.' )->LOCATION( true );
 	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->VALUE( 'Вы заполнили форму на сайте {site-name}' )->get_parent_field()->LOCATION( true );
 	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->VALUE( 'Вы указали данные на сайте <a href="#{home-url}">{site-name}</a>
 {data-list}

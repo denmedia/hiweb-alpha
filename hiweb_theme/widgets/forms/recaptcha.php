@@ -53,8 +53,6 @@
 
 
 		static function the_input(){
-			if( trim( self::get_recaptcha_key() ) == '' ) return;
-			include_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key(), [], false );
 			$id_rand = strings::rand();
 			?>
 			<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" value="">

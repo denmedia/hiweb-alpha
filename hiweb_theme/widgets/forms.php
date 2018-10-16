@@ -42,7 +42,8 @@
 		static function get_strtr_templates( $additions = [], $return_descriptions = false ){
 			$data = [
 				'#{home-url}' => [ get_home_url(), 'URL адрес домашней страницы' ],
-				'{site-name}' => [ get_bloginfo( 'name' ), 'Название сайта' ]
+				'{site-name}' => [ get_bloginfo( 'name' ), 'Название сайта' ],
+				'{form-title}' => ['Название формы','Заголовок формы']
 			];
 			$R = [];
 			foreach( $data as $key => $raw ){

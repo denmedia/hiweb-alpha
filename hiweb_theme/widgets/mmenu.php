@@ -24,6 +24,7 @@
 		/** @var hamburgers */
 		private $burger_button;
 		private $id;
+		private $bottom = [];
 
 
 		public function __construct( $nav_location ){
@@ -52,12 +53,11 @@
 			includes::jquery_mmenu();
 			includes::jquery_touchswipe();
 			add_action( 'hiweb_theme_body_prefix_after', function(){
-				get_template_part( HIWEB_THEME_PARTS . '/modules/mmenu/body_prefix_after' );
-				$this->nav_menu()->root_classes[] = 'mm-menu_offcanvas';
-				$this->nav_menu()->the();
+				get_template_part( HIWEB_THEME_PARTS . '/widgets/mmenu/body_prefix_after' );
+				$this->nav_menu()->add_class( 'mm-menu_offcanvas' )->add_tag('data-bottom-content',json_encode($this->get_bottom()))->the();
 			} );
 			add_action( 'hiweb_theme_body_sufix_before', function(){
-				get_template_part( HIWEB_THEME_PARTS . '/modules/mmenu/body_sufix_before' );
+				get_template_part( HIWEB_THEME_PARTS . '/widgets/mmenu/body_sufix_before' );
 			} );
 			includes::defer_script_file( 'mmenu' );
 			return $this;
@@ -77,6 +77,25 @@
 			ob_start();
 			$this->the_burger_button();
 			return ob_get_clean();
+		}
+
+
+		/**
+		 * Add html content to bottom mmenu
+		 * @param $content
+		 * @return $this
+		 */
+		public function add_bottom( $content ){
+			$this->bottom[] = $content;
+			return $this;
+		}
+
+
+		/**
+		 * @return array
+		 */
+		public function get_bottom(){
+			return $this->bottom;
 		}
 
 	}

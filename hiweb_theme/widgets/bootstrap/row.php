@@ -41,6 +41,16 @@
 
 
 		/**
+		 * @param $class
+		 * @return $this
+		 */
+		public function add_class($class){
+			$this->classes[] = $class;
+			return $this;
+		}
+
+
+		/**
 		 * @return string
 		 */
 		public function get_classes(){

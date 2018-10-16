@@ -132,7 +132,7 @@
 
 
 		static function jquery_mmenu(){
-			self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.css' );
+			self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.css' );
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ self::jquery() ] );
 		}
 
@@ -189,6 +189,14 @@
 
 		static function jquery_mask(){
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] );
+		}
+
+
+		/**
+		 * vendors/parallaxie/parallaxie.min.js
+		 */
+		static function parallaxie(){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/parallaxie/parallaxie.min.js', [ self::jquery() ] );
 		}
 
 	}

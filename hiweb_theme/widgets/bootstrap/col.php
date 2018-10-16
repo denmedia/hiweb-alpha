@@ -14,6 +14,7 @@
 		private $_row;
 		protected $content = '';
 		protected $classes = [];
+		protected $tags = [];
 		protected $addition_classes = [];
 		private $index = 0;
 
@@ -34,11 +35,6 @@
 		}
 
 
-		public function add_class( $class ){
-			$this->addition_classes[] = $class;
-		}
-
-
 		/**
 		 * @return int
 		 */
@@ -48,10 +44,43 @@
 
 
 		/**
+		 * @param $class
+		 * @return $this
+		 */
+		public function add_class( $class ){
+			$this->addition_classes[] = $class;
+			return $this;
+		}
+
+
+		/**
 		 * @return string
 		 */
 		public function get_classes(){
 			return implode( ' ', array_unique( array_merge( $this->classes, $this->addition_classes ) ) );
+		}
+
+
+		/**
+		 * @param        $name
+		 * @param string $value
+		 * @return col
+		 */
+		public function add_tag( $name, $value = '' ){
+			$this->tags[ $name ] = $value;
+			return $this;
+		}
+
+
+		/**
+		 * @return string
+		 */
+		public function get_tags(){
+			$R = [];
+			foreach( $this->tags as $name => $value ){
+				$R[] = $name . '="' . htmlentities( $value ) . '"';
+			}
+			return implode( ' ', $R );
 		}
 
 
@@ -132,7 +161,7 @@
 
 		public function the(){
 			?>
-			<div class="<?= $this->get_classes() ?>"><?= $this->content ?></div>
+			<div class="<?= $this->get_classes() ?>" <?=$this->get_tags()?>><?= $this->content ?></div>
 			<?php
 		}
 

@@ -28,7 +28,7 @@
 		public function the(){
 			$this->the_prefix();
 			?>
-			<div class="input"><input type="email" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
+			<div class="input"><input tabindex="" type="email" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
 			<?php
 			$this->the_sufix();
 		}

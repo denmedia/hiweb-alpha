@@ -2,7 +2,7 @@
   height: 100vh; }
 .hiweb-theme-widget-slider.aspect-16-9 .owl-item {
   position: relative;
-  min-height: 480px; }
+  min-height: 350px; }
   .hiweb-theme-widget-slider.aspect-16-9 .owl-item:before {
     display: block;
     content: "";
@@ -16,7 +16,7 @@
     bottom: 0; }
 .hiweb-theme-widget-slider.aspect-2-1 .owl-item {
   position: relative;
-  min-height: 480px; }
+  min-height: 320px; }
   .hiweb-theme-widget-slider.aspect-2-1 .owl-item:before {
     display: block;
     content: "";
@@ -30,7 +30,7 @@
     bottom: 0; }
 .hiweb-theme-widget-slider.aspect-4-3 .owl-item {
   position: relative;
-  min-height: 480px; }
+  min-height: 400px; }
   .hiweb-theme-widget-slider.aspect-4-3 .owl-item:before {
     display: block;
     content: "";
@@ -80,7 +80,8 @@
       background-color: rgba(0, 0, 0, 0.65); }
     .hiweb-theme-widget-slider .owl-item .slide .content {
       position: absolute;
-      top: 50%;
+      top: 43%;
+      bottom: unset;
       -webkit-transform: translateY(-50%);
       -moz-transform: translateY(-50%);
       -o-transform: translateY(-50%);
@@ -99,6 +100,7 @@
 .hiweb-theme-widget-slider .owl-nav {
   position: absolute;
   top: 50%;
+  bottom: unset;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -o-transform: translateY(-50%);

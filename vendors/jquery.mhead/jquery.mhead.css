@@ -1,5 +1,5 @@
 .mh-head.mh-sticky {
-  position: fixed;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;

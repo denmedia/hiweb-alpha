@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
-    $(".mm-menu_offcanvas").mmenu({
+    var $mmenu = $(".mm-menu_offcanvas");
+    var mmenu_args = {
         "navbars": [
             {
                 "position": "top",
@@ -10,9 +11,7 @@ jQuery(document).ready(function ($) {
             },
             {
                 "position": "bottom",
-                "content": [
-                    '<div class="flex-fill header-block align-self-center d-none d-lg-block pl-lg-2 d-md-block d-sm-block"><p><a href="tel:+79291234567" target="_blank"><i class="fas fa-phone-square"></i> +7 (929) 1234567</a></p><p><a href="tel:+79291234567" target="_blank"><i class="fas fa-phone-square"></i> +79291234567</a></p><p><a href="mailto: info@dexia.ru" target="_blank"><i class="fas fa-envelope"></i> callto: info@dexia.ru</a></p></div>'
-                ]
+                "content": $mmenu.data('bottom-content')
             }
         ],
         hooks: {
@@ -26,9 +25,12 @@ jQuery(document).ready(function ($) {
                 $('.hamburger[href]').removeClass('is-active');
             }
         }
-    }, {
+    };
+    ///
+    $mmenu.mmenu(mmenu_args, {
         language: "ru"
-    });
+    }).find('ul.mm-listview').css('visibility','');
+    ///
     if (typeof $('body').swipe === 'function') {
         $('.mm-panels').swipe({
             //excludedElements: '.owl-carousel, input, form, button, .fancybox-inner',

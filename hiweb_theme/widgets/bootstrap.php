@@ -15,7 +15,7 @@
 
 	class bootstrap{
 
-		private static $cols_to_class_simple = [
+		private static $cols_to_class_double = [
 			'1.1' => 'col-12',
 			'1.2' => 'col-lg-6',
 			'1.3' => 'col-lg-4',
@@ -37,6 +37,17 @@
 			'6.6' => 'col-2',
 			'6.12' => 'col-sm-2 col-lg-1',
 			'12.12' => 'col-1'
+		];
+
+		private static $cols_to_class_simple = [
+			1 => 'col-md-12',
+			2 => 'col-md-6',
+			3 => 'col-lg-4 col-md-6',
+			4 => 'col-md-6 col-lg-3',
+			5 => 'col-md-6 col-lg-3',
+			6 => 'col-sm-6 col-md-4 col-lg-2',
+			7 => 'col-sm-6 col-md-4 col-lg-2',
+			8 => 'col-sm-6 col-md-4 col-lg-2'
 		];
 
 		/** @var wrap[] */
@@ -64,12 +75,21 @@
 
 
 		/**
+		 * @param int $cols
+		 * @return mixed
+		 */
+		static function cols_to_class_simple( $cols = 4 ){
+			return self::$cols_to_class_simple[ $cols ];
+		}
+
+
+		/**
 		 * @param int $full
 		 * @param int $small
 		 * @return mixed
 		 */
-		static function cols_to_class_simple( $full = 4, $small = 2 ){
-			return self::$cols_to_class_simple[ $small . '.' . $full ];
+		static function cols_to_class_double( $full = 4, $small = 2 ){
+			return self::$cols_to_class_double[ $small . '.' . $full ];
 		}
 
 

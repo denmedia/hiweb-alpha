@@ -31,7 +31,7 @@
 			$this->the_prefix();
 			?>
 			<div class="input">
-				<textarea name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::get_tag_pair( 'rows' ) ?>></textarea>
+				<textarea tabindex="" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::get_tag_pair( 'rows' ) ?>></textarea>
 			</div>
 			<?php
 			$this->the_sufix();

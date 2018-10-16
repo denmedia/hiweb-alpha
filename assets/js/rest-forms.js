@@ -11,6 +11,14 @@ var hiweb_theme_widget_forms = {
             $(this).find('button[type="submit"]').removeAttr('disabled');
             hiweb_theme_widget_forms.make($(this));
         });
+        //Path for remake form without events!
+        $('body').on('submit', hiweb_theme_widget_forms.form_root_seletor, function (e) {
+            if (typeof $._data($(this).get(0), 'events') === 'undefined') {
+                e.preventDefault();
+                hiweb_theme_widget_forms.make($(this));
+                $(this).trigger('submit');
+            }
+        });
     },
 
     make: function ($form) {
@@ -45,13 +53,17 @@ var hiweb_theme_widget_forms = {
     },
 
     recapthca_get_token: function ($form, success_fn) {
-        var $input_token = $form.find(hiweb_theme_widget_forms.recaptcha_local_selector);
-        if ($input_token.length > 0) {
-            grecaptcha.execute($input_token.data('key')).then(function (token) {
-                $input_token.val(token);
-                if (typeof success_fn === 'function') success_fn($form, $input_token);
-                //$input_token.closest('form').find('[type="submit"]').removeAttr('disabled');
-            });
+        if(typeof grecaptcha === 'undefined'){
+            console.error('Объект [grecaptcha] не подключен в теле сайта. Подключите удаленный JS файл [https://www.google.com/recaptcha/api.js?render={recaptcha public key}]');
+        } else {
+            var $input_token = $form.find(hiweb_theme_widget_forms.recaptcha_local_selector);
+            if ($input_token.length > 0) {
+                grecaptcha.execute($input_token.data('key')).then(function (token) {
+                    $input_token.val(token);
+                    if (typeof success_fn === 'function') success_fn($form, $input_token);
+                    //$input_token.closest('form').find('[type="submit"]').removeAttr('disabled');
+                });
+            }
         }
     },
 
@@ -83,7 +95,13 @@ var hiweb_theme_widget_forms = {
                         setTimeout(function () {
                             $.fancybox.close(true);
                             hiweb_theme_widget_forms.set_status($form, '');
-                        }, 1500);
+                        }, 3000);
+                    } else {
+                        setTimeout(function () {
+                            if ($form.data('status') === 'error' || $form.data('status') === 'warn') {
+                                hiweb_theme_widget_forms.set_status($form, '');
+                            }
+                        }, 5000);
                     }
 
                     if (response.hasOwnProperty('error_inputs')) {

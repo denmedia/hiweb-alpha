@@ -6,7 +6,7 @@
 	$header = hiweb_theme::header();
 
 	$wrap = bootstrap::wrap( 'test' );
-	$wrap->add_class( 'py-2' );
+	$wrap->add_class( 'container py-2' );
 
 	$row = $wrap->add_row();
 	$row->ALIGN_ITEMS()->stretch();

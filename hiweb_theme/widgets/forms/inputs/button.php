@@ -22,16 +22,10 @@
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_select( 'type' )->options( [ 'submit' => 'Отправка формы', 'reset' => 'Сброс формы' ] ) )->compact( 1 );
 		}
 
-		public function the_prefix(){
-			?>
-			<div class="input">
-			<?php
-		}
-
 
 		public function the(){
 			?>
-			<button type="<?= self::get_data( 'type' ) ?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>><?= self::get_data( 'label' ) ?></button>
+			<button tabindex="" type="<?= self::get_data( 'type' ) ?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>><?= self::get_data( 'label' ) ?></button>
 			<?php
 		}
 

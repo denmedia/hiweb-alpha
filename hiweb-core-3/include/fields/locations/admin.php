@@ -184,7 +184,7 @@
 				if( isset( $_POST[ $field->INPUT()->name() ] ) ){
 					update_post_meta( $post_id, $field->id(), $_POST[ $field->INPUT()->name() ] );
 				} else {
-					update_post_meta( $post_id, $field->id(), '' );
+					//Не удалять мета-данные, если они не передаются
 				}
 			}
 		}
