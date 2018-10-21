@@ -134,28 +134,48 @@
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function fill(){
 			$this->classes['fill'] = 'flex-fill';
+			return $this;
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function fill_sm(){
 			$this->classes['fill'] = 'flex-sm-fill';
+			return $this;
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function fill_md(){
 			$this->classes['fill'] = 'flex-md-fill';
+			return $this;
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function fill_lg(){
 			$this->classes['fill'] = 'flex-lg-fill';
+			return $this;
 		}
 
 
+		/**
+		 * @return $this
+		 */
 		public function fill_xl(){
 			$this->classes['fill'] = 'flex-xl-fill';
+			return $this;
 		}
 
 

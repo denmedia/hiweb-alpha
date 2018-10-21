@@ -11,6 +11,7 @@
 
 
 	use hiweb_theme\widgets\forms\inputs\button;
+	use hiweb_theme\widgets\forms\inputs\checkbox;
 	use hiweb_theme\widgets\forms\inputs\email;
 	use hiweb_theme\widgets\forms\inputs\phone;
 	use hiweb_theme\widgets\forms\inputs\text;
@@ -31,6 +32,7 @@
 	textarea::add_repeat_field( $INPUTS );
 	email::add_repeat_field( $INPUTS );
 	phone::add_repeat_field( $INPUTS );
+	checkbox::add_repeat_field( $INPUTS );
 	button::add_repeat_field( $INPUTS );
 	//
 
@@ -44,6 +46,18 @@
 		$strtr_descriptions[] = '<code>' . $key . '</code> - ' . $descript;
 	}
 	$strtr_descriptions = implode( ', ', $strtr_descriptions );
+	//
+	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="'.get_admin_url(null, 'edit.php?post_type='.self::$post_type_name.'&page='.self::$options_name).'">Опции формы</a>' )->LOCATION()->POST_TYPES( self::$post_type_name );
+	add_field_fontawesome( 'icon-process' )->label( 'Иконка процесса отправки' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
+	add_field_fontawesome( 'icon-success' )->label( 'Иконка удачной отправки сообщения' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
+	add_field_fontawesome( 'icon-warn' )->label( 'Иконка не верно заполненной формы' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
+	add_field_fontawesome( 'icon-error' )->label( 'Иконка ошибки во время отправки' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
+	add_field_textarea( 'text-process' )->label( 'Текст отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
+	add_field_textarea( 'text-success' )->label( 'Текст удачной отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
+	add_field_textarea( 'text-warn' )->label( 'Текст ошибки заполненной формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
+	add_field_textarea( 'text-error' )->label( 'Текст ошибки в процессе отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
+
+	///
 
 	///Options
 	self::$options_object = add_admin_menu_page( self::$options_name, '<i class="fas fa-cog"></i> Опции', 'edit.php?post_type=' . self::$post_type_name );
@@ -81,4 +95,5 @@
 	add_field_text( 'public-key' )->label( 'Публичный ключ' )->LOCATION( true );
 	add_field_text( 'private-key' )->label( 'Секретный (приватный) ключ' )->LOCATION( true );
 	add_field_text( 'text-error' )->label( 'Сообщение о неудачной проверка анти-бот фильтра' )->VALUE( 'Ошибка проверки анти-бот фильтра' )->get_parent_field()->LOCATION( true );
+	///
 	///

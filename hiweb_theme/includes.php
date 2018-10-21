@@ -199,4 +199,12 @@
 			self::js( HIWEB_THEME_VENDORS_DIR . '/parallaxie/parallaxie.min.js', [ self::jquery() ] );
 		}
 
+
+		/**
+		 * vendors/jquery.pin/jquery.pin.min.js
+		 */
+		static function jquery_pin(){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] );
+		}
+
 	}

@@ -53,10 +53,12 @@
 
 
 		static function the_input(){
-			$id_rand = strings::rand();
-			?>
-			<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" value="">
-			<?php
+			if( trim( self::get_recaptcha_key() ) != '' ){
+				$id_rand = strings::rand();
+				?>
+				<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" value="">
+				<?php
+			}
 		}
 
 	}

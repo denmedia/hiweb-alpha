@@ -17,6 +17,8 @@
 		public $layout = 'default';
 		public $logotypePathOrId = 0;
 		public $logotypeHrefToHome = true;
+		/** @var string|array */
+		public $logotype_size = 'thumbnail';
 		public $nav_location = 'header';
 		public $use_sticky = true;
 		protected $wrap_id = '';
@@ -94,10 +96,11 @@
 
 
 		/**
+		 * @param null|string|array $size - 'thumbnail' | [200,80]
 		 * @return string
 		 */
-		public function get_logotype(){
-			$R = get_image( get_field( 'logo', 'header' ) )->html();
+		public function get_logotype( $size = null ){
+			$R = get_image( get_field( 'logo', 'header' ) )->html( is_null( $size ) ? $this->logotype_size : $size );
 			if( $this->logotypeHrefToHome ){
 				$R = '<a href="' . get_home_url() . '">' . $R . '</a>';
 			}

@@ -100,7 +100,7 @@
 		static function wrap( $id = null ){
 			if( is_null( $id ) ) $id = strings::rand();
 			if( !array_key_exists( $id, self::$wraps ) ){
-				self::$wraps[ $id ] = new wrap();
+				self::$wraps[ $id ] = new wrap($id);
 			}
 			return self::$wraps[ $id ];
 		}

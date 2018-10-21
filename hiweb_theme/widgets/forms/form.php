@@ -100,7 +100,29 @@
 		 * @return int
 		 */
 		public function get_object_id(){
-			return spl_object_id( $this );
+			return spl_object_hash( $this );
+		}
+
+
+		/**
+		 * @param string $status_name - process|success|warn|error
+		 * @return mixed
+		 */
+		public function get_status_icon( $status_name = 'process' ){
+			$R = get_field( 'icon-' . $status_name, $this->get_wp_post() );
+			if( $R == '' ) $R = get_field( 'icon-' . $status_name, forms::$options_name );
+			return $R;
+		}
+
+
+		/**
+		 * @param string $status_name - process|success|warn|error
+		 * @return mixed
+		 */
+		public function get_status_message( $status_name = 'process' ){
+			$R = get_field( 'text-' . $status_name, $this->get_wp_post() );
+			if( $R == '' ) $R = get_field( 'text-' . $status_name, forms::$options_name );
+			return $R;
 		}
 
 
@@ -381,7 +403,7 @@
 			}
 			///
 			if( count( $require_empty_inputs ) > 0 ){
-				return [ 'success' => false, 'message' => get_field( 'text-warn', forms::$options_name ), 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
+				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
 			} elseif( !recaptcha::get_recaptcha_verify() ) {
 				return [ 'success' => false, 'message' => get_field( 'text-error', forms::$options_name_recapthca ), 'status' => 'warn' ];
 			} else {
@@ -400,7 +422,7 @@
 						\hiweb_theme::do_mail( $email, $theme, $content );
 					}
 				}
-				return [ 'success' => true, 'message' => get_field( 'text-success', forms::$options_name ), 'status' => 'success' ];
+				return [ 'success' => true, 'message' => $this->get_status_message( 'success' ), 'status' => 'success' ];
 			}
 		}
 	}

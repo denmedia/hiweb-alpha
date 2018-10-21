@@ -87,4 +87,14 @@
 			<?php
 		}
 
+
+		/**
+		 * @return string
+		 */
+		public function get_the(){
+			ob_start();
+			$this->the();
+			return ob_get_clean();
+		}
+
 	}

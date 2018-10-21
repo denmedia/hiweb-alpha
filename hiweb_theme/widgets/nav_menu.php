@@ -25,7 +25,7 @@
 			public $nav_location = 'mobile-menu';
 			public $ul_classes = [];
 			public $item_classes = [];
-			public $link_classes = [];
+			public $link_classes = [ 'nav-link' ];
 			public $item_class_active = 'active';
 			public $items;
 			public $items_by_parent;
@@ -115,18 +115,26 @@
 			 */
 			public function the_list( $parent_id = 0, $depth = 0 ){
 				if( $depth <= $this->depth && $this->has_subitems( $parent_id ) ){
-					?>
-					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden;"' : '' ?>>
+					$items_count = 0;
+					$items_symbol_count = 0;
+					//
+					ob_start();
+					foreach( $this->get_items( $parent_id ) as $item ){
+						$active = path::is_page( $item->url );
+						?>
+						<li class="<?= implode( ' ', $this->item_classes ) ?>">
+							<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>" href="<?= $item->url ?>"><?= $item->title ?></a>
+							<?php $this->the_list( $item->ID, $depth + 1 ); ?>
+						</li>
 						<?php
-							foreach( $this->get_items( $parent_id ) as $item ){
-								$active = path::is_page( $item->url );
-								?>
-								<li class="<?= implode( ' ', $this->item_classes ) ?>">
-									<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>" href="<?= $item->url ?>"><?= $item->title ?></a>
-									<?php $this->the_list( $item->ID, $depth + 1 ); ?>
-								</li>
-								<?php
-							}
+						$items_symbol_count += mb_strlen($item->title);
+						$items_count ++;
+					}
+					$R = ob_get_clean();
+					?>
+					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden;"' : '' ?> data-items-count="<?= $items_count ?>" data-items-symbols-count="<?= $items_symbol_count ?>">
+						<?php
+							echo $R;
 						?>
 					</ul>
 					<?php
