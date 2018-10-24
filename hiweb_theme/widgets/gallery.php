@@ -135,7 +135,7 @@
 
 		public function the(){
 			includes::css( HIWEB_THEME_ASSETS_DIR . '/css/widget-gallery.min.css' );
-			includes::fontawesome();
+			includes::fontawesome(false);
 			if( !$this->has_images() ){
 				?>
 				<div class="hiweb-theme-module-gallery-empty jumbotron text-center">

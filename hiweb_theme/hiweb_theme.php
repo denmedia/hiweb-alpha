@@ -21,12 +21,12 @@
 
 		static function do_mail( $to = null, $subject, $content ){
 			if( !is_string( $to ) || trim( $to ) == '' ){
-				$to = get_bloginfo('admin_email');
+				$to = get_bloginfo( 'admin_email' );
 				if( !filter_var( $to, FILTER_VALIDATE_EMAIL ) ){
 					$to = get_option( 'admin_email' );
 				}
 			}
-			$headers = [ 'From: '.get_bloginfo('name').' <noreply@' . $_SERVER['SERVER_NAME'] . '>' ];
+			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <noreply@' . $_SERVER['SERVER_NAME'] . '>' ];
 			$headers[] = 'Reply-To: noreply@' . $_SERVER['SERVER_NAME'] . '';
 			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );
 			wp_mail( $to, html_entity_decode( $subject ), $content, $headers );
@@ -88,6 +88,7 @@
 			hiweb_theme\widgets\scrolltop::init();
 		}
 
+
 		static function init_forms(){
 			hiweb_theme\widgets\forms::init();
 		}
@@ -97,8 +98,18 @@
 		 * @param $form_id
 		 * @return \hiweb_theme\widgets\forms\form
 		 */
-		static function form($form_id){
-			return \hiweb_theme\widgets\forms::get($form_id);
+		static function form( $form_id ){
+			return \hiweb_theme\widgets\forms::get( $form_id );
+		}
+
+
+		static function init_breadcrumbs(){
+			\hiweb_theme\widgets\breadcrumbs::init();
+		}
+
+
+		static function the_breadcrumbs(){
+			\hiweb_theme\widgets\breadcrumbs::the();
 		}
 
 	}

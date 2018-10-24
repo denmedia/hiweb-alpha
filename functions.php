@@ -21,3 +21,4 @@
 	\hiweb\path::include_dir( HIWEB_THEME_INCLUDE_DIR, [ 'php' ] );
 
 	require_once HIWEB_THEME_INCLUDE_DIR . '/-hooks.php';
+	require_once HIWEB_THEME_INCLUDE_DIR . '/-404.php';
