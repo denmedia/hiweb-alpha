@@ -47,7 +47,9 @@
 								<?php
 								break;
 							case 'Титл':
-								?><p class="footer-title"><?= $block['title'] ?></p><?php
+								if( $block['title'] != '' ){
+									?><p class="footer-title"><?= $block['title'] ?></p><?php
+								}
 								break;
 							case 'Навигация (меню)':
 								$nav_items = $block['menu'];
@@ -57,7 +59,7 @@
 										<?php
 											foreach( $nav_items as $item ){
 												?>
-												<a href="<?= get_permalink( $item['post'] ) ?>"><span><?= $item['title'] ?></span></a><br/>
+												<a href="<?= get_permalink( $item['post'] ) ?>"><span><?= $item['title'] == '' ? get_the_title( $item['post'] ) : $item['title'] ?></span></a><br/>
 												<?php
 											}
 										?>

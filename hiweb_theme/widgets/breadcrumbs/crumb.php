@@ -9,6 +9,8 @@
 	namespace hiweb_theme\widgets\breadcrumbs;
 
 
+	use hiweb\arrays;
+	use hiweb\themes;
 	use hiweb_theme\widgets\breadcrumbs;
 
 
@@ -56,7 +58,7 @@
 				$this->link = get_permalink( $this->queried_object );
 				///PAGE
 				if( $this->queried_object->post_type == 'page' ){
-					if($this->queried_object->post_parent != 0){
+					if( $this->queried_object->post_parent != 0 ){
 						$this->parent_object = get_post( $this->queried_object->post_parent );
 						return;
 					}
@@ -92,7 +94,16 @@
 					return;
 				}
 				if( get_queried_object() instanceof \WP_Post ){
-					//$this->parent_object = get_post_type_object( get_queried_object()->post_type );
+					if( get_queried_object()->post_type != 'page' && get_queried_object()->post_type != 'post' ){
+						$this->parent_object = get_post_type_object( get_queried_object()->post_type );
+						return;
+					} elseif( get_queried_object()->post_type == 'post' && themes::get()->get_blog_page() instanceof \WP_Post ) {
+						$this->parent_object = themes::get()->get_blog_page();
+						return;
+					}
+				}
+				if( arrays::in_array( $this->queried_object->taxonomy, get_object_taxonomies( 'post' ) )  && themes::get()->get_blog_page() instanceof \WP_Post ){
+					$this->parent_object = themes::get()->get_blog_page();
 					return;
 				}
 				$this->parent_object = '';
@@ -144,13 +155,13 @@
 
 
 		public function the(){
+			ob_start();
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-prefix' );
 			///
-			ob_start();
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-title', $this->active ? 'active' : null );
-			echo strtr( ob_get_clean(), [ '{link}' => $this->link, '{title}' => $this->title ] );
 			///
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-sufix' );
+			echo strtr( ob_get_clean(), [ '{link}' => $this->link, '{title}' => $this->title, '{active-class}' => $this->active ? 'active' : '' ] );
 		}
 
 

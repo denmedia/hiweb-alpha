@@ -1,1 +1,1 @@
-<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+<li class="breadcrumb-item {active-class}" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
