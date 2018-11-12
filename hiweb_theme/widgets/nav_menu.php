@@ -87,7 +87,8 @@
 			public function get_items( $by_parent = false ){
 				if( !is_array( $this->items ) ){
 					$this->items = [];
-					foreach( themes::get()->menu_items( $this->nav_location ) as $item ){
+					$menu_items = apply_filters('hiweb_theme-widgets-nav_menu-get_items', themes::get()->menu_items( $this->nav_location ), $this);
+					foreach( $menu_items as $item ){
 						$this->items[ (int)$item->ID ] = $item;
 						$this->items_by_parent[ (int)$item->menu_item_parent ][ (int)$item->ID ] = $item;
 					}

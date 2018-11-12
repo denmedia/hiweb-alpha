@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html <?= \hiweb_theme\head::get_html_tags( false ) ?>>
 <head>
-	<?php get_template_part( HIWEB_THEME_PARTS.'/head/meta_viewport' ); ?>
+	<?php get_template_part( HIWEB_THEME_PARTS . '/head/meta_viewport' ); ?>
 	<title><?= wp_title() ?></title>
 
 	<?php
-		if( is_array( hiweb_theme\head::$favicon_png_context ) && hiweb\fields::is_register(hiweb_theme\head::$favicon_png_context[0]) ){
+		if( is_array( hiweb_theme\head::$favicon_png_context ) && hiweb\fields::is_register( hiweb_theme\head::$favicon_png_context[0] ) ){
 			$favicon_png_x512 = get_image( get_field( hiweb_theme\head::$favicon_png_context[0], hiweb_theme\head::$favicon_png_context[1] ) );
 			if( $favicon_png_x512->is_attachment_exists() ){
 				?>
@@ -21,7 +21,7 @@
 			}
 		}
 
-		if( is_array( hiweb_theme\head::$favicon_ico_context ) && hiweb\fields::is_register(hiweb_theme\head::$favicon_ico_context[0]) ){
+		if( is_array( hiweb_theme\head::$favicon_ico_context ) && hiweb\fields::is_register( hiweb_theme\head::$favicon_ico_context[0] ) ){
 			$favicon_ico = hiweb\file( get_field( hiweb_theme\head::$favicon_ico_context[0], hiweb_theme\head::$favicon_ico_context[1] ) );
 			if( $favicon_png_x512->is_attachment_exists() ){
 				?>

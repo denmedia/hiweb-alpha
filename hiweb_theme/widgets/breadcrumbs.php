@@ -74,12 +74,14 @@
 				$limit = self::$crumbs_limit;
 				while( $limit > 0 && $current_crumb->get_parent_crumb() !== false ){
 					$current_crumb = $current_crumb->get_parent_crumb();
+					if( !get_field( 'home-enable', self::$admin_options_slug ) && $current_crumb->get_parent_crumb() === false ) break;
 					self::$crumbs[] = $current_crumb;
 					$limit --;
 				}
 				///
 				self::$crumbs = array_reverse( self::$crumbs );
 			}
+			if( count( self::$crumbs ) < 2 ) return [];
 			return self::$crumbs;
 		}
 

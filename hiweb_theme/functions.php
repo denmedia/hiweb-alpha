@@ -54,11 +54,40 @@
 		}
 	}
 
-	if(!function_exists('the_form_input_html')){
+	if( !function_exists( 'the_form_input_html' ) ){
 		/**
 		 * Print the form input HTML
 		 */
 		function the_form_input_html(){
 			\hiweb_theme\widgets\forms::get_the_form()->get_the_input()->the();
+		}
+	}
+
+	///Languages Tools
+	if( !function_exists( 'get_languages' ) ){
+		/**
+		 * @return \hiweb_theme\tools\languages\language[]
+		 */
+		function get_languages(){
+			return \hiweb_theme\tools\languages::get_languages();
+		}
+	}
+
+	if( !function_exists( 'get_current_language' ) ){
+		/**
+		 * @return \hiweb_theme\tools\languages\language
+		 */
+		function get_current_language(){
+			return \hiweb_theme\tools\languages::get_current_language();
+		}
+	}
+
+	if( !function_exists( 'get_language_date' ) ){
+		/**
+		 * @param $timestamp
+		 * @return string
+		 */
+		function get_language_date( $timestamp ){
+			return \hiweb_theme\tools\languages::get_date( $timestamp );
 		}
 	}

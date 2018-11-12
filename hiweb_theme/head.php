@@ -9,6 +9,10 @@
 	namespace hiweb_theme;
 
 
+	/**
+	 * Class head отвечает за вывод главного тега HEAD в HTML
+	 * @package hiweb_theme
+	 */
 	class head{
 
 		static $favicon_png_context = [ 'favicon-png', 'header' ];
@@ -33,6 +37,10 @@
 
 		static $use_wp_embed = false;
 
+		static $code = [];
+
+		static $html_tags = [];
+
 
 		/**
 		 * Print head tag and body prefix
@@ -54,10 +62,42 @@
 
 
 		/**
+		 * @param $code
+		 * @return array
+		 */
+		static function add_code( $code ){
+			self::$code[] = $code;
+			return self::$code;
+		}
+
+
+		/**
 		 * @return string
 		 */
 		public function __toString(){
 			return self::get();
+		}
+
+
+		/**
+		 * @param      $name
+		 * @param null $value
+		 */
+		static function add_html_tag( $name, $value = null ){
+			self::$html_tags[ $name ] = $value;
+		}
+
+
+		/**
+		 * @param bool $return_array
+		 * @return array|string
+		 */
+		static function get_html_tags( $return_array = false ){
+			$R = [];
+			if( is_array( self::$html_tags ) ) foreach( self::$html_tags as $name => $value ){
+				$R[] = $name . '="' . htmlentities( $value ) . '"';
+			}
+			return $return_array ? $R : join( ' ', $R );
 		}
 
 

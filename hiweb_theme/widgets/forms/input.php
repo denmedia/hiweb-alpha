@@ -108,4 +108,25 @@
 			}
 		}
 
+
+		/**
+		 * @param $value
+		 * @return string
+		 */
+		public function get_email_html( $value ){
+			$label = trim( $this->get_data( 'label' ) );
+			if( $label == '' ) $label = $this->get_data( 'placeholder' );
+			if( $label == '' ) $label = self::$default_name;
+			return '<b>' . $label . ':</b> ' . $this->get_email_value( $value );
+		}
+
+
+		/**
+		 * @param $value
+		 * @return string
+		 */
+		public function get_email_value( $value ){
+			return nl2br( trim( $value ) );
+		}
+
 	}

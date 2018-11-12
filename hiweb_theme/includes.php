@@ -16,11 +16,12 @@
 
 		/**
 		 * @param        $filePathOrUrl
+		 * @param bool   $in_footer
 		 * @param array  $deeps
 		 * @param string $media
 		 * @return bool
 		 */
-		static function css( $filePathOrUrl, $deeps = [], $media = 'all' ){
+		static function css( $filePathOrUrl, $in_footer = true, $deeps = [], $media = 'all' ){
 			if( !\hiweb\context::is_frontend_page() ) return null;
 			//
 			$search_paths = [
@@ -40,7 +41,7 @@
 			];
 			foreach( $search_paths as $path ){
 				if( file_exists( $path ) && is_file( $path ) ){
-					return include_css( $path, $deeps, $media );
+					return include_css( $path, $in_footer, $deeps, $media );
 				}
 			}
 			console_error( 'Не удалось подключить CSS файл [' . $filePathOrUrl . ']' );
@@ -84,6 +85,7 @@
 
 		/**
 		 * @param string $includ_name - script name inside hiweb_theme/includes/rest-{$include_name}.min.js
+		 * @param bool   $add_unique
 		 */
 		static function defer_script_file( $includ_name, $add_unique = true ){
 			if( $add_unique ){
@@ -108,8 +110,8 @@
 
 
 		static function bootstrap( $include_js = false, $include_reboot_css = false ){
-			self::css( HIWEB_THEME_VENDORS_DIR . '/bootstrap4/css/bootstrap-grid.min.css' );
-			self::css( HIWEB_THEME_VENDORS_DIR . '/bootstrap4/css/bootstrap.min.css' );
+			self::css( HIWEB_THEME_VENDORS_DIR . '/bootstrap4/css/bootstrap-grid.min.css', false );
+			self::css( HIWEB_THEME_VENDORS_DIR . '/bootstrap4/css/bootstrap.min.css', true );
 			if( $include_reboot_css ){
 				self::css( HIWEB_THEME_VENDORS_DIR . '/bootstrap4/css/bootstrap-reboot.min.css' );
 			}
@@ -132,7 +134,7 @@
 
 
 		static function jquery_mmenu(){
-			self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.css' );
+			self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.css', false );
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ self::jquery() ] );
 		}
 
@@ -201,10 +203,21 @@
 
 
 		/**
+		 * Плагин прикрепления блока HTML внутри другого блока, включая его перемещения во время скролла в рамках родительского блока
 		 * vendors/jquery.pin/jquery.pin.min.js
 		 */
 		static function jquery_pin(){
 			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] );
+		}
+
+
+		/**
+		 * vendors/jquery.simplePagination/jquery.simplePagination.js
+		 * @param bool $includeCss
+		 */
+		static function jquery_simplePagination( $includeCss = false ){
+			self::js( HIWEB_THEME_VENDORS_DIR . '/jquery.simplePagination/jquery.simplePagination.min.js' );
+			if( $includeCss ) self::css( HIWEB_THEME_VENDORS_DIR . '/jquery.simplePagination/simplePagination.css' );
 		}
 
 	}

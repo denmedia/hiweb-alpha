@@ -13,6 +13,7 @@
 	use hiweb_theme\widgets\forms\inputs\button;
 	use hiweb_theme\widgets\forms\inputs\checkbox;
 	use hiweb_theme\widgets\forms\inputs\email;
+	use hiweb_theme\widgets\forms\inputs\json;
 	use hiweb_theme\widgets\forms\inputs\phone;
 	use hiweb_theme\widgets\forms\inputs\text;
 	use hiweb_theme\widgets\forms\inputs\textarea;
@@ -26,7 +27,9 @@
 	self::$post_type_object->public_( true )->has_archive( false )->show_ui( true )->show_in_menu( true )->show_in_nav_menus( false )->show_in_admin_bar( false );
 	///
 	$INPUTS = add_field_repeat( 'inputs' );
-	$INPUTS->label( 'Поля ввода' )->LOCATION()->POST_TYPES( self::$post_type_name );
+	$INPUTS->label( 'Поля ввода' )->LOCATION()->POST_TYPES( self::$post_type_name )->COLUMNS_MANAGER()->name( 'Шорткоды' )->callback( function( $post_id ){
+		echo '<p>просто форма:<br><code>[hiweb-theme-widget-form id="' . $post_id . '"]</code></p><p>кнопка, вызывающая форму:<br><code>[hiweb-theme-widget-form-button id="' . $post_id . '" html="Открыть форму"]</code></p>';
+	} );
 	//
 	text::add_repeat_field( $INPUTS );
 	textarea::add_repeat_field( $INPUTS );
@@ -34,6 +37,7 @@
 	phone::add_repeat_field( $INPUTS );
 	checkbox::add_repeat_field( $INPUTS );
 	button::add_repeat_field( $INPUTS );
+	json::add_repeat_field( $INPUTS );
 	//
 
 	$strtr_descriptions = [];
@@ -47,7 +51,7 @@
 	}
 	$strtr_descriptions = implode( ', ', $strtr_descriptions );
 	//
-	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="'.get_admin_url(null, 'edit.php?post_type='.self::$post_type_name.'&page='.self::$options_name).'">Опции формы</a>' )->LOCATION()->POST_TYPES( self::$post_type_name );
+	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->LOCATION()->POST_TYPES( self::$post_type_name );
 	add_field_fontawesome( 'icon-process' )->label( 'Иконка процесса отправки' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
 	add_field_fontawesome( 'icon-success' )->label( 'Иконка удачной отправки сообщения' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
 	add_field_fontawesome( 'icon-warn' )->label( 'Иконка не верно заполненной формы' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );

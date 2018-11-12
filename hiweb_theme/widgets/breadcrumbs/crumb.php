@@ -80,6 +80,9 @@
 					if( $this->queried_object->post_parent != 0 ){
 						$this->parent_object = get_post( $this->queried_object->post_parent );
 						return;
+					} elseif( get_queried_object()->post_type == 'post' && themes::get()->get_blog_page() instanceof \WP_Post ) {
+						$this->parent_object = themes::get()->get_blog_page();
+						return;
 					}
 					//post type
 					$this->parent_object = get_post_type_object( $this->queried_object->post_type );
@@ -110,6 +113,7 @@
 			} elseif( $this->queried_object instanceof \WP_Post_Type ) {
 				$this->title = $this->queried_object->label;
 				$this->link = get_post_type_archive_link( $this->queried_object->name );
+				$this->link = $this->link == '' ? false : $this->link;
 				$this->parent_object = '';
 				return;
 			}
@@ -158,7 +162,7 @@
 			ob_start();
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-prefix' );
 			///
-			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-title', $this->active ? 'active' : null );
+			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-title', ( $this->active || $this->link === false ) ? '' : 'link' );
 			///
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-sufix' );
 			echo strtr( ob_get_clean(), [ '{link}' => $this->link, '{title}' => $this->title, '{active-class}' => $this->active ? 'active' : '' ] );

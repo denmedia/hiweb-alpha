@@ -25,7 +25,7 @@
 
 		public function the(){
 			?>
-			<button tabindex="" type="<?= self::get_data( 'type' ) ?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>><?= self::get_data( 'label' ) ?></button>
+			<button tabindex="" type="<?= self::get_data( 'type' ) ?>" data-form-object-id="<?=get_the_form()->get_object_id()?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>><?= self::get_data( 'label' ) ?></button>
 			<?php
 		}
 

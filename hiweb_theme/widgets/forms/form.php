@@ -229,7 +229,7 @@
 		 * @param $name
 		 * @return string
 		 */
-		public function get_input_object( $name ){
+		public function get_input_object_class( $name ){
 			$data = $this->get_input_options( $name );
 			$input_id = $data['_flex_row_id'];
 			foreach( forms::get_input_classes() as $input_class_name ){
@@ -264,14 +264,27 @@
 			if( !is_array( $this->inputs ) ){
 				$this->inputs = [];
 				foreach( $this->get_inputs_options() as $name => $options ){
-					$class_name = $this->get_input_object( $name );
+					$class_name = $this->get_input_object_class( $name );
 					/** @var forms\inputs\input $new_class */
 					$new_class = new $class_name();
 					$new_class->data = $options;
-					$this->inputs[] = $new_class;
+					$this->inputs[ $new_class->get_data('name') ] = $new_class;
 				}
 			}
 			return $this->inputs;
+		}
+
+
+		/**
+		 * @param $name
+		 * @return inputs\input
+		 */
+		public function get_input_object( $name ){
+			$inputs = $this->get_inputs();
+			if( array_key_exists( $name, $inputs ) ){
+				return $inputs[ $name ];
+			}
+			return new forms\inputs\input();
 		}
 
 
@@ -374,17 +387,11 @@
 			foreach( $inputs as $input ){
 				if( !array_key_exists( 'name', $input ) ) continue;
 				$name = $input['name'];
+				$input_object = $this->get_input_object( $name );
 				$require = arrays::get_value_by_key( $input, 'require' ) == 'on';
-				if( !array_key_exists( 'label', $input ) || trim( $input['label'] ) == '' ){
-					if( array_key_exists( 'placeholder', $input ) && trim( $input['label'] ) ){
-						$input['label'] = $input['placeholder'];
-					} else {
-						$input['label'] = $name;
-					}
-				}
-				$value = nl2br( arrays::get_value_by_key( $submit_data, $name ) );
+				$value = $input_object->get_email_value( arrays::get_value_by_key( $submit_data, $name ) );
 				$addition_strtr[ '{' . $name . '}' ] = $value;
-				$addition_strtr['{data-list}'] .= '<b>' . $input['label'] . ':</b> ' . $value . "<br>";
+				if($value != '') $addition_strtr['{data-list}'] .= $input_object->get_email_html( arrays::get_value_by_key( $submit_data, $name ) ) . "<br>";
 				switch( $input['_flex_row_id'] ){
 					case 'Адрес почты':
 						if( filter_var( $value, FILTER_VALIDATE_EMAIL ) ){

@@ -56,6 +56,12 @@
 		} );
 	}
 
+	add_action( 'wp_head', function(){
+		if( is_array( head::$code ) ) foreach( head::$code as $code ){
+			echo $code . "\r\n";
+		}
+	} );
+
 	add_action( 'hiweb_theme_body_sufix_after', function(){
 		?>
 		<script defer src="<?= get_rest_url( null, 'hiweb_theme/theme.js' ) ?>?s=<?= implode( '|', includes::$defer_script_files ) ?>"></script><?php
@@ -107,6 +113,33 @@
 			'methods' => 'post',
 			'callback' => function(){
 				return forms::get( $_POST['hiweb-theme-widget-form-id'] )->do_submit( $_POST );
+			}
+		] );
+
+		register_rest_route( 'hiweb_theme', 'criticalCss/data', [
+			'methods' => 'post',
+			'callback' => function(){
+				$full_css = \hiweb_theme\tools\criticalCss::get_css_merge_content( true, $_POST['hash'] );
+				$parseCss = \hiweb_theme\tools\criticalCss::parseCss( $full_css );
+				$R = [];
+				foreach( $parseCss as $selector => $value ){
+					$sub_selector = trim($selector);
+					if($sub_selector == '') continue;
+					if($sub_selector == '*') continue;
+					if(strpos($sub_selector,'@') === 0) continue;
+					if(strpos($sub_selector,':-moz-') !== false) continue;
+					if(strpos($sub_selector,':-ms-') !== false) continue;
+					array_push( $R, $sub_selector );
+				}
+				$R = array_unique($R);
+				return $R;
+			}
+		] );
+
+		register_rest_route( 'hiweb_theme', 'criticalCss/make', [
+			'methods' => 'post',
+			'callback' => function(){
+				return \hiweb_theme\tools\criticalCss::make_critical_cache_file( $_POST['hash'], $_POST['selectors'] );
 			}
 		] );
 	} );

@@ -112,4 +112,17 @@
 			\hiweb_theme\widgets\breadcrumbs::the();
 		}
 
+
+		/**
+		 * @param null|string $cache_dir - full path to cache folder
+		 */
+		static function init_criticalCss($cache_dir = null){
+			\hiweb_theme\tools\criticalCss::init($cache_dir);
+		}
+
+
+		static function init_languages(){
+			hiweb_theme\tools\languages::init();
+		}
+
 	}

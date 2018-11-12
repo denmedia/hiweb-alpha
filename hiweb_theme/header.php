@@ -100,7 +100,8 @@
 		 * @return string
 		 */
 		public function get_logotype( $size = null ){
-			$R = get_image( get_field( 'logo', 'header' ) )->html( is_null( $size ) ? $this->logotype_size : $size );
+			if( !$this->logotypePathOrId ) $this->logotypePathOrId = get_field( 'logo', 'header' );
+			$R = get_image( $this->logotypePathOrId )->html( is_null( $size ) ? $this->logotype_size : $size );
 			if( $this->logotypeHrefToHome ){
 				$R = '<a href="' . get_home_url() . '">' . $R . '</a>';
 			}
