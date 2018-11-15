@@ -365,7 +365,7 @@
 			<div class="languages-select">
 				<?php foreach( self::get_languages() as $language ){
 					$active = $language->get_id() == self::get_current_id();
-					?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>"><?= $language->get_title() ?></a><?php
+					?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>" lang="<?=$language->get_id()?>"><?= $language->get_title() ?></a><?php
 				} ?>
 			</div>
 			<?php

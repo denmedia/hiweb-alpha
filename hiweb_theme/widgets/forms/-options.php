@@ -10,6 +10,7 @@
 	namespace hiweb_theme\widgets;
 
 
+	use hiweb_theme\widgets\forms\form;
 	use hiweb_theme\widgets\forms\inputs\button;
 	use hiweb_theme\widgets\forms\inputs\checkbox;
 	use hiweb_theme\widgets\forms\inputs\email;
@@ -51,6 +52,7 @@
 	}
 	$strtr_descriptions = implode( ', ', $strtr_descriptions );
 	//
+	//
 	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->LOCATION()->POST_TYPES( self::$post_type_name );
 	add_field_fontawesome( 'icon-process' )->label( 'Иконка процесса отправки' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
 	add_field_fontawesome( 'icon-success' )->label( 'Иконка удачной отправки сообщения' )->FORM()->WIDTH()->quarter()->get_parent_field()->LOCATION( true );
@@ -60,14 +62,24 @@
 	add_field_textarea( 'text-success' )->label( 'Текст удачной отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	add_field_textarea( 'text-warn' )->label( 'Текст ошибки заполненной формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	add_field_textarea( 'text-error' )->label( 'Текст ошибки в процессе отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
-
+	add_field_separator( 'Шаблоны писем для данной формы', 'Эти настройки шаблонов актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->LOCATION()->POST_TYPES( self::$post_type_name );
+	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->LOCATION( true );
+	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->LOCATION( true );
+	add_field_checkbox( 'send-client-email' )->label_checkbox( 'Отправлять письмо заполнителю формы по указанному им адресу, в случае, если в форме было поле email и оно было корректно заполнено.' )->LOCATION( true );
+	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->LOCATION( true );
+	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->LOCATION( true );
 	///
 
 	///Options
 	self::$options_object = add_admin_menu_page( self::$options_name, '<i class="fas fa-cog"></i> Опции', 'edit.php?post_type=' . self::$post_type_name );
 	add_field_text( 'email' )->placeholder( get_bloginfo( 'admin_email' ) )->label( 'Адрес поты, на который будет отправляться сообщения.' )->description( 'Этот адрес будет стандартным для приема сообщений. Если оставить поле пустым, письма будут отправляться на адрес супер-администратора <b>' . get_bloginfo( 'admin_email' ) . ' <a href="' . get_admin_url( null, 'options-general.php#home-description' ) . '" data-tooltip="Изменить этот адрес" title="Изменить этот адрес"><i class="fas fa-pencil-alt"></i></a></b> Для каждой формы так же можно установить индивидуальный адрес. Так же можно указать несколько адресов через запятую или пробел, например: <code>info@email.com admin@email.com</code>' )->LOCATION()->ADMIN_MENUS( self::$options_name );
 
-	add_field_separator( 'Шаблоны писем' )->LOCATION( true );
+	self::$options_object = add_admin_menu_page( self::$options_name, '<i class="fas fa-cog"></i> Опции', 'edit.php?post_type=' . self::$post_type_name );
+	add_field_text( 'email' )->placeholder( get_field( 'email',self::$options_name ) )->label( 'Адрес поты для данной формы, на который будет отправляться сообщения.' )->description( 'Этот адрес(а) будет стандартным для приема сообщений, игнорируя общие установки адресов для всех форм. Если оставить поле пустым, письма будут отправляться на адрес, указанный в основных настройках форм <b>'.get_field( 'email',self::$options_name ).'</b> <a href="' . get_admin_url( null, 'options.php?page='
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     .forms::$options_name	) . '" data-tooltip="Изменить этот адрес" title="Изменить этот адрес"><i class="fas fa-pencil-alt"></i></a></b> или на адрес супер-администратора <b>' . get_bloginfo( 'admin_email' ) . ' <a href="' . get_admin_url( null, 'options-general.php#home-description'	) . '" data-tooltip="Изменить этот адрес" title="Изменить этот адрес"><i class="fas fa-pencil-alt"></i></a></b> Так же можно указать несколько адресов через запятую или пробел, например: <code>info@email.com admin@email.com</code>' )->LOCATION()->POST_TYPES(forms::$post_type_name)->POSITION()->edit_form_after_title();
+
+
+	add_field_separator( 'Шаблоны писем' )->LOCATION()->ADMIN_MENUS( self::$options_name );
 	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->VALUE( 'На сайте {site-name} была отправлена форма' )->get_parent_field()->LOCATION( true );
 	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->VALUE( '<h3>На сайте <a href="#{home-url}">{site-name}</a> была заполнена форма "{form-title}".</h3>
 Посетитель указал следующие данные:

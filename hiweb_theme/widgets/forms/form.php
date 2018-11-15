@@ -268,7 +268,7 @@
 					/** @var forms\inputs\input $new_class */
 					$new_class = new $class_name();
 					$new_class->data = $options;
-					$this->inputs[ $new_class->get_data('name') ] = $new_class;
+					$this->inputs[ $new_class->get_data( 'name' ) ] = $new_class;
 				}
 			}
 			return $this->inputs;
@@ -329,7 +329,8 @@
 		 */
 		public function get_target_emails(){
 			$emails = [];
-			$emails_str = trim( get_field( 'email', forms::$options_name ), ',' );
+			$emails_str = trim( get_field( 'email', self::get_wp_post() ), ',' );
+			if($emails_str == '') $emails_str = trim( get_field( 'email', forms::$options_name ), ',' );
 			if( $emails_str == '' ){
 				$emails = [ get_bloginfo( 'admin_email' ) ];
 			} elseif( strpos( $emails_str, ' ' ) ) {
@@ -391,7 +392,7 @@
 				$require = arrays::get_value_by_key( $input, 'require' ) == 'on';
 				$value = $input_object->get_email_value( arrays::get_value_by_key( $submit_data, $name ) );
 				$addition_strtr[ '{' . $name . '}' ] = $value;
-				if($value != '') $addition_strtr['{data-list}'] .= $input_object->get_email_html( arrays::get_value_by_key( $submit_data, $name ) ) . "<br>";
+				if( $value != '' ) $addition_strtr['{data-list}'] .= $input_object->get_email_html( arrays::get_value_by_key( $submit_data, $name ) ) . "<br>";
 				switch( $input['_flex_row_id'] ){
 					case 'Адрес почты':
 						if( filter_var( $value, FILTER_VALIDATE_EMAIL ) ){
@@ -417,15 +418,19 @@
 
 				///Send Message to Admin
 				foreach( $this->get_target_emails() as $email ){
-					$theme = strtr( get_field( 'theme-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
-					$content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
+					$theme = strtr( get_field( 'theme-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
+					$content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
+					if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
+					if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
 					\hiweb_theme::do_mail( $email, $theme, $content );
 				}
 				///Send client Email
 				if( get_field( 'send-client-email', forms::$options_name ) != '' && count( $client_email ) > 0 ){
 					foreach( $client_email as $email ){
-						$theme = strtr( get_field( 'theme-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
-						$content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
+						$theme = strtr( get_field( 'theme-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
+						$content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
+						if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
+						if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
 						\hiweb_theme::do_mail( $email, $theme, $content );
 					}
 				}

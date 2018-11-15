@@ -30,5 +30,10 @@
 			}
 		}
 	?>
+	<?php if( is_array( \hiweb_theme\head::$html_addition ) && count( \hiweb_theme\head::$html_addition ) > 0 ){
+		?><!--\hiweb_theme\head::get_htmlAddition--><?php
+		echo \hiweb_theme\head::get_htmlAddition( false );
+		?><!----><?php
+	} ?>
 	<?php if( \hiweb_theme\head::$use_wp_head ) wp_head() ?>
 </head>

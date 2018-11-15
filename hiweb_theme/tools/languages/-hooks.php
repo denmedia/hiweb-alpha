@@ -10,6 +10,12 @@
 	use hiweb_theme\tools\languages;
 
 
+	add_filter('wp_headers', function($headers, $WP){
+		$headers['Content-Language'] = languages::get_current_id();
+		return $headers;
+	}, 10, 2);
+
+
 	add_action( 'save_post', function( $post_id, $post, $update ){
 		//
 		if( wp_is_post_revision( $post_id ) || get_post( $post_id )->post_status != 'publish' ) return;

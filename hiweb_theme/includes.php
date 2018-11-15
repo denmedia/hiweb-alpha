@@ -21,7 +21,7 @@
 		 * @param string $media
 		 * @return bool
 		 */
-		static function css( $filePathOrUrl, $in_footer = true, $deeps = [], $media = 'all' ){
+		static function css( $filePathOrUrl, $in_footer = false, $deeps = [], $media = 'all' ){
 			if( !\hiweb\context::is_frontend_page() ) return null;
 			//
 			$search_paths = [

@@ -41,6 +41,8 @@
 
 		static $html_tags = [];
 
+		static $html_addition = [];
+
 
 		/**
 		 * Print head tag and body prefix
@@ -80,6 +82,7 @@
 
 
 		/**
+		 * Add to HTML addition inside tags
 		 * @param      $name
 		 * @param null $value
 		 */
@@ -98,6 +101,26 @@
 				$R[] = $name . '="' . htmlentities( $value ) . '"';
 			}
 			return $return_array ? $R : join( ' ', $R );
+		}
+
+
+		/**
+		 * Add some html or scripts to head
+		 * @param $html
+		 */
+		static function add_html_addition( $html ){
+			self::$html_addition[] = $html;
+		}
+
+
+		/**
+		 * @param bool $return_array
+		 * @return array|string
+		 */
+		static function get_htmlAddition( $return_array = false ){
+			$R = apply_filters( 'hiweb-theme-head-html-addition-array', self::$html_addition );
+			$R = $return_array ? apply_filters( 'hiweb-theme-head-html-addition-string', $R ) : join( "\n", $R );
+			return $R;
 		}
 
 
