@@ -13,8 +13,8 @@ jQuery(document).ready(function ($) {
         $slider_root.owlCarousel({
             items: 1,
             nav: true,
-            loop: true,
-            autoplay: false,
+            loop: $slider_root.find('.slide').length > 1,
+            autoplay: $slider_root.find('.slide').length > 1,
             onInitialized: function (event) {
                 var is_video = $slider_root.find('.owl-item.active > .slide > video').length > 0;
                 if (is_video) {
