@@ -1,5 +1,1 @@
-<?php
-
-	hiweb_theme\footer::the();
-
-	get_template_part( HIWEB_THEME_PARTS . '/body/sufix' );
+<?php \theme\html_layout::the_after();

@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAEA,6BAA8B,CAC7B,QAAQ,CAAE,QAAQ,CAClB,6DAAgC,CCmEhC,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAFgC,CAAC,CAGpC,KAAK,CAH8B,CAAC,CAIpC,MAAM,CAJ6B,CAAC,CAKpC,IAAI,CAL+B,CAAC,CD/DnC,UAAU,CAAE,2EAA2E,CACvF,eAAe,CAAE,KAAK,CAIxB,8BAA+B,CAC9B,QAAQ,CAAE,QAAQ,CAClB,SAAS,CAAE,IAAI,CACf,UAAU,CAAE,IAAI,CAChB,UAAU,CAAE,KAAK",
-"sources": ["tool-imagesDefer.scss","../../hiweb-core-3/assets/css/_mixins.scss"],
-"names": [],
-"file": "tool-imagesDefer.css"
-}

@@ -3,9 +3,10 @@
 	the_post();
 	get_header();
 	///
-	?><main><?php
+?>
+	<main><?php
 	the_content();
-	?></main><?php
+?></main><?php
 	///
 
 	get_footer();
