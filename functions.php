@@ -16,6 +16,5 @@
 	theme\cyr3lat::init();
 	theme\html_layout::init();
 	theme\error_404::init();
-	theme\forms::init();
 
 	theme\includes\admin::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );

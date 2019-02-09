@@ -9,6 +9,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="develop.hiweb.moscow (project level)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/wp-content/themes/hiweb-theme-alpha" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
     <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>

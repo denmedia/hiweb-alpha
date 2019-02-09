@@ -11,6 +11,16 @@ var hiweb_theme_widget_forms = {
             $(this).find('button[type="submit"]').removeAttr('disabled');
             hiweb_theme_widget_forms.make($(this));
         });
+        //Fancybox values setup
+        $('body').on('click','a[href][data-widget-form-modal-open]', function(){
+            let $form = $('form' + $(this).attr('href'));
+            if($form.length > 0) {
+                let data = JSON.parse($(this).attr('data-values'));
+                for(let name in data){
+                    $form.find('[name="'+name+'"]').val(data[name]);
+                }
+            }
+        });
         //Path for remake form without events!
         $('body').on('submit', hiweb_theme_widget_forms.form_root_seletor, function (e) {
             if (typeof $._data($(this).get(0), 'events') === 'undefined') {

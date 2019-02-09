@@ -16,6 +16,8 @@
 
 		/** @var array_ */
 		static private $classes = [];
+		/** @var array_ */
+		static private $tags = [];
 		/** @var bool */
 		static $use_wp_class = true;
 		static $use_wp_footer = true;
@@ -44,7 +46,7 @@
 		/**
 		 * @return array|array_
 		 */
-		static function get_tags_array(){
+		static function get_class_array(){
 			if( !self::$classes instanceof array_ ){
 				self::$classes = new array_();
 			}
@@ -53,13 +55,34 @@
 
 
 		/**
+		 * @return array_
+		 */
+		static function get_tags_array(){
+			if(!self::$tags instanceof array_){
+				self::$tags = new array_();
+			}
+			return self::$tags;
+		}
+
+
+		/**
 		 *Print body classe tag
 		 */
 		static function the_classes(){
 			if( self::$use_wp_class ){
-				body_class( self::get_tags_array()->get() );
+				body_class( self::get_class_array()->get() );
 			} else {
-				echo implode( ' ', self::get_tags_array()->get() );
+				echo implode( ' ', self::get_class_array()->get() );
+			}
+		}
+
+
+		/**
+		 * Print body tag params
+		 */
+		static function the_tags(){
+			if(self::$tags instanceof array_){
+				echo self::$tags->get_param_html_tags();
 			}
 		}
 

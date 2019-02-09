@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="99f538d3-cb7e-4ff8-8798-e1574c521438" name="develop.hiweb.moscow" url="http://develop.hiweb.moscow">
+      <webServer id="99f538d3-cb7e-4ff8-8798-e1574c521438" name="develop.hiweb.moscow (project level)" url="http://develop.hiweb.moscow">
         <fileTransfer host="develop.hiweb.moscow" port="21" rootFolder="/www/develop.hiweb.moscow">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />

@@ -33,6 +33,7 @@
 		protected $method = 'post';
 		protected $the_fancybox_button_html = 'Открыть форму';
 		protected $the_fancybox_button_classes = [];
+		protected $the_fancybox_button_values = [];
 		static protected $fancy_box_form_added = [];
 
 
@@ -149,12 +150,20 @@
 		}
 
 
-		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ] ){
+		/**
+		 * @param string $html
+		 * @param array  $button_classes
+		 * @param array  $values
+		 */
+		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [] ){
 			forms::setup_postdata( $this->get_wp_post() );
-			if( !is_array( $button_classes ) )
-				$button_classes = [ $button_classes ];
+			if( !is_array( $button_classes ) ){
+				if(is_string($button_classes) && $button_classes != '')
+				$button_classes = [ $button_classes ]; else $button_classes = ['hiweb-theme-widget-form-button'];
+			}
 			$this->the_fancybox_button_html = $html;
 			$this->the_fancybox_button_classes = $button_classes;
+			$this->the_fancybox_button_values = $values;
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/fancybox-button' );
 
 			if( !array_key_exists( $this->get_id(), self::$fancy_box_form_added ) ){
@@ -194,13 +203,22 @@
 
 
 		/**
+		 * @return false|mixed|string
+		 */
+		public function the_fancybox_button_values(){
+			return htmlentities(json_encode($this->the_fancybox_button_values));
+		}
+
+
+		/**
 		 * @param string $html
 		 * @param array  $button_classes
+		 * @param array  $values
 		 * @return string
 		 */
-		public function get_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ] ){
+		public function get_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [] ){
 			ob_start();
-			$this->the_fancybox_button( $html, $button_classes );
+			$this->the_fancybox_button( $html, $button_classes, $values );
 			return ob_get_clean();
 		}
 

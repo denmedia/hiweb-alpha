@@ -1,1 +1,1 @@
-<body <?php \theme\html_layout\tags\body::the_classes() ?>>
+<body <?php \theme\html_layout\tags\body::the_classes() ?> <?php \theme\html_layout\tags\body::the_tags() ?>>
