@@ -1,12 +1,13 @@
 <?php
 
-	use hiweb_theme\tools\pagesCache;
-	use hiweb_theme\tools\pagesCache\options;
+	use theme\pages_cache;
+	use theme\pages_cache\options;
+	use theme\pages_cache\queue;
 
 
 	if( is_array( $_POST ) && count( $_POST ) > 0 ){
 		if( isset( $_POST['add-cron'] ) ){
-			$string = pagesCache\queue::get_cron();
+			$string = queue::get_cron();
 			console_info( $string );
 			if( is_string( $string ) ){
 				$notice = hiweb\admin::NOTICE( 'Задача CRON хостинга добавлена.' );
@@ -18,9 +19,9 @@
 				$notice->the();
 			}
 		} elseif( isset( $_POST['clear-cache'] ) ) {
-			pagesCache::clear();
+			pages_cache::clear();
 		} elseif( isset( $_POST['clear-queue'] ) ) {
-			pagesCache\queue::clear();
+			queue::clear();
 		} else {
 			if( !array_key_exists( 'enable', $_POST ) ){
 				options::set( 'enable', '' );
@@ -93,9 +94,9 @@
 						</p>
 						<?php
 					} else {
-						$cron_string = pagesCache\queue::get_cron_string();
+						$cron_string = queue::get_cron_string();
 						if( \hiweb\cron::job_exists( $cron_string ) ){
-							echo '<code>' . pagesCache\queue::get_cron_url() . '</code>';
+							echo '<code>' . queue::get_cron_url() . '</code>';
 						} else {
 							?><p style="color: red; font-weight: bolder">не создана! она необходима для создания кэша в фоне!</p>
 							<form action="<?= get_url()->get() ?>" method="post">
@@ -117,7 +118,7 @@
 				<p class="description">список URL страниц в очереди на фоновое создание кэша в порядке приоритета. Цифра вначале - приоритет. Приоритет '0' - означает, что кэш был создан.</p>
 			</th>
 			<td><textarea class="large-text code" rows="15" disabled><?php
-						$urls = pagesCache\queue::get_urls();
+						$urls = queue::get_urls();
 						arsort( $urls );
 						foreach( $urls as $url => $priority ){
 							echo $priority . ':' . $url . "\n";
@@ -143,7 +144,7 @@
 				<th>
 					Размер и количество файлов кэша
 				</th>
-				<td>Размер: <b><?= \hiweb\paths::get( pagesCache::get_cache_dir() )->get_size_formatted() ?></b> / <?= count( \hiweb\paths::get( pagesCache::get_cache_dir() )->get_sub_files() ) ?> файлов</td>
+				<td>Размер: <b><?= \hiweb\paths::get( pages_cache::get_cache_dir() )->get_size_formatted() ?></b> / <?= count( \hiweb\paths::get( pages_cache::get_cache_dir() )->get_sub_files() ) ?> файлов</td>
 			</tr>
 			</tbody>
 		</table>

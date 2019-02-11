@@ -6,7 +6,7 @@
 	 * Time: 23:26
 	 */
 
-	namespace theme\tools\pagesCache;
+	namespace theme\pages_cache;
 
 
 	use hiweb\urls;

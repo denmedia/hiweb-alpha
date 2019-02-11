@@ -6,42 +6,43 @@
 	 * Time: 23:20
 	 */
 
-	use hiweb_theme\tools\pagesCache;
+	use theme\pages_cache;
+	use theme\pages_cache\queue;
 
 
 	//После добавления / обновления записи или страницы обновлять ее кэш  принудительно и так же в родительских записях и таксономиях так же обновлять
 	add_action( 'wp_insert_post', function( $post_id, $post, $update ){
 		if( wp_is_post_revision( $post ) || $post->post_status != 'publish' )
 			return;
-		pagesCache::get_cache( get_permalink( $post ) )->make( true );
-		pagesCache::add_to_queue_relatives( $post );
+		pages_cache::get_cache( get_permalink( $post ) )->make( true );
+		pages_cache::add_to_queue_relatives( $post );
 	}, 999999, 3 );
 
 	//После удаления поста в корзину, необходимо обновить кэш возможно связанных страниц
 	add_action( 'after_delete_post', function( $postid ){
 		$post = get_post( $postid );
 		if( $post instanceof WP_Post ){
-			pagesCache::add_to_queue( get_post_type_archive_link( $post->post_type ), 8 );
-			pagesCache::add_to_queue_relatives( $post );
+			pages_cache::add_to_queue( get_post_type_archive_link( $post->post_type ), 8 );
+			pages_cache::add_to_queue_relatives( $post );
 		}
 	} );
 
 	//После изменения/добавлеия темина обновить его кэш и поставить в очередь все входящие в него записи
 	add_action( 'edited_terms', function( $term_id, $taxonomy ){
-		pagesCache::make_cache( get_term_link( $term_id ), true );
-		pagesCache::add_to_queue_relatives( get_term( $term_id ) );
+		pages_cache::make_cache( get_term_link( $term_id ), true );
+		pages_cache::add_to_queue_relatives( get_term( $term_id ) );
 	}, 9999, 2 );
 
 	//Сбрасывать кэш, когда опции на странице админки обновлены
 	add_filter( 'whitelist_options', function( $whitelist_options ){
-		pagesCache::clear();
-		pagesCache::add_to_queue( '/', 10 );
+		pages_cache::clear();
+		pages_cache::add_to_queue( '/', 10 );
 		return $whitelist_options;
 	} );
 
 	add_filter( 'init', function(){
-		if( class_exists( '\hiweb_theme\tools\pagesCache\pagesCache_direct' ) ){
-			if( \hiweb_theme\tools\pagesCache\pagesCache_direct::get_cache_start_query() && pagesCache::is_init() && pagesCache::is_enable() && ( !isset( $_GET['nocache'] ) || $_GET['nocache'] == '1' ) ){
+		if( class_exists( '\hiweb_theme\pagesCache\pagesCache_direct' ) ){
+			if( pages_cache\pages_cache_direct::get_cache_start_query() && pages_cache::is_init() && pages_cache::is_enable() && ( !isset( $_GET['nocache'] ) || $_GET['nocache'] == '1' ) ){
 				show_admin_bar( false );
 			}
 		}
@@ -71,5 +72,5 @@
 	} );
 	add_action( 'hiweb_theme_pagesCache_queue', function(){
 		///$url
-		\hiweb\dump::the( pagesCache\queue::next() );
+		\hiweb\dump::the( queue::next() );
 	} );

@@ -12,7 +12,7 @@
 
 	if( !function_exists( 'get_languages' ) ){
 		/**
-		 * @return languages\includes\language[]
+		 * @return languages\includes_old\language[]
 		 */
 		function get_languages(){
 			return languages::get_languages();
@@ -21,7 +21,7 @@
 
 	if( !function_exists( 'get_current_language' ) ){
 		/**
-		 * @return languages\includes\language
+		 * @return languages\includes_old\language
 		 */
 		function get_current_language(){
 			return languages::get_current_language();

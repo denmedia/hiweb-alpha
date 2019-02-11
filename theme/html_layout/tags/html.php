@@ -42,7 +42,7 @@
 		 */
 		static function get_tags_array(){
 			if( !self::$tags instanceof array_ ){
-				self::$tags = new array_();
+				self::$tags = new array_(self::$tags);
 			}
 			return self::$tags;
 		}

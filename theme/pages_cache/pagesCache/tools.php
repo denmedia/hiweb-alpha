@@ -6,7 +6,7 @@
 	 * Time: 18:35
 	 */
 
-	namespace theme\tools\pagesCache;
+	namespace theme\pages_cache;
 
 
 	class tools{

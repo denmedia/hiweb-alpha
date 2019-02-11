@@ -6,15 +6,15 @@
 	 * Time: 13:38
 	 */
 
-	namespace theme\tools\pagesCache;
+	namespace theme\pages_cache;
 
 
 	/**
 	 * Класс для прямой работы с кэшем из index-hiweb-cache.php
 	 * Class direct_index
-	 * @package hiweb_theme\tools\pagesCache
+	 * @package hiweb_theme\pagesCache
 	 */
-	class pagesCache_direct{
+	class pages_cache_direct{
 
 		private static $current_cache;
 		private static $cache_start_query = false;
@@ -111,8 +111,8 @@
 			}
 			//
 			$method = __METHOD__;
-			$is_allow_user = self::get_current_cache()->is_allowed_use( true );
-			if( $is_allow_user === true ){
+			$is_allow_use = self::get_current_cache()->is_allowed_use( true );
+			if( $is_allow_use === true ){
 				$round_time = round( self::get_current_cache()->get_left_time() / 60, 1 );
 				$content = self::get_current_cache()->get_content();
 				echo "<!--{$method}: current cache start, time left: {$round_time}min, use '?nocache' to force disable cache-->{$content}<!--hiWeb Pages Cache: current cache end-->";

@@ -1,25 +1,52 @@
 <?php
 	/**
 	 * Created by PhpStorm.
-	 * User: denmedia
-	 * Date: 04/11/2018
-	 * Time: 18:18
+	 * User: denisivanin
+	 * Date: 2019-02-10
+	 * Time: 14:23
 	 */
 
-	///HOOKS
-
+	////POST QUERY
 	use theme\html_layout\tags\head;
 	use theme\languages;
+	use theme\languages\query;
 
+
+	add_action( 'pre_get_posts', function( &$wp_query ){
+		/** @var WP_Query $wp_query */
+		if( !is_admin() && ( !property_exists( $wp_query, query::$wp_query_key_filter_enable ) || $wp_query->{query::$wp_query_key_filter_enable} == true ) ){
+			query::filter( $wp_query );
+		}
+	} );
 
 	add_filter( 'wp_headers', function( $headers, $WP ){
 		$headers['Content-Language'] = languages::get_current_id();
 		return $headers;
 	}, 10, 2 );
 
+	add_action( 'get_header', function(){
+		if( !is_admin() ){
+			if( is_single() || is_page() ){
+				$langs = languages::get_post( get_the_ID() )->get_sibling_posts( false );
+				foreach( $langs as $lang_post ){
+					head::add_html_addition( '<link rel="alternate" hreflang="' . ( $lang_post->is_default() ? 'x-default' : $lang_post->get_lang_id() ) . '" href="' . get_permalink( $lang_post->ID ) . '" />' );
+				}
+			}
+			elseif( is_archive() ){
+				$langs = languages::get_term( get_queried_object_id() )->get_sibling_terms();
+				foreach( $langs as $lang_term ){
+					if( $lang_term instanceof WP_Term ){
+						head::add_html_addition( '<link rel="alternate" hreflang="' . ( $lang_term->is_default() ? 'x-default' : $lang_term->get_lang_id() ) . '" href="' . get_term_link( $lang_term->term_id ) . '" />' );
+					}
+				}
+			}
+		}
+	} );
+
 	add_action( 'save_post', function( $post_id, $post, $update ){
 		//
-		if( wp_is_post_revision( $post_id ) || get_post( $post_id )->post_status != 'publish' ) return;
+		if( wp_is_post_revision( $post_id ) || get_post( $post_id )->post_status != 'publish' )
+			return;
 		//
 		if( array_key_exists( languages::$post_meta_key_lang_id, $_POST ) ){
 			update_post_meta( $post_id, languages::$post_meta_key_lang_id, $_POST[ languages::$post_meta_key_lang_id ] );
@@ -96,22 +123,3 @@
 			}
 		}
 	}, 10, 3 );
-
-	add_action( 'get_header', function(){
-		if( !is_admin() ){
-			if( is_single() || is_page() ){
-				$langs = languages::get_post( get_the_ID() )->get_sibling_posts( false );
-				foreach( $langs as $lang_post ){
-					head::add_html_addition( '<link rel="alternate" hreflang="' . ( $lang_post->is_default() ? 'x-default' : $lang_post->get_lang_id() ) . '" href="' . get_permalink( $lang_post->ID ) . '" />' );
-				}
-			}
-			if( is_archive() ){
-				$langs = languages::get_term( get_queried_object_id() )->get_sibling_terms();
-				foreach( $langs as $lang_term ){
-					if( $lang_term instanceof WP_Term ){
-						head::add_html_addition( '<link rel="alternate" hreflang="' . ( $lang_term->is_default() ? 'x-default' : $lang_term->get_lang_id() ) . '" href="' . get_term_link( $lang_term->term_id ) . '" />' );
-					}
-				}
-			}
-		}
-	} );

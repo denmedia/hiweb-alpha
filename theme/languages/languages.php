@@ -9,13 +9,12 @@
 	namespace theme;
 
 
-
-
 	use hiweb\arrays;
 	use theme\html_layout\tags\head;
-	use theme\languages\includes\language;
-	use theme\languages\includes\post;
-	use theme\languages\includes\term;
+	use theme\languages\detect;
+	use theme\languages\language;
+	use theme\languages\post;
+	use theme\languages\term;
 
 
 	class languages{
@@ -30,9 +29,10 @@
 		protected static $current_id = 'ru';
 		protected static $current_locale = 'ru_RU';
 		protected static $session_key = 'hiweb-language-select-id';
+		///
 
 		///Posts
-		static $exclude_post_types = [ 'attachment', 'revision', 'custom_css', 'customize_changeset', 'action', 'author', 'order', 'theme' ];
+		static $exclude_post_types = []; //[ 'attachment', 'revision', 'custom_css', 'customize_changeset', 'action', 'author', 'order', 'theme', 'wp_block', 'user_request', 'oembed_cache', 'nav_menu_item' ];
 		static protected $posts = [];
 		static protected $terms = [];
 		static $post_meta_key_lang_id = 'hiweb-languages-lang-id';
@@ -49,50 +49,16 @@
 
 
 		static function init(){
-			require_once __DIR__ . '/includes/options.php';
-			self::set_lang_id( self::autodetect_lang_id() );
-			require_once __DIR__ . '/includes/hooks.php';
-			require_once __DIR__ . '/includes/query.php';
-		}
-
-
-		static protected function autodetect_lang_id(){
-			$R = '';
-			///CHECK SUBDOMAIN
-			preg_match( '/^(?<subdomain>[\w\-_]+)\..*/i', $_SERVER['HTTP_HOST'], $domains );
-			if( $R == '' && array_key_exists( 'subdomain', $domains ) && array_key_exists( $domains['subdomain'], self::get_languages() ) ){
-				$R = $domains['subdomain'];
+			require_once __DIR__ . '/options.php';
+			require_once __DIR__ . '/hooks/hooks.php';
+			require_once __DIR__ . '/hooks/links.php';
+			require_once __DIR__ . '/hooks/redirects.php';
+			detect::init();
+			if( !self::set_lang_id( detect::get_id() ) ){
+				console_warn( 'Не удалось установить язык сайта' );
+			} else {
+				html_layout\tags\html::get_tags_array()->push( 'lang', self::get_current_id() );
 			}
-			///CHECK URL LANG REQUEST
-			if( $R == '' ){
-				if( preg_match( '/^\/(?<lang_id>[\w\d-_]+)\/?.*/i', $_SERVER['REQUEST_URI'], $matches ) > 0 && isset( $matches['lang_id'] ) ){
-					if( self::is_exists( $matches['lang_id'] ) ){
-						$R = $matches['lang_id'];
-					}
-				}
-			}
-			///CHECK CURRENT POST/PAGE
-			if( $R == '' && urls::get()->get_clear() != urls::root() && function_exists( 'get_queried_object' ) ){
-				if( get_queried_object() instanceof \WP_Post && !is_front_page() ) $R = self::get_post( get_queried_object_id() )->get_lang_id();
-				if( get_queried_object() instanceof \WP_Term ) $R = self::get_term( get_queried_object_id() )->get_lang_id();
-			}
-			///SET FROM SESSIONS
-//			if( session_id() == '' ) session_start();
-//			if( $R == '' && array_key_exists( self::$session_key, $_SESSION ) ){
-//				$test_lang_id = $_SESSION[ self::$session_key ];
-//				if( self::is_exists( $test_lang_id ) ){
-//					$R = $test_lang_id;
-//				}
-//			}
-			///CHECK BROWSER
-			if( $R == '' && array_key_exists( substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 ), self::get_languages() ) ){
-				$R = substr( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2 );
-			}
-			///SET DEFAULT LANG
-			if( $R == '' ){
-				$R = self::get_default_id();
-			}
-			return $R;
 		}
 
 
@@ -118,7 +84,8 @@
 				setlocale( LC_ALL, self::get_current_locale() . '.UTF-8' );
 				//Add to head LANG tag
 				head::add_html_tag( 'lang', self::get_current_id() );
-				if( session_id() == '' ) session_start();
+				if( session_id() == '' )
+					session_start();
 				$_SESSION[ self::$session_key ] = self::$current_id;
 				self::$url_change_set = $url_change_set;
 				return true;
@@ -139,9 +106,11 @@
 					'post_status' => 'publish',
 					'posts_per_page' => 1
 				] );
-				if( count( $test_posts ) > 0 ) $postOrIdOrSlug = $test_posts[0]; else $postOrIdOrSlug = 0;
+				if( count( $test_posts ) > 0 )
+					$postOrIdOrSlug = $test_posts[0]; else $postOrIdOrSlug = 0;
 			}
-			if( $postOrIdOrSlug instanceof \WP_Post ) $postOrIdOrSlug = $postOrIdOrSlug->ID;
+			if( $postOrIdOrSlug instanceof \WP_Post )
+				$postOrIdOrSlug = $postOrIdOrSlug->ID;
 			if( !array_key_exists( $postOrIdOrSlug, self::$posts ) ){
 				self::$posts[ $postOrIdOrSlug ] = new post( $postOrIdOrSlug );
 			}
@@ -154,7 +123,8 @@
 		 * @return term
 		 */
 		static function get_term( $termOrId ){
-			if( $termOrId instanceof \WP_Term ) $termOrId = $termOrId->term_id;
+			if( $termOrId instanceof \WP_Term )
+				$termOrId = $termOrId->term_id;
 			if( !array_key_exists( $termOrId, self::$terms ) ){
 				self::$terms[ $termOrId ] = new term( $termOrId );
 			}
@@ -171,7 +141,7 @@
 			if( self::get_current_id() === 'ru' ){
 				return date_i18n( $format, $timestamp );
 			} else {
-				$format = \hiweb\date::formatToLocalize($format);
+				$format = \hiweb\date::formatToLocalize( $format );
 				return strtolower( strftime( $format, $timestamp ) );
 				//return strtolower( strftime( '%e %B', $timestamp ) );
 			}
@@ -220,14 +190,19 @@
 
 
 		/**
-		 * @param bool $return_allowed
+		 * @param bool $return_allowed - true = only checked by options, false = all allowed
 		 * @return array
 		 */
 		static function get_post_types( $return_allowed = true ){
 			$R = [];
 			foreach( get_post_types() as $post_type_name ){
-				if( array_key_exists( $post_type_name, array_flip( self::$exclude_post_types ) ) ) continue;
-				if( !$return_allowed || get_field( 'post-type-' . $post_type_name, self::$options_page_slug ) ) $R[] = $post_type_name;
+				$post_type = get_post_type_object( $post_type_name );
+				if( !$post_type->public )
+					continue;
+				if( array_key_exists( $post_type_name, array_flip( self::$exclude_post_types ) ) )
+					continue;
+				if( !$return_allowed || get_field( 'post-type-' . $post_type_name, self::$options_page_slug ) )
+					$R[] = $post_type_name;
 			}
 			return $R;
 		}
@@ -248,7 +223,8 @@
 		 */
 		static function is_taxonomy_allowed( $taxonomy ){
 			foreach( self::get_post_types( true ) as $post_type ){
-				if( arrays::in_array( $taxonomy, get_object_taxonomies( $post_type ) ) ) return true;
+				if( arrays::in_array( $taxonomy, get_object_taxonomies( $post_type ) ) )
+					return true;
 			}
 			return false;
 		}
@@ -356,16 +332,18 @@
 		 * @return string
 		 */
 		static function the_select( $echo = true ){
-			if( !$echo ) ob_start();
+			if( !$echo )
+				ob_start();
 			?>
 			<div class="languages-select">
 				<?php foreach( self::get_languages() as $language ){
 					$active = $language->get_id() == self::get_current_id();
-					?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>" lang="<?=$language->get_id()?>"><?= $language->get_title() ?></a><?php
+					?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>" lang="<?= $language->get_id() ?>"><?= $language->get_title() ?></a><?php
 				} ?>
 			</div>
 			<?php
-			if( !$echo ) return ob_get_clean();
+			if( !$echo )
+				return ob_get_clean();
 			return '';
 		}
 

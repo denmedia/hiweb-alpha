@@ -7,10 +7,10 @@
 	 */
 
 	if( is_admin() ){
-		\hiweb_theme\includes::fontawesome();
+		\theme\includes\admin::fontawesome();
 	}
 
-	add_admin_menu_page( \hiweb_theme\tools\pagesCache::$_admin_menu_slug, '<i class="fas fa-car-battery"></i> Pages cache', 'options-general.php' )->function_page( function(){
+	add_admin_menu_page( \theme\pages_cache::$_admin_menu_slug, '<i class="fas fa-car-battery"></i> Pages cache', 'options-general.php' )->function_page( function(){
 		include_once __DIR__ . '/admin-menu-page.php';
 	} )->use_default_form( false );
 
@@ -18,8 +18,8 @@
 	////
 	add_action( 'admin_bar_menu', function( $wp_admin_bar ){
 		/** @var WP_Admin_Bar $wp_admin_bar */
-		if( \hiweb\context::is_frontend_page() && \hiweb_theme\tools\pagesCache::is_init() ){
-			if(\hiweb_theme\tools\pagesCache::get_cache()->is_exists()){
+		if( \hiweb\context::is_frontend_page() && \theme\pages_cache::is_init() ){
+			if(\theme\pages_cache::get_cache()->is_exists()){
 				$args = [
 					'id' => 'hiweb-theme-pagescache-update',
 					'title' => '<span style="font-size: 1.2em">♺</span> Обновить кэш страницы',

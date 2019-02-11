@@ -11,7 +11,7 @@
 		register_rest_route( 'hiweb_theme', 'pages_cache/queue_next', [
 			'methods' => 'get',
 			'callback' => function(){
-				return \hiweb_theme\tools\pagesCache\queue::next();
+				return \hiweb_theme\pagesCache\queue::next();
 			}
 		] );
 	} );

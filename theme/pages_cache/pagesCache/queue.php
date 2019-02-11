@@ -6,14 +6,14 @@
 	 * Time: 17:45
 	 */
 
-	namespace theme\tools\pagesCache;
+	namespace theme\pages_cache;
 
 
 	use hiweb\arrays;
 	use hiweb\cron;
 	use hiweb\dump;
 	use hiweb\urls;
-	use hiweb_theme\tools\pagesCache;
+	use hiweb_theme\pagesCache;
 
 
 	class queue{

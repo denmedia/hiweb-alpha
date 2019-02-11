@@ -6,6 +6,7 @@
 	 * Time: 18:52
 	 */
 
+	use theme\forms;
 	use theme\mailchimp;
 
 

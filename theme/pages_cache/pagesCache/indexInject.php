@@ -6,7 +6,7 @@
 	 * Time: 11:18
 	 */
 
-	namespace theme\tools\pagesCache;
+	namespace theme\pages_cache;
 
 
 	use hiweb\paths;
@@ -35,7 +35,7 @@
 		static function do_index_injection(){
 			//Replace
 			$htaccess = paths::get( '/.htaccess' );
-			$htaccess_template = paths::get( __DIR__ . 'indexInject.php/' . self::$template_htaccess_name );
+			$htaccess_template = paths::get( __DIR__ . '/' . self::$template_htaccess_name );
 			$B = true;
 			///HTACCESS INJECT
 			if( !$htaccess->is_exists() && $htaccess_template->is_writable() ){
@@ -65,10 +65,10 @@
 				$B = false;
 				$index_file = paths::get( self::$route_index_name );
 				if( !$index_file->is_exists() ){
-					$index_template = paths::get( __DIR__ . 'indexInject.php/' . self::$template_index_name );
+					$index_template = paths::get( __DIR__ . '/' . self::$template_index_name );
 					if( $index_template->get_content( '' ) != '' ){
 						$B = $index_file->FILE()->make_file( strtr( $index_template->get_content( '' ), [
-							'{hiweb-theme-pages-cache-direct}' => paths::get( __DIR__ )->get_path_relative() . '/pagesCache_direct.php'
+							'{hiweb-theme-pages-cache-direct}' => paths::get( __DIR__ )->get_path_relative() . '/pages_cache_direct.php'
 						] ) );
 					}
 					///

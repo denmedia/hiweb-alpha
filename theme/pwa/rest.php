@@ -14,7 +14,6 @@
 
 	add_action( 'rest_api_init', function(){
 
-
 		register_rest_route( 'hiweb-theme', 'pwa/manifest', [
 			'methods' => 'get',
 			'callback' => function(){

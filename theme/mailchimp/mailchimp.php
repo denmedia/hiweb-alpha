@@ -36,6 +36,7 @@
 
 
 		static function init(){
+			\theme\forms::init();
 			require_once __DIR__ . '/options.php';
 		}
 

@@ -9,9 +9,9 @@
 
 	require_once __DIR__ . '{hiweb-theme-pages-cache-direct}';
 
-	\hiweb_theme\tools\pagesCache\pagesCache_direct::the_start();
+	\theme\pages_cache\pages_cache_direct::the_start();
 
 	/** Подключение родного файла WP */
 	require_once __DIR__ . '/index.php';
 
-	\hiweb_theme\tools\pagesCache\pagesCache_direct::the_end();
+	\theme\pages_cache\pages_cache_direct::the_end();

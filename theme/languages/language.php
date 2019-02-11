@@ -6,7 +6,7 @@
 	 * Time: 18:48
 	 */
 
-	namespace theme\languages\includes;
+	namespace theme\languages;
 
 
 	use hiweb\arrays;

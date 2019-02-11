@@ -2,6 +2,10 @@ jQuery(document).ready(function ($) {
     var $mmenu = $(".hiweb-mmenu-nav");
     var mmenu_args = {
         language: 'ru',
+        navbars: [{
+            position: "top",
+            content: ["breadcrumbs", "close"]
+        }],
         // "navbars": [
         //     {
         //         "position": "top",
@@ -15,7 +19,7 @@ jQuery(document).ready(function ($) {
         //         "content": $mmenu.data('bottom-content')
         //     }
         // ],
-        extensions: ["fx-menu-slide", "pageshadow", "effect-menu-slide", "position-right"],
+        extensions: JSON.parse($mmenu.attr('data-extensions')),
         hooks: {
             'open:before': function () {
                 $('.mh-head.mh-sticky').each(function () {

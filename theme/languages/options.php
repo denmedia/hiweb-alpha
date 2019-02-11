@@ -33,7 +33,7 @@
 
 	///POST TYPES
 	add_action( 'wp_loaded', function(){
-		add_field_separator( 'Список типов записей, для которых использования локалей' )->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
+		add_field_separator( 'Список типов записей, для которых включить использование локалей' )->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
 		$default_checked = array_flip( [ 'post', 'page' ] );
 		foreach( languages::get_post_types( false ) as $post_type_name ){
 			$post_type = get_post_type_object( $post_type_name );

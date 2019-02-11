@@ -6,20 +6,19 @@
 	 * Time: 11:33
 	 */
 
-	namespace theme\tools;
+	namespace theme;
 
 
 	use hiweb\paths;
-	use hiweb\urls;
-	use hiweb_theme\includes;
-	use hiweb_theme\tools\pagesCache\cache_item;
-	use hiweb_theme\tools\pagesCache\indexInject;
-	use hiweb_theme\tools\pagesCache\options;
-	use hiweb_theme\tools\pagesCache\queue;
-	use hiweb_theme\tools\pagesCache\tools;
+	use theme\includes\frontend;
+	use theme\pages_cache\cache_item;
+	use theme\pages_cache\indexInject;
+	use theme\pages_cache\options;
+	use theme\pages_cache\queue;
+	use theme\pages_cache\tools;
 
 
-	class pagesCache{
+	class pages_cache{
 
 		private static $is_init = false;
 		static $_admin_menu_slug = 'hiweb-theme-pages-cache';
@@ -37,7 +36,7 @@
 			require_once __DIR__ . '/pagesCache/queue.php';
 			require_once __DIR__ . '/pagesCache/hooks.php';
 			require_once __DIR__ . '/pagesCache/cache_item.php';
-			includes::js( HIWEB_THEME_ASSETS_DIR . '/js/tool-pagesCache_direct.js', includes::jquery() );
+			frontend::js( __DIR__ . '/direct.min.js', frontend::jquery() );
 			if( !self::$is_init ){
 				self::$is_init = true;
 				include_once __DIR__ . '/pagesCache/admin-menu.php';
@@ -160,16 +159,16 @@
 		 */
 		static function add_to_queue_relatives( $postOrTerm, $hight_priority = 10 ){
 			if( $postOrTerm instanceof \WP_Post ){
-				pagesCache::add_to_queue( get_post_type_archive_link( $postOrTerm->post_type ), floor( $hight_priority * .8 ) );
-				pagesCache::add_to_queue( '/', floor( $hight_priority * .9 ) );
+				pages_cache::add_to_queue( get_post_type_archive_link( $postOrTerm->post_type ), floor( $hight_priority * .8 ) );
+				pages_cache::add_to_queue( '/', floor( $hight_priority * .9 ) );
 				if( intval( get_option( 'page_for_posts' ) ) != 0 )
-					pagesCache::add_to_queue( get_permalink( get_option( 'page_for_posts' ) ), floor( $hight_priority * .8 ) );
+					pages_cache::add_to_queue( get_permalink( get_option( 'page_for_posts' ) ), floor( $hight_priority * .8 ) );
 				foreach( get_object_taxonomies( $postOrTerm ) as $taxonomy ){
 					$terms = get_the_terms( $postOrTerm, $taxonomy );
 					if( is_array( $terms ) )
 						foreach( $terms as $wp_term ){
-							pagesCache::get_cache( get_term_link( $wp_term ) )->flush();
-							pagesCache::add_to_queue( get_term_link( $wp_term ), floor( $hight_priority * .7 ) );
+							pages_cache::get_cache( get_term_link( $wp_term ) )->flush();
+							pages_cache::add_to_queue( get_term_link( $wp_term ), floor( $hight_priority * .7 ) );
 						}
 				}
 			} elseif( $postOrTerm instanceof \WP_Term ) {
@@ -186,7 +185,7 @@
 						'posts_per_page' => 20
 					] ) as $wp_post
 				){
-					pagesCache::add_to_queue( get_permalink( $wp_post ), 7 );
+					pages_cache::add_to_queue( get_permalink( $wp_post ), 7 );
 				}
 			}
 		}

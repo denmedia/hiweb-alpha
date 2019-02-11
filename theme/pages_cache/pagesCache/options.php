@@ -6,7 +6,7 @@
 	 * Time: 12:08
 	 */
 
-	namespace theme\tools\pagesCache;
+	namespace theme\pages_cache;
 
 
 	use hiweb\dump;

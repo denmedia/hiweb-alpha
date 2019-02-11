@@ -9,29 +9,41 @@
 	namespace theme;
 
 
-	use hiweb\strings;
 	use theme\includes\frontend;
-	use theme\nav_menu;
+	use theme\mmenu\extensions;
 
 
 	class mmenu{
 
 		/** @var mmenu[] */
 		static $mmenus = [];
+		static $init = false;
 
 		private $nav_location;
+		private $extensions;
 
 
 		static function init(){
-			$mmenu_handle = frontend::jquery_mmenu();
-			frontend::js( __DIR__ . '/mmenu.min.js', $mmenu_handle );
-			///
-			add_action( '\theme\html_layout\body::the_before-after', function(){
-				get_template_part( HIWEB_THEME_PARTS . '/mmenu/before' );
-			}, 1 );
-			add_action( '\theme\html_layout\body::the_after-before', function(){
-				get_template_part( HIWEB_THEME_PARTS . '/mmenu/after' );
-			}, 9999999 );
+			if( !self::is_init() ){
+				self::$init = true;
+				$mmenu_handle = frontend::jquery_mmenu();
+				frontend::js( __DIR__ . '/mmenu.min.js', $mmenu_handle );
+				///
+				add_action( '\theme\html_layout\body::the_before-after', function(){
+					get_template_part( HIWEB_THEME_PARTS . '/mmenu/before' );
+				}, 1 );
+				add_action( '\theme\html_layout\body::the_after-before', function(){
+					get_template_part( HIWEB_THEME_PARTS . '/mmenu/after' );
+				}, 9999999 );
+			}
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		static function is_init(){
+			return self::$init;
 		}
 
 
@@ -48,7 +60,8 @@
 				foreach( self::get_all() as $mmenu ){
 					$nav_menu = nav_menu::get( $mmenu->get_nav_location() );
 					$nav_menu->use_stellarnav = false;
-					$nav_menu->add_class('hiweb-mmenu-nav');
+					$nav_menu->add_class( 'hiweb-mmenu-nav' );
+					$nav_menu->add_tag( 'data-extensions', json_encode( $mmenu->extensions()->get_data_array() ) );
 					$nav_menu->id = $mmenu->get_nav_id();
 					//$nav_menu->add_class('');
 					$nav_menu->the();
@@ -95,7 +108,7 @@
 		 * @return string
 		 */
 		public function get_nav_id(){
-			return 'hiweb-mmenu-nav-'.$this->get_nav_location();
+			return 'hiweb-mmenu-nav-' . $this->get_nav_location();
 		}
 
 
@@ -104,6 +117,22 @@
 		 */
 		public function get_nav_location(){
 			return $this->nav_location;
+		}
+
+
+		/**
+		 * @return extensions
+		 */
+		public function extensions(){
+			if( !$this->extensions instanceof extensions ){
+				$this->extensions = new extensions( $this );
+			}
+			return $this->extensions;
+		}
+
+
+		public function get_html_tag_options(){
+
 		}
 
 	}

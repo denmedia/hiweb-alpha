@@ -10,7 +10,10 @@
 
 
 	use hiweb\context;
+	use hiweb\css;
+	use hiweb\js;
 	use theme\forms\form;
+	use theme\includes\frontend;
 
 
 	class forms{
@@ -29,6 +32,7 @@
 		static $mailchimp_enable = false;
 		/** @var mailchimp */
 		static protected $mailchimp;
+		static $enqueue_frontend_scripts = true;
 
 
 		static function init(){
@@ -40,6 +44,10 @@
 			require_once __DIR__ . '/options.php';
 			require_once __DIR__ . '/rest.php';
 			require_once __DIR__ . '/shortcode.php';
+			if(self::$enqueue_frontend_scripts){
+				frontend::css(__DIR__.'/assets/forms.css');
+				frontend::js(__DIR__.'/assets/forms.min.js', frontend::jquery());
+			}
 		}
 
 

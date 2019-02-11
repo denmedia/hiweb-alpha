@@ -26,7 +26,7 @@
 			//public $use_ul_li = true;
 			public $depth = 2;
 			public $nav_location = 'mobile-menu';
-			public $ul_classes = ['nav','nav-fill'];
+			public $ul_classes = [ 'nav', 'nav-fill' ];
 			public $item_classes = [ 'nav-item' ];
 			public $link_classes = [ 'nav-link' ];
 			public $item_class_active = 'active';
@@ -102,7 +102,7 @@
 			public function get_items( $by_parent = false ){
 				if( !is_array( $this->items ) ){
 					$this->items = [];
-					$menu_items = apply_filters( 'hiweb_theme-widgets-nav_menu-get_items', themes::get()->menu_items( $this->nav_location ), $this );
+					$menu_items = apply_filters( '\theme\nav_menu::get_items', themes::get()->menu_items( $this->nav_location ), $this );
 					foreach( $menu_items as $item ){
 						$this->items[ (int)$item->ID ] = $item;
 						$this->items_by_parent[ (int)$item->menu_item_parent ][ (int)$item->ID ] = $item;
@@ -139,15 +139,15 @@
 						$active = urls::get()->is_dirs_intersect( $item->url );
 						?>
 						<li class="<?= implode( ' ', $this->item_classes ) ?>">
-							<?php if($item->url == '#'){
+							<?php if( $item->url == '#' ){
 								?>
-								<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>" ><?= $item->title ?></a>
+								<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>"><?= $item->title ?></a>
 								<?php
-							}  else {
+							} else {
 								?>
 								<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>" href="<?= $item->url ?>"><?= $item->title ?></a>
 								<?php
-							}?>
+							} ?>
 
 							<?php $this->the_list( $item->ID, $depth + 1 ); ?>
 						</li>
@@ -169,7 +169,7 @@
 
 			public function the(){
 				if( $this->use_stellarnav ){
-					frontend::fontawesome( false );
+					frontend::fontawesome();
 					frontend::stellarnav();
 					$this->root_classes[] = 'stellarnav';
 					?>

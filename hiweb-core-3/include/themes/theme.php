@@ -73,7 +73,8 @@
 			if( isset( $menu_locations[ $location ] ) ){
 				foreach( $menus as $menu ){
 					if( $menu->term_id == $menu_locations[ $location ] ){
-						return wp_get_nav_menu_items( $menu );
+						$items = wp_get_nav_menu_items( $menu );
+						return $items;
 					}
 				}
 			}
