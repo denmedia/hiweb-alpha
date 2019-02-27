@@ -10,7 +10,10 @@
 	use theme\forms\inputs\button;
 	use theme\forms\inputs\checkbox;
 	use theme\forms\inputs\email;
+	use theme\forms\inputs\html_insert;
+	use theme\forms\inputs\info_text;
 	use theme\forms\inputs\json;
+	use theme\forms\inputs\number;
 	use theme\forms\inputs\phone;
 	use theme\forms\inputs\postlink;
 	use theme\forms\inputs\text;
@@ -22,7 +25,7 @@
 	//self::$post_type->menu_icon('data:image/svg+xml;base64,');
 	self::$post_type_object->labels()->menu_name( 'Формы на сайте' )->name( 'Формы' );
 	self::$post_type_object->supports()->title();
-	self::$post_type_object->public_( true )->publicly_queryable(false)->has_archive( false )->show_ui( true )->show_in_menu( true )->show_in_nav_menus( false )->show_in_admin_bar( false );
+	self::$post_type_object->public_( true )->publicly_queryable( false )->has_archive( false )->show_ui( true )->show_in_menu( true )->show_in_nav_menus( false )->show_in_admin_bar( false )->exclude_from_search( true );
 	///
 	$INPUTS = add_field_repeat( 'inputs' );
 	$INPUTS->label( 'Поля ввода' )->LOCATION()->POST_TYPES( self::$post_type_name )->COLUMNS_MANAGER()->name( 'Шорткоды' )->callback( function( $post_id ){
@@ -30,13 +33,16 @@
 	} );
 	//
 	text::add_repeat_field( $INPUTS );
+	number::add_repeat_field( $INPUTS );
 	textarea::add_repeat_field( $INPUTS );
 	email::add_repeat_field( $INPUTS );
 	phone::add_repeat_field( $INPUTS );
 	checkbox::add_repeat_field( $INPUTS );
 	button::add_repeat_field( $INPUTS );
 	json::add_repeat_field( $INPUTS );
-	postlink::add_repeat_field($INPUTS);
+	postlink::add_repeat_field( $INPUTS );
+	info_text::add_repeat_field( $INPUTS );
+	html_insert::add_repeat_field( $INPUTS );
 	//
 
 	$strtr_descriptions = [];

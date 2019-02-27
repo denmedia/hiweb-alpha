@@ -1,0 +1,37 @@
+.gutters-05 {
+  margin-right: -0.5em;
+  margin-left: -0.5em;
+}
+.gutters-05 > [class*=col-] {
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+.gutters-1 {
+  margin-right: -1em;
+  margin-left: -1em;
+}
+.gutters-1 > [class*=col-] {
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+.gutters-2 {
+  margin-right: -3em;
+  margin-left: -3em;
+}
+.gutters-2 > [class*=col-] {
+  padding-right: 3em;
+  padding-left: 3em;
+}
+
+.gutters-3 {
+  margin-right: -3em;
+  margin-left: -3em;
+}
+.gutters-3 > [class*=col-] {
+  padding-right: 3em;
+  padding-left: 3em;
+}
+
+/*# sourceMappingURL=bootstrap-additions.css.map */

@@ -159,30 +159,48 @@
 			if( !is_array( $this->sibling_ids ) ){
 				$this->sibling_ids = [];
 				if( !$this->is_exists() ) return $this->sibling_ids;
-				$this->sibling_ids[] = $this->get_post_id();
-				///
-				if( $this->is_default() ){
-					$default_post_id = $this->get_post_id();
-				} else {
-					$default_post_id = $this->get_default_post()->get_post_id();
-				}
-				$this->sibling_ids[] = intval( $default_post_id );
-				foreach(
-					get_posts( [
-						'post_type' => $this->get_wp_post()->post_type,
-						'post_status' => 'any',
-						'posts_per_page' => 99,
-						'meta_query' => [
-							[
-								'key' => languages::$post_meta_key_default_post_id,
-								'value' => $default_post_id
+				if(detect::is_multisite()) {
+					$this->sibling_ids[get_current_blog_id()] = $this->get_post_id();
+					foreach(multisites::get_languages_by_site_id() as $site_id => $language){
+						//$this->sibling_ids[$site_id]
+						get_posts([
+							'post_type' => $this->get_wp_post()->post_type,
+							'post_status' => 'any',
+							'posts_per_page' => 1,
+							'meta_query' => [
+								[
+									'key' => languages::$post_meta_key_default_post_id,
+									'value' => $default_post_id
+								]
 							]
-						]
-					] ) as $wp_post
-				){
-					$this->sibling_ids[] = $wp_post->ID;
+						]);
+					}
+				} else {
+					$this->sibling_ids[] = $this->get_post_id();
+					///
+					if( $this->is_default() ){
+						$default_post_id = $this->get_post_id();
+					} else {
+						$default_post_id = $this->get_default_post()->get_post_id();
+					}
+					$this->sibling_ids[] = intval( $default_post_id );
+					foreach(
+						get_posts( [
+							'post_type' => $this->get_wp_post()->post_type,
+							'post_status' => 'any',
+							'posts_per_page' => 99,
+							'meta_query' => [
+								[
+									'key' => languages::$post_meta_key_default_post_id,
+									'value' => $default_post_id
+								]
+							]
+						] ) as $wp_post
+					){
+						$this->sibling_ids[] = $wp_post->ID;
+					}
+					$this->sibling_ids = array_unique( $this->sibling_ids );
 				}
-				$this->sibling_ids = array_unique( $this->sibling_ids );
 			}
 			return $this->sibling_ids;
 		}

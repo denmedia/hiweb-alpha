@@ -136,7 +136,7 @@
 					//
 					ob_start();
 					foreach( $this->get_items( $parent_id ) as $item ){
-						$active = urls::get()->is_dirs_intersect( $item->url );
+						$active = structures::get()->has_object( $item ); //urls::get()->is_dirs_intersect( $item->url );
 						?>
 						<li class="<?= implode( ' ', $this->item_classes ) ?>">
 							<?php if( $item->url == '#' ){

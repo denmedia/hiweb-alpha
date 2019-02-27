@@ -11,8 +11,10 @@
 
 	theme\includes\admin::fontawesome();
 
-	if( !\hiweb\urls::get()->is_ssl() )
+	add_action( 'current_screen', function(){
+		if( get_current_screen()->base == 'dashboard' && !\hiweb\urls::get()->is_ssl() )
 		hiweb\admin::NOTICE( 'Внимание! На сайте не установлен SSL. Это требуется для того, чтобы браузер работал в режиме PWA.' )->CLASS_()->error();
+	} );
 
 	$admin_menu = add_admin_menu_page( \theme\pwa::$admin_menu_slug, '<i class="fal fa-mobile-android"></i> Progress Web App', \theme\pwa::$admin_menu_parent );
 	$admin_menu->page_title( '<i class="fal fa-mobile-android"></i> Установки Progressive Web Application' );
@@ -21,7 +23,7 @@
 
 	add_field_image( 'icon' )->label( 'FAVICON - Иконка приложения в формате PNG' )->description( 'Реккомендуемый размер иконки не менее 192пикс, иначе посетителю не будет задан вопрос об установке ссылки на рабочий стол' )->LOCATION( true );
 
-	add_field_textarea('script')->label('Скрипт для всех страниц сайта, будет расположен в футере сайта')->LOCATION(true);
+	add_field_textarea( 'script' )->label( 'Скрипт для всех страниц сайта, будет расположен в футере сайта' )->LOCATION( true );
 
 	add_field_text( 'viewport' )->VALUE( 'width=device-width, initial-scale=1' )->get_parent_field()->LOCATION( true );
 

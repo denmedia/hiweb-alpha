@@ -12,7 +12,7 @@
 	class error_404{
 
 		static $admin_menu_slug = 'error-404';
-		static $admin_menu_parent = 'options-general.php';
+		static $admin_menu_parent = 'themes.php';
 
 		static function init(){
 			require_once __DIR__.'/options.php';

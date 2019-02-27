@@ -15,6 +15,8 @@
 
 	class breadcrumbs{
 
+		private static $init = false;
+
 		static $admin_options_slug = 'breadcrumbs';
 
 		protected static $queried_object;
@@ -24,25 +26,42 @@
 		static $class = '';
 
 
+		/**
+		 *
+		 */
 		static function init(){
-			require_once __DIR__ . '/options.php';
+			if( !self::$init ){
+				self::$init = true;
+				require_once __DIR__ . '/options.php';
+			}
 		}
 
 
+		/**
+		 * @return bool
+		 */
+		static function is_init(){
+			return self::$init;
+		}
+
+
+		/**
+		 * Print current breadcrumbs
+		 */
 		static function the(){
 			self::init();
 			frontend::fontawesome();
 			self::$queried_object = get_queried_object();
-			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/wrap-prefix' );
+			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-prefix' );
 			//items
 			foreach( self::get_crumbs() as $index => $crumb ){
 				$crumb->the();
-				if( ( get_field( 'separator-enable', self::$admin_options_slug ) && ($index + 1) < count( self::get_crumbs() ) ) || get_field( 'separator-last-enable', self::$admin_options_slug ) ){
+				if( ( get_field( 'separator-enable', self::$admin_options_slug ) && ( $index + 1 ) < count( self::get_crumbs() ) ) || get_field( 'separator-last-enable', self::$admin_options_slug ) ){
 					echo self::get_the_separator();
 				}
 			}
 			//
-			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/wrap-sufix' );
+			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-sufix' );
 		}
 
 
@@ -51,8 +70,10 @@
 		 */
 		static function get_the_separator(){
 			ob_start();
-			get_template_part( HIWEB_THEME_PARTS . '/widgets/breadcrumbs/item-separator' );
-			return strtr( ob_get_clean(), [ '{icon}' => get_field( 'separator-icon', self::$admin_options_slug ) ] );
+			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-separator' );
+			$separator_icon = get_field( 'separator-icon', self::$admin_options_slug ) != '' ? '<i class="' . get_field( 'separator-icon', self::$admin_options_slug ) . '"></i>' : '';
+			$separator_text = get_field( 'separator-text', self::$admin_options_slug );
+			return strtr( ob_get_clean(), [ '{separator-icon}' => $separator_icon, '{separator-text}' => $separator_text ] );
 		}
 
 
@@ -72,20 +93,25 @@
 		static function get_crumbs(){
 			if( !is_array( self::$crumbs ) ){
 				self::$crumbs = [];
-				$current_crumb = new crumb();
-				if( get_field( 'current-enable', self::$admin_options_slug ) ) self::$crumbs[] = $current_crumb;
+				$current_crumb = new crumb( get_queried_object() );
+				if( get_field( 'current-enable', self::$admin_options_slug ) )
+					self::$crumbs[] = $current_crumb;
 				///
 				$limit = self::$crumbs_limit;
 				while( $limit > 0 && $current_crumb->get_parent_crumb() !== false ){
 					$current_crumb = $current_crumb->get_parent_crumb();
-					if( !get_field( 'home-enable', self::$admin_options_slug ) && $current_crumb->get_parent_crumb() === false ) break;
 					self::$crumbs[] = $current_crumb;
 					$limit --;
+				}
+				///HOME CRUMB
+				if( get_field( 'home-enable', self::$admin_options_slug ) && $current_crumb->get_parent_crumb() == false ){
+					self::$crumbs[] = new crumb('');
 				}
 				///
 				self::$crumbs = array_reverse( self::$crumbs );
 			}
-			if( count( self::$crumbs ) < 2 ) return [];
+			if( count( self::$crumbs ) < 2 )
+				return [];
 			return self::$crumbs;
 		}
 

@@ -6,7 +6,7 @@
 	 * Time: 11:30
 	 */
 
-	theme\error_404\init();
+	theme\error_404::init();
 
 	get_header( 'error-404' );
 

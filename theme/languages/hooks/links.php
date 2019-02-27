@@ -8,9 +8,9 @@
 
 	use theme\languages;
 
-
+if(!languages\detect::is_multisite()){
 	add_filter( 'home_url', function( $url, $path, $orig_scheme, $blog_id ){
-		if( \hiweb\context::is_frontend_page() && ( $path == '' || $path == '/' ) ){
+		if( languages\detect::is_url_prefix() && \hiweb\context::is_frontend_page() && ( $path == '' || $path == '/' ) ){
 			return \hiweb\urls::root() . '/' . languages::get_current_id() . $path;
 		}
 		return $url;
@@ -94,3 +94,4 @@
 		}
 		return $items;
 	}, 10, 3 );
+}

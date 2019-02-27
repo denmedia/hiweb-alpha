@@ -10,9 +10,12 @@
 
 
 	use hiweb\arrays;
+	use hiweb\fields;
+	use hiweb\fields\field;
 	use theme\html_layout\tags\head;
 	use theme\languages\detect;
 	use theme\languages\language;
+	use theme\languages\multisites;
 	use theme\languages\post;
 	use theme\languages\term;
 
@@ -50,6 +53,8 @@
 
 		static function init(){
 			require_once __DIR__ . '/options.php';
+			require_once __DIR__ . '/multisite-migrate.php';
+			require_once __DIR__ . '/hooks/ajax.php';
 			require_once __DIR__ . '/hooks/hooks.php';
 			require_once __DIR__ . '/hooks/links.php';
 			require_once __DIR__ . '/hooks/redirects.php';
@@ -179,11 +184,19 @@
 		 */
 		static private function get_default_data(){
 			if( !is_array( self::$default_data ) ){
-				self::$default_data = [
-					'id' => get_field( 'default-id', self::$options_page_slug ),
-					'name' => get_field( 'default-name', self::$options_page_slug ),
-					'title' => get_field( 'default-title', self::$options_page_slug )
-				];
+				if( detect::is_multisite() ){
+					self::$default_data = [
+						'id' => get_blog_option( get_main_site_id(), 'hiweb-option-' . languages::$options_page_slug . '-default-id' ),
+						'name' => get_blog_option( get_main_site_id(), 'hiweb-option-' . languages::$options_page_slug . '-default-name' ),
+						'title' => get_blog_option( get_main_site_id(), 'hiweb-option-' . languages::$options_page_slug . '-default-title' )
+					];
+				} else {
+					self::$default_data = [
+						'id' => get_field( 'default-id', self::$options_page_slug ),
+						'name' => get_field( 'default-name', self::$options_page_slug ),
+						'title' => get_field( 'default-title', self::$options_page_slug )
+					];
+				}
 			}
 			return self::$default_data;
 		}
@@ -261,8 +274,14 @@
 		static function get_languages(){
 			if( !is_array( self::$languages ) ){
 				self::$languages = [];
-				foreach( self::get_languages_data() as $id => $data ){
-					self::$languages[ $id ] = new language( $data );
+				if( detect::is_multisite() ){
+					foreach( multisites::get_languages_by_site_id() as $site_id => $language ){
+						self::$languages[ $language->get_id() ] = $language;
+					}
+				} else {
+					foreach( self::get_languages_data() as $id => $data ){
+						self::$languages[ $id ] = new language( $data );
+					}
 				}
 			}
 			return self::$languages;
@@ -299,21 +318,23 @@
 
 
 		/**
-		 * @param $field_id
+		 * @param      $field_id
+		 * @param bool $force_set_id - force set id by current lang
 		 * @return string
 		 */
-		static function get_field_id( $field_id ){
-			return ( self::get_current_id() == self::get_default_data()['id'] ) ? $field_id : $field_id . '-lang-' . self::get_current_id();
+		static function get_field_id( $field_id, $force_set_id = false ){
+			return ( ( self::get_current_id() == self::get_default_data()['id'] || detect::is_multisite() ) && !$force_set_id ) ? $field_id : $field_id . '-lang-' . self::get_current_id();
 		}
 
 
 		/**
 		 * @param      $field_id
 		 * @param null $contextObject
+		 * @param bool $force_set_id - force set id by current lang
 		 * @return mixed
 		 */
-		static function get_field( $field_id, $contextObject = null ){
-			return get_field( self::get_field_id( $field_id ), $contextObject );
+		static function get_field( $field_id, $contextObject = null, $force_set_id = false ){
+			return get_field( self::get_field_id( $field_id, $force_set_id ), $contextObject );
 		}
 
 
@@ -336,10 +357,18 @@
 				ob_start();
 			?>
 			<div class="languages-select">
-				<?php foreach( self::get_languages() as $language ){
-					$active = $language->get_id() == self::get_current_id();
-					?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>" lang="<?= $language->get_id() ?>"><?= $language->get_title() ?></a><?php
-				} ?>
+				<?php
+					if( detect::is_multisite() ){
+						foreach( multisites::get_languages_by_site_id() as $site_id => $language ){
+							$active = $language->get_site_id() == get_current_blog_id();
+							?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>" lang="<?= $language->get_id() ?>" data-site-id="<?= $language->get_site_id() ?>"><?= $language->get_title() ?></a><?php
+						}
+					} else {
+						foreach( self::get_languages() as $language ){
+							$active = $language->get_id() == self::get_current_id();
+							?><a href="<?= $language->get_url() ?>" class="language<?= $active ? ' active' : '' ?>" lang="<?= $language->get_id() ?>"><?= $language->get_title() ?></a><?php
+						}
+					} ?>
 			</div>
 			<?php
 			if( !$echo )
@@ -379,6 +408,20 @@
 		 */
 		static function filter_wp_query( \WP_Query &$wp_query ){
 			return self::get_current_language()->filter_wp_query( $wp_query );
+		}
+
+
+		static function add_field( field $field, $ignore_multisite = false ){
+			if( !detect::is_multisite() ){
+				$label_original = $field->label();
+				foreach( self::get_languages() as $lang_id => $language ){
+					$field = fields::clone_field( $field, $language->get_field_id( $field->id() ) );
+					$field->label( $label_original . ' (' . $language->get_name() . ')' );
+				}
+			} elseif( $ignore_multisite ) {
+				$field->id( self::get_current_language()->get_field_id( $field->id(), true ) );
+			}
+			return $field;
 		}
 
 

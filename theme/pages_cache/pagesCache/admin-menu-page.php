@@ -8,7 +8,6 @@
 	if( is_array( $_POST ) && count( $_POST ) > 0 ){
 		if( isset( $_POST['add-cron'] ) ){
 			$string = queue::get_cron();
-			console_info( $string );
 			if( is_string( $string ) ){
 				$notice = hiweb\admin::NOTICE( 'Задача CRON хостинга добавлена.' );
 				$notice->CLASS_()->success();

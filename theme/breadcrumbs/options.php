@@ -27,7 +27,8 @@
 	add_field_separator( 'Установки разделителя крошек' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_checkbox( 'separator-enable' )->label_checkbox( 'Использовать иконку разделителя крошек' )->VALUE( 'on' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_checkbox( 'separator-last-enable' )->label_checkbox( 'Показывать иконку в конце крошек (если иконки включены)' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
-	add_field_fontawesome( 'separator-icon' )->VALUE( 'far fa-angle-right' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_fontawesome( 'separator-icon' )->VALUE( 'far fa-angle-right' )->get_parent_field()->label('иконка разделителя крошек')->description('Оставьте иконку пустой, чтобы не использовать ее')->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_text('separator-text')->label('Текстовой символ разделителя')->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 
 	///Nav Menu
 	//add_field_separator( 'Структура крошек' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );

@@ -15,21 +15,33 @@
 	$admin_menu = add_admin_menu_page( languages::$options_page_slug, '<i class="far fa-globe-africa"></i> Локализации', 'options-general.php' );
 	$admin_menu->page_title( '<i class="far fa-globe-africa"></i> Управление языками на сайте' );
 
-	add_field_separator( 'Стандартный язык сайта' )->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
+	if( languages\detect::is_wp_user_multisite() ){
+		add_field_checkbox( 'multisite' )->label_checkbox( 'Использовать мультисайт (поддомены), как способ переключиться между языками' )->description( 'После включения данной опции необходимо сохранить настройки. После обновления страницы появятся варианты переключения.' )->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
+	}
 
-	add_field_text( 'default-id' )->label( 'ID стандартного языка' )->VALUE( 'ru' )->get_parent_field()->LOCATION( true );
-	add_field_text( 'default-name' )->label( 'Название стандартного языка' )->VALUE( 'русский язык' )->get_parent_field()->LOCATION( true );
-	add_field_text( 'default-locale-name' )->label( 'Имя стандартной локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->VALUE( 'ru_RU' )->get_parent_field()->LOCATION( true );
-	add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->VALUE( 'русский' )->get_parent_field()->LOCATION( true );
+	if( languages\detect::is_multisite() ){
+		add_field_separator( 'Текущий язык сайта' )->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
+		add_field_text( 'default-id' )->label( 'ID текущего языка' )->VALUE( 'ru' )->get_parent_field()->LOCATION( true );
+		add_field_text( 'default-name' )->label( 'Название текущего языка' )->VALUE( 'русский язык' )->get_parent_field()->LOCATION( true );
+		add_field_text( 'default-locale-name' )->label( 'Имя текущей локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->VALUE( 'ru_RU' )->get_parent_field()->LOCATION( true );
+		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->VALUE( 'русский' )->get_parent_field()->LOCATION( true );
+	} else {
+		add_field_separator( 'Стандартный язык сайта' )->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
 
-	add_field_separator( 'Дополнительные языки' )->LOCATION( true );
+		add_field_text( 'default-id' )->label( 'ID стандартного языка' )->VALUE( 'ru' )->get_parent_field()->LOCATION( true );
+		add_field_text( 'default-name' )->label( 'Название стандартного языка' )->VALUE( 'русский язык' )->get_parent_field()->LOCATION( true );
+		add_field_text( 'default-locale-name' )->label( 'Имя стандартной локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->VALUE( 'ru_RU' )->get_parent_field()->LOCATION( true );
+		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->VALUE( 'русский' )->get_parent_field()->LOCATION( true );
 
-	$repeat = add_field_repeat( 'languages' );
-	$repeat->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
-	$repeat->add_col_field( add_field_text( 'name' )->placeholder( 'Английский язык' ) )->label( 'Название языка' );
-	$repeat->add_col_field( add_field_text( 'id' )->placeholder( 'en' ) )->label( 'ID языка' );
-	$repeat->add_col_field( add_field_text( 'locale' )->placeholder( 'en_GB' ) )->label( 'Имя локалии языка' );
-	$repeat->add_col_field( add_field_text( 'title' )->placeholder( 'english' ) )->label( 'Заголовок для смены языка' );
+		add_field_separator( 'Дополнительные языки' )->LOCATION( true );
+
+		$repeat = add_field_repeat( 'languages' );
+		$repeat->LOCATION()->ADMIN_MENUS( languages::$options_page_slug );
+		$repeat->add_col_field( add_field_text( 'name' )->placeholder( 'Английский язык' ) )->label( 'Название языка' );
+		$repeat->add_col_field( add_field_text( 'id' )->placeholder( 'en' ) )->label( 'ID языка' );
+		$repeat->add_col_field( add_field_text( 'locale' )->placeholder( 'en_GB' ) )->label( 'Имя локалии языка' );
+		$repeat->add_col_field( add_field_text( 'title' )->placeholder( 'english' ) )->label( 'Заголовок для смены языка' );
+	}
 
 	///POST TYPES
 	add_action( 'wp_loaded', function(){
@@ -59,43 +71,52 @@
 					$sibling_posts = $post->get_sibling_posts( true );
 					?>
 					<p><label class="post-attributes-label">Текущая локализация</label></p>
-					<select name="<?= languages::$post_meta_key_lang_id ?>">
-						<?php
-							foreach( languages::get_languages() as $language ){
-								if( array_key_exists( $language->get_id(), $sibling_posts ) && $language->get_id() != $post->get_lang_id() ) continue;
-								$selected = $language->get_id() == $current_lang_id;
-								?>
-								<option <?= $selected ? 'selected' : '' ?> value="<?= $language->get_id() ?>"><?= $language->get_name() ?> (<?= $language->is_default() ? 'станд.язык - ' : '' ?><?= $language->get_id() ?>)</option><?php
-							} ?>
-					</select>
-
 					<?php
-					if( get_current_screen()->action == '' ){
+					if( languages\detect::is_multisite() ){
 						?>
-						<p><label class="post-attributes-label">Другие локалии статьи/страницы</label></p>
+						<input disabled="disabled" value="<?= languages::get_current_language()->get_name() ?>">
 						<?php
-						foreach( languages::get_languages() as $language ){
-							if( $post->get_lang_id() != $language->get_id() ){
-								$class = [ 'button' ];
-								if( array_key_exists( $language->get_id(), $sibling_posts ) ){
-									$href = get_edit_post_link( $sibling_posts[ $language->get_id() ]->get_post_id() );
-									$title = 'Редактировать локализированную версию статьи/страницы';
-									$text = '<i class="fas fa-file-edit"></i> Редакт: ';
-								} else {
-									$href = get_admin_url( null, '/post-new.php?post_type=' . $wp_post->post_type . '&' . languages::$post_create_sibling_get_key_id . '=' . $wp_post->ID . '&' . languages::$post_create_sibling_get_key_lang_id . '=' . $language->get_id() );
-									$title = 'Создать новую локализированную статью/страницу';
-									$class[] = 'button-primary';
-									$text = '<i class="fas fa-file-alt"></i> Создать: ';
+					} else {
+						?>
+						<select name="<?= languages::$post_meta_key_lang_id ?>">
+							<?php
+								foreach( languages::get_languages() as $language ){
+									if( array_key_exists( $language->get_id(), $sibling_posts ) && $language->get_id() != $post->get_lang_id() )
+										continue;
+									$selected = $language->get_id() == $current_lang_id;
+									?>
+									<option <?= $selected ? 'selected' : '' ?> value="<?= $language->get_id() ?>"><?= $language->get_name() ?> (<?= $language->is_default() ? 'станд.язык - ' : '' ?><?= $language->get_id() ?>)</option><?php
+								} ?>
+						</select>
+						<?php
+
+						if( get_current_screen()->action == '' ){
+							?>
+							<p><label class="post-attributes-label">Другие локалии статьи/страницы</label></p>
+							<?php
+							foreach( languages::get_languages() as $language ){
+								if( $post->get_lang_id() != $language->get_id() ){
+									$class = [ 'button' ];
+									if( array_key_exists( $language->get_id(), $sibling_posts ) ){
+										$href = get_edit_post_link( $sibling_posts[ $language->get_id() ]->get_post_id() );
+										$title = 'Редактировать локализированную версию статьи/страницы';
+										$text = '<i class="fas fa-file-edit"></i> Редакт: ';
+									} else {
+										$href = get_admin_url( null, '/post-new.php?post_type=' . $wp_post->post_type . '&' . languages::$post_create_sibling_get_key_id . '=' . $wp_post->ID . '&' . languages::$post_create_sibling_get_key_lang_id . '=' . $language->get_id() );
+										$title = 'Создать новую локализированную статью/страницу';
+										$class[] = 'button-primary';
+										$text = '<i class="fas fa-file-alt"></i> Создать: ';
+									}
+									$text .= $language->get_name() . ' (' . $language->get_id() . ')';
+									?>
+									<p><a href="<?= $href ?>" title="<?= $title ?>" class="<?= join( ' ', $class ) ?>"><?= $text ?></a></p>
+									<?php
 								}
-								$text .= $language->get_name() . ' (' . $language->get_id() . ')';
-								?>
-								<p><a href="<?= $href ?>" title="<?= $title ?>" class="<?= join( ' ', $class ) ?>"><?= $text ?></a></p>
-								<?php
 							}
+							?>
+							<p class="description">Создайте локализированную версию этой статьи/страницы или отредактируйте уже созданные, кликнув на соответствующую кнопку выше</p>
+							<?php
 						}
-						?>
-						<p class="description">Создайте локализированную версию этой статьи/страницы или отредактируйте уже созданные, кликнув на соответствующую кнопку выше</p>
-						<?php
 					}
 				}, $post_type, 'side', 'high', [] );
 			} );
@@ -120,7 +141,8 @@
 					echo '<div><b>' . $lang_post_current->get_language()->get_name() . ' (' . $lang_post_current->get_lang_id() . ')</b></div>';
 					$sibling_posts = $lang_post_current->get_sibling_posts( true );
 					foreach( $sibling_posts as $lang_id => $sibling_lang_post ){
-						if( $lang_post_current->get_post_id() == $sibling_lang_post->get_post_id() ) continue;
+						if( $lang_post_current->get_post_id() == $sibling_lang_post->get_post_id() )
+							continue;
 						?><a style="font-size: 80%" href="<?= get_edit_post_link( $sibling_lang_post->get_post_id() ) ?>"><?= $lang_id ?>: <?= $sibling_lang_post->get_wp_post()->post_title ?></a> <?php
 					}
 				}
@@ -145,7 +167,8 @@
 				} );
 
 				add_action( "{$taxonomy}_edit_form", function( $wp_term, $taxonomy ){
-					if( !$wp_term instanceof WP_Term ) return;
+					if( !$wp_term instanceof WP_Term )
+						return;
 					///
 					?>
 					<table class="form-table">
@@ -212,7 +235,8 @@
 						if( $column_name == languages::$post_columns_id ){
 							echo '<div><b>' . $lang_term->get_language()->get_name() . ' (' . $lang_term->get_lang_id() . ')</b></div>';
 							foreach( $lang_term->get_sibling_terms() as $lang_id => $sibling_lang_term ){
-								if( $lang_term->get_term_id() == $sibling_lang_term->get_term_id() ) continue;
+								if( $lang_term->get_term_id() == $sibling_lang_term->get_term_id() )
+									continue;
 								?><a style="font-size: 80%" href="<?= get_edit_term_link( $sibling_lang_term->get_term_id() ) ?>"><?= $lang_id ?>: <?= $sibling_lang_term->get_wp_term()->name ?></a> <?php
 							}
 						}

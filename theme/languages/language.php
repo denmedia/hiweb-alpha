@@ -20,6 +20,7 @@
 		protected $locale;
 		protected $name;
 		protected $title;
+		protected $site_id = 0;
 
 
 		public function __construct( $data ){
@@ -27,6 +28,8 @@
 			$this->locale = mb_strtolower( arrays::get_value_by_key( $data, 'locale', 'ru_RU' ) );
 			$this->name = mb_strtolower( arrays::get_value_by_key( $data, 'name', 'стандартный язык' ) );
 			$this->title = mb_strtolower( arrays::get_value_by_key( $data, 'title', 'по-умолчанию' ) );
+			if( detect::is_multisite() )
+				$this->site_id = intval( arrays::get_value_by_key( $data, 'site_id', 0 ) );
 		}
 
 
@@ -44,11 +47,18 @@
 
 
 		/**
-		 * @param $field_id
+		 * @param      $field_id
+		 * @param bool $ignore_multisite
 		 * @return string
 		 */
-		public function get_field_id( $field_id ){
-			return $this->is_default() ? $field_id : $field_id . '-lang-' . $this->id;
+		public function get_field_id( $field_id, $ignore_multisite = false ){
+			if( !$ignore_multisite && detect::is_multisite() ){
+				return $field_id;
+			} elseif( !$ignore_multisite && $this->is_default() ) {
+				return $field_id;
+			} else {
+				return $field_id . '-lang-' . $this->id;
+			}
 		}
 
 
@@ -108,25 +118,37 @@
 
 
 		/**
+		 * @return int
+		 */
+		public function get_site_id(){
+			return $this->site_id;
+		}
+
+
+		/**
 		 * Return current page url by language
 		 * @return string
 		 */
 		public function get_url(){
-			if( function_exists( 'get_queried_object' ) && get_queried_object_id() != get_option( 'page_on_front' ) ){
-				if( get_queried_object() instanceof \WP_Post && languages::is_post_type_allowed( get_queried_object()->post_type ) ){
-					$lang_post = languages::get_post( get_queried_object_id() );
-					if( $lang_post->is_sibling_lang_exists( $this->get_id() ) ){
-						return get_permalink( $lang_post->get_sibling_post( $this->get_id() )->get_post_id() );
+			if( detect::is_multisite() ){
+				return get_home_url( $this->get_site_id() );
+			} else {
+				if( function_exists( 'get_queried_object' ) && get_queried_object_id() != get_option( 'page_on_front' ) ){
+					if( get_queried_object() instanceof \WP_Post && languages::is_post_type_allowed( get_queried_object()->post_type ) ){
+						$lang_post = languages::get_post( get_queried_object_id() );
+						if( $lang_post->is_sibling_lang_exists( $this->get_id() ) ){
+							return get_permalink( $lang_post->get_sibling_post( $this->get_id() )->get_post_id() );
+						}
+					}
+					if( get_queried_object() instanceof \WP_Term && languages::is_taxonomy_allowed( get_queried_object()->taxonomy ) ){
+						$lang_term = languages::get_term( get_queried_object_id() );
+						if( $lang_term->is_sibling_lang_exists( $this->get_id() ) ){
+							return get_term_link( $lang_term->get_sibling_term( $this->get_id() )->get_term_id() );
+						}
 					}
 				}
-				if( get_queried_object() instanceof \WP_Term && languages::is_taxonomy_allowed( get_queried_object()->taxonomy ) ){
-					$lang_term = languages::get_term( get_queried_object_id() );
-					if( $lang_term->is_sibling_lang_exists( $this->get_id() ) ){
-						return get_term_link( $lang_term->get_sibling_term( $this->get_id() )->get_term_id() );
-					}
-				}
+				return urls::root() . '/' . $this->get_id();
 			}
-			return urls::root() . '/' . $this->get_id();
 		}
 
 
@@ -137,9 +159,10 @@
 		 */
 		public function get_the_content( $post_id, $apply_filters = false ){
 			$wp_post = get_post( $post_id );
-			if( !$wp_post instanceof \WP_Post ) return '';
+			if( !$wp_post instanceof \WP_Post )
+				return '';
 			///
-			if( $this->is_default() ){
+			if( $this->is_default() || detect::is_multisite() ){
 				$R = $apply_filters ? apply_filters( 'the_content', $wp_post->post_content ) : $wp_post->post_content;
 			} else {
 				$R = $apply_filters ? apply_filters( 'the_content', $this->get_field( 'post_content', $wp_post ) ) : $this->get_field( 'post_content', $wp_post );

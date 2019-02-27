@@ -72,16 +72,22 @@
 
 
 			/**
-			 * @return string
+			 * @param null $set
+			 * @return field|string
 			 */
-			public function id(){
-				return $this->id;
+			public function id( $set = null ){
+				if( is_null( $set ) ){
+					return $this->id;
+				} else {
+					$this->id = $set;
+					$this->INPUT()->name( $this->id() );
+					return $this;
+				}
 			}
 
 
 			/**
 			 * @param null|string $set
-			 *
 			 * @return field|string
 			 */
 			public function global_id( $set = null ){
@@ -103,7 +109,8 @@
 				if( is_null( $value ) ){
 					return property_exists( $this, $key ) ? $this->{$key} : null;
 				} else {
-					if( property_exists( $this, $key ) ) $this->{$key} = $value; else {
+					if( property_exists( $this, $key ) )
+						$this->{$key} = $value; else {
 						console::debug_warn( 'Попытка установить несуществующее свойтсво [' . $key . ']', $value );
 					}
 					return $this;
@@ -115,7 +122,8 @@
 				if( is_null( $value ) ){
 					return property_exists( $this, $key ) ? $this->INPUT()->{$key} : null;
 				} else {
-					if( property_exists( $this->INPUT(), $key ) ) $this->INPUT()->{$key} = $value; else {
+					if( property_exists( $this->INPUT(), $key ) )
+						$this->INPUT()->{$key} = $value; else {
 						console::debug_warn( 'Попытка установить несуществующее свойтсво в input объекте [' . $key . ']', $value );
 					}
 					return $this;
@@ -125,9 +133,7 @@
 
 			/**
 			 * Set|get field label
-			 *
 			 * @param null|strings $label
-			 *
 			 * @return field|null|string
 			 */
 			public function label( $label = null ){
@@ -137,9 +143,7 @@
 
 			/**
 			 * Set|get field description
-			 *
 			 * @param null|strings $description
-			 *
 			 * @return field|null|string
 			 */
 			public function description( $description = null ){
@@ -231,7 +235,8 @@
 						$this->value = new value( $this );
 					}
 				}
-				if( !is_null( $default ) ) $this->value->set( $default );
+				if( !is_null( $default ) )
+					$this->value->set( $default );
 				return $this->value;
 			}
 

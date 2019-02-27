@@ -1,4 +1,4 @@
-@import "../../includes/hiweb-core-3/assets/css/mixins";
+@import "../../hiweb-core-3/assets/css/mixins";
 
 //colors
 $color_tapa_approx: #777;
@@ -69,7 +69,7 @@ $font_0: 'Font Awesome 5 Pro';
 			}
 			li.has-sub > a:after {
 				float: left;
-				content: '\f104';
+				content: '\f105';
 				font-family: $font_0;
 				margin-right: 10px;
 			}
@@ -113,6 +113,7 @@ $font_0: 'Font Awesome 5 Pro';
 			ul {
 				top: 0;
 				left: 220px;
+				display: block;
 			}
 		}
 	}

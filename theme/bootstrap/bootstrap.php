@@ -48,6 +48,17 @@
 			8 => 'col-sm-6 col-md-4 col-lg-2'
 		];
 
+		private static $cols_to_class_simple_double = [
+			1 => 'col-md-12',
+			2 => 'col-md-12',
+			3 => 'col-md-12 col-lg-8',
+			4 => 'col-md-12 col-lg-6',
+			5 => 'col-md-12 col-lg-6',
+			6 => 'col-sm-12 col-md-8 col-lg-4',
+			7 => 'col-sm-12 col-md-8 col-lg-4',
+			8 => 'col-sm-12 col-md-8 col-lg-4'
+		];
+
 
 		/**
 		 * @param int $xl
@@ -70,11 +81,12 @@
 
 
 		/**
-		 * @param int $cols - from 1 to 8 infinity...
+		 * @param int  $cols - from 1 to 8 infinity...
+		 * @param bool $return_double
 		 * @return mixed
 		 */
-		static function cols_to_class_simple( $cols = 4 ){
-			return self::$cols_to_class_simple[ $cols ];
+		static function cols_to_class_simple( $cols = 4, $return_double = false ){
+			return $return_double ? self::$cols_to_class_simple_double[ $cols ] : self::$cols_to_class_simple[ $cols ];
 		}
 
 

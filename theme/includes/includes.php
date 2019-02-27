@@ -274,4 +274,9 @@
 			}
 		}
 
+
+		static function jquery_autocomplete(){
+			static::js(HIWEB_THEME_VENDORS_DIR.'/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery());
+		}
+
 	}

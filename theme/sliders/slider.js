@@ -13,6 +13,7 @@ jQuery(document).ready(function ($) {
         $slider_root.owlCarousel({
             items: 1,
             nav: true,
+            autoplayHoverPause: true,
             loop: $slider_root.find('.slide').length > 1,
             autoplay: $slider_root.find('.slide').length > 1,
             onInitialized: function (event) {

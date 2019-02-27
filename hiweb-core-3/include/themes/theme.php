@@ -132,6 +132,7 @@
 		 * @return array|null|\WP_Post
 		 */
 		public function get_blog_page(){
+			if(get_option( 'page_for_posts' ) == 0) return null;
 			return get_post( get_option( 'page_for_posts' ) );
 		}
 	}

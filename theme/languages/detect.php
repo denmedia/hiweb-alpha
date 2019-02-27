@@ -15,38 +15,110 @@
 
 	class detect{
 
+		static $sub_domain = '';
+		static $doimaun_original = '';
 		static $url_prefix = '';
 		static $uri_original = '';
 		static $browser_lang_accept_id;
 
+		static private $is_sub_domain = false;
+		static private $is_uri_prefix = false;
+		static private $is_browser = false;
+
 		private static $lang_id;
 
+
 		static function init(){
-			list($dirs, $params) = explode('?',$_SERVER['REQUEST_URI']);
+			///Check SubDomain
+			$domain = urls::get()->domain();
+			if( substr_count( $domain, '.' ) > 1 ){
+				$explode = explode( '.', $domain );
+				if( languages::is_exists( $explode[0] ) ){
+					self::$sub_domain = $explode[0];
+				}
+			}
+			///Check SubFolder
+			list( $dirs, $params ) = explode( '?', $_SERVER['REQUEST_URI'] );
 			$explode = explode( '/', $dirs );
 			self::$uri_original = $_SERVER['REQUEST_URI'];
 			if( languages::is_exists( $explode[1] ) ){
 				self::$url_prefix = $explode[1];
 				unset ( $explode[1] );
+			} else {
+				self::$url_prefix = languages::get_default_id();
 			}
-			$_SERVER['REQUEST_URI'] = join( '/', $explode ).($params != '' ? '?'.$params : '');
+			$_SERVER['REQUEST_URI'] = join( '/', $explode ) . ( $params != '' ? '?' . $params : '' );
 		}
+
+
+		/**
+		 * Return true, if WP use multisite
+		 * @return bool
+		 */
+		static function is_wp_user_multisite(){
+			return defined( 'WP_ALLOW_MULTISITE' ) && defined( 'MULTISITE' ) && WP_ALLOW_MULTISITE && MULTISITE;
+		}
+
+
+		/**
+		 * Return true, if language detect by multisite
+		 * @return mixed
+		 */
+		static function is_multisite(){
+			return self::is_wp_user_multisite() && get_field( 'multisite', languages::$options_page_slug ) != '';
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		static function is_sub_domain(){
+			return self::$is_sub_domain;
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		static function is_url_prefix(){
+			return self::$is_uri_prefix;
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		static function is_browser(){
+			return self::$is_browser;
+		}
+
 
 		/**
 		 * Get detect result
 		 */
 		static function get_id(){
 			if( !is_string( self::$lang_id ) ){
-				///URL PREFIX
-				if( self::$url_prefix != '' && languages::is_exists( self::$url_prefix ) ){
-					self::$lang_id = self::$url_prefix;
-				} ///CHECK BROWSER
-				elseif( self::get_id_by_browser() != '' ) {
-					self::$lang_id = self::get_id_by_browser();
-				} ///DEFAULT
-				else {
-					self::$lang_id = languages::get_default_id();
+				if(self::is_multisite()) {
+					self::$lang_id = get_field( 'default-id', languages::$options_page_slug );
+				} else {
+					///SubDomain
+					if( self::$sub_domain != '' && languages::is_exists( self::$sub_domain ) ){
+						self::$lang_id = self::$sub_domain;
+						self::$is_sub_domain = true;
+					} ///URL PREFIX
+					elseif( self::$url_prefix != '' && languages::is_exists( self::$url_prefix ) ) {
+						self::$lang_id = self::$url_prefix;
+						self::$is_uri_prefix = true;
+					} ///CHECK BROWSER
+					elseif( self::get_id_by_browser() != '' ) {
+						self::$lang_id = self::get_id_by_browser();
+						self::$is_browser = true;
+					} ///DEFAULT
+					else {
+						self::$lang_id = languages::get_default_id();
+					}
 				}
+
 			}
 			return self::$lang_id;
 		}

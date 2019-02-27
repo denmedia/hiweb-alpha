@@ -6,7 +6,7 @@
 	 * Time: 11:33
 	 */
 
-	theme\error_404\init();
+	theme\error_404::init();
 
 ?>
 <main class="page-404">

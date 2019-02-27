@@ -6,8 +6,7 @@
 	 * Time: 17:58
 	 */
 
-
-	if(!function_exists('send_mail')){
+	if( !function_exists( 'send_mail' ) ){
 
 		/**
 		 * Send html content mail
@@ -22,10 +21,11 @@
 					$to = get_option( 'admin_email' );
 				}
 			}
-			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <noreply@' . $_SERVER['SERVER_NAME'] . '>' ];
-			$headers[] = 'Reply-To: noreply@' . $_SERVER['SERVER_NAME'] . '';
+			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <noreply@' . \hiweb\urls::get()->domain() . '>' ];
+			$headers[] = 'Reply-To: noreply@' . \hiweb\urls::get()->domain() . '';
+			$headers[] = 'Precedence: bulk';
+			$headers[] = 'List-Unsubscribe: ' . \hiweb\urls::root(false);
 			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );
 			wp_mail( $to, html_entity_decode( $subject ), $content, $headers );
 		}
-
 	}

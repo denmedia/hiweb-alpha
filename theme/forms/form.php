@@ -11,7 +11,9 @@
 
 	use hiweb\arrays;
 	use hiweb\paths;
+	use hiweb\strings;
 	use hiweb\themes\theme;
+	use theme\breadcrumbs;
 	use theme\forms;
 	use theme\includes\frontend;
 	use theme\mailchimp;
@@ -158,8 +160,8 @@
 		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [] ){
 			forms::setup_postdata( $this->get_wp_post() );
 			if( !is_array( $button_classes ) ){
-				if(is_string($button_classes) && $button_classes != '')
-				$button_classes = [ $button_classes ]; else $button_classes = ['hiweb-theme-widget-form-button'];
+				if( is_string( $button_classes ) && $button_classes != '' )
+					$button_classes = [ $button_classes ]; else $button_classes = [ 'hiweb-theme-widget-form-button' ];
 			}
 			$this->the_fancybox_button_html = $html;
 			$this->the_fancybox_button_classes = $button_classes;
@@ -171,7 +173,7 @@
 				add_action( '\theme\html_layout\body::the_after-before', function(){
 					?>
 					<div class="hiweb-theme-widget-form-modal-wrap" style="display: none;">
-						<div class="hiweb-theme-widget-form-modal" id="hiweb-theme-widgets-form-<?= $this->get_id() ?>" data-form-id="<?= get_the_form()->get_id() ?>" data-form-object-id="<?= $this->get_object_id() ?>">
+						<div class="hiweb-theme-widget-form-modal hiweb-theme-widget-form-modal-<?=$this->get_wp_post()->ID?> hiweb-theme-widget-form-modal-<?=$this->get_wp_post()->post_name?>" id="hiweb-theme-widgets-form-<?= $this->get_id() ?>" data-form-id="<?= get_the_form()->get_id() ?>" data-form-object-id="<?= $this->get_object_id() ?>">
 							<?php if( $this->is_exists() ){
 								?>
 								<div class="form-title"><?= get_the_title( $this->get_wp_post() ) ?></div>
@@ -206,7 +208,7 @@
 		 * @return false|mixed|string
 		 */
 		public function the_fancybox_button_values(){
-			return htmlentities(json_encode($this->the_fancybox_button_values));
+			return htmlentities( json_encode( $this->the_fancybox_button_values ) );
 		}
 
 
@@ -290,7 +292,9 @@
 					/** @var forms\inputs\input $new_class */
 					$new_class = new $class_name();
 					$new_class->data = $options;
-					$this->inputs[ $new_class->get_data( 'name' ) ] = $new_class;
+					$input_name = $new_class->get_data( 'name' );
+					$input_name = $input_name == '' ? strings::rand() : $input_name;
+					$this->inputs[ $input_name ] = $new_class;
 				}
 			}
 			return $this->inputs;
@@ -441,6 +445,11 @@
 							}
 						}
 						if( $require && !filter_var( $value, FILTER_VALIDATE_EMAIL ) ){
+							$require_empty_inputs[] = $name;
+						}
+						break;
+					case 'Цифровое поле':
+						if( $require && strlen( $value ) < 1 ){
 							$require_empty_inputs[] = $name;
 						}
 						break;

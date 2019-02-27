@@ -15,16 +15,16 @@
 		@include transform(scale(1));
 
 		.input-wrap {
-			margin-bottom: .5em;
+			//margin-bottom: .5em;
 		}
 
 		.label {
-			font-size: .9em;
+			//font-size: .9em;
 			@include transition(color, 2s, ease-in-out, 2s);
 
 			.required {
 				color: red;
-				font-weight: 900;
+				//font-weight: 900;
 			}
 		}
 
@@ -44,11 +44,11 @@
 		}
 
 		[name] {
-			width: 100%;
-			padding: .2em .4em;
-			background-color: rgba(200, 200, 200, .1);
-			@include transition(color background-color border-color, 3s, ease-in-out, .5s);
-			border: solid 1px grey;
+			//width: 100%;
+			//padding: .2em .4em;
+			//background-color: rgba(200, 200, 200, .1);
+			@include transition(color background-color border-color, 1s, ease-in-out, .5s);
+			//border: solid 1px grey;
 
 			&:focus {
 				outline: none;
@@ -182,15 +182,15 @@
 }
 
 .hiweb-theme-widget-form-modal {
-	padding: .6em .2em;
+	//padding: .6em .2em;
 	.hiweb-theme-widget-form-inside {
-		padding: 1em;
+		//padding: 1em;
 	}
 	.form-title {
 		overflow: hidden;
-		font-size: 1.3em;
-		font-weight: 700;
-		padding: .05em 1.5em .05em 1em;
+		//font-size: 1.3em;
+		//font-weight: 700;
+		//padding: .05em 1.5em .05em 1em;
 	}
 }
 
