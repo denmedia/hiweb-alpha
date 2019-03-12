@@ -25,36 +25,31 @@
 			if( $wp_query instanceof \WP_Query ){
 
 				///exclude post types
-				if($wp_query->get('post_type') != '' && !languages::is_post_type_allowed($wp_query->get('post_type'))) return;
+				if( $wp_query->get( 'post_type' ) != '' && !languages::is_post_type_allowed( $wp_query->get( 'post_type' ) ) ) return;
 
-				if( !is_string( $lang_id ) || !languages::is_exists( $lang_id ) )
-					$lang_id = languages::get_current_id();
+				if( !is_string( $lang_id ) || !languages::is_exists( $lang_id ) ) $lang_id = languages::get_current_id();
 				$lang = languages::get_language( $lang_id );
 				if( !$lang->is_default() ){
-					if( is_array( $wp_query->query ) && count( $wp_query->query ) > 0 ){
-						$wp_query->set( 'meta_query', [
-							[
-								'key' => languages::$post_meta_key_lang_id,
-								'value' => $lang_id
-							]
-						] );
-					} else {
-						//
-					}
+					$meta_query = array_key_exists( 'meta_query', $wp_query->query_vars ) ? $wp_query->query_vars['meta_query'] : [];
+					$meta_query[] = [
+						'key' => languages::$post_meta_key_lang_id,
+						'value' => $lang_id
+					];
+					$wp_query->set( 'meta_query', $meta_query);
 				} else {
-					$wp_query->set( 'meta_query', [
+					$meta_query = array_key_exists( 'meta_query', $wp_query->query_vars ) ? $wp_query->query_vars['meta_query'] : [];
+					$meta_query[] =  [
+						'relation' => 'OR',
 						[
-							'relation' => 'OR',
-							[
-								'key' => languages::$post_meta_key_lang_id,
-								'compare' => 'NOT EXISTS'
-							],
-							[
-								'key' => languages::$post_meta_key_lang_id,
-								'value' => $lang_id
-							]
+							'key' => languages::$post_meta_key_lang_id,
+							'compare' => 'NOT EXISTS'
+						],
+						[
+							'key' => languages::$post_meta_key_lang_id,
+							'value' => $lang_id
 						]
-					] );
+					];
+					$wp_query->set( 'meta_query', $meta_query );
 				}
 			}
 		}

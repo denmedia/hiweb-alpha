@@ -62,6 +62,16 @@
 			}
 
 
+			public function __clone(){
+				$old_global_location_id = spl_object_hash( $this->location );
+				$this->location = clone $this->location;
+				$new_global_location_id = spl_object_hash( $this->location );
+				locations::$locations[ $new_global_location_id ] = locations::$locations[ $old_global_location_id ];
+				locations::$rules[ $new_global_location_id ] = locations::$rules[ $old_global_location_id ];
+				locations::$rulesId[ $new_global_location_id ] = locations::$rulesId[ $old_global_location_id ];
+			}
+
+
 			/**
 			 * @param null $set
 			 * @return field|null
@@ -109,8 +119,7 @@
 				if( is_null( $value ) ){
 					return property_exists( $this, $key ) ? $this->{$key} : null;
 				} else {
-					if( property_exists( $this, $key ) )
-						$this->{$key} = $value; else {
+					if( property_exists( $this, $key ) ) $this->{$key} = $value; else {
 						console::debug_warn( 'Попытка установить несуществующее свойтсво [' . $key . ']', $value );
 					}
 					return $this;
@@ -122,8 +131,7 @@
 				if( is_null( $value ) ){
 					return property_exists( $this, $key ) ? $this->INPUT()->{$key} : null;
 				} else {
-					if( property_exists( $this->INPUT(), $key ) )
-						$this->INPUT()->{$key} = $value; else {
+					if( property_exists( $this->INPUT(), $key ) ) $this->INPUT()->{$key} = $value; else {
 						console::debug_warn( 'Попытка установить несуществующее свойтсво в input объекте [' . $key . ']', $value );
 					}
 					return $this;
@@ -235,8 +243,7 @@
 						$this->value = new value( $this );
 					}
 				}
-				if( !is_null( $default ) )
-					$this->value->set( $default );
+				if( !is_null( $default ) ) $this->value->set( $default );
 				return $this->value;
 			}
 

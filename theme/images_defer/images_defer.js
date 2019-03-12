@@ -34,6 +34,7 @@ jQuery(document).ready(function ($) {
         },
 
         find_images_on_page: function () {
+            hiweb_theme_imagesDefer.$images_on_page = [];
             $('img[data-src-defer]').each(function () {
                 hiweb_theme_imagesDefer.$images_on_page.push($(this));
                 hiweb_theme_imagesDefer.set_image_aspect($(this));
@@ -85,5 +86,7 @@ jQuery(document).ready(function ($) {
 
 
     hiweb_theme_imagesDefer.init();
+    $(document).on('ajaxComplete', hiweb_theme_imagesDefer.find_images_on_page);
+    $(document).on('ajaxComplete', hiweb_theme_imagesDefer.find_images_on_windows);
 
 });

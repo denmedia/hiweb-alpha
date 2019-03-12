@@ -75,7 +75,17 @@
 		 * @return mixed
 		 */
 		public function get_parent_object(){
-			return reset( $this->get_parent_wp_objects() );
+			$candidates = $this->get_parent_wp_objects();
+			if(!is_array($candidates) || count($candidates) == 0) return false;
+			foreach($candidates as $candidate) {
+				if($candidate instanceof \WP_Term) {
+					if(get_field('taxonomy-'.$candidate->taxonomy.'-enable', breadcrumbs::$admin_options_slug)) return $candidate;
+				} else {
+					return $candidate;
+				}
+			}
+			return (new crumb( reset($candidates) ))->get_parent_object();
+			//return reset( $this->get_parent_wp_objects() );
 		}
 
 

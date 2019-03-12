@@ -17,7 +17,7 @@
 	if(!languages\detect::is_multisite()){
 		add_action( 'pre_get_posts', function( &$wp_query ){
 			/** @var WP_Query $wp_query */
-			if( !is_admin() && ( !property_exists( $wp_query, query::$wp_query_key_filter_enable ) || $wp_query->{query::$wp_query_key_filter_enable} == true ) ){
+			if( !is_admin() && ( !array_key_exists( query::$wp_query_key_filter_enable, $wp_query->query_vars ) || $wp_query->query_vars[query::$wp_query_key_filter_enable] == true ) ){
 				query::filter( $wp_query );
 			}
 		} );
