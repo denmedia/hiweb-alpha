@@ -20,10 +20,12 @@
 		protected $title;
 		protected $link;
 		protected $active = false;
+		public $position = 0;
 
 
 		public function __construct( $object ){
 			parent::__construct( $object );
+			$this->active = get_queried_object() == $this->wp_object;
 		}
 
 
@@ -45,8 +47,20 @@
 		 * @return mixed|string
 		 */
 		public function get_title( $force_raw = true ){
-			if( $this->get_id() == '' && get_field( 'home-text', breadcrumbs::$admin_options_slug ) != '' ){
-				return get_field( 'home-text', breadcrumbs::$admin_options_slug );
+			//HOME PAGE
+			if( $this->get_id() == '' ){
+				$home_title = '';
+				if( get_field( 'home-icon', breadcrumbs::$admin_options_slug ) != '' ){
+					$home_title .= '<i class="' . get_field( 'home-icon', breadcrumbs::$admin_options_slug ) . '"></i> ';
+				}
+				if( !get_field( 'home-text-enable', breadcrumbs::$admin_options_slug ) ){
+					//do nothing
+				} elseif( get_field( 'home-text', breadcrumbs::$admin_options_slug ) != '' ) {
+					$home_title .= get_field( 'home-text', breadcrumbs::$admin_options_slug );
+				} else {
+					$home_title .= get_bloginfo( 'name' );
+				}
+				return $home_title;
 			}
 			return parent::get_title( $force_raw );
 		}
@@ -60,14 +74,14 @@
 		}
 
 
-		public function the(){
+		public function the($position = 0){
 			ob_start();
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-prefix' );
 			///
-			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-title', ( $this->active || $this->get_link() === false ) ? '' : 'link' );
+			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-title', ( ($this->active && !get_field('current-url',breadcrumbs::$admin_options_slug)) || ($this->get_link() === false) ) ? '' : 'link' );
 			///
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-sufix' );
-			echo strtr( ob_get_clean(), [ '{link}' => $this->get_link(), '{title}' => $this->get_title(), '{active-class}' => $this->active ? 'active' : '' ] );
+			echo strtr( ob_get_clean(), [ '{link}' => $this->get_link(), '{title}' => $this->get_title(), '{active-class}' => $this->active ? 'active' : '', '{position}' => $position ] );
 		}
 
 
@@ -76,15 +90,15 @@
 		 */
 		public function get_parent_object(){
 			$candidates = $this->get_parent_wp_objects();
-			if(!is_array($candidates) || count($candidates) == 0) return false;
-			foreach($candidates as $candidate) {
-				if($candidate instanceof \WP_Term) {
-					if(get_field('taxonomy-'.$candidate->taxonomy.'-enable', breadcrumbs::$admin_options_slug)) return $candidate;
+			if( !is_array( $candidates ) || count( $candidates ) == 0 ) return false;
+			foreach( $candidates as $candidate ){
+				if( $candidate instanceof \WP_Term ){
+					if( get_field( 'taxonomy-' . $candidate->taxonomy . '-enable', breadcrumbs::$admin_options_slug ) ) return $candidate;
 				} else {
 					return $candidate;
 				}
 			}
-			return (new crumb( reset($candidates) ))->get_parent_object();
+			return ( new crumb( reset( $candidates ) ) )->get_parent_object();
 			//return reset( $this->get_parent_wp_objects() );
 		}
 
@@ -94,8 +108,7 @@
 		 */
 		public function get_parent_crumb(){
 			$parent_object = $this->get_parent_object();
-			if( $parent_object === false )
-				$R = false; else $R = new crumb( $this->get_parent_object() );
+			if( $parent_object === false ) $R = false; else $R = new crumb( $this->get_parent_object() );
 			return $R;
 		}
 

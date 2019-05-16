@@ -25,8 +25,10 @@
 			'/wp-*/*',
 			'/wp-*.php',
 			'/*.xls',
+			'/*.xml',
 			'/*.txt',
-			'/?wc-ajax'
+			'/?wc-ajax',
+			'/?s=*'
 		];
 		static private $dynamic_selectors = [
 			'#wpadminbar'

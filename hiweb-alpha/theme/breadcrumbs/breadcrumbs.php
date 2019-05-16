@@ -55,13 +55,37 @@
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-prefix' );
 			//items
 			foreach( self::get_crumbs() as $index => $crumb ){
-				$crumb->the();
+				$crumb->the($index + 1);
 				if( ( get_field( 'separator-enable', self::$admin_options_slug ) && ( $index + 1 ) < count( self::get_crumbs() ) ) || get_field( 'separator-last-enable', self::$admin_options_slug ) ){
 					echo self::get_the_separator();
 				}
 			}
 			//
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-sufix' );
+			//JSON SHEMAORG
+		}
+
+
+		/**
+		 * Get shema.org data for print by json script string
+		 * @return array
+		 */
+		static function get_shemaorg_data(){
+			$R = [
+				'@context' => 'https://schema.org/',
+				'@type' => 'BreadcrumbList'
+			];
+			foreach( self::get_crumbs() as $index => $crumb ){
+				$R['itemListElement'][] = [
+					'@type' => 'ListItem',
+					'position' => $index + 1,
+					'item' => [
+						'name' => $crumb->get_title(),
+						'@id' => $crumb->get_link()
+					]
+				];
+			}
+			return $R;
 		}
 
 
@@ -94,8 +118,7 @@
 			if( !is_array( self::$crumbs ) ){
 				self::$crumbs = [];
 				$current_crumb = new crumb( get_queried_object() );
-				if( get_field( 'current-enable', self::$admin_options_slug ) )
-					self::$crumbs[] = $current_crumb;
+				if( get_field( 'current-enable', self::$admin_options_slug ) ) self::$crumbs[] = $current_crumb;
 				///
 				$limit = self::$crumbs_limit;
 				while( $limit > 0 && $current_crumb->get_parent_crumb() !== false ){
@@ -105,13 +128,12 @@
 				}
 				///HOME CRUMB
 				if( get_field( 'home-enable', self::$admin_options_slug ) && $current_crumb->get_parent_crumb() == false ){
-					self::$crumbs[] = new crumb('');
+					self::$crumbs[] = new crumb( '' );
 				}
 				///
 				self::$crumbs = array_reverse( self::$crumbs );
 			}
-			if( count( self::$crumbs ) < 2 )
-				return [];
+			if( count( self::$crumbs ) < 2 ) return [];
 			return self::$crumbs;
 		}
 

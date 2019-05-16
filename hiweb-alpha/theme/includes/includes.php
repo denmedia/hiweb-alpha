@@ -276,9 +276,10 @@
 
 		/**
 		 * vendors/jquery.autocomplete/jquery.autocomplete.min.js
+		 * @return bool|file|null
 		 */
 		static function jquery_autocomplete(){
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery() );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery() );
 		}
 
 

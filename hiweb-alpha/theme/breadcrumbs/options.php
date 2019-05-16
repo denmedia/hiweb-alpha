@@ -14,13 +14,14 @@
 		includes::fontawesome();
 	}
 
-	add_admin_menu_page( breadcrumbs::$admin_options_slug, '<i class="far fa-shoe-prints"></i> Хлебные крошки', 'themes.php' );
+	add_admin_menu_page( breadcrumbs::$admin_options_slug, '<i class="far fa-shoe-prints"></i> Хлебные крошки', 'options-general.php' );
 
 	///HOME CRUMB
 	add_field_separator( 'Настройки домашней крошки' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_checkbox( 'home-enable' )->label_checkbox( 'Показывать в хлебных крошках домашнюю страницу' )->VALUE( 'on' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_fontawesome( 'home-icon' )->label( 'Иконка для домашней крошки' )->VALUE( 'fas fa-home' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
-	add_field_text( 'home-text' )->placeholder( get_bloginfo( 'name' ) )->label( 'Название домашней кношки' )->description( 'Оставьте поле пустым, в таком случае будет взято название сайта' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_checkbox('home-text-enable')->label_checkbox('Включить в домашней крошке текст для ссылки')->VALUE('on')->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_text( 'home-text' )->placeholder( get_bloginfo( 'name' ) )->label( 'Текст ссылки домашней кношки' )->description( 'Оставьте поле пустым, в таком случае будет взято название сайта' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_text( 'home-href' )->placeholder( get_home_url() )->label( 'Ссылка главной крошки' )->description( 'Оставьте поле пустым, в таком случае будет автоматически установлена ссылка на главную страницу' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 
 	///SEPARATE CRUMB

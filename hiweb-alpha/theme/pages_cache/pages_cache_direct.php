@@ -124,7 +124,7 @@
 			self::init();
 			///
 			if( tools::is_frontend_page() && ( self::is_cache_make_allow() || self::is_cache_use_allow() ) ){
-				if( self::is_cache_use_allow() ){
+				if( self::is_cache_use_allow() && \theme\pages_cache\options::is_allow_url( tools::get_request_uri( true ), true ) ){
 					///THE PRINT CACHE CONTENT
 					$round_time = round( page::get_page()->get_cache()->get_time_left() / 60, 1 );
 					$content = page::get_page()->get_content();
@@ -136,7 +136,7 @@
 					header( "Cache-Control: max-age=$seconds_to_cache" );
 					header( 'Content-Type: text/html; charset=utf-8' );
 					///
-					echo "<!--hiWeb Pages Cache: current cache start, time left: {$round_time}min-->{$content}<!--hiWeb Pages Cache: current cache end-->";
+					echo "<!--hiWeb Pages Cache: current cache start, time left: {$round_time}min, page_id=".basename(page::get_page()->get_cache()->get_path())."-->{$content}<!--hiWeb Pages Cache: current cache end-->";
 					///DEBUG
 					if( self::$debug ){
 						echo '<script>console.group("hiWeb Theme Pages Cache"); console.info(' . json_encode( page::get_page()->get_cache()->get_data() ) . '); console.groupEnd();</script>';
@@ -162,7 +162,7 @@
 
 				if( !self::is_background_query() ){
 					global $wp_query;
-					if( $wp_query instanceof \WP_Query && !$wp_query->is_404() ){
+					if( $wp_query instanceof \WP_Query && !$wp_query->is_404() && !$wp_query->is_search() ){
 
 						if( self::$make_cache_is_process ){
 							if( is_string( $content ) && strlen( $content ) > 10 ){

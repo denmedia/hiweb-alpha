@@ -58,6 +58,30 @@
 		}
 
 
+		/**
+		 * @return array
+		 */
+		static function do_clear_css(){
+			$R = [];
+			foreach( paths::get( self::get_dir() )->get_sub_files('css') as $path => $file ){
+				$R[ $path ] = @unlink( $path );
+			}
+			return $R;
+		}
+
+
+		/**
+		 * @return array
+		 */
+		static function do_clear_js(){
+			$R = [];
+			foreach( paths::get( self::get_dir() )->get_sub_files('js') as $path => $file ){
+				$R[ $path ] = @unlink( $path );
+			}
+			return $R;
+		}
+
+
 		/** @var template */
 		private $template;
 		/** @var array */

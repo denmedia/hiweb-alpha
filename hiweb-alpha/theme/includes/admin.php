@@ -21,8 +21,7 @@
 		 * @return bool|\hiweb\css\file
 		 */
 		static function css( $filePathOrUrl, $in_footer = false, $deeps = [] ){
-			if( !context::is_admin_page() )
-				return false;
+			if( !context::is_admin_page() ) return false;
 			return parent::css( $filePathOrUrl, $in_footer, $deeps );
 		}
 
@@ -34,9 +33,14 @@
 		 * @return bool|\hiweb\js\file|null
 		 */
 		static function js( $jsPathOrURL, $deeps = [], $inFooter = true ){
-			if( !context::is_admin_page() )
-				return false;
+			if( !context::is_admin_page() ) return false;
 			return parent::js( $jsPathOrURL, $deeps, $inFooter );
 		}
+
+
+		static function jquery( $include_migrate_js = false ){
+			wp_enqueue_script( 'jquery-core' );
+		}
+
 
 	}

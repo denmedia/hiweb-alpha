@@ -9,6 +9,7 @@
 	namespace theme\structures;
 
 
+	use hiweb\arrays;
 	use hiweb\themes;
 	use theme\seo;
 	use theme\structures;
@@ -88,7 +89,8 @@
 		public function get_parent_wp_post(){
 			if( $this->wp_object instanceof \WP_Post ){
 				if( $this->wp_object->post_parent != 0 ){
-					return [ get_post( $this->wp_object->post_parent ) ];
+					$wp_post_test = get_post( $this->wp_object->post_parent );
+					if( $wp_post_test instanceof \WP_Post && $this->wp_object != $wp_post_test ) return [ $wp_post_test ];
 				}
 			}
 			return [];
@@ -104,14 +106,15 @@
 				if( $this->wp_object instanceof \WP_Post ){
 					$taxonomies = get_object_taxonomies( $this->wp_object->post_type );
 					foreach( $taxonomies as $taxonomy ){
-						if( !get_taxonomy( $taxonomy )->public )
-							continue;
+						if( !get_taxonomy( $taxonomy )->public ) continue;
 						$terms = get_the_terms( $this->wp_object, $taxonomy );
-						if( is_array( $terms ) )
-							$this->cache_parent_terms = array_merge( $this->cache_parent_terms, $terms );
+						if( is_array( $terms ) ) $this->cache_parent_terms = array_merge( $this->cache_parent_terms, $terms );
 					}
 				} elseif( $this->wp_object instanceof \WP_Term && $this->wp_object->parent != 0 ) {
-					$this->cache_parent_terms = [ get_term( $this->wp_object->parent ) ];
+					$wp_term_test = get_term( $this->wp_object->parent );
+					if( $wp_term_test instanceof \WP_Term && $this->wp_object != $wp_term_test ){
+						$this->cache_parent_terms = [ $wp_term_test ];
+					}
 				}
 			}
 			return $this->cache_parent_terms;
@@ -122,9 +125,9 @@
 		 * @return array
 		 */
 		public function get_parent_blog_page(){
-			if(!is_array($this->cache_parent_blog_page)){
+			if( !is_array( $this->cache_parent_blog_page ) ){
 				$this->cache_parent_blog_page = [];
-				if( themes::get()->get_blog_page() instanceof \WP_Post &&  themes::get()->get_blog_page()->ID != 0 ){
+				if( themes::get()->get_blog_page() instanceof \WP_Post && themes::get()->get_blog_page()->ID != 0 && $this->wp_object != themes::get()->get_blog_page() ){
 					if( $this->wp_object instanceof \WP_Post ){
 						if( $this->wp_object->post_type == 'post' ){
 							$this->cache_parent_blog_page[] = themes::get()->get_blog_page();
@@ -174,6 +177,34 @@
 
 
 		/**
+		 * @return \WP_Post[]
+		 */
+		public function get_parent_woocommerce_shop_page(){
+			$R = [];
+			if( function_exists( 'WC' ) && WC() instanceof \WooCommerce ){
+				if(( $this->wp_object instanceof \WP_Post && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $this->wp_object->post_type ))){
+					$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
+					if( $wp_post_test instanceof \WP_Post && $wp_post_test != $this->wp_object ){
+						$R[ $wp_post_test->ID ] = $wp_post_test;
+					}
+				}elseif( $this->wp_object instanceof \WP_Term){
+					$taxonomy = get_taxonomy( $this->wp_object->taxonomy );
+					foreach( $taxonomy->object_type as $post_type ){
+						$post_type_object = get_post_type_object( $post_type );
+						if( $post_type_object->public && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $post_type ) ){
+							$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
+							if( $wp_post_test instanceof \WP_Post && $wp_post_test != $this->wp_object ){
+								$R[ $wp_post_test->ID ] = $wp_post_test;
+							}
+						}
+					}
+				}
+			}
+			return $R;
+		}
+
+
+		/**
 		 * @return array
 		 */
 		public function get_parent_wp_object_by_nav(){
@@ -191,7 +222,7 @@
 						if( rtrim( $wp_nav_item->url, '/' ) == rtrim( $this->get_url(), '/' ) && $wp_nav_item->menu_item_parent != 0 ){
 							$parent_menu_nav_item = $nav_items[ $wp_nav_item->menu_item_parent ];
 							$object = structures::wp_post_nav_to_wp_object( $parent_menu_nav_item );
-							if( is_object( $object ) ){
+							if( is_object( $object ) && $this->wp_object != $object ){
 								$this->cache_parent_by_nav_menu[ structures::object_to_id( $object ) ] = $object;
 							}
 						}
@@ -220,6 +251,8 @@
 						$this->cache_parent_objects = $this->get_parent_blog_page();
 					} elseif( count( $this->get_parent_wp_post_type() ) > 0 ) {
 						$this->cache_parent_objects = $this->get_parent_wp_post_type();
+					} elseif( count( $this->get_parent_woocommerce_shop_page() ) > 0 ) {
+						$this->cache_parent_objects = $this->get_parent_woocommerce_shop_page();
 					} else {
 						$this->cache_parent_objects = [];
 					}
@@ -232,6 +265,8 @@
 						$this->cache_parent_objects = $this->get_parent_blog_page();
 					} elseif( count( $this->get_parent_wp_post_type() ) > 0 ) {
 						$this->cache_parent_objects = $this->get_parent_wp_post_type();
+					} elseif( count( $this->get_parent_woocommerce_shop_page() ) > 0 ) {
+						$this->cache_parent_objects = $this->get_parent_woocommerce_shop_page();
 					} else {
 						$this->cache_parent_objects = [];
 					}
@@ -245,6 +280,7 @@
 			}
 			return $this->cache_parent_objects;
 		}
+
 
 		/**
 		 * @param bool $return_current - возвращать вместе с текущей структурой в массиве

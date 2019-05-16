@@ -1,15 +1,29 @@
 <?php
 
+	use hiweb\admin;
 	use theme\_minify\cache;
 	use theme\minify;
 
 
 	if( is_array( $_POST ) && count( $_POST ) > 0 && is_user_logged_in() ){
 		if( isset( $_POST['clear-cache'] ) ){
-			\theme\_minify\cache::do_clear_all();
-			$notice = hiweb\admin::NOTICE( 'Кэш очищен' );
-			$notice->CLASS_()->success();
-			$notice->the();
+			if($_POST['clear-cache'] == 'css'){
+				\theme\_minify\cache::do_clear_css();
+				$notice = hiweb\admin::NOTICE( 'Весь кэш CSS очищен' );
+				$notice->CLASS_()->success();
+				$notice->the();
+			}
+			elseif($_POST['clear-cache'] == 'js'){
+				\theme\_minify\cache::do_clear_js();
+				$notice = hiweb\admin::NOTICE( 'Весь кэш JS очищен' );
+				$notice->CLASS_()->success();
+				$notice->the();
+			}else{
+				\theme\_minify\cache::do_clear_all();
+				$notice = hiweb\admin::NOTICE( 'Весь кэш CSS, JS очищен' );
+				$notice->CLASS_()->success();
+				$notice->the();
+			}
 		} else {
 			//Update options
 			foreach( [ 'hiweb_theme_minify_js_enable', 'hiweb_theme_minify_css_enable', 'hiweb_theme_minify_critical_css_enable' ] as $key ){
@@ -81,20 +95,26 @@
 
 	<hr>
 
-	<form action="<?= get_url()->get() ?>" method="post">
-		<table class="form-table">
-			<tbody>
-			<tr>
-				<th>
-					Размер и количество файлов кэша
-				</th>
-				<td>Размер: <b><?= \hiweb\paths::get( theme\_minify\cache::get_dir() )->get_size_formatted() ?></b> / <?= count( \hiweb\paths::get( theme\_minify\cache::get_dir() )->get_sub_files() ) ?> файлов</td>
-			</tr>
-			</tbody>
-		</table>
-		<p>
-			<input type="hidden" name="clear-cache">
-			<button class="button button-primary button-large" type="submit">Сбросить весь кэш</button>
-		</p>
+	<table class="form-table">
+		<tbody>
+		<tr>
+			<th>
+				Размер и количество файлов кэша
+			</th>
+			<td>Размер: <b><?= \hiweb\paths::get( theme\_minify\cache::get_dir() )->get_size_formatted() ?></b> / <?= count( \hiweb\paths::get( theme\_minify\cache::get_dir() )->get_sub_files() ) ?> файлов</td>
+		</tr>
+		</tbody>
+	</table>
+	<form action="<?= get_url()->get() ?>" method="post" style="float: left;">
+		<input type="hidden" name="clear-cache" value="css">
+		<button class="button button-large" type="submit">Сбросить CSS кэш</button>
+	</form>&nbsp;
+	<form action="<?= get_url()->get() ?>" method="post" style="float: left;">
+		<input type="hidden" name="clear-cache" value="js">
+		<button class="button button-large" type="submit">Сбросить JS кэш</button>
+	</form>&nbsp;
+	<form action="<?= get_url()->get() ?>" method="post" style="float: left;">
+		<input type="hidden" name="clear-cache">
+		<button class="button button-primary button-large" type="submit">Сбросить весь кэш</button>
 	</form>
 </div>

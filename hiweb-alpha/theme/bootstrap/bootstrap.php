@@ -9,8 +9,6 @@
 	namespace theme;
 
 
-
-
 	class bootstrap{
 
 		private static $cols_to_class_double = [
@@ -97,6 +95,22 @@
 		 */
 		static function cols_to_class_double( $full = 4, $small = 2 ){
 			return self::$cols_to_class_double[ $small . '.' . $full ];
+		}
+
+
+		/**
+		 * @param int $cols
+		 * @param int $count_all_cols
+		 * @return string[]
+		 */
+		static function cols_to_class_by_rows( $cols = 4, $count_all_cols = 9 ){
+			$R = [];
+			for( $n = 0; $n <= ceil( $count_all_cols / $cols ); $n ++ ){
+				$cols_in_row = $count_all_cols >= $cols ? $cols : $count_all_cols;
+				$count_all_cols -= $cols_in_row;
+				$R = array_merge( $R, array_fill( 0, $cols_in_row, self::cols_to_class_simple( $cols_in_row ) ) );
+			}
+			return $R;
 		}
 
 	}

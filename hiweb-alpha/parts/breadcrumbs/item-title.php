@@ -1,1 +1,1 @@
-<a href="{link}">{title}</a>
+<span itemprop="name">{title}</span>
