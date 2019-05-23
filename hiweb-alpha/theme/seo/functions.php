@@ -32,6 +32,11 @@
 						return $term_title;
 					}
 					return single_term_title();
+				} else {
+					global $wp_query;
+					if( $wp_query instanceof WP_Query && $wp_query->is_search() ){
+						return 'Результаты поиска';
+					}
 				}
 			}
 			///

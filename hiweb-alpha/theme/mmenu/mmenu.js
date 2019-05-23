@@ -29,6 +29,7 @@ jQuery(document).ready(function ($) {
             language: "ru"
         }).find('ul.mm-listview').css('visibility', '');
         $mmenu.find('.mm-navbar').append('<a class="mm-btn mm-btn_close mm-navbar__btn" href="#page" aria-owns="page"><span class="mm-sronly">Закрыть меню</span></a>');
+        $mmenu.find('.mm-panels > .mm-panel:first-child .mm-navbar__title').html($mmenu.attr('data-title'));
         ///
         if (typeof $('body').swipe === 'function') {
             $('.mm-panels').swipe({

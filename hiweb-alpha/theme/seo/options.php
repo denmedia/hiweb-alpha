@@ -31,4 +31,8 @@
 				add_field_checkbox( 'enable-custom-loop-title-' . $post_type->name )->label_checkbox( 'Включить поддерджку индивидуального архивного заголовка "' . $post_type->labels->name . '"' )->VALUE( 'on' )->get_parent_field()->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 			}
 		}
+
+		add_field_checkbox('paged-append-enable')->label_checkbox('Включить добавление номера страницы в тайтле, например "Главная - страница 2 из 2"')->LOCATION(true);
+		add_field_text('paged-append-template')->VALUE('Страница {page} из {pages}')->get_parent_field()->label('Шаблон титла для страница-пагинаций')->LOCATION(true);
+
 	} );

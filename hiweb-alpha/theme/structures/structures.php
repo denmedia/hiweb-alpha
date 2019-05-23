@@ -29,6 +29,14 @@
 				return 'post_type:' . $object->ID;
 			} elseif( $object instanceof \WP_Term ) {
 				return 'taxonomy:' . $object->term_id;
+			} elseif( is_null( $object ) ) {
+				global $wp_query;
+				if( $wp_query instanceof \WP_Query && $wp_query->is_search() ){
+					return 'search';
+				}
+				if( $wp_query instanceof \WP_Query && $wp_query->is_404() ){
+					return '404';
+				}
 			}
 			return '';
 		}
@@ -39,8 +47,9 @@
 		 * @return structure
 		 */
 		static function get( $wp_object = null ){
-			if( !is_object( $wp_object ) && function_exists( 'get_queried_object' ) )
+			if( !is_object( $wp_object ) && function_exists( 'get_queried_object' ) ){
 				$wp_object = get_queried_object();
+			}
 			$object_id = self::object_to_id( $wp_object );
 			if( !array_key_exists( $object_id, self::$structures ) ){
 				self::$structures[ $object_id ] = new structure( $wp_object );

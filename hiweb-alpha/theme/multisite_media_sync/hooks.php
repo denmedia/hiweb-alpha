@@ -178,40 +178,62 @@
 				foreach( $metas_source as $key => $meta ){
 					$metas[ $key ] = $meta[0];
 				}
-				restore_current_blog();
+				$source_attachment_ids = get_posts( [ 'post_type' => 'attachment', 'posts_per_page' => - 1, 'fields' => 'ids' ] );
 				///
-				$new_post_id = wp_insert_post( [
-					'post_author' => $wp_post->post_author,
-					'post_date' => $wp_post->post_date,
-					'post_date_gmt' => $wp_post->post_date_gmt,
-					'post_content' => $wp_post->post_content,
-					'post_title' => $wp_post->post_title,
-					'post_excerpt' => $wp_post->post_excerpt,
-					'post_status' => 'draft',
-					'comment_status' => $wp_post->comment_status,
-					'ping_status' => $wp_post->ping_status,
-					'post_password' => $wp_post->post_password,
-					'post_name' => $wp_post->post_name,
-					'to_ping' => $wp_post->to_ping,
-					'pinged' => $wp_post->pinged,
-					'post_modified' => $wp_post->post_modified,
-					'post_modified_gmt' => $wp_post->post_modified_gmt,
-					'post_content_filtered' => $wp_post->post_content_filtered,
-					'post_parent' => $wp_post->post_parent,
-					'post_type' => $wp_post->post_type,
-					'post_mime_type' => $wp_post->post_mime_type
-				] );
-				if( is_int( $new_post_id ) ){
-					foreach( $metas as $key => $val ){
-						update_post_meta( $new_post_id, $key, $val );
-					}
-					?>
-					<meta http-equiv="refresh" content="3;<?=get_edit_post_link( $new_post_id )?>">
-					<h1>Страница создана, подождите пару секунд...</h1>
-					<?php
-				} else {
-					?><h1>не удалось продублировать страницу</h1><p>Ошибка во время создания новой страницы</p><?php
+				restore_current_blog();
+				global $wpdb;
+				$destination_attachment_ids = [];
+				foreach( $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE post_type='attachment'" ) as $data ){
+					$destination_attachment_ids[] = $data->ID;
 				}
+				$dummy_attached_ids = array_diff( $source_attachment_ids, $destination_attachment_ids );
+				for( $n = 0; $n <= count( $dummy_attached_ids ); $n ++ ){
+					$wpdb->insert( $wpdb->posts, [
+						'post_type' => 'attachment',
+						'post_title' => 'dummy'
+					] );
+					$test_id = $wpdb->insert_id;
+					if( intval( $test_id ) > 0 && !get_array( $dummy_attached_ids )->in( $test_id ) ){
+						$new_post_id = $test_id;
+						$B = wp_update_post( [
+							'ID' => $test_id,
+							'post_author' => $wp_post->post_author,
+							'post_date' => $wp_post->post_date,
+							'post_date_gmt' => $wp_post->post_date_gmt,
+							'post_content' => $wp_post->post_content,
+							'post_title' => $wp_post->post_title,
+							'post_excerpt' => $wp_post->post_excerpt,
+							'post_status' => 'draft',
+							'comment_status' => $wp_post->comment_status,
+							'ping_status' => $wp_post->ping_status,
+							'post_password' => $wp_post->post_password,
+							'post_name' => $wp_post->post_name,
+							'to_ping' => $wp_post->to_ping,
+							'pinged' => $wp_post->pinged,
+							'post_modified' => $wp_post->post_modified,
+							'post_modified_gmt' => $wp_post->post_modified_gmt,
+							'post_content_filtered' => $wp_post->post_content_filtered,
+							'post_parent' => $wp_post->post_parent,
+							'post_type' => $wp_post->post_type,
+							'post_mime_type' => $wp_post->post_mime_type
+						] );
+						if( $B ){
+							foreach( $metas as $key => $val ){
+								update_post_meta( $new_post_id, $key, $val );
+							}
+							?>
+							<meta http-equiv="refresh" content="3;<?= get_edit_post_link( $test_id ) ?>">
+							<h1>Страница создана, подождите пару секунд...</h1>
+							<?php
+							die;
+						} else {
+							?><h1>не удалось продублировать страницу</h1><p>Ошибка во время создания новой страницы</p><?php
+							die;
+						}
+					}
+				}
+				?><h1>не удалось продублировать страницу</h1><p>Ошибка во время создания новой страницы 2</p><?php
+
 			}
 			die;
 		}

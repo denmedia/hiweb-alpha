@@ -21,6 +21,7 @@
 
 		private $nav_location;
 		private $extensions;
+		private $menu_title = 'Меню';
 
 
 		static function init(){
@@ -61,6 +62,7 @@
 					$nav_menu = nav_menu::get( $mmenu->get_nav_location() );
 					$nav_menu->use_stellarnav = false;
 					$nav_menu->add_class( 'hiweb-mmenu-nav' );
+					$nav_menu->add_tag( 'data-title', htmlentities($mmenu->get_title()) );
 					$nav_menu->add_tag( 'data-extensions', json_encode( $mmenu->extensions()->get_data_array() ) );
 					$nav_menu->id = $mmenu->get_nav_id();
 					//$nav_menu->add_class('');
@@ -96,6 +98,11 @@
 		}
 
 
+		public function set_title( $title = 'Меню' ){
+			$this->menu_title = $title;
+		}
+
+
 		/**
 		 * @return string
 		 */
@@ -121,6 +128,14 @@
 
 
 		/**
+		 * @return string
+		 */
+		public function get_title(){
+			return $this->menu_title;
+		}
+
+
+		/**
 		 * @return extensions
 		 */
 		public function extensions(){
@@ -131,8 +146,8 @@
 		}
 
 
-		public function get_html_tag_options(){
-
-		}
+//		public function get_html_tag_options(){
+//
+//		}
 
 	}

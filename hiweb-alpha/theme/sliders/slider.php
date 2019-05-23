@@ -27,7 +27,7 @@
 
 		public function __construct( $id = null ){
 			frontend::owl_carousel();
-			frontend::css( __DIR__ . '/slider.min.css' );
+			frontend::css( __DIR__ . '/slider.css' );
 			frontend::js( __DIR__ . '/slider.min.js', frontend::jquery() );
 			if( is_null( $id ) )
 				$this->id = strings::rand(); else $this->id = $id;

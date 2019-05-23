@@ -42,7 +42,7 @@
 			} elseif( $queried_object instanceof WP_Term ) {
 				//META TITLE
 				add_filter( 'wp_title', function( $title ){
-					if( get_field( 'seo-meta-title' ) != '' ) return (get_field( 'seo-meta-title' ).( is_paged() ? ' - страница '.get_query_var('paged') : '' ));
+					$title .= ( is_paged() ? ' - страница ' . get_query_var( 'paged' ) : '' );
 					return $title;
 				} );
 				///SEO META

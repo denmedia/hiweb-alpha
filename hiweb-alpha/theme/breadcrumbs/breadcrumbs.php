@@ -30,10 +30,10 @@
 		 *
 		 */
 		static function init(){
-			if( !self::$init ){
-				self::$init = true;
-				require_once __DIR__ . '/options.php';
-			}
+			if( self::$init ) return;
+			self::$init = true;
+			///
+			require_once __DIR__ . '/options.php';
 		}
 
 
@@ -55,14 +55,13 @@
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-prefix' );
 			//items
 			foreach( self::get_crumbs() as $index => $crumb ){
-				$crumb->the($index + 1);
+				$crumb->the( $index + 1 );
 				if( ( get_field( 'separator-enable', self::$admin_options_slug ) && ( $index + 1 ) < count( self::get_crumbs() ) ) || get_field( 'separator-last-enable', self::$admin_options_slug ) ){
 					echo self::get_the_separator();
 				}
 			}
 			//
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-sufix' );
-			//JSON SHEMAORG
 		}
 
 
@@ -80,8 +79,8 @@
 					'@type' => 'ListItem',
 					'position' => $index + 1,
 					'item' => [
-						'name' => $crumb->get_title(),
-						'@id' => $crumb->get_link()
+						'@id' => $crumb->get_link(),
+						'name' => ( $crumb->get_parent_crumb() == false && get_field( 'home-enable', self::$admin_options_slug ) ) ? ( get_field( 'home-text', self::$admin_options_slug ) == '' ? get_bloginfo( 'name' ) : get_field( 'home-text', self::$admin_options_slug ) ) : $crumb->get_title()
 					]
 				];
 			}

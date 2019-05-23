@@ -71,7 +71,8 @@
 			$classes = [];
 			foreach( $cols_data as $name => $cols ){
 				if( is_numeric( $cols ) ){
-					$classes[] = 'col-' . $name . '-' . round( 12 / $cols );
+					if($name == 'xs') $name = '';
+					$classes[] = 'col-' . ($name == '' ? '' : ($name . '-')) . round( 12 / $cols );
 				}
 			}
 			return implode( ' ', $classes );

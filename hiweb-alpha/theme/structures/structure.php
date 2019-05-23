@@ -10,7 +10,10 @@
 
 
 	use hiweb\arrays;
+	use hiweb\paths;
 	use hiweb\themes;
+	use hiweb\urls;
+	use hiweb\urls\url;
 	use theme\seo;
 	use theme\structures;
 
@@ -18,6 +21,7 @@
 	class structure{
 
 		public $wp_object;
+		public $is_search;
 		public $id;
 
 		private $cache_parent_post_types;
@@ -31,6 +35,12 @@
 
 		public function __construct( $object ){
 			$this->wp_object = $object;
+			if( is_null( $this->wp_object ) ){
+				global $wp_query;
+				if( $wp_query instanceof \WP_Query && $wp_query->is_search ){
+					$this->is_search = true;
+				}
+			}
 			$this->id = structures::object_to_id( $object );
 		}
 
@@ -47,7 +57,9 @@
 		 * @return bool|false|string|\WP_Error
 		 */
 		public function get_url(){
-			if( $this->wp_object instanceof \WP_Post ){
+			if( $this->is_search ){
+				return get_home_url() . '?s=' . urls::request( 's' );
+			} elseif( $this->wp_object instanceof \WP_Post ) {
 				return get_permalink( $this->wp_object );
 			} elseif( $this->wp_object instanceof \WP_Term ) {
 				return get_term_link( $this->wp_object );
@@ -71,7 +83,9 @@
 		 * @return mixed|string
 		 */
 		public function get_title( $force_raw = true ){
-			if( $this->wp_object instanceof \WP_Post ){
+			if($this->is_search) {
+				return apply_filters( '\theme\structures\structure::get_title', 'Результаты поиска', $this->wp_object, $force_raw, $this );
+			}elseif( $this->wp_object instanceof \WP_Post ){
 				return apply_filters( '\theme\structures\structure::get_title', $force_raw ? $this->wp_object->post_title : get_the_title( $this->wp_object ), $this->wp_object, $force_raw, $this );
 			} elseif( $this->wp_object instanceof \WP_Term ) {
 				return apply_filters( '\theme\structures\structure::get_title', $this->wp_object->name, $this->wp_object, $force_raw, $this );
@@ -182,12 +196,12 @@
 		public function get_parent_woocommerce_shop_page(){
 			$R = [];
 			if( function_exists( 'WC' ) && WC() instanceof \WooCommerce ){
-				if(( $this->wp_object instanceof \WP_Post && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $this->wp_object->post_type ))){
+				if( ( $this->wp_object instanceof \WP_Post && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $this->wp_object->post_type ) ) ){
 					$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
 					if( $wp_post_test instanceof \WP_Post && $wp_post_test != $this->wp_object ){
 						$R[ $wp_post_test->ID ] = $wp_post_test;
 					}
-				}elseif( $this->wp_object instanceof \WP_Term){
+				} elseif( $this->wp_object instanceof \WP_Term ) {
 					$taxonomy = get_taxonomy( $this->wp_object->taxonomy );
 					foreach( $taxonomy->object_type as $post_type ){
 						$post_type_object = get_post_type_object( $post_type );
