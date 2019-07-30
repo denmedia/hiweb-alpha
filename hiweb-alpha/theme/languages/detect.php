@@ -102,7 +102,7 @@
 				if( self::is_multisite() ){
 					if( rtrim( urls::root(), '/' ) == rtrim( urls::get()->get(), '/' ) && (string)self::get_id_by_browser() != '' && self::get_id_by_browser() != get_field( 'default-id', languages::$options_page_slug ) && ( !isset( $_SERVER['HTTP_REFERER'] ) || $_SERVER['HTTP_REFERER'] == '' ) ){
 						self::$lang_id = self::get_id_by_browser();
-						wp_redirect( languages::get_language( self::$lang_id )->get_url(), 302 );
+						//wp_redirect( languages::get_language( self::$lang_id )->get_url(), 302 );
 					} else {
 						self::$lang_id = get_field( 'default-id', languages::$options_page_slug );
 					}

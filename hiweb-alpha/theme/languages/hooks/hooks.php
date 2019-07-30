@@ -6,26 +6,23 @@
 	 * Time: 14:23
 	 */
 
-
 	////POST QUERY
 	use theme\html_layout\tags\head;
 	use theme\languages;
 	use theme\languages\query;
 
 
-
-	if(!languages\detect::is_multisite()){
+	if( !languages\detect::is_multisite() ){
 		add_action( 'pre_get_posts', function( &$wp_query ){
 			/** @var WP_Query $wp_query */
-			if( !is_admin() && ( !array_key_exists( query::$wp_query_key_filter_enable, $wp_query->query_vars ) || $wp_query->query_vars[query::$wp_query_key_filter_enable] == true ) ){
+			if( !is_admin() && ( !array_key_exists( query::$wp_query_key_filter_enable, $wp_query->query_vars ) || $wp_query->query_vars[ query::$wp_query_key_filter_enable ] == true ) ){
 				query::filter( $wp_query );
 			}
 		} );
 
 		add_action( 'save_post', function( $post_id, $post, $update ){
 			//
-			if( wp_is_post_revision( $post_id ) || get_post( $post_id )->post_status != 'publish' )
-				return;
+			if( wp_is_post_revision( $post_id ) || get_post( $post_id )->post_status != 'publish' ) return;
 			//
 			if( array_key_exists( languages::$post_meta_key_lang_id, $_POST ) ){
 				update_post_meta( $post_id, languages::$post_meta_key_lang_id, $_POST[ languages::$post_meta_key_lang_id ] );
@@ -48,14 +45,14 @@
 					return false;
 				}
 				if( $post->get_sibling_post( $lang_id, true )->is_exists() ){
-					wp_redirect( html_entity_decode( get_edit_post_link( $post->get_sibling_post( $lang_id, true )->get_post_id() ) ) );
+					wp_redirect( html_entity_decode( get_edit_post_link( $post->get_sibling_post( $lang_id, true )->get_post_id() ) ), 301, 'hiweb-theme-language' );
 					return false;
 				}
 				///MAKE ALTER LANG
 				$new_term_id = languages::do_make_sibling_post( $post->ID, $lang_id );
 				if( is_int( $new_term_id ) ){
 					///REDIRECT
-					wp_redirect( html_entity_decode( get_edit_post_link( $new_term_id ) ) );
+					wp_redirect( html_entity_decode( get_edit_post_link( $new_term_id ) ), 301, 'hiweb-theme-language' );
 					return true;
 				} else {
 					console_warn( 'Не удалось создать копию статьи/страницы' );
@@ -78,14 +75,14 @@
 				}
 				///Redirect if term exists
 				if( $lang_term->get_sibling_term( $lang_id )->is_exists() ){
-					wp_redirect( html_entity_decode( get_edit_term_link( $lang_term->get_sibling_term( $lang_id )->get_term_id() ) ) );
+					wp_redirect( html_entity_decode( get_edit_term_link( $lang_term->get_sibling_term( $lang_id )->get_term_id() ) ), 301, 'hiweb-theme-language' );
 					return false;
 				}
 				///MAKE ALTER LANG
 				$new_term_id = $lang_term->do_make_sibling( $lang_id );
 				if( is_int( $new_term_id ) ){
 					///REDIRECT
-					wp_redirect( html_entity_decode( get_edit_term_link( $new_term_id ) ) );
+					wp_redirect( html_entity_decode( get_edit_term_link( $new_term_id ) ), 301, 'hiweb-theme-language' );
 					return true;
 				} else {
 					console_warn( 'Не удалось создать копию термина' );
@@ -103,7 +100,6 @@
 			}
 		}, 10, 3 );
 	}
-
 
 	add_filter( 'wp_headers', function( $headers, $WP ){
 		$headers['Content-Language'] = languages::get_current_id();

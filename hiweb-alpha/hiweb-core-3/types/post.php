@@ -22,6 +22,7 @@
 	namespace hiweb\fields\types\post {
 
 
+		use hiweb\fields;
 		use hiweb\fields\value;
 		use WP_Post;
 		use WP_Query;
@@ -83,15 +84,15 @@
 				parent::__construct( $field, $value );
 				add_action( 'wp_ajax_hiweb-type-post', function(){
 
-//					add_filter( 'posts_where', function( $where, &$wp_query ){
-//						global $wpdb;
-//						if( $wpse18703_title = $_POST['search'] ){
-//							$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'' . esc_sql( $wpdb->esc_like( $wpse18703_title ) ) . '%\'';
-//						}
-//						return $where;
-//					}, 10, 2 );
-
-					$post_types = $this->get_parent_field()->post_type();
+					//					add_filter( 'posts_where', function( $where, &$wp_query ){
+					//						global $wpdb;
+					//						if( $wpse18703_title = $_POST['search'] ){
+					//							$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'' . esc_sql( $wpdb->esc_like( $wpse18703_title ) ) . '%\'';
+					//						}
+					//						return $where;
+					//					}, 10, 2 );
+					$field = fields::$field_by_globalId[ $_POST['global_id'] ][0];
+					$post_types = $field->post_type();
 					$query = [
 						'post_type' => $post_types,
 						//'wpse18703_title' => $_POST['search'],
@@ -103,14 +104,14 @@
 					];
 					$wp_query = new WP_Query( $query );
 					$R = [];
-//					$post_types_names = [];
-//					if( is_array( $post_types ) ) foreach( $post_types as $post_type ){
-//						if( post_type_exists( $post_type ) ){
-//							$post_types_names[ $post_type ] = get_post_type_object( $post_type )->label;
-//						} else {
-//							$post_types_names[ $post_type ] = 'неизвестный тип записи';
-//						}
-//					}
+					//					$post_types_names = [];
+					//					if( is_array( $post_types ) ) foreach( $post_types as $post_type ){
+					//						if( post_type_exists( $post_type ) ){
+					//							$post_types_names[ $post_type ] = get_post_type_object( $post_type )->label;
+					//						} else {
+					//							$post_types_names[ $post_type ] = 'неизвестный тип записи';
+					//						}
+					//					}
 					/** @var WP_Post $wp_post */
 					foreach( $wp_query->get_posts() as $wp_post ){
 						$R[] = [
@@ -131,9 +132,8 @@
 
 
 			public function html(){
-				//\hiweb\css( HIWEB_DIR_CSS . '/field-post.css' );
-				//\hiweb\js( HIWEB_DIR_JS . '/field-post.js', [ 'jquery' ], true );
 				include_css( HIWEB_DIR_VENDORS . '/selectize.js/css/selectize.css' );
+				include_css( HIWEB_DIR_ASSETS . '/css/field-post.css' );
 				$handler = include_js( HIWEB_DIR_VENDORS . '/selectize.js/js/standalone/selectize.min.js', [ 'jquery' ] );
 				include_js( HIWEB_DIR_ASSETS . '/js/field-post.min.js', [ $handler ] );
 
@@ -148,19 +148,37 @@
 					}
 				}
 
-				ob_start();
-				///
-				//$wp_query = new \WP_Query( [ 'post_type' => $post_types, 'posts_per_page' => 20, 'post_status' => 'any' ] );
+				$selected = [];
+				if(is_array($this->VALUE()->get()) && count($this->VALUE()->get()) > 0) {
+					///
+					$wp_query = new \WP_Query( [
+						'post_type' => $post_types,
+						'posts_per_page' => 20,
+						'post_status' => 'any',
+						'post__in' => $this->VALUE()->get()
+					] );
+					foreach( $wp_query->get_posts() as $post ){
+						$selected[$post->ID] = $post->post_title;
+					}
+				}
 				///
 				$this->attributes['data-global-id'] = $this->get_parent_field()->global_id();
 				if( $this->get_parent_field()->multiple( null ) ){
 					$this->attributes['multiple'] = 'multiple';
 					$this->attributes['size'] = 1;
+					if( $this->attributes['name'] != '' ) $this->attributes['name'] .= '[]';
 				}
+				ob_start();
 				?>
 				<div class="hiweb-field-post">
-					<select <?= $this->name() ?> <?= get_array( $this->attributes )->get_param_html_tags() ?> data-oprions="<?= htmlentities( json_encode( [ 'post_type' => $this->get_parent_field()->post_type() ] ) ) ?>" data-value="<?=htmlentities(json_encode( $this->VALUE()->get() ))?>">
-
+					<select <?= get_array( $this->attributes )->get_param_html_tags() ?> data-oprions="<?= htmlentities( json_encode( [ 'post_type' => $this->get_parent_field()->post_type() ] ) ) ?>" data-value="<?= htmlentities( json_encode( $this->VALUE()->get() ) ) ?>">
+						<?php
+							foreach($selected as $val => $title) {
+								?>
+								<option value="<?=$val?>" selected><?=$title?></option>
+								<?php
+							}
+						?>
 					</select>
 				</div>
 				<?php

@@ -6,10 +6,9 @@
 	 * Time: 11:37
 	 */
 
-	use hiweb\backtrace;
+	use hiweb\urls;
 
 
-	get_the_post_archive_title();
 	add_filter( 'get_the_archive_title', function( $title ){
 		if( function_exists( 'get_queried_object' ) ){
 			$queried_object = get_queried_object();
@@ -70,9 +69,27 @@
 				}, 10 );
 			}
 		}
-		if( function_exists( 'is_paged' ) && is_paged() ){
-			$current_url = \hiweb\urls::get()->get_url();
-			$current_url = preg_replace( '/(?<paged>\/page\/[\d]+\/?)$/im', '', $current_url );
-			theme\html_layout\tags\head::add_html_addition( '<link rel="canonical" href="' . $current_url . '" />' );
+		if(\theme\seo::$option_use_paginate_canonical && function_exists( 'is_paged' ) && is_paged() ){
+//			$current_url = \hiweb\urls::get()->get_url();
+//			$current_url = preg_replace( '/(?<paged>\/page\/[\d]+\/?)$/im', '', $current_url );
+			theme\html_layout\tags\head::add_html_addition( '<link rel="canonical" href="' . get_pagenum_link( 1 ) . '" />' );
 		}
 	} );
+
+	///REDIRECT SLASH END
+	add_action( 'wp', function(){
+		if(\hiweb\context::is_frontend_page() && theme\seo::$option_force_redirect_slash_end ){
+			if( preg_match( '~\/$~i', urls::get_current_url(false) ) == 0 && !is_search() && strpos(urls::get_current_url(false),'?') === false ){
+				wp_redirect(urls::get()->get_url().'/', 301, 'hiweb-theme-seo');
+			}
+		}
+	} );
+
+	//apply_filters( 'post_link', $permalink, $post, $leavename )
+	//apply_filters( 'pre_term_link', $termlink, $term )
+	add_filter( 'term_link', function( $termlink, $term, $taxonomy ){
+		if( theme\seo::$option_term_permalink_force_slash_end && preg_match( '~\/$~i', $termlink ) == 0 && strpos($termlink,'?') === false){
+			$termlink .= '/';
+		}
+		return $termlink;
+	}, 10, 3 );

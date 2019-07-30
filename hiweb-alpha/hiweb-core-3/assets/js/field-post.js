@@ -16,7 +16,7 @@ var hw_input_post = {
             url: ajaxurl + '?action=hiweb-type-post',
             type: 'POST',
             dataType: 'json',
-            data: {search: query},
+            data: {global_id: $root.attr('data-global-id'), search: query},
             error: function () {
                 if (callback === 'function') {
                     callback();
@@ -38,7 +38,7 @@ var hw_input_post = {
     },
 
     make_selectize: function () {
-        var $this = $(this);
+        var $this = jQuery(this);
         $this.selectize({
             closeAfterSelect: true,
             allowEmptyOption: true,
@@ -49,7 +49,7 @@ var hw_input_post = {
             create: false,
             onInitialize: function () {
                 hw_input_post._load_posts($this, '', function (items) {
-                    let value = $.parseJSON($this.attr('data-value'));
+                    let value = jQuery.parseJSON($this.attr('data-value'));
                     $this.each(function () {
                         for (let index in items) {
                             this.selectize.addOption(items[index]);

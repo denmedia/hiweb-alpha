@@ -10,6 +10,7 @@
 
 
 	use hiweb\strings;
+	use theme\includes\frontend;
 	use theme\sliders\slider;
 
 
@@ -17,6 +18,16 @@
 
 		static $sliders = [];
 
+
+		static function init(){
+			static $init = false;
+			if(!$init){
+				$init = true;
+				frontend::owl_carousel();
+				frontend::css( __DIR__ . '/slider.css' );
+				frontend::js( __DIR__ . '/slider.min.js', frontend::jquery() );
+			}
+		}
 
 		/**
 		 * @param null $id

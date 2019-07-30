@@ -39,8 +39,8 @@
 			1 => 'col-md-12',
 			2 => 'col-md-6',
 			3 => 'col-md-6 col-lg-4',
-			4 => 'col-md-6 col-lg-3',
-			5 => 'col-md-6 col-lg-3',
+			4 => 'col-sm-6 col-lg-3',
+			5 => 'col-sm-6 col-lg-3',
 			6 => 'col-sm-6 col-md-4 col-lg-2',
 			7 => 'col-sm-6 col-md-4 col-lg-2',
 			8 => 'col-sm-6 col-md-4 col-lg-2'
@@ -71,8 +71,8 @@
 			$classes = [];
 			foreach( $cols_data as $name => $cols ){
 				if( is_numeric( $cols ) ){
-					if($name == 'xs') $name = '';
-					$classes[] = 'col-' . ($name == '' ? '' : ($name . '-')) . round( 12 / $cols );
+					if( $name == 'xs' ) $name = '';
+					$classes[] = 'col-' . ( $name == '' ? '' : ( $name . '-' ) ) . round( 12 / $cols );
 				}
 			}
 			return implode( ' ', $classes );
@@ -100,11 +100,12 @@
 
 
 		/**
-		 * @param int $cols
-		 * @param int $count_all_cols
+		 * @param int  $cols
+		 * @param int  $count_all_cols
 		 * @return string[]
 		 */
-		static function cols_to_class_by_rows( $cols = 4, $count_all_cols = 9 ){
+		static function cols_to_class_by_rows( $cols = 4, $count_all_cols = 9){
+			if( $cols < 1 ) $cols = 1;
 			$R = [];
 			for( $n = 0; $n <= ceil( $count_all_cols / $cols ); $n ++ ){
 				$cols_in_row = $count_all_cols >= $cols ? $cols : $count_all_cols;

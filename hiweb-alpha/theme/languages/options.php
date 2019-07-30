@@ -81,8 +81,7 @@
 						<select name="<?= languages::$post_meta_key_lang_id ?>">
 							<?php
 								foreach( languages::get_languages() as $language ){
-									if( array_key_exists( $language->get_id(), $sibling_posts ) && $language->get_id() != $post->get_lang_id() )
-										continue;
+									if( array_key_exists( $language->get_id(), $sibling_posts ) && $language->get_id() != $post->get_lang_id() ) continue;
 									$selected = $language->get_id() == $current_lang_id;
 									?>
 									<option <?= $selected ? 'selected' : '' ?> value="<?= $language->get_id() ?>"><?= $language->get_name() ?> (<?= $language->is_default() ? 'станд.язык - ' : '' ?><?= $language->get_id() ?>)</option><?php
@@ -130,28 +129,29 @@
 				}
 				return $views;
 			} );
-			///COLUMNS MANAGER
-			add_filter( "manage_{$post_type}_posts_columns", function( $posts_columns ){
-				$posts_columns = \hiweb\arrays::get( $posts_columns )->push_value( 'Локализация', 4, languages::$post_columns_id );
-				return $posts_columns;
-			} );
-			add_action( "manage_{$post_type}_posts_custom_column", function( $column_name, $post_id ){
-				if( $column_name == languages::$post_columns_id ){
-					$lang_post_current = languages::get_post( $post_id );
-					echo '<div><b>' . $lang_post_current->get_language()->get_name() . ' (' . $lang_post_current->get_lang_id() . ')</b></div>';
-					$sibling_posts = $lang_post_current->get_sibling_posts( true );
-					foreach( $sibling_posts as $lang_id => $sibling_lang_post ){
-						if( $lang_post_current->get_post_id() == $sibling_lang_post->get_post_id() )
-							continue;
-						?><a style="font-size: 80%" href="<?= get_edit_post_link( $sibling_lang_post->get_post_id() ) ?>"><?= $lang_id ?>: <?= $sibling_lang_post->get_wp_post()->post_title ?></a> <?php
+			if( !languages\detect::is_multisite() ){
+				///COLUMNS MANAGER
+				add_filter( "manage_{$post_type}_posts_columns", function( $posts_columns ){
+					$posts_columns = \hiweb\arrays::get( $posts_columns )->push_value( 'Локализация', 4, languages::$post_columns_id );
+					return $posts_columns;
+				} );
+				add_action( "manage_{$post_type}_posts_custom_column", function( $column_name, $post_id ){
+					if( $column_name == languages::$post_columns_id ){
+						$lang_post_current = languages::get_post( $post_id );
+						echo '<div><b>' . $lang_post_current->get_language()->get_name() . ' (' . $lang_post_current->get_lang_id() . ')</b></div>';
+						$sibling_posts = $lang_post_current->get_sibling_posts( true );
+						foreach( $sibling_posts as $lang_id => $sibling_lang_post ){
+							if( $lang_post_current->get_post_id() == $sibling_lang_post->get_post_id() ) continue;
+							?><a style="font-size: 80%" href="<?= get_edit_post_link( $sibling_lang_post->get_post_id() ) ?>"><?= $lang_id ?>: <?= $sibling_lang_post->get_wp_post()->post_title ?></a> <?php
+						}
 					}
-				}
-			}, 10, 2 );
+				}, 10, 2 );
+			}
 
 			////TERMS META
 			foreach( get_object_taxonomies( $post_type ) as $taxonomy ){
 				add_action( "{$taxonomy}_add_form_fields", function(){
-					if( !languages\detect::is_multisite()){
+					if( !languages\detect::is_multisite() ){
 						?>
 						<div class="form-field term-language-wrap">
 							<label for="tag-description">Установки локализации</label>
@@ -169,8 +169,7 @@
 				} );
 
 				add_action( "{$taxonomy}_edit_form", function( $wp_term, $taxonomy ){
-					if( !$wp_term instanceof WP_Term || languages\detect::is_multisite() )
-						return;
+					if( !$wp_term instanceof WP_Term || languages\detect::is_multisite() ) return;
 					///
 					?>
 					<table class="form-table">
@@ -237,8 +236,7 @@
 						if( $column_name == languages::$post_columns_id ){
 							echo '<div><b>' . $lang_term->get_language()->get_name() . ' (' . $lang_term->get_lang_id() . ')</b></div>';
 							foreach( $lang_term->get_sibling_terms() as $lang_id => $sibling_lang_term ){
-								if( $lang_term->get_term_id() == $sibling_lang_term->get_term_id() )
-									continue;
+								if( $lang_term->get_term_id() == $sibling_lang_term->get_term_id() ) continue;
 								?><a style="font-size: 80%" href="<?= get_edit_term_link( $sibling_lang_term->get_term_id() ) ?>"><?= $lang_id ?>: <?= $sibling_lang_term->get_wp_term()->name ?></a> <?php
 							}
 						}

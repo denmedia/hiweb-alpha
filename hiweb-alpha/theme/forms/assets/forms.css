@@ -6,7 +6,7 @@
   -moz-transition: filter 1s ease-out 0ms, opacity 1s ease-out 0ms, transform 1s ease-out 0ms;
   -o-transition: filter 1s ease-out 0ms, opacity 1s ease-out 0ms, transform 1s ease-out 0ms;
   transition: filter 1s ease-out 0ms, opacity 1s ease-out 0ms, transform 1s ease-out 0ms;
-  min-height: 200px;
+  min-height: 50px;
   -webkit-opacity: 1;
   -moz-opacity: 1;
   -ms-opacity: 1;

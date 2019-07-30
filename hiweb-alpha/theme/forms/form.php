@@ -399,6 +399,7 @@
 
 		/**
 		 * Submit form
+		 * @version 1.2
 		 * @param $submit_data
 		 * @return array
 		 */
@@ -406,6 +407,8 @@
 			if( !$this->is_exists() ){
 				return [ 'success' => false, 'message' => 'Формы не существует', 'status' => 'error' ];
 			}
+			$allow_submit_form = apply_filters_ref_array('\theme\forms\form::do_submit-allow_submit_form', [null, $this, $submit_data]);
+			if(is_array($allow_submit_form)) return $allow_submit_form;
 			///
 			$inputs = $this->get_inputs_options();
 			$require_empty_inputs = [];
@@ -462,11 +465,13 @@
 			}
 			///
 			if( count( $require_empty_inputs ) > 0 ){
-				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
+				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
 			} elseif( !recaptcha::get_recaptcha_verify() ) {
 				return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
 			} else {
-
+				///
+				$allow_submit_form_after_validate = apply_filters_ref_array('\theme\forms\form::do_submit-allow_submit_form_after_validate', [null,$this, $submit_data, $require_empty_inputs]);
+				if(is_array($allow_submit_form_after_validate)) return $allow_submit_form_after_validate;
 				///Send Message to Admin
 				foreach( $this->get_target_emails() as $email ){
 					$theme = strtr( get_field( 'theme-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );

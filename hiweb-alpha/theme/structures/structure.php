@@ -16,6 +16,13 @@
 	use hiweb\urls\url;
 	use theme\seo;
 	use theme\structures;
+	use WooCommerce;
+	use WP_Error;
+	use WP_Post;
+	use WP_Post_Type;
+	use WP_Query;
+	use WP_Taxonomy;
+	use WP_Term;
 
 
 	class structure{
@@ -37,7 +44,7 @@
 			$this->wp_object = $object;
 			if( is_null( $this->wp_object ) ){
 				global $wp_query;
-				if( $wp_query instanceof \WP_Query && $wp_query->is_search ){
+				if( $wp_query instanceof WP_Query && $wp_query->is_search ){
 					$this->is_search = true;
 				}
 			}
@@ -54,16 +61,16 @@
 
 
 		/**
-		 * @return bool|false|string|\WP_Error
+		 * @return bool|false|string|WP_Error
 		 */
 		public function get_url(){
 			if( $this->is_search ){
 				return get_home_url() . '?s=' . urls::request( 's' );
-			} elseif( $this->wp_object instanceof \WP_Post ) {
+			} elseif( $this->wp_object instanceof WP_Post ) {
 				return get_permalink( $this->wp_object );
-			} elseif( $this->wp_object instanceof \WP_Term ) {
+			} elseif( $this->wp_object instanceof WP_Term ) {
 				return get_term_link( $this->wp_object );
-			} elseif( $this->wp_object instanceof \WP_Post_Type && $this->wp_object->public && $this->wp_object->publicly_queryable && $this->wp_object->has_archive ) {
+			} elseif( $this->wp_object instanceof WP_Post_Type && $this->wp_object->public && $this->wp_object->publicly_queryable && $this->wp_object->has_archive ) {
 				return get_post_type_archive_link( $this->wp_object->name );
 			}
 			return get_home_url();
@@ -83,13 +90,17 @@
 		 * @return mixed|string
 		 */
 		public function get_title( $force_raw = true ){
-			if($this->is_search) {
+			if( $this->is_search ){
 				return apply_filters( '\theme\structures\structure::get_title', 'Результаты поиска', $this->wp_object, $force_raw, $this );
-			}elseif( $this->wp_object instanceof \WP_Post ){
+			} elseif( $this->wp_object instanceof WP_Post ) {
 				return apply_filters( '\theme\structures\structure::get_title', $force_raw ? $this->wp_object->post_title : get_the_title( $this->wp_object ), $this->wp_object, $force_raw, $this );
-			} elseif( $this->wp_object instanceof \WP_Term ) {
+			} elseif( $this->wp_object instanceof WP_Term ) {
 				return apply_filters( '\theme\structures\structure::get_title', $this->wp_object->name, $this->wp_object, $force_raw, $this );
-			} elseif( $this->wp_object instanceof \WP_Post_Type ) {
+			} elseif( $this->wp_object instanceof WP_Post_Type ) {
+				if( class_exists( '\theme\seo' ) ){
+					$title = seo::get_post_type_title( $this->wp_object->name );
+					if( $title != '' ) return $title;
+				}
 				return apply_filters( '\theme\structures\structure::get_title', $this->wp_object->label, $this->wp_object, $force_raw, $this );
 			} else {
 				return get_bloginfo( 'name' );
@@ -98,13 +109,13 @@
 
 
 		/**
-		 * @return array|\WP_Post[]
+		 * @return array|WP_Post[]
 		 */
 		public function get_parent_wp_post(){
-			if( $this->wp_object instanceof \WP_Post ){
+			if( $this->wp_object instanceof WP_Post ){
 				if( $this->wp_object->post_parent != 0 ){
 					$wp_post_test = get_post( $this->wp_object->post_parent );
-					if( $wp_post_test instanceof \WP_Post && $this->wp_object != $wp_post_test ) return [ $wp_post_test ];
+					if( $wp_post_test instanceof WP_Post && $this->wp_object != $wp_post_test ) return [ $wp_post_test ];
 				}
 			}
 			return [];
@@ -112,21 +123,21 @@
 
 
 		/**
-		 * @return array|\WP_Term[]
+		 * @return array|WP_Term[]
 		 */
 		public function get_parent_wp_term(){
 			if( !is_array( $this->cache_parent_terms ) ){
 				$this->cache_parent_terms = [];
-				if( $this->wp_object instanceof \WP_Post ){
+				if( $this->wp_object instanceof WP_Post ){
 					$taxonomies = get_object_taxonomies( $this->wp_object->post_type );
 					foreach( $taxonomies as $taxonomy ){
 						if( !get_taxonomy( $taxonomy )->public ) continue;
 						$terms = get_the_terms( $this->wp_object, $taxonomy );
 						if( is_array( $terms ) ) $this->cache_parent_terms = array_merge( $this->cache_parent_terms, $terms );
 					}
-				} elseif( $this->wp_object instanceof \WP_Term && $this->wp_object->parent != 0 ) {
+				} elseif( $this->wp_object instanceof WP_Term && $this->wp_object->parent != 0 ) {
 					$wp_term_test = get_term( $this->wp_object->parent );
-					if( $wp_term_test instanceof \WP_Term && $this->wp_object != $wp_term_test ){
+					if( $wp_term_test instanceof WP_Term && $this->wp_object != $wp_term_test ){
 						$this->cache_parent_terms = [ $wp_term_test ];
 					}
 				}
@@ -141,14 +152,14 @@
 		public function get_parent_blog_page(){
 			if( !is_array( $this->cache_parent_blog_page ) ){
 				$this->cache_parent_blog_page = [];
-				if( themes::get()->get_blog_page() instanceof \WP_Post && themes::get()->get_blog_page()->ID != 0 && $this->wp_object != themes::get()->get_blog_page() ){
-					if( $this->wp_object instanceof \WP_Post ){
+				if( themes::get()->get_blog_page() instanceof WP_Post && themes::get()->get_blog_page()->ID != 0 && $this->wp_object != themes::get()->get_blog_page() ){
+					if( $this->wp_object instanceof WP_Post ){
 						if( $this->wp_object->post_type == 'post' ){
 							$this->cache_parent_blog_page[] = themes::get()->get_blog_page();
 						}
-					} elseif( $this->wp_object instanceof \WP_Term ) {
+					} elseif( $this->wp_object instanceof WP_Term ) {
 						$taxonomy = get_taxonomy( $this->wp_object->taxonomy );
-						if( $taxonomy instanceof \WP_Taxonomy ){
+						if( $taxonomy instanceof WP_Taxonomy ){
 							foreach( $taxonomy->object_type as $post_type ){
 								if( $post_type == 'post' ){
 									$this->cache_parent_blog_page[] = themes::get()->get_blog_page();
@@ -164,19 +175,19 @@
 
 
 		/**
-		 * @return \WP_Post_Type[]
+		 * @return WP_Post_Type[]
 		 */
 		public function get_parent_wp_post_type(){
 			if( !is_array( $this->cache_parent_post_types ) ){
 				$this->cache_parent_post_types = [];
-				if( $this->wp_object instanceof \WP_Post ){
+				if( $this->wp_object instanceof WP_Post ){
 					$post_type_object = get_post_type_object( $this->wp_object->post_type );
 					if( $post_type_object->public && $post_type_object->has_archive ){
 						$this->cache_parent_post_types[ $this->wp_object->post_type ] = $post_type_object;
 					}
-				} elseif( $this->wp_object instanceof \WP_Term ) {
+				} elseif( $this->wp_object instanceof WP_Term ) {
 					$taxonomy = get_taxonomy( $this->wp_object->taxonomy );
-					if( $taxonomy instanceof \WP_Taxonomy ){
+					if( $taxonomy instanceof WP_Taxonomy ){
 						foreach( $taxonomy->object_type as $post_type ){
 							$post_type_object = get_post_type_object( $post_type );
 							if( $post_type_object->public && $post_type_object->has_archive ){
@@ -191,23 +202,23 @@
 
 
 		/**
-		 * @return \WP_Post[]
+		 * @return WP_Post[]
 		 */
 		public function get_parent_woocommerce_shop_page(){
 			$R = [];
-			if( function_exists( 'WC' ) && WC() instanceof \WooCommerce ){
-				if( ( $this->wp_object instanceof \WP_Post && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $this->wp_object->post_type ) ) ){
+			if( function_exists( 'WC' ) && WC() instanceof WooCommerce ){
+				if( ( $this->wp_object instanceof WP_Post && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $this->wp_object->post_type ) ) ){
 					$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
-					if( $wp_post_test instanceof \WP_Post && $wp_post_test != $this->wp_object ){
+					if( $wp_post_test instanceof WP_Post && $wp_post_test != $this->wp_object ){
 						$R[ $wp_post_test->ID ] = $wp_post_test;
 					}
-				} elseif( $this->wp_object instanceof \WP_Term ) {
+				} elseif( $this->wp_object instanceof WP_Term ) {
 					$taxonomy = get_taxonomy( $this->wp_object->taxonomy );
 					foreach( $taxonomy->object_type as $post_type ){
 						$post_type_object = get_post_type_object( $post_type );
 						if( $post_type_object->public && arrays::get_temp( apply_filters( 'rest_api_allowed_post_types', [] ) )->in( $post_type ) ){
 							$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
-							if( $wp_post_test instanceof \WP_Post && $wp_post_test != $this->wp_object ){
+							if( $wp_post_test instanceof WP_Post && $wp_post_test != $this->wp_object ){
 								$R[ $wp_post_test->ID ] = $wp_post_test;
 							}
 						}
@@ -226,7 +237,7 @@
 				$this->cache_parent_by_nav_menu = [];
 				///
 				foreach( get_nav_menu_locations() as $location ){
-					/** @var \WP_Post $wp_nav_item */
+					/** @var WP_Post $wp_nav_item */
 					$nav_items = [];
 					foreach( wp_get_nav_menu_items( $location ) as $nav_menu_item ){
 						$nav_items[ $nav_menu_item->ID ] = $nav_menu_item;
@@ -249,12 +260,12 @@
 
 
 		/**
-		 * @return array|\WP_Post[]|\WP_Post_Type[]|\WP_Term[]
+		 * @return array|WP_Post[]|WP_Post_Type[]|WP_Term[]
 		 */
 		public function get_parent_wp_objects(){
 			if( !is_array( $this->cache_parent_objects ) ){
 				$this->cache_parent_objects = [];
-				if( $this->wp_object instanceof \WP_Post ){
+				if( $this->wp_object instanceof WP_Post ){
 					if( count( $this->get_parent_wp_post() ) > 0 ){
 						$this->cache_parent_objects = $this->get_parent_wp_post();
 					} elseif( count( $this->get_parent_wp_term() ) > 0 ) {
@@ -270,7 +281,7 @@
 					} else {
 						$this->cache_parent_objects = [];
 					}
-				} elseif( $this->wp_object instanceof \WP_Term ) {
+				} elseif( $this->wp_object instanceof WP_Term ) {
 					if( count( $this->get_parent_wp_term() ) > 0 ){
 						$this->cache_parent_objects = $this->get_parent_wp_term();
 					} elseif( count( $this->get_parent_wp_object_by_nav() ) > 0 ) {
@@ -284,7 +295,7 @@
 					} else {
 						$this->cache_parent_objects = [];
 					}
-				} elseif( $this->wp_object instanceof \WP_Post_Type ) {
+				} elseif( $this->wp_object instanceof WP_Post_Type ) {
 					if( count( $this->get_parent_wp_object_by_nav() ) > 0 ){
 						$this->cache_parent_objects = $this->get_parent_wp_object_by_nav();
 					} else {
@@ -338,7 +349,7 @@
 
 
 		/**
-		 * @param \WP_Post|\WP_Term|\WP_Post_Type|string $wp_object_or_objectId - можно сразу указать ID объекта в виде строки
+		 * @param WP_Post|WP_Term|WP_Post_Type|string $wp_object_or_objectId - можно сразу указать ID объекта в виде строки
 		 * @return bool
 		 */
 		public function has_object( $wp_object_or_objectId ){

@@ -77,7 +77,13 @@
 		public function the_prefix(){
 			?>
 			<div class="input-wrap input-wrap-<?= self::get_name() ?>">
-			<?php if( self::get_data( 'label' ) != '' ){
+			<?php
+			if( isset( $this->data['icon'] ) && $this->data['icon'] != '' ){
+				?>
+				<i class="<?= $this->data['icon'] ?>"></i>
+				<?php
+			}
+			if( self::get_data( 'label' ) != '' ){
 				?>
 				<label class="label"><?= self::get_data( 'label' ) ?> <?= $this->is_required() ? '<span class="required">*</span>' : '' ?></label>
 				<?php

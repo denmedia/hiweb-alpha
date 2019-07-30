@@ -32,7 +32,7 @@
 			public $item_class_active = 'active';
 			public $items;
 			public $items_by_parent;
-			public $use_stellarnav = true;
+			public $use_stellarnav = false;
 			public $use_stellarnav_showArrows = true;
 
 
@@ -129,6 +129,7 @@
 			/**
 			 * @param int $parent_id
 			 * @param int $depth
+			 * @version 1.2
 			 */
 			public function the_list( $parent_id = 0, $depth = 0 ){
 				if( $depth <= $this->depth && $this->has_subitems( $parent_id ) ){
@@ -137,7 +138,7 @@
 					//
 					ob_start();
 					foreach( $this->get_items( $parent_id ) as $item ){
-						$active = structures::get()->has_object( $item ); //urls::get()->is_dirs_intersect( $item->url );
+						$active = structures::get()->has_object( $item ) || urls::get()->is_dirs_intersect( $item->url );
 						?>
 						<li class="<?= implode( ' ', $this->item_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>">
 							<?php
@@ -159,7 +160,7 @@
 					}
 					$R = ob_get_clean();
 					?>
-					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden;"' : '' ?> data-items-count="<?= $items_count ?>" data-items-symbols-count="<?= $items_symbol_count ?>">
+					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden; position: absolute;"' : '' ?> data-items-count="<?= $items_count ?>" data-items-symbols-count="<?= $items_symbol_count ?>">
 						<?php
 							echo $R;
 						?>

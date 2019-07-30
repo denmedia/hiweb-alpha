@@ -36,6 +36,19 @@
 				add_action( '\theme\html_layout\body::the_after-before', function(){
 					get_template_part( HIWEB_THEME_PARTS . '/mmenu/after' );
 				}, 9999999 );
+				///
+				add_action( '\theme\html_layout\body::the_after-before', function(){
+					foreach( self::get_all() as $mmenu ){
+						$nav_menu = nav_menu::get( $mmenu->get_nav_location() );
+						$nav_menu->use_stellarnav = false;
+						$nav_menu->add_class( 'hiweb-mmenu-nav' );
+						$nav_menu->add_tag( 'data-title', htmlentities($mmenu->get_title()) );
+						$nav_menu->add_tag( 'data-extensions', json_encode( $mmenu->extensions()->get_data_array() ) );
+						$nav_menu->id = $mmenu->get_nav_id();
+						//$nav_menu->add_class('');
+						$nav_menu->the();
+					}
+				} );
 			}
 		}
 
@@ -56,19 +69,7 @@
 			if( !array_key_exists( $nav_location, self::$mmenus ) ){
 				self::$mmenus[ $nav_location ] = new mmenu( $nav_location );
 			}
-			///
-			add_action( '\theme\html_layout\body::the_after-before', function(){
-				foreach( self::get_all() as $mmenu ){
-					$nav_menu = nav_menu::get( $mmenu->get_nav_location() );
-					$nav_menu->use_stellarnav = false;
-					$nav_menu->add_class( 'hiweb-mmenu-nav' );
-					$nav_menu->add_tag( 'data-title', htmlentities($mmenu->get_title()) );
-					$nav_menu->add_tag( 'data-extensions', json_encode( $mmenu->extensions()->get_data_array() ) );
-					$nav_menu->id = $mmenu->get_nav_id();
-					//$nav_menu->add_class('');
-					$nav_menu->the();
-				}
-			} );
+
 			return self::$mmenus[ $nav_location ];
 		}
 
@@ -98,8 +99,13 @@
 		}
 
 
+		/**
+		 * @param string $title
+		 * @return $this
+		 */
 		public function set_title( $title = 'Меню' ){
 			$this->menu_title = $title;
+			return $this;
 		}
 
 

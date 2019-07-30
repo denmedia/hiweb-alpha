@@ -24,7 +24,8 @@
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'placeholder' )->placeholder( 'Плейсхолдер в поле' ) )->label( 'Плейсхолдер в поле' );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'mask-use' )->label_checkbox( 'Использовать маску' ) )->compact(1);
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'mask' )->placeholder( '+7(999)999-99-99' )->VALUE( '+7(999)999-99-99' )->get_parent_field() )->label('Макска для ввода телефона')->compact(1);
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) )->compact(1);
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_fontawesome( 'icon' ) )->label('Иконка для поля');
 		}
 
 		public function the(){

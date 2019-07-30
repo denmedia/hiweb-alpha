@@ -11,6 +11,7 @@
 
 	use hiweb\strings;
 	use theme\includes\frontend;
+	use theme\sliders;
 
 
 	class slider{
@@ -26,9 +27,7 @@
 
 
 		public function __construct( $id = null ){
-			frontend::owl_carousel();
-			frontend::css( __DIR__ . '/slider.css' );
-			frontend::js( __DIR__ . '/slider.min.js', frontend::jquery() );
+			sliders::init();
 			if( is_null( $id ) )
 				$this->id = strings::rand(); else $this->id = $id;
 		}

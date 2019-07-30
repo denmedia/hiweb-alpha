@@ -1,3 +1,30 @@
+.gutters-01 {
+  margin-right: -0.1em;
+  margin-left: -0.1em;
+}
+.gutters-01 > [class*=col-], .gutters-01 > [class~=col] {
+  padding-right: 0.1em;
+  padding-left: 0.1em;
+}
+
+.gutters-02 {
+  margin-right: -0.2em;
+  margin-left: -0.2em;
+}
+.gutters-02 > [class*=col-], .gutters-02 > [class~=col] {
+  padding-right: 0.2em;
+  padding-left: 0.2em;
+}
+
+.gutters-03 {
+  margin-right: -0.3em;
+  margin-left: -0.3em;
+}
+.gutters-03 > [class*=col-], .gutters-03 > [class~=col] {
+  padding-right: 0.3em;
+  padding-left: 0.3em;
+}
+
 .gutters-05 {
   margin-right: -0.5em;
   margin-left: -0.5em;

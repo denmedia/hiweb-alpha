@@ -12,14 +12,15 @@ var hiweb_theme_widget_forms = {
             hiweb_theme_widget_forms.make($(this));
         });
         //Fancybox values setup
-        $('body').on('click','a[href][data-widget-form-modal-open]', function(){
+        $('body').on('click', 'a[href][data-widget-form-modal-open]', function () {
             let $form = $($(this).attr('href'));
-            if($form.length > 0) {
+            if ($form.length > 0) {
                 let data = JSON.parse($(this).attr('data-values'));
-                for(let name in data){
-                    $form.find('[name="'+name+'"]').val(data[name]);
+                for (let name in data) {
+                    $form.find('[name="' + name + '"]').val(data[name]);
                 }
             }
+            $('body').trigger('hiweb-theme-form-modal-open', $(this));
         });
         //Path for remake form without events!
         $('body').on('submit', hiweb_theme_widget_forms.form_root_seletor, function (e) {
@@ -58,7 +59,7 @@ var hiweb_theme_widget_forms = {
         ///MASK INPUTS
         let $form_mask_inputs = $form.find('[data-input-mask]');
         if ($form_mask_inputs.length > 0 && typeof $form_mask_inputs.mask === 'function') {
-            $form_mask_inputs.each(function(){
+            $form_mask_inputs.each(function () {
                 $(this).mask($(this).attr('data-input-mask'));
             });
         }
@@ -66,7 +67,7 @@ var hiweb_theme_widget_forms = {
     },
 
     recapthca_get_token: function ($form, success_fn) {
-        if(typeof grecaptcha === 'undefined'){
+        if (typeof grecaptcha === 'undefined') {
             console.error('Объект [grecaptcha] не подключен в теле сайта. Подключите удаленный JS файл [https://www.google.com/recaptcha/api.js?render={recaptcha public key}]');
         } else {
             var $input_token = $form.find(hiweb_theme_widget_forms.recaptcha_local_selector);
@@ -120,8 +121,12 @@ var hiweb_theme_widget_forms = {
                     if (response.hasOwnProperty('error_inputs')) {
                         for (var index in response.error_inputs) {
                             var name = response.error_inputs[index];
-                            $form.find('[name="' + name + '"]').addClass('require-error').parent().addClass('require-error').parent().addClass('require-error');
+                            $form.find('[name="' + name + '"]').addClass('require-error').parent().addClass('require-error').closest('.input-wrap').addClass('require-error');
                         }
+                    }
+
+                    if (response.hasOwnProperty('callback_js') && response.callback_js !== '') {
+                        eval(response.callback_js);
                     }
                 }
             },

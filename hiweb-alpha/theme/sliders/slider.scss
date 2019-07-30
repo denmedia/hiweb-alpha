@@ -114,14 +114,15 @@
 			bottom: 0;
 
 			span {
-				color: rgba(255, 255, 255, .25);
+				color: rgba(255, 255, 255, .75);
 				@include text-shadow();
 				@include transition();
 				padding: .3em .2em .4em;
 				display: block;
 				margin-top: -30pt;
 				line-height: 30pt;
-				font-size: 50pt;
+				font-size: 7em;
+
 
 				&:hover {
 					color: rgba(255, 255, 255, 1);
