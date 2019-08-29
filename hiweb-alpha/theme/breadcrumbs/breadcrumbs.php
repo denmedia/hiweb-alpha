@@ -111,13 +111,14 @@
 
 
 		/**
+		 * @version 1.1
 		 * @return crumb[]
 		 */
 		static function get_crumbs(){
 			if( !is_array( self::$crumbs ) ){
 				self::$crumbs = [];
 				$current_crumb = new crumb( get_queried_object() );
-				if( get_field( 'current-enable', self::$admin_options_slug ) ) self::$crumbs[] = $current_crumb;
+				if( apply_filters( '\theme\breadcrumbs::get_crumbs-current-enable', get_field( 'current-enable', self::$admin_options_slug ), $current_crumb ) ) self::$crumbs[] = $current_crumb;
 				///
 				$limit = self::$crumbs_limit;
 				while( $limit > 0 && $current_crumb->get_parent_crumb() !== false ){

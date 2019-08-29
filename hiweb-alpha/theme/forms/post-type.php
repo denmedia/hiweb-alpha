@@ -11,8 +11,10 @@
 	use theme\forms\inputs\checkbox;
 	use theme\forms\inputs\email;
 	use theme\forms\inputs\html_insert;
+	use theme\forms\inputs\image;
 	use theme\forms\inputs\info_text;
 	use theme\forms\inputs\json;
+	use theme\forms\inputs\listing;
 	use theme\forms\inputs\number;
 	use theme\forms\inputs\phone;
 	use theme\forms\inputs\postlink;
@@ -43,6 +45,8 @@
 	postlink::add_repeat_field( $INPUTS );
 	info_text::add_repeat_field( $INPUTS );
 	html_insert::add_repeat_field( $INPUTS );
+	image::add_repeat_field( $INPUTS );
+	listing::add_repeat_field( $INPUTS );
 	//
 
 	$strtr_descriptions = [];
@@ -73,3 +77,4 @@
 	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->LOCATION( true );
 	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->LOCATION( true );
 	///
+	add_field_textarea('callback_js')->label('JavaScript, который убдет выполнен в случае удачной отправки формы.')->description("Пример заполнения: <code>let foo = 'bar';\nalert(foo);</code>")->LOCATION(true);

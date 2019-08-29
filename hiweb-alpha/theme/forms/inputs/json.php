@@ -46,9 +46,14 @@
 
 
 		public function get_email_value( $value ){
-			$value_array = json_decode( stripslashes($value), true );
+			$value_array = json_decode( stripslashes( $value ), true );
 			if( json_last_error() === JSON_ERROR_NONE ){
-				return apply_filters( 'hiweb-theme-widgets-form-input-json-'.$this->get_name().'-email-value', $value_array, $this );
+				$R = [];
+				if( is_array( $value_array ) ) foreach( $value_array as $key => $value ){
+					$R[] = "<u>{$key}</u>: {$value}";
+				}
+				$R = "\n" . join( "\n", $R );
+				return apply_filters( 'hiweb-theme-widgets-form-input-json-' . $this->get_name() . '-email-value', $R, $this, $value_array );
 			} else {
 				return 'Ошибка в данных JSON <code>' . $value . '</code>';
 			}

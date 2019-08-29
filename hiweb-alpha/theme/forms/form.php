@@ -13,6 +13,7 @@
 	use hiweb\paths;
 	use hiweb\strings;
 	use hiweb\themes\theme;
+	use hiweb\urls;
 	use theme\breadcrumbs;
 	use theme\forms;
 	use theme\includes\frontend;
@@ -113,8 +114,7 @@
 		 */
 		public function get_status_icon( $status_name = 'process' ){
 			$R = get_field( 'icon-' . $status_name, $this->get_wp_post() );
-			if( $R == '' )
-				$R = get_field( 'icon-' . $status_name, forms::$options_name );
+			if( $R == '' ) $R = get_field( 'icon-' . $status_name, forms::$options_name );
 			return $R;
 		}
 
@@ -125,8 +125,7 @@
 		 */
 		public function get_status_message( $status_name = 'process' ){
 			$R = get_field( 'text-' . $status_name, $this->get_wp_post() );
-			if( $R == '' )
-				$R = get_field( 'text-' . $status_name, forms::$options_name );
+			if( $R == '' ) $R = get_field( 'text-' . $status_name, forms::$options_name );
 			return $R;
 		}
 
@@ -160,8 +159,7 @@
 		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [] ){
 			forms::setup_postdata( $this->get_wp_post() );
 			if( !is_array( $button_classes ) ){
-				if( is_string( $button_classes ) && $button_classes != '' )
-					$button_classes = [ $button_classes ]; else $button_classes = [ 'hiweb-theme-widget-form-button' ];
+				if( is_string( $button_classes ) && $button_classes != '' ) $button_classes = [ $button_classes ]; else $button_classes = [ 'hiweb-theme-widget-form-button' ];
 			}
 			$this->the_fancybox_button_html = $html;
 			$this->the_fancybox_button_classes = $button_classes;
@@ -173,7 +171,7 @@
 				add_action( '\theme\html_layout\body::the_after-before', function(){
 					?>
 					<div class="hiweb-theme-widget-form-modal-wrap" style="display: none;">
-						<div class="hiweb-theme-widget-form-modal hiweb-theme-widget-form-modal-<?=$this->get_wp_post()->ID?> hiweb-theme-widget-form-modal-<?=$this->get_wp_post()->post_name?>" id="hiweb-theme-widgets-form-<?= $this->get_id() ?>" data-form-id="<?= get_the_form()->get_id() ?>" data-form-object-id="<?= $this->get_object_id() ?>">
+						<div class="hiweb-theme-widget-form-modal hiweb-theme-widget-form-modal-<?= $this->get_wp_post()->ID ?> hiweb-theme-widget-form-modal-<?= $this->get_wp_post()->post_name ?>" id="hiweb-theme-widgets-form-<?= $this->get_id() ?>" data-form-id="<?= get_the_form()->get_id() ?>" data-form-object-id="<?= $this->get_object_id() ?>">
 							<?php if( $this->is_exists() ){
 								?>
 								<div class="form-title"><?= get_the_title( $this->get_wp_post() ) ?></div>
@@ -356,8 +354,7 @@
 		public function get_target_emails(){
 			$emails = [];
 			$emails_str = trim( get_field( 'email', self::get_wp_post() ), ',' );
-			if( $emails_str == '' )
-				$emails_str = trim( get_field( 'email', forms::$options_name ), ',' );
+			if( $emails_str == '' ) $emails_str = trim( get_field( 'email', forms::$options_name ), ',' );
 			if( $emails_str == '' ){
 				$emails = [ get_bloginfo( 'admin_email' ) ];
 			} elseif( strpos( $emails_str, ' ' ) ) {
@@ -370,10 +367,8 @@
 			$R = [];
 			foreach( $emails as $test_email ){
 				$test_email = trim( $test_email );
-				if( $test_email == '' )
-					continue;
-				if( filter_var( $test_email, FILTER_VALIDATE_EMAIL ) )
-					$R[] = $test_email;
+				if( $test_email == '' ) continue;
+				if( filter_var( $test_email, FILTER_VALIDATE_EMAIL ) ) $R[] = $test_email;
 			}
 			return $R;
 		}
@@ -398,17 +393,47 @@
 
 
 		/**
+		 * @param string $to
+		 * @param string $subject
+		 * @param string $content
+		 * @return bool
+		 */
+		private function send_mail( $to = '', $subject = '', $content = '' ){
+			if( !is_string( $to ) || trim( $to ) == '' ){
+				$to = get_bloginfo( 'admin_email' );
+				if( !filter_var( $to, FILTER_VALIDATE_EMAIL ) ){
+					$to = get_option( 'admin_email' );
+				}
+			}
+			$reply_to = 'noreply@{domain}';
+			if( get_field( 'reply_email', $this->get_wp_post() ) != '' ){
+				$reply_to = get_field( 'reply_email', forms::$options_name );
+			}
+			if( get_field( 'reply_email', $this->get_wp_post() ) != '' ){
+				$reply_to = get_field( 'reply_email', $this->get_wp_post() );
+			}
+			$reply_to = str_replace( '{domain}', urls::get()->domain(), $reply_to );
+			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <' . $reply_to . '>' ];
+			$headers[] = 'Reply-To: ' . $reply_to;
+			$headers[] = 'Precedence: bulk';
+			$headers[] = 'List-Unsubscribe: ' . \hiweb\urls::root( false );
+			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );
+			return wp_mail( $to, html_entity_decode( $subject ), $content, $headers );
+		}
+
+
+		/**
 		 * Submit form
-		 * @version 1.2
 		 * @param $submit_data
 		 * @return array
+		 * @version 1.3
 		 */
 		public function do_submit( $submit_data ){
 			if( !$this->is_exists() ){
 				return [ 'success' => false, 'message' => 'Формы не существует', 'status' => 'error' ];
 			}
-			$allow_submit_form = apply_filters_ref_array('\theme\forms\form::do_submit-allow_submit_form', [null, $this, $submit_data]);
-			if(is_array($allow_submit_form)) return $allow_submit_form;
+			$allow_submit_form = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form', [ null, $this, $submit_data ] );
+			if( is_array( $allow_submit_form ) ) return $allow_submit_form;
 			///
 			$inputs = $this->get_inputs_options();
 			$require_empty_inputs = [];
@@ -418,15 +443,13 @@
 			$client_email = [];
 
 			foreach( $inputs as $input ){
-				if( !array_key_exists( 'name', $input ) )
-					continue;
+				if( !array_key_exists( 'name', $input ) ) continue;
 				$name = $input['name'];
 				$input_object = $this->get_input_object( $name );
 				$require = arrays::get_value_by_key( $input, 'require' ) == 'on';
 				$value = $input_object->get_email_value( arrays::get_value_by_key( $submit_data, $name ) );
 				$addition_strtr[ '{' . $name . '}' ] = $value;
-				if( $value != '' )
-					$addition_strtr['{data-list}'] .= $input_object->get_email_html( arrays::get_value_by_key( $submit_data, $name ) ) . "<br>";
+				if( $value != '' && $input_object->is_email_submit_enable() ) $addition_strtr['{data-list}'] .= $input_object->get_email_html( arrays::get_value_by_key( $submit_data, $name ) ) . "<br>";
 				switch( $input['_flex_row_id'] ){
 					case 'Адрес почты':
 						if( filter_var( $value, FILTER_VALIDATE_EMAIL ) ){
@@ -470,31 +493,27 @@
 				return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
 			} else {
 				///
-				$allow_submit_form_after_validate = apply_filters_ref_array('\theme\forms\form::do_submit-allow_submit_form_after_validate', [null,$this, $submit_data, $require_empty_inputs]);
-				if(is_array($allow_submit_form_after_validate)) return $allow_submit_form_after_validate;
+				$allow_submit_form_after_validate = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form_after_validate', [ null, $this, $submit_data, $require_empty_inputs ] );
+				if( is_array( $allow_submit_form_after_validate ) ) return $allow_submit_form_after_validate;
 				///Send Message to Admin
 				foreach( $this->get_target_emails() as $email ){
 					$theme = strtr( get_field( 'theme-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
 					$content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
-					if( trim( $theme ) == '' )
-						$theme = strtr( get_field( 'theme-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
-					if( trim( $content ) == '' )
-						$content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
-					send_mail( $email, $theme, $content );
+					if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
+					if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
+					$this->send_mail( $email, $theme, $content );
 				}
 				///Send client Email
 				if( get_field( 'send-client-email', forms::$options_name ) != '' && count( $client_email ) > 0 ){
 					foreach( $client_email as $email ){
 						$theme = strtr( get_field( 'theme-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
 						$content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
-						if( trim( $theme ) == '' )
-							$theme = strtr( get_field( 'theme-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
-						if( trim( $content ) == '' )
-							$content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
-						send_mail( $email, $theme, $content );
+						if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
+						if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
+						$this->send_mail( $email, $theme, $content );
 					}
 				}
-				return [ 'success' => true, 'message' => $this->get_status_message( 'success' ), 'status' => 'success' ];
+				return [ 'success' => true, 'callback_js' => get_field('callback_js', $this->get_wp_post()), 'message' => $this->get_status_message( 'success' ), 'status' => 'success' ];
 			}
 		}
 	}

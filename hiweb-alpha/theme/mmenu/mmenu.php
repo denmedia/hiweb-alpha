@@ -28,6 +28,7 @@
 			if( !self::is_init() ){
 				self::$init = true;
 				$mmenu_handle = frontend::jquery_mmenu();
+				frontend::css( __DIR__ . '/mmenu.css' );
 				frontend::js( __DIR__ . '/mmenu.min.js', $mmenu_handle );
 				///
 				add_action( '\theme\html_layout\body::the_before-after', function(){
@@ -42,7 +43,7 @@
 						$nav_menu = nav_menu::get( $mmenu->get_nav_location() );
 						$nav_menu->use_stellarnav = false;
 						$nav_menu->add_class( 'hiweb-mmenu-nav' );
-						$nav_menu->add_tag( 'data-title', htmlentities($mmenu->get_title()) );
+						$nav_menu->add_tag( 'data-title', htmlentities( $mmenu->get_title() ) );
 						$nav_menu->add_tag( 'data-extensions', json_encode( $mmenu->extensions()->get_data_array() ) );
 						$nav_menu->id = $mmenu->get_nav_id();
 						//$nav_menu->add_class('');
@@ -152,8 +153,8 @@
 		}
 
 
-//		public function get_html_tag_options(){
-//
-//		}
+		//		public function get_html_tag_options(){
+		//
+		//		}
 
 	}

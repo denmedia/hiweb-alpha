@@ -20,7 +20,8 @@
 		static function add_repeat_field( field $parent_repeat_field ){
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Опция' )->VALUE( 'Опция' )->get_parent_field() )->label( 'Чекбокс (галочка)' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' ) )->label( 'Имя поля на латинице' )->compact( 1 );
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) )->compact(1);
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'send_enable' )->label_checkbox( 'Не отправлять данное поле по почте' ) );
 		}
 
 		public function the_prefix(){
@@ -49,7 +50,7 @@
 			<?php
 			if( self::get_data( 'label' ) != '' ){
 				?>
-				<?= self::get_data( 'label' ) ?> <?= $this->is_required() ? '<span class="required">*</span>' : '' ?></label>
+				<?= self::get_data( 'label', false ) ?> <?= $this->is_required() ? '<span class="required">*</span>' : '' ?></label>
 				<?php
 			}
 			$this->the_sufix();
@@ -64,6 +65,14 @@
 				</div>
 				<?php
 			}
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		public function is_email_submit_enable(){
+			return self::get_data('send_enable') != 'on';
 		}
 
 

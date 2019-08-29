@@ -9,6 +9,7 @@
 	namespace theme\breadcrumbs;
 
 
+	use hiweb\tools\taxonomy_main_select;
 	use theme\breadcrumbs;
 	use theme\structures\structure;
 
@@ -87,10 +88,23 @@
 
 		/**
 		 * @return mixed
+		 * @version 1.1
 		 */
 		public function get_parent_object(){
 			$candidates = $this->get_parent_wp_objects();
 			if( !is_array( $candidates ) || count( $candidates ) == 0 ) return false;
+			///hiWeb Core main term
+			if( taxonomy_main_select::is_init() ){
+				foreach( $candidates as $candidate ){
+					if( $candidate instanceof \WP_Term && $candidate->term_id == get_post_meta( $this->wp_object->ID, taxonomy_main_select::$meta_key . '-' . $candidate->taxonomy, true ) ) return $candidate;
+				}
+			}
+			///Yoast SEO main term
+			if( $this->wp_object instanceof \WP_Post && get_post_meta( $this->wp_object->ID, '_yoast_wpseo_primary_product_cat', true ) != '' ){
+				foreach( $candidates as $candidate ){
+					if( $candidate instanceof \WP_Term && $candidate->term_id == get_post_meta( $this->wp_object->ID, '_yoast_wpseo_primary_product_cat', true ) ) return $candidate;
+				}
+			}
 			foreach( $candidates as $candidate ){
 				if( $candidate instanceof \WP_Term ){
 					if( get_field( 'taxonomy-' . $candidate->taxonomy . '-enable', breadcrumbs::$admin_options_slug ) ) return $candidate;

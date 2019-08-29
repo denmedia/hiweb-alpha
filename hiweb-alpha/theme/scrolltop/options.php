@@ -12,6 +12,10 @@
 
 	add_field_fontawesome( 'icon' )->VALUE( 'far fa-arrow-to-top' )->get_parent_field()->label( 'Иконка на кнопке' )->LOCATION()->ADMIN_MENUS( \theme\scrolltop::$admin_menu_slug );
 
+	add_field_image( 'image' )->label( 'Использовать изображение, вместо иконки' )->description( 'Если установить изображение, иконка будет проигнорированна' )->LOCATION()->ADMIN_MENUS( \theme\scrolltop::$admin_menu_slug );
+
+	add_field_text( 'text' )->label( 'Подпись для стрелки, например <code>вверх</code>' )->LOCATION()->ADMIN_MENUS( \theme\scrolltop::$admin_menu_slug );
+
 	add_field_text( 'scroll-speed' )->label( 'Скорость прокрутки вверх, милисек' )->VALUE( 1000 )->get_parent_field()->LOCATION( true );
 	add_field_text( 'fade-speed' )->label( 'Скорость появления/исчезновения кнопки, милисек' )->VALUE( 300 )->get_parent_field()->LOCATION( true );
 	add_field_text( 'scroll-offset' )->label( 'Расстояние скролла сверху, когда нужно показать кнопку, пикс' )->VALUE( 200 )->get_parent_field()->LOCATION( true );

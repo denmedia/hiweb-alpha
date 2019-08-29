@@ -42,7 +42,7 @@
 
 
 		static function the(){
-			frontend::css( __DIR__ . '/scrolltop.min.css' );
+			frontend::css( __DIR__ . '/scrolltop.css' );
 			frontend::js( __DIR__ . '/scrolltop.min.js', frontend::jquery() );
 			get_template_part( HIWEB_THEME_PARTS . '/scrolltop' );
 		}

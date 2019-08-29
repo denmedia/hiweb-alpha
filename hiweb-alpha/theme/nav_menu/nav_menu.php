@@ -10,6 +10,7 @@
 
 
 		use hiweb\arrays;
+		use hiweb\arrays\array_;
 		use hiweb\themes;
 		use hiweb\urls;
 		use theme\includes\frontend;
@@ -34,6 +35,12 @@
 			public $items_by_parent;
 			public $use_stellarnav = false;
 			public $use_stellarnav_showArrows = true;
+
+			///ROWS
+			/** @var */
+			private static $the_item;
+			private static $the_item_depth = 0;
+			private static $the_instance;
 
 
 			/**
@@ -129,7 +136,7 @@
 			/**
 			 * @param int $parent_id
 			 * @param int $depth
-			 * @version 1.2
+			 * @version 2
 			 */
 			public function the_list( $parent_id = 0, $depth = 0 ){
 				if( $depth <= $this->depth && $this->has_subitems( $parent_id ) ){
@@ -138,23 +145,16 @@
 					//
 					ob_start();
 					foreach( $this->get_items( $parent_id ) as $item ){
-						$active = structures::get()->has_object( $item ) || urls::get()->is_dirs_intersect( $item->url );
-						?>
-						<li class="<?= implode( ' ', $this->item_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>">
-							<?php
-								if( $item->url == '#' ){
-									?>
-									<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>"><?= $item->title ?></a>
-									<?php
-								} else {
-									?>
-									<a class="<?= implode( ' ', $this->link_classes ) ?><?= $active ? ' ' . $this->item_class_active : '' ?>" href="<?= $item->url ?>"><?= $item->title ?></a>
-									<?php
-								} ?>
-
-							<?php $this->the_list( $item->ID, $depth + 1 ); ?>
-						</li>
-						<?php
+						self::$the_item = $item;
+						self::$the_item_depth = $depth;
+						self::$the_instance = $this;
+						//						console_info( $item );
+						$templates = [];
+						$templates[] = 'parts/nav_menu/the_item-' . $item->type . '-' . $item->object . '-' . $item->object_id . '.php';
+						$templates[] = 'parts/nav_menu/the_item-' . $item->type . '-' . $item->object . '.php';
+						$templates[] = 'parts/nav_menu/the_item-' . $item->type . '.php';
+						$templates[] = 'parts/nav_menu/the_item.php';
+						locate_template( $templates, true, false );
 						$items_symbol_count += mb_strlen( $item->title );
 						$items_count ++;
 					}
@@ -210,6 +210,25 @@
 			public function __toString(){
 				return $this->get_html();
 			}
+
+
+			static function the_item(){
+				return self::$the_item;
+			}
+
+
+			static function the_item_depth(){
+				return self::$the_item_depth;
+			}
+
+
+			/**
+			 * @return nav_menu
+			 */
+			static function the_instance(){
+				return self::$the_instance;
+			}
+
 
 		}
 	}

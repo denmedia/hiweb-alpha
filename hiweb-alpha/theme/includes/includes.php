@@ -122,6 +122,14 @@
 		}
 
 
+		/**
+		 * wp-content/themes/hiweb-alpha/assets/css/bootstrap-additions.css
+		 */
+		static function bootstrap_addition(){
+			static::css(HIWEB_THEME_ASSETS_DIR.'/css/bootstrap-additions.css');
+		}
+
+
 		static function hamburgers(){
 			static::js( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburders.min.js', [ self::jquery() ] );
 			static::css( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburgers.min.css' );
@@ -157,12 +165,13 @@
 
 
 		/**
-		 * @return string
+		 * @return string|null
 		 */
 		static function owl_carousel(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css' );
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css' );
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] )->handle();
+			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] );
+			return $R instanceof \hiweb\files\file ? $R->handle() : null;
 		}
 
 
@@ -182,7 +191,7 @@
 		 */
 		static function isotope(){
 			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] );
-			if( $R instanceof file ){
+			if( $R instanceof \hiweb\files\file ){
 				return $R->handle();
 			}
 			return false;

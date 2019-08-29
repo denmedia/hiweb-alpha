@@ -135,4 +135,13 @@
 			return nl2br( trim( $value ) );
 		}
 
+
+		/**
+		 * Возвращает TRUE, если поле разрешено для отправки
+		 * @return bool
+		 */
+		public function is_email_submit_enable(){
+			return true;
+		}
+
 	}
