@@ -9,6 +9,7 @@
 	namespace theme\forms\inputs;
 
 
+	use hiweb\dump;
 	use hiweb\fields\types\repeat\field;
 
 
@@ -19,7 +20,7 @@
 
 
 		static function add_repeat_field( field $parent_repeat_field ){
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' ) )->label( 'Текстовое поле' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' ) )->label( 'Данные JSON' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' )->VALUE( self::$default_name )->get_parent_field() )->label( 'Имя поля на латинице' );
 		}
 
@@ -47,13 +48,22 @@
 
 		public function get_email_value( $value ){
 			$value_array = json_decode( stripslashes( $value ), true );
+			dump::to_file( [$value,$value_array] );
 			if( json_last_error() === JSON_ERROR_NONE ){
-				$R = [];
-				if( is_array( $value_array ) ) foreach( $value_array as $key => $value ){
-					$R[] = "<u>{$key}</u>: {$value}";
+				$filter_tag = 'hiweb-theme-widgets-form-input-json-' . $this->get_name() . '-email-value';
+				if( has_filter( $filter_tag ) ){
+					return apply_filters( $filter_tag, $value_array, $this );
+				} else {
+					if( !is_array( $value_array ) ){
+						return $value_array;
+					} else {
+						$R = '';
+						foreach( $value_array as $key => $val ){
+							$R .= "<div><b>{$key}: </b>{$val}</div>";
+						}
+						return $R;
+					}
 				}
-				$R = "\n" . join( "\n", $R );
-				return apply_filters( 'hiweb-theme-widgets-form-input-json-' . $this->get_name() . '-email-value', $R, $this, $value_array );
 			} else {
 				return 'Ошибка в данных JSON <code>' . $value . '</code>';
 			}

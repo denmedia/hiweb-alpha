@@ -17,7 +17,11 @@ var hiweb_theme_widget_forms = {
             if ($form.length > 0) {
                 let data = JSON.parse($(this).attr('data-values'));
                 for (let name in data) {
-                    $form.find('[name="' + name + '"]').val(data[name]);
+                    if(typeof data[name] == 'object') {
+                        $form.find('[name="' + name + '"]').val( JSON.stringify(data[name]));
+                    } else {
+                        $form.find('[name="' + name + '"]').val(data[name]);
+                    }
                 }
             }
             $('body').trigger('hiweb-theme-form-modal-open', $(this));

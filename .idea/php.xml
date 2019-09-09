@@ -5,4 +5,9 @@
       <fqn value="\Error" />
     </unchecked_exceptions>
   </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/../../(WORK)/(wordpress)" />
+    </include_path>
+  </component>
 </project>
