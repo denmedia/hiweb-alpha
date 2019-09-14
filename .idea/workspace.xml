@@ -2,24 +2,53 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="621d5569-80a0-4a2a-b9c4-ef4be6f8104f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/composerJson.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4/hiweb-core-4.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4/languages/ru_RU.mo" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4/languages/ru_RU.po" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/hiweb-alpha.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hiweb-alpha.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hiweb-alpha/footer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hiweb-alpha/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hiweb-alpha/footer.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hiweb-alpha/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hiweb-alpha/header.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/assets/js/field-post.js" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/assets/js/field-post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/assets/js/field-post.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/assets/js/field-post.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/hiweb-core-3.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/hiweb-core-3.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hiweb-alpha/theme/forms/assets/forms.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/theme/forms/assets/forms.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hiweb-alpha/theme/sliders/slider.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/theme/sliders/slider.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hiweb-alpha/vendors/jquery.stellarnav/stellarnav.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/vendors/jquery.stellarnav/stellarnav.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/include/css_parser/css_parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/include/css_parser/css_parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/include/fields/rows.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/include/fields/rows.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/include/remote_videos/video.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/include/remote_videos/video.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/types/content.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/types/content.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/types/post.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/types/post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/align.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/char_counter.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/code_view.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/colors.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/draggable.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/emoticons.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/entities.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/file.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/font_family.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/font_size.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/forms.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/fullscreen.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/help.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/image.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/image_manager.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/inline_style.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/line_breaker.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/link.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/lists.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/paragraph_format.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/paragraph_style.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/print.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/quick_insert.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/quote.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/save.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/table.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/url.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/video.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/plugins/word_paste.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/froala_editor/js/third_party/spell_checker.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/lodash/core.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/tinymce/plugins/anchor/plugin.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/hiweb-core-3/vendors/tinymce/plugins/code/plugin.min.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hiweb-alpha/theme/redirects/redirects.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/theme/redirects/redirects.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -117,6 +146,7 @@
       <workItem from="1567435163213" duration="1002000" />
       <workItem from="1567619337463" duration="5041000" />
       <workItem from="1567667042985" duration="13000" />
+      <workItem from="1568474007781" duration="43000" />
     </task>
     <servers />
   </component>

@@ -3,6 +3,7 @@
 	namespace theme;
 
 
+	use hiweb\dump;
 	use hiweb\strings;
 	use hiweb\urls;
 
@@ -33,8 +34,14 @@
 							$source = get_sub_field( 'source' );
 							if( trim( $source ) == '' ) continue;
 							$current_url = urls::get_current_url( false );
-							if( $current_url == $source || strings::is_regex( $source ) && preg_match( $source, $current_url ) > 0 ){
-								wp_redirect( get_sub_field( 'destination' ), get_sub_field( 'status' ) );
+							if( preg_match( '/[\*\(\)]+/', $source ) > 0 ) $source = "/{$source}/";
+							if( $current_url == $source || strings::is_regex( $source ) && preg_match( $source, $current_url, $matches ) > 0 ){
+								$strtr = [];
+								foreach( $matches as $index => $match ){
+									$strtr[ '$'.((string)$index) ] = $match;
+								}
+								$destination = strtr( get_sub_field( 'destination' ), $strtr );
+								wp_redirect( $destination, get_sub_field( 'status' ) );
 							}
 						}
 					}
