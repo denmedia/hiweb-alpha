@@ -3,7 +3,6 @@
 	namespace theme;
 
 
-	use hiweb\dump;
 	use hiweb\strings;
 	use hiweb\urls;
 

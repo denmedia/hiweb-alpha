@@ -426,7 +426,7 @@
 		 * Submit form
 		 * @param $submit_data
 		 * @return array
-		 * @version 1.3
+		 * @version 1.4
 		 */
 		public function do_submit( $submit_data ){
 			if( !$this->is_exists() ){
@@ -434,6 +434,10 @@
 			}
 			$allow_submit_form = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form', [ null, $this, $submit_data ] );
 			if( is_array( $allow_submit_form ) ) return $allow_submit_form;
+			///reCaptcha Validate
+			if( !recaptcha::get_recaptcha_verify() ) {
+				return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
+			}
 			///
 			$inputs = $this->get_inputs_options();
 			$require_empty_inputs = [];
@@ -489,8 +493,6 @@
 			///
 			if( count( $require_empty_inputs ) > 0 ){
 				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
-			} elseif( !recaptcha::get_recaptcha_verify() ) {
-				return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
 			} else {
 				///
 				$allow_submit_form_after_validate = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form_after_validate', [ null, $this, $submit_data, $require_empty_inputs ] );

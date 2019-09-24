@@ -16,5 +16,7 @@
 		define( 'HIWEB_THEME_INCLUDE_DIR', HIWEB_THEME_DIR . '/include' );
 	if( !defined( 'HIWEB_THEME_CLASSES_DIR' ) )
 		define( 'HIWEB_THEME_CLASSES_DIR', HIWEB_THEME_DIR . '/theme' );
+	if( !defined( 'HIWEB_THEME_WIDGETS_DIR' ) )
+		define( 'HIWEB_THEME_WIDGETS_DIR', HIWEB_THEME_DIR . '/widgets' );
 	if( !defined( 'HIWEB_THEME_PARTS' ) )
 		define( 'HIWEB_THEME_PARTS', 'parts' );

@@ -23,6 +23,7 @@
 
 		private $rows = null;
 		private $row = null;
+		private $row_object = null;
 
 
 		public function __construct( $array = [] ){
@@ -408,6 +409,22 @@
 
 
 		/**
+		 * Вывести параметры для URL
+		 * @param bool $return_array_pairs
+		 * @param bool $value_to_json
+		 * @return array|string
+		 * @version 1.0
+		 */
+		public function get_param_for_url( $return_array_pairs = false, $value_to_json = false ){
+			$pairs = [];
+			foreach( $this->get() as $key => $val ){
+				$pairs[] = $key . '=' . urlencode( $value_to_json ? json_encode( $val ) : $val );
+			}
+			return $return_array_pairs ? $pairs : implode( '&', $pairs );
+		}
+
+
+		/**
 		 * @param $key
 		 * @return bool
 		 */
@@ -453,10 +470,13 @@
 
 		/**
 		 * @return mixed|null
+		 * @version 1.1
 		 */
 		public function the_row(){
 			if( is_array( $this->rows ) && count( $this->rows ) > 0 ){
+				if( $this->row_object instanceof array_ ) unset( $this->row_object );
 				$this->row = array_shift( $this->rows );
+				$this->row_object = get_array( $this->row );
 				return $this->row;
 			}
 			return null;
@@ -468,6 +488,14 @@
 		 */
 		public function get_current_row(){
 			return $this->row;
+		}
+
+
+		/**
+		 * @return null
+		 */
+		public function get_current_row_object(){
+			return $this->row_object;
 		}
 
 
@@ -486,6 +514,17 @@
 		public function is_last_row(){
 			if( !is_array( $this->rows ) || $this->is_empty() ) return false;
 			return count( $this->rows ) == 0;
+		}
+
+
+		/**
+		 * @param      $key
+		 * @param null $default
+		 * @return mixed|null
+		 */
+		public function get_sub_field( $key, $default = null ){
+			if( !$this->row_object instanceof array_ ) return null;
+			return $this->row_object->get_value( $key, $default );
 		}
 
 	}

@@ -44,6 +44,7 @@
 			require_once __DIR__ . '/options.php';
 			require_once __DIR__ . '/rest.php';
 			require_once __DIR__ . '/shortcode.php';
+			require_once __DIR__ . '/widget.php';
 			if(self::$enqueue_frontend_scripts){
 				frontend::css(__DIR__.'/assets/forms.css');
 				frontend::js(__DIR__.'/assets/forms.min.js', frontend::jquery());

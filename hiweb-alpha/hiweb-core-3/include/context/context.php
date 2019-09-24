@@ -76,10 +76,11 @@
 
 
 		/**
+		 * @version 1.1
 		 * @return bool
 		 */
 		static function is_rest_api(){
-			return urls::get()->dir( 0 ) == 'wp-json';
+			return urls::get()->dir( 0 ) == 'wp-json' || (isset($_GET['rest_route']));
 		}
 
 

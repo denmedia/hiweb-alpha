@@ -104,12 +104,13 @@
 
 
 		/**
+		 * @version 1.1
 		 * @param null|bool $use_noscheme
 		 * @return string
 		 */
 		public function base( $use_noscheme = null ){
 			$key = json_encode( $use_noscheme );
-			if( !is_string( $this->base[ $key ] ) ){
+			if( !isset($this->base[ $key ]) || !is_string( $this->base[ $key ] ) ){
 				if( !is_bool( $use_noscheme ) ) $use_noscheme = urls::$use_noscheme_urls;
 				$this->base[ $key ] = ( $use_noscheme ? '//' : $this->schema() . '://' ) . $this->domain();
 			}
@@ -248,12 +249,13 @@
 
 
 		/**
+		 * @version 1.1
 		 * @param null|bool $use_noscheme
 		 * @return string
 		 */
 		public function root( $use_noscheme = null ){
 			$key = json_encode( $use_noscheme );
-			if( !is_string( $this->root[ $key ] ) ){
+			if(!isset($this->root[ $key ]) || !is_string( $this->root[ $key ] ) ){
 				$this->root[ $key ] = $this->base( $use_noscheme );
 				if( $this->is_local() ){
 					$root = ltrim( paths::root(), '/' );
@@ -300,7 +302,7 @@
 		 */
 		public function set_params( $params ){
 			$params = get_array( $this->params( true ) )->merge( $params );
-			$new_url = $this->get_clear() . ( !$params->is_empty() ? '?' . $params->get_param_html_tags() : '' );
+			$new_url = $this->get_clear() . ( !$params->is_empty() ? '?' . $params->get_param_for_url() : '' );
 			return urls::get( $new_url );
 		}
 

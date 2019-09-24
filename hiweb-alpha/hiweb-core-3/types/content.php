@@ -151,7 +151,7 @@
                                 "Distraction-free writing mode": "accessW",
                                 "Keyboard Shortcuts": "accessH"
                             },
-                            content_css: "<?=HIWEB_URL_VENDORS?>/wp-default.min.css",
+                            content_css: "<?=urls::root()?>/wp-includes/js/tinymce/skins/wordpress/wp-content.css?ver=5.2.3,<?=HIWEB_URL_VENDORS?>/wp-default.min.css",
                             plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpautoresize,wpeditimage,wpemoji,wpgallery,wplink,wpdialogs,wptextpattern,wpview",
                             //selector: "#content",
                             wpautop: true,

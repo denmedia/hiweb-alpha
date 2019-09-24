@@ -38,7 +38,8 @@
 				}
 			}
 			///Check SubFolder
-			list( $dirs, $params ) = explode( '?', $_SERVER['REQUEST_URI'] );
+			$params = '';
+			if( strpos( '?', $_SERVER['REQUEST_URI'] ) !== false ) list( $dirs, $params ) = explode( '?', $_SERVER['REQUEST_URI'] ); else $dirs = $_SERVER['REQUEST_URI'];
 			$explode = explode( '/', $dirs );
 			self::$uri_original = $_SERVER['REQUEST_URI'];
 			if( languages::is_exists( $explode[1] ) ){

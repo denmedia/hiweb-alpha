@@ -120,6 +120,7 @@
 
 
 		/**
+		 * @version 1.1
 		 * @param     $url
 		 * @param int $priority
 		 * @param int $time
@@ -132,7 +133,7 @@
 			if( !options::is_allow_url( $url ) ) return false;
 			$priority_key = self::is_url_exists( $url, true );
 			if( $priority_key !== false ){
-				if( $time < 1 ) $time = intval( self::$urls[ $priority ][ $url ] );
+				if( $time < 1 && isset(self::$urls[ $priority ][$url]) ) $time = intval( self::$urls[ $priority ][ $url ] );
 				unset( self::$urls[ $priority ][ $url ] );
 			}
 			self::$urls[ $priority ][ $url ] = $time;

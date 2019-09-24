@@ -75,6 +75,7 @@
 
 
 		/**
+		 * @version 1.1
 		 * @param $js
 		 * @return string|null
 		 */
@@ -82,8 +83,8 @@
 			if( !$js instanceof js ) return '';
 			$R = '';
 			///
-			foreach( $js->options()->get_deeps() as $handle ){
-				if( array_key_exists( $handle, self::$queue ) ){
+			if( is_array( $js->options()->get_deeps() ) ) foreach( $js->options()->get_deeps() as $handle ){
+				if((is_string($handle) || is_integer($handle)) && array_key_exists( $handle, self::$queue ) ){
 					$pre_file = self::$queue[ $handle ];
 					self::$done[ $handle ] = self::$queue[ $handle ];
 					unset( self::$queue[ $handle ] );

@@ -25,13 +25,13 @@
 							return $archive_title;
 						}
 					}
-					return post_type_archive_title();
+					return post_type_archive_title( '', false );
 				} elseif( $queried_object instanceof WP_Term ) {
 					$term_title = get_field( 'seo-custom-h1', $queried_object );
 					if( $term_title != '' ){
 						return $term_title;
 					}
-					return single_term_title();
+					return single_term_title('', false);
 				} else {
 					global $wp_query;
 					if( $wp_query instanceof WP_Query && $wp_query->is_search() ){

@@ -198,7 +198,8 @@
 		 * @return bool
 		 */
 		static function is_rest_api(){
-			return reset( explode( '/', trim( self::get_request_uri( false ), '/' ) ) ) == 'wp-json';
+			$explode = explode( '/', trim( self::get_request_uri( false ), '/' ) );
+			return reset( $explode ) == 'wp-json';
 		}
 
 

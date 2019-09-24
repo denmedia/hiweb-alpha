@@ -15,7 +15,7 @@
 
 	function enqueue_scripts_footer(){
 		foreach( js::$queue as $js ){
-			wp_enqueue_script( $js->handle(), $js->file()->get_url(), $js->options()->get_deeps(), filemtime( $js->file()->get_path() ), $js->options()->is_in_footer() );
+			wp_enqueue_script( $js->handle(), $js->file()->get_url(), $js->options()->get_deeps(), $js->file()->is_local() ? filemtime( $js->file()->get_path() ) : null, $js->options()->is_in_footer() );
 		}
 	}
 
