@@ -32,7 +32,12 @@
 			}
 		}
 
-		add_field_checkbox('paged-append-enable')->label_checkbox('Включить добавление номера страницы в тайтле, например "Главная - страница 2 из 2"')->LOCATION(true);
-		add_field_text('paged-append-template')->VALUE('Страница {page} из {pages}')->get_parent_field()->label('Шаблон титла для страница-пагинаций')->LOCATION(true);
+		add_field_checkbox( 'paged-append-enable' )->label_checkbox( 'Включить добавление номера страницы в тайтле, например "Главная - страница 2 из 2"' )->LOCATION( true );
+		add_field_text( 'paged-append-template' )->VALUE( 'Страница {page} из {pages}' )->get_parent_field()->label( 'Шаблон титла для страница-пагинаций' )->LOCATION( true );
 
+		///CANONICAL OPTIONS
+		add_field_separator( 'Установки ссылок CANONICAL' )->LOCATION( true );
+		add_field_checkbox( 'canonical-paged-first-link' )->label_checkbox( 'Выводить каноническую ссылку на странице пагинации, ссылка на первую страницу' )->description('Пример кода: <code>'.htmlentities('<link rel=”canonical” href=”http://...” />').'</code>')->LOCATION( true );
+		add_field_checkbox( 'canonical-paged-prev-next-links' )->label_checkbox( 'Выводить канонические ссылки на странице пагинации, ссылки на предыдущую и следующую страницы' )->description('Пример кода: <code>'.htmlentities('<link rel=”next” href=”http://...” />').'</code>')->LOCATION( true );
+		add_field_checkbox( 'canonical-all-pages' )->label_checkbox( 'Выводить каноническую ссылку на всех страницах не пагинации, ссылка на текущую страницу' )->description('Пример кода: <code>'.htmlentities('<link rel=”canonical” href=”http://...” />').'</code>')->LOCATION( true );
 	} );

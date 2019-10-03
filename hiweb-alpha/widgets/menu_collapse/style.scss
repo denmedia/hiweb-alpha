@@ -22,9 +22,13 @@
 			}
 		}
 
+		[data-expand] {
+			display: none;
+		}
+
 		&.collapsed {
-			> [data-expand="1"] {
-				display: none;
+			> [data-expand="0"] {
+				display: inline-block;
 			}
 
 			> .children, > .sub-menu {
@@ -33,8 +37,8 @@
 		}
 
 
-		&.expanded > [data-expand="0"] {
-			display: none;
+		&.expanded > [data-expand="1"] {
+			display: inline-block;
 		}
 
 		button[data-expand] {

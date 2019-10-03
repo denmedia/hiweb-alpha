@@ -9,9 +9,11 @@
 	use theme\forms;
 
 
-	register_rest_route( 'hiweb_theme', 'widgets/forms/submit', [
-		'methods' => 'post',
-		'callback' => function(){
-			return forms::get( $_POST['hiweb-theme-widget-form-id'] )->do_submit( $_POST );
-		}
-	] );
+	add_action( 'rest_api_init', function(){
+		register_rest_route( 'hiweb_theme', 'widgets/forms/submit', [
+			'methods' => 'post',
+			'callback' => function(){
+				return forms::get( $_POST['hiweb-theme-widget-form-id'] )->do_submit( $_POST );
+			}
+		] );
+	} );

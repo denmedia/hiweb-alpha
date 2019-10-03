@@ -139,7 +139,7 @@
 		 * @return null|string
 		 */
 		public function html(){
-			return "<script {$this->options()->get_async()} data-handle=\"{$this->handle()}\" src=\"{$this->file()->get_url()}\"></script>\n";
+			return "<script {$this->options()->get_async()} data-handle=\"{$this->handle()}\" src=\"{$this->file()->get_url()}".($this->file()->is_local() ? '?ver='.date('Y.m.d-H.i.s',filemtime($this->file()->get_path())) : '')."\"></script>\n";
 		}
 
 

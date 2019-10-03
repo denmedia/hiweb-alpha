@@ -17,14 +17,17 @@
 .menu li a.active {
   text-decoration: underline;
 }
-.menu li.collapsed > [data-expand="1"] {
+.menu li [data-expand] {
   display: none;
+}
+.menu li.collapsed > [data-expand="0"] {
+  display: inline-block;
 }
 .menu li.collapsed > .children, .menu li.collapsed > .sub-menu {
   display: none;
 }
-.menu li.expanded > [data-expand="0"] {
-  display: none;
+.menu li.expanded > [data-expand="1"] {
+  display: inline-block;
 }
 .menu li button[data-expand] {
   background: transparent;

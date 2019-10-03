@@ -67,6 +67,7 @@
 		 * @return mmenu
 		 */
 		static function add( $nav_location = 'mmenu' ){
+			self::init();
 			if( !array_key_exists( $nav_location, self::$mmenus ) ){
 				self::$mmenus[ $nav_location ] = new mmenu( $nav_location );
 			}

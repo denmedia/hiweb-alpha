@@ -10,6 +10,7 @@
 
 
 	use hiweb\arrays;
+	use hiweb\dump;
 	use hiweb\paths;
 	use hiweb\strings;
 	use hiweb\themes\theme;
@@ -19,6 +20,7 @@
 	use theme\includes\frontend;
 	use theme\mailchimp;
 	use theme\recaptcha;
+	use theme\sendpulse;
 
 
 	class form{
@@ -435,7 +437,7 @@
 			$allow_submit_form = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form', [ null, $this, $submit_data ] );
 			if( is_array( $allow_submit_form ) ) return $allow_submit_form;
 			///reCaptcha Validate
-			if( !recaptcha::get_recaptcha_verify() ) {
+			if( !recaptcha::get_recaptcha_verify() ){
 				return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
 			}
 			///
@@ -470,6 +472,19 @@
 											'email_address' => $value,
 											'status' => 'subscribed'
 										] );
+									}
+								}
+							}
+							///SENDPULSE
+							if( sendpulse::is_keys_exists() ){
+								if( sendpulse::get_instance()->is_api_exists() ){
+									$list_id = get_field( 'list-id', self::get_wp_post() );
+									if( get_field( 'default-list-id', sendpulse::$options_name ) && $list_id == '' ){
+										$list_id = get_field( 'default-list-id', sendpulse::$options_name );
+									}
+									$list_id = substr( $list_id, 3 );
+									if( sendpulse::get_instance()->is_list_exists( $list_id ) ){
+										$B = sendpulse::get_instance()->get_api()->addEmails( $list_id, [ $value ] );
 									}
 								}
 							}
@@ -515,7 +530,7 @@
 						$this->send_mail( $email, $theme, $content );
 					}
 				}
-				return [ 'success' => true, 'callback_js' => get_field('callback_js', $this->get_wp_post()), 'message' => $this->get_status_message( 'success' ), 'status' => 'success' ];
+				return [ 'success' => true, 'callback_js' => get_field( 'callback_js', $this->get_wp_post() ), 'message' => $this->get_status_message( 'success' ), 'status' => 'success' ];
 			}
 		}
 	}

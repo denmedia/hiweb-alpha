@@ -30,15 +30,19 @@
 
 img {
 	&.alignleft {
+		max-width: 100%;
 		@extend %extend_1;
 	}
 	&.alignright {
+		max-width: 100%;
 		@extend %extend_2;
 	}
 	&.aligncenter {
+		max-width: 100%;
 		@extend %extend_3;
 	}
 	&.alignnone {
+		max-width: 100%;
 	}
 }
 
@@ -57,6 +61,7 @@ img {
 	margin-bottom: 1.5em;
 	text-align: center;
 	padding-top: 5px;
+	max-width: 100%;
 	img {
 		border: 0 none;
 		padding: 0;

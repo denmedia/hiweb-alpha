@@ -3,17 +3,19 @@
 	use theme\pages_cache;
 
 
-	//Фоновое создание кэша
-	register_rest_route( 'hiweb_theme', 'pages_cache/background', [
-		'methods' => 'get',
-		'callback' => function(){
-			if( pages_cache\options::is_enable() && pages_cache\options::is_background_enable() ){
-				pages_cache\queue::init();
-				return pages_cache\queue::do_process_urls();
+	add_action( 'rest_api_init', function(){
+		//Фоновое создание кэша
+		register_rest_route( 'hiweb_theme', 'pages_cache/background', [
+			'methods' => 'get',
+			'callback' => function(){
+				if( pages_cache\options::is_enable() && pages_cache\options::is_background_enable() ){
+					pages_cache\queue::init();
+					return pages_cache\queue::do_process_urls();
+				}
+				return false;
 			}
-			return false;
-		}
-	] );
+		] );
+	} );
 
 	//После добавления / обновления записи или страницы обновлять ее кэш  принудительно и так же в родительских записях и таксономиях так же обновлять
 	add_action( 'wp_insert_post', function( $post_id, $post, $update ){

@@ -122,7 +122,7 @@
 		 */
 		public function the(){
 			?>
-			<link <?= $this->rel()->get() ?> <?= $this->get_tags() ?> type="text/css" href="<?= $this->get_url() ?>" <?= $this->media()->get() ?>/><?php
+			<link <?= $this->rel()->get() ?> <?= $this->get_tags() ?> type="text/css" href="<?= $this->get_url() ?><?=$this->is_local() ? '?ver='.date('Y.m.d-H.i.s',filemtime($this->get_path())) : ''?>" <?= $this->media()->get() ?>/><?php
 		}
 
 

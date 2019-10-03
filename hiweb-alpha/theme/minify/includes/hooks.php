@@ -10,7 +10,7 @@
 	add_filter( 'template_include', function( $template = '/index.php' ){
 		minify::set_template_path( $template );
 		if( minify::$js_enable && minify::get_template( $template )->js()->is_exists() ){
-			add_action( 'wp_footer', function(){ echo '<script defer src="' . minify::get_template()->js()->get_full_url() . '"></script>'; } );
+			add_action( 'wp_footer', function(){ echo '<script defer src="' . minify::get_template()->js()->get_full_url() . '?ver=' . date( 'Y.m.d-H.i.s', filemtime( minify::get_template()->js()->get_full_path() ) ) . '"></script>'; } );
 		}
 		if( minify::$critical_css_enable && minify::get_template()->css()->is_critical_exists() ){
 			head::add_code( '<!--Critical CSS--><style type="text/css">' . minify::get_template()->css()->get_critical_content() . '</style><!--Critical CSS End-->' );
@@ -28,7 +28,7 @@
 			<?php
 			head::add_code( ob_get_clean() );
 			if( !minify::$critical_css_enable || !minify::get_template()->css()->is_critical_exists() && minify::get_template()->css()->is_exists() ){
-				head::add_code( '<link rel="stylesheet" type="text/css" href="' . minify::get_template()->css()->get_full_url() . '" />' );
+				head::add_code( '<link rel="stylesheet" type="text/css" href="' . minify::get_template()->css()->get_full_url() . '?ver=' . date( 'Y.m.d-H.i.s', filemtime( minify::get_template()->css()->get_full_path() ) ) . '" />' );
 			}
 		}
 		return $template;
@@ -117,14 +117,14 @@
 	} );
 
 	add_filter( 'script_loader_tag', function( $tag, $handle, $src ){
-		if(context::is_frontend_page() && minify::$js_enable && minify::get_template()->js()->is_exists() && hiweb\urls::get( $src )->is_local() ){
+		if( context::is_frontend_page() && minify::$js_enable && minify::get_template()->js()->is_exists() && hiweb\urls::get( $src )->is_local() ){
 			return '';
 		}
 		return $tag;
 	}, 99, 3 );
 
 	add_filter( 'style_loader_tag', function( $tag, $handle, $src ){
-		if(context::is_frontend_page() && minify::$css_enable && minify::get_template()->css()->is_exists() && hiweb\urls::get( $src )->is_local() ){
+		if( context::is_frontend_page() && minify::$css_enable && minify::get_template()->css()->is_exists() && hiweb\urls::get( $src )->is_local() ){
 			return '';
 		}
 		return $tag;

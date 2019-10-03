@@ -435,6 +435,15 @@
 
 		/**
 		 * @param $key
+		 * @return bool
+		 */
+		public function is_key_exists( $key ){
+			return array_key_exists( $key, $this->array );
+		}
+
+
+		/**
+		 * @param $key
 		 * @param $new_key
 		 * @return bool
 		 */
@@ -492,7 +501,7 @@
 
 
 		/**
-		 * @return null
+		 * @return null|array_
 		 */
 		public function get_current_row_object(){
 			return $this->row_object;

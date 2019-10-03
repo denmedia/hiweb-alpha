@@ -1,4 +1,4 @@
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
 
     ///ASIDE DESKTOP
     let $aside_menu = $('aside, #mobile-categories-menu-list').find('.menu, .product-categories');
@@ -13,7 +13,8 @@ jQuery(document).ready(function(){
                 $li.addClass('collapsed');
             }
         });
-        //events
+
+        //EVENTS
         $('aside, #mobile-categories-menu-list').on('click', '.collapsed > button, .expanded > button', function () {
             let $this = $(this).closest('li');
             if ($this.is('.expanded')) {
