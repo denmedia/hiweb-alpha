@@ -30,6 +30,7 @@
 				require_once __DIR__ . '/options.php';
 				require_once __DIR__ . '/hooks.php';
 				require_once __DIR__ . '/post-type-meta.php';
+				require_once __DIR__ . '/authors.php';
 				require_once __DIR__ . '/functions.php';
 			}
 		}
@@ -53,6 +54,22 @@
 				return get_field( 'archive-title-' . $post_type->name, self::$admin_menu_main );
 			}
 			return null;
+		}
+
+
+		/**
+		 * @return mixed
+		 */
+		static function is_author_enable(){
+			return get_field( 'authors-enable', self::$admin_menu_main );
+		}
+
+
+		/**
+		 * @return mixed
+		 */
+		static function is_paged_append_enable(){
+			return get_field('paged-append-enable', self::$admin_menu_main);
 		}
 
 

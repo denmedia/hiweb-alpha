@@ -1,5 +1,8 @@
 <?php
 
+	use theme\seo;
+
+
 	if( !function_exists( 'get_the_h1' ) ){
 
 		/**
@@ -31,7 +34,15 @@
 					if( $term_title != '' ){
 						return $term_title;
 					}
-					return single_term_title('', false);
+					return single_term_title( '', false );
+				} elseif( $queried_object instanceof WP_User ) {
+					if( seo::is_author_enable() ){
+						$h1 = get_field( 'seo-custom-h1' );
+						if( $h1 != '' ){
+							return $h1;
+						}
+					}
+					return get_the_author();
 				} else {
 					global $wp_query;
 					if( $wp_query instanceof WP_Query && $wp_query->is_search() ){
