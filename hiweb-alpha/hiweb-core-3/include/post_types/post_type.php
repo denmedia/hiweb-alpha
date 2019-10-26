@@ -26,6 +26,7 @@
 			'show_in_menu' => null,
 			'show_in_nav_menus' => null,
 			'show_in_admin_bar' => null,
+			'show_in_rest' => false,
 			'menu_position' => null,
 			'menu_icon' => 'dashicons-sticky',
 			'capability_type' => 'post',
@@ -168,6 +169,15 @@
 		 * @return post_type|mixed|null
 		 */
 		public function show_in_admin_bar( $set = null ){
+			return $this->set_arg( __FUNCTION__, $set );
+		}
+
+
+		/**
+		 * @param null $set
+		 * @return post_type|mixed|null
+		 */
+		public function show_in_rest( $set = null ){
 			return $this->set_arg( __FUNCTION__, $set );
 		}
 

@@ -33,14 +33,17 @@ img {
 		max-width: 100%;
 		@extend %extend_1;
 	}
+
 	&.alignright {
 		max-width: 100%;
 		@extend %extend_2;
 	}
+
 	&.aligncenter {
 		max-width: 100%;
 		@extend %extend_3;
 	}
+
 	&.alignnone {
 		max-width: 100%;
 	}
@@ -62,11 +65,13 @@ img {
 	text-align: center;
 	padding-top: 5px;
 	max-width: 100%;
+
 	img {
 		border: 0 none;
 		padding: 0;
 		margin: 0;
 	}
+
 	p.wp-caption-text {
 		line-height: 1.5;
 		font-size: 10px;
@@ -87,6 +92,7 @@ blockquote {
 		width: 33%;
 		float: left;
 	}
+
 	&.right {
 		margin-left: 20px;
 		text-align: left;
@@ -100,11 +106,14 @@ blockquote {
 	dl {
 		a {
 		}
+
 		img {
 		}
 	}
+
 	dt {
 	}
+
 	dd {
 	}
 }

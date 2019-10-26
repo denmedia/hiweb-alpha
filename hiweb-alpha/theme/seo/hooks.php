@@ -106,18 +106,61 @@
 
 	///REDIRECT SLASH END
 	add_action( 'wp', function(){
-		if( \hiweb\context::is_frontend_page() && theme\seo::$option_force_redirect_slash_end ){
-			if( preg_match( '~\/$~i', urls::get_current_url( false ) ) == 0 && !is_search() && strpos( urls::get_current_url( false ), '?' ) === false ){
-				wp_redirect( urls::get()->get_url() . '/', 301, 'hiweb-theme-seo' );
+		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		if( \hiweb\context::is_frontend_page() && $slash_option != 'default' ){
+			if( preg_match( '~\/$~i', urls::get_current_url( false ) ) == ( $slash_option == 'none' ? 1 : 0 ) && !is_search() && strpos( urls::get_current_url( false ), '?' ) === false ){
+				wp_redirect( urls::get()->get_url() . ( $slash_option == 'none' ? '' : '/' ), 301, 'hiweb-theme-seo' );
 			}
 		}
 	} );
 
-	//apply_filters( 'post_link', $permalink, $post, $leavename )
-	//apply_filters( 'pre_term_link', $termlink, $term )
+	///СЛЭШ В КОНЦЕ URL ДЛЯ РЕДИРЕКТА КАНОНИКЛА
+	add_filter( 'redirect_canonical', function( $redirect_url, $requested_url ){
+		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		if( \hiweb\context::is_frontend_page() && $slash_option != 'default' ){
+			if( preg_match( '~\/$~i', $redirect_url ) == ( $slash_option == 'none' ? 1 : 0 ) && strpos( $redirect_url, '?' ) === false ){
+				$redirect_url = preg_replace( '~\/$~i', $slash_option == 'none' ? '' : '/', $redirect_url );
+			}
+		}
+		return $redirect_url;
+	}, 10, 2 );
+	///СЛЭШ В КОНЦЕ URL ЗАПИСЕЙ
+	add_filter( 'post_link', function( $permalink, $post, $leavename ){
+		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		if( \hiweb\context::is_frontend_page() && $slash_option != 'default' ){
+			if( preg_match( '~\/$~i', $permalink ) == ( $slash_option == 'none' ? 1 : 0 ) && strpos( $permalink, '?' ) === false ){
+				$permalink = preg_replace( '~\/$~i', $slash_option == 'none' ? '' : '/', $permalink );
+			}
+		}
+		return $permalink;
+	}, 10, 3 );
+	///СЛЭШ В КОНЦЕ URL ТЕРМИНОВ
 	add_filter( 'term_link', function( $termlink, $term, $taxonomy ){
-		if( theme\seo::$option_term_permalink_force_slash_end && preg_match( '~\/$~i', $termlink ) == 0 && strpos( $termlink, '?' ) === false ){
-			$termlink .= '/';
+		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		if( \hiweb\context::is_frontend_page() && $slash_option != 'default' ){
+			if( preg_match( '~\/$~i', $termlink ) == ( $slash_option == 'none' ? 1 : 0 ) && strpos( $termlink, '?' ) === false ){
+				$termlink = preg_replace( '~\/$~i', $slash_option == 'none' ? '' : '/', $termlink );
+			}
 		}
 		return $termlink;
 	}, 10, 3 );
+	///СЛЭШ В КОНЦЕ URL АВТОРОВ
+	add_filter( 'author_link', function( $link, $author_id, $author_nicename ){
+		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		if( \hiweb\context::is_frontend_page() && $slash_option != 'default' ){
+			if( preg_match( '~\/$~i', $link ) == ( $slash_option == 'none' ? 1 : 0 ) && strpos( $link, '?' ) === false ){
+				$link = preg_replace( '~\/$~i', $slash_option == 'none' ? '' : '/', $link );
+			}
+		}
+		return $link;
+	}, 10, 3 );
+	///СЛЭШ В КОНЦЕ URL ТИПА ЗАПИСЕЙ
+	add_filter( 'post_type_archive_link', function( $link, $post_type ){
+		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		if( \hiweb\context::is_frontend_page() && $slash_option != 'default' ){
+			if( preg_match( '~\/$~i', $link ) == ( $slash_option == 'none' ? 1 : 0 ) && strpos( $link, '?' ) === false ){
+				$link = preg_replace( '~\/$~i', $slash_option == 'none' ? '' : '/', $link );
+			}
+		}
+		return $link;
+	}, 10, 2 );

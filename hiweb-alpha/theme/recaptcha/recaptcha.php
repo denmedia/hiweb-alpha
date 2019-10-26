@@ -68,10 +68,12 @@
 			];
 			$context = stream_context_create( $opts );
 			$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-			return $return_boolean ? json_decode( $response )->success : [json_decode( $response ),
+			return $return_boolean ? json_decode( $response )->success : [
+				json_decode( $response ),
 				'secret' => self::get_recaptcha_key( false ),
 				'response' => $post_token_value,
-				'remoteip' => $_SERVER['REMOTE_ADDR']];
+				'remoteip' => $_SERVER['REMOTE_ADDR']
+			];
 		}
 
 
@@ -83,6 +85,14 @@
 				<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>">
 				<?php
 			}
+		}
+
+
+		/**
+		 * @return mixed
+		 */
+		static function get_error_message(){
+			return get_field( 'text-error', self::$admin_menu_slug );
 		}
 
 	}

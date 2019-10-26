@@ -12,7 +12,10 @@
 	class seo{
 
 		private static $init = false;
-
+		/**
+		 * @deprecated
+		 * @var bool
+		 */
 		static $option_force_redirect_slash_end = false;
 		static $option_page_permalink_force_slash_end = false;
 		static $option_term_permalink_force_slash_end = false;

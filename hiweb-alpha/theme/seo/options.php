@@ -38,6 +38,7 @@
 		add_field_separator( 'Другие общие настройки' )->LOCATION()->ADMIN_MENUS( theme\seo::$admin_menu_main );
 		add_field_checkbox( 'paged-append-enable' )->label_checkbox( 'Включить добавление номера страницы в тайтле, например "Главная - страница 2 из 2"' )->LOCATION( true );
 		add_field_text( 'paged-append-template' )->VALUE( 'Страница {page} из {pages}' )->get_parent_field()->label( 'Шаблон титла для страница-пагинаций' )->LOCATION( true );
+		add_field_select('redirect-last-slash-mod')->options(['default' => '--выберите вариант--','none' => 'Редирект 301 на URL без слэша в конце','slash' => 'Редирект 301 на URL вместе со слэшем в конце'])->label('Режим URL\'а и знак "/" (слэша) в конце')->LOCATION(true);
 
 		///CANONICAL OPTIONS
 		add_field_separator( 'Установки ссылок CANONICAL' )->LOCATION( true );
