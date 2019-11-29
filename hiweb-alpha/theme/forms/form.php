@@ -484,7 +484,30 @@
 									}
 									$list_id = substr( $list_id, 3 );
 									if( sendpulse::get_instance()->is_list_exists( $list_id ) ){
-										$B = sendpulse::get_instance()->get_api()->addEmails( $list_id, [ $value ] );
+										$addition_params = [ 'email' => $value ];
+										if( is_array( $inputs ) ){
+											foreach( $inputs as $subinput ){
+												switch( $subinput['_flex_row_id'] ){
+													case 'Чекбоксы':
+														if( arrays::get_value_by_key( $subinput, 'sendpusle_append' ) == 'on' && arrays::get_value_by_key( $subinput, 'name' ) != '' && arrays::get_value_by_key( $subinput, 'variants' ) != '' ){
+															$exist_variants = [];
+															foreach( explode( "\n", trim( arrays::get_value_by_key( $subinput, 'variants' ) ) ) as $exist_variant ){
+																if( trim( $exist_variant ) == '' ) continue;
+																$exist_variants[] = trim( $exist_variant );
+															}
+															if( is_array( $_POST[ $subinput['name'] ] ) ) foreach( $_POST[ $subinput['name'] ] as $variant ){
+																if( trim( $variant ) == '' || !in_array( trim( $variant ), $exist_variants ) ) continue;
+																$addition_params['variables'][ strtr( $subinput['name'] . ' - ' . $variant, [ ':' => '-' ] ) ] = '+';
+															}
+														}
+														break;
+												}
+											}
+										}
+										if( isset( $_POST['name'] ) ){
+											$addition_params['variables']['имя'] = strtr( $_POST['name'], [ ':' => '-' ] );
+										}
+										$B = sendpulse::get_instance()->get_api()->addEmails( $list_id, [ $addition_params ] );
 									}
 								}
 							}
@@ -496,6 +519,11 @@
 					case 'Цифровое поле':
 						if( $require && strlen( $value ) < 1 ){
 							$require_empty_inputs[] = $name;
+						}
+						break;
+					case 'Чекбоксы':
+						if( $require && ( ( is_array( $value ) && count( $value ) < intval( arrays::get_value_by_key( $input, 'require-min' ) ) ) || ( is_string( $value ) && trim( $value ) == '' ) ) ){
+							$require_empty_inputs[] = $name . '[]';
 						}
 						break;
 					default:

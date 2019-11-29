@@ -1,7 +1,1 @@
-{
-"version": 3,
-"mappings": "AAAA,sBAAuB,CACtB,OAAO,CAAE,MAAM,CAAE,QAAQ,CAAE,QAAQ,CAAE,UAAU,CAAE,IAAI",
-"sources": ["errors.scss"],
-"names": [],
-"file": "errors.css"
-}
+{"version":3,"sourceRoot":"","sources":["errors.scss"],"names":[],"mappings":"AAAA;EACC;EAAiB;EAAoB","file":"errors.css"}

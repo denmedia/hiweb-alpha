@@ -9,6 +9,7 @@
 	use theme\forms;
 	use theme\forms\inputs\button;
 	use theme\forms\inputs\checkbox;
+	use theme\forms\inputs\checkboxes;
 	use theme\forms\inputs\email;
 	use theme\forms\inputs\html_insert;
 	use theme\forms\inputs\image;
@@ -18,6 +19,7 @@
 	use theme\forms\inputs\number;
 	use theme\forms\inputs\phone;
 	use theme\forms\inputs\postlink;
+	use theme\forms\inputs\privacy;
 	use theme\forms\inputs\text;
 	use theme\forms\inputs\textarea;
 
@@ -40,6 +42,8 @@
 	email::add_repeat_field( $INPUTS );
 	phone::add_repeat_field( $INPUTS );
 	checkbox::add_repeat_field( $INPUTS );
+	checkboxes::add_repeat_field( $INPUTS );
+	privacy::add_repeat_field( $INPUTS );
 	button::add_repeat_field( $INPUTS );
 	json::add_repeat_field( $INPUTS );
 	postlink::add_repeat_field( $INPUTS );

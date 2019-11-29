@@ -23,13 +23,14 @@
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' ) )->label( 'Имя поля на латинице' );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'placeholder' )->placeholder( 'Плейсхолдер в поле' ) )->label( 'Плейсхолдер в поле' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) )->compact(1);
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'require-message' )->label( 'Сообщение под полем при неверно заполненом поле' )->VALUE('Вы не верно указали адрес email')->get_parent_field() )->compact(1);
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_fontawesome( 'icon' )->label('Иконка для поля') );
 		}
 
 		public function the(){
 			$this->the_prefix();
 			?>
-			<div class="input"><input tabindex="" type="email" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
+			<div class="input"><input tabindex="" type="email" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/></div>
 			<?php
 			$this->the_sufix();
 		}

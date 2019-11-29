@@ -1,7 +1,1 @@
-{
-"version": 3,
-"mappings": "AAEC,+BAAa;EACZ,OAAO,EAAE,GAAG;AAGb,2CAAyB;EACxB,UAAU,EAAE,yBAAsB;EAClC,MAAM,EAAE,oCAAiC;AAG1C,wCAAsB;EACrB,WAAW,EAAE,MAAM",
-"sources": ["field-terms.scss"],
-"names": [],
-"file": "field-terms.css"
-}
+{"version":3,"sourceRoot":"","sources":["field-terms.scss"],"names":[],"mappings":"AAEC;EACC;;AAGD;EACC;EACA;;AAGD;EACC","file":"field-terms.css"}

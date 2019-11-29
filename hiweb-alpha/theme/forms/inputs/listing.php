@@ -4,6 +4,7 @@
 
 
 	use hiweb\fields\types\repeat\field;
+	use theme\sendpulse;
 
 
 	class listing extends input{
@@ -17,7 +18,8 @@
 			$repeat->add_col_field( add_field_text( 'key' ) )->label( 'Ключ списка' );
 			$repeat->add_col_field( add_field_text( 'value' ) )->label( 'Значение списка' );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, $repeat )->label( 'Список значений (свойств)' )->compact( 1 );
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'send_enable' )->label_checkbox( 'Не отправлять данное поле по почте' ) );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'send_enable' )->label_checkbox( 'Не отправлять данное поле по почте' ) )->compact(1);
+
 		}
 
 

@@ -16,6 +16,7 @@
 
 		.input-wrap {
 			//margin-bottom: .5em;
+			vertical-align: top;
 		}
 
 		.label {
@@ -30,9 +31,11 @@
 
 		.required-empty-label {
 			position: relative;
+
 			[name] {
 				padding-right: 2em;
 			}
+
 			&:after {
 				content: '*';
 				color: red;
@@ -54,24 +57,77 @@
 				outline: none;
 			}
 
-			&::-webkit-input-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
-			&::-moz-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
-			&:-moz-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
-			&:-ms-input-placeholder { @include hiweb-theme-widgets-forms-placeholder() }
+			&::-webkit-input-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
 
-			&[placeholder] {text-overflow: ellipsis;}
-			&::-moz-placeholder {text-overflow: ellipsis;}
-			&:-moz-placeholder {text-overflow: ellipsis;}
-			&:-ms-input-placeholder {text-overflow: ellipsis;}
+			&::-moz-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
 
-			&::-webkit-input-placeholder {opacity: 1; transition: opacity 0.3s ease;}
-			&::-moz-placeholder {opacity: 1; transition: opacity 0.3s ease;}
-			&:-moz-placeholder {opacity: 1; transition: opacity 0.3s ease;}
-			&:-ms-input-placeholder {opacity: 1; transition: opacity 0.3s ease;}
-			&:focus::-webkit-input-placeholder {opacity: .3; transition: opacity 0.3s ease;}
-			&:focus::-moz-placeholder {opacity: .3; transition: opacity 0.3s ease;}
-			&:focus:-moz-placeholder {opacity: .3; transition: opacity 0.3s ease;}
-			&:focus:-ms-input-placeholder {opacity: .3; transition: opacity 0.3s ease;}
+			&:-moz-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
+
+			&:-ms-input-placeholder {
+				@include hiweb-theme-widgets-forms-placeholder()
+			}
+
+			&[placeholder] {
+				text-overflow: ellipsis;
+			}
+
+			&::-moz-placeholder {
+				text-overflow: ellipsis;
+			}
+
+			&:-moz-placeholder {
+				text-overflow: ellipsis;
+			}
+
+			&:-ms-input-placeholder {
+				text-overflow: ellipsis;
+			}
+
+			&::-webkit-input-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&::-moz-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&:-moz-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&:-ms-input-placeholder {
+				opacity: 1;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus::-webkit-input-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus::-moz-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus:-moz-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
+
+			&:focus:-ms-input-placeholder {
+				opacity: .3;
+				transition: opacity 0.3s ease;
+			}
 		}
 
 		[type="checkbox"] {
@@ -79,7 +135,7 @@
 		}
 
 		.require-error {
-			.label {
+			.label, & {
 				color: darkred;
 			}
 
@@ -88,6 +144,25 @@
 				background-color: rgba(225, 200, 200, .9);
 				border-color: rgba(255, 0, 0, .8);
 				@include transition(color background-color border-color, 1s, ease-in-out, .5s);
+			}
+
+
+			.require-error-message {
+				display: inherit;
+			}
+		}
+
+		.require-error-message {
+			color: red;
+			display: none;
+			margin-top: -.2em;
+			font-size: .9em;
+			margin-bottom: .2em;
+			&:before {
+				font-family: "Font Awesome 5 Pro";
+				content: "\f071";
+				display: inline-block;
+				margin-right: .2em;
 			}
 		}
 
@@ -115,27 +190,34 @@
 				font-size: 48pt;
 				line-height: 48pt;
 				display: none;
+
 				&.wait {
 					//color: dodgerblue;
 				}
+
 				&.success {
 					//color: darkgreen;
 				}
+
 				&.warn {
 					//color: darkorange;
 				}
+
 				&.error {
 					//color: darkred;
 				}
 			}
 		}
+
 		.message {
 			text-align: center;
 			padding: 1em 0;
 		}
+
 		.status-close {
 			display: none;
 			text-align: center;
+
 			[data-form-status-close] {
 				cursor: pointer;
 			}
@@ -149,6 +231,7 @@
 			@include opacity(0.35);
 			@include transform(scale(.9));
 		}
+
 		.hiweb-theme-widget-form-status-wrap {
 			@include transition(opacity visibility transform, .3s, ease);
 			@include opacity(1);
@@ -158,22 +241,36 @@
 	}
 
 	&[data-status="wait"] {
-		.icon.wait { display: block; }
+		.icon.wait {
+			display: block;
+		}
 	}
+
 	&[data-status="success"] {
-		.icon.success { display: block; }
+		.icon.success {
+			display: block;
+		}
+
 		.status-close {
 			display: block;
 		}
 	}
+
 	&[data-status="warn"] {
-		.icon.warn { display: block; }
+		.icon.warn {
+			display: block;
+		}
+
 		.status-close {
 			display: block;
 		}
 	}
+
 	&[data-status="error"] {
-		.icon.error { display: block; }
+		.icon.error {
+			display: block;
+		}
+
 		.status-close {
 			display: block;
 		}
@@ -186,6 +283,7 @@
 	.hiweb-theme-widget-form-inside {
 		//padding: 1em;
 	}
+
 	.form-title {
 		overflow: hidden;
 		//font-size: 1.3em;

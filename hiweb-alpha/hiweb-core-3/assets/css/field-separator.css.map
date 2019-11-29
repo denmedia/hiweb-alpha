@@ -1,7 +1,1 @@
-{
-"version": 3,
-"mappings": "AAAA,sBAAuB,CACtB,MAAM,CAAE,aAAa,CACrB,aAAa,CAAE,eAAe,CAC9B,gDAA0B,CACzB,SAAS,CAAE,eAAe,CAC1B,MAAM,CAAE,KAAK,CACb,OAAO,CAAE,YAAY,CACrB,gEAAkB,CACjB,aAAa,CAAE,GAAG,CAClB,cAAc,CAAE,CAAC,CAElB,+DAAiB,CAChB,aAAa,CAAE,IAAI,CACnB,cAAc,CAAE,CAAC,CAInB,sDAAgC,CAC/B,MAAM,CAAE,SAAS,CACjB,UAAU,CAAE,MAAM,CAKnB,uCAAmC,CAClC,UAAU,CAAE,CAAC",
-"sources": ["field-separator.scss"],
-"names": [],
-"file": "field-separator.css"
-}
+{"version":3,"sourceRoot":"","sources":["field-separator.scss"],"names":[],"mappings":"AAAA;EACC;EACA;;AACA;EACC;EACA;EACA;;AACA;EACC;EACA;;AAED;EACC;EACA;;AAIF;EACC;EACA;;;AAKD;EACC","file":"field-separator.css"}

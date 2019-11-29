@@ -10,18 +10,19 @@
 
 		/**
 		 * Send html content mail
+         * @version 1.1
 		 * @param string $to - оставьте поле пустым, чтобы писбмо было отправлено супер-администратору сайта
 		 * @param        $subject
 		 * @param        $content
 		 */
-		function send_mail( $to = '', $subject = '', $content = '' ){ //TODO: не работает корректно
+		function send_mail( $to = '', $subject = '', $content = '', $from = 'noreply' ){ //TODO: не работает корректно
 			if( !is_string( $to ) || trim( $to ) == '' ){
 				$to = get_bloginfo( 'admin_email' );
 				if( !filter_var( $to, FILTER_VALIDATE_EMAIL ) ){
 					$to = get_option( 'admin_email' );
 				}
 			}
-			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <noreply@' . \hiweb\urls::get()->domain() . '>' ];
+			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <'.$from.'@' . \hiweb\urls::get()->domain() . '>' ];
 			$headers[] = 'Reply-To: noreply@' . \hiweb\urls::get()->domain() . '';
 			$headers[] = 'Precedence: bulk';
 			$headers[] = 'List-Unsubscribe: ' . \hiweb\urls::root(false);

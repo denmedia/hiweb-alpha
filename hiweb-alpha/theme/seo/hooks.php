@@ -36,8 +36,9 @@
 						}
 						return $title;
 					}, 15 );
-					if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 					if( get_field( 'seo-meta-description' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="description" content="' . htmlentities( get_field( 'seo-meta-description' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+					if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+					if( get_field( 'seo-meta-robots-mode' ) != '' && get_field( 'seo-meta-robots-mode' ) != 'default') \theme\html_layout\tags\head::add_html_addition( '<meta name="robots" content="' . htmlentities( get_field( 'seo-meta-robots-mode' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 				}
 			} elseif( $queried_object instanceof WP_Term ) {
 				//META TITLE
@@ -48,8 +49,9 @@
 					}, 16 );
 				}
 				///SEO META
-				if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 				if( get_field( 'seo-meta-description' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="description" content="' . htmlentities( get_field( 'seo-meta-description' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+				if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+                if( get_field( 'seo-meta-robots-mode' ) != '' && get_field( 'seo-meta-robots-mode' ) != 'default') \theme\html_layout\tags\head::add_html_addition( '<meta name="robots" content="' . htmlentities( get_field( 'seo-meta-robots-mode' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 				add_filter( 'single_cat_title', function( $title_h1 ){
 					if( get_field( 'seo-custom-h1' ) != '' ){
 						return get_field( 'seo-custom-h1' );
@@ -84,8 +86,8 @@
 					}, 16 );
 				}
 				///SEO META
-				if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 				if( get_field( 'seo-meta-description' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="description" content="' . htmlentities( get_field( 'seo-meta-description' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+				if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 			}
 		}
 		///CANONICAL

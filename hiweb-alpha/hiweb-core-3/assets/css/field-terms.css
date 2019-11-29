@@ -1,9 +1,12 @@
 .hiweb-field-terms .ui.dropdown {
-  z-index: 100; }
+  z-index: 100;
+}
 .hiweb-field-terms .ui-sortable-placeholder {
   background: rgba(200, 200, 200, 0.25);
-  border: 1px dotted rgba(200, 200, 200, 0.45); }
+  border: 1px dotted rgba(200, 200, 200, 0.45);
+}
 .hiweb-field-terms .ui.label[data-value] {
-  white-space: nowrap; }
+  white-space: nowrap;
+}
 
 /*# sourceMappingURL=field-terms.css.map */

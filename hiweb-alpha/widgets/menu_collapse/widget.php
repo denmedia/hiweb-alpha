@@ -11,7 +11,7 @@
 	class hiweb_theme_widget_menu_collapse extends WP_Widget{
 
 		function __construct(){
-			parent::__construct( 'hiweb_theme_widget_menu_collapse', '<i></i>Навигация по категориям', [ 'description' => 'Вывести меню с поддержкой раскрытия списка', 'customize_selective_refresh' => true ] );
+			parent::__construct( 'hiweb_theme_widget_menu_collapse', 'Навигация по категориям hiWeb', [ 'description' => 'Вывести меню с поддержкой раскрытия списка', 'customize_selective_refresh' => true ] );
 		}
 
 
@@ -75,36 +75,52 @@
 		}
 
 
+		/**
+		 * @varsion 1.1
+		 * @param array $menu_items_by_parent
+		 * @param int   $menu_item_parent
+		 * @param int   $depth
+		 * @param bool  $parent_active
+		 */
 		private function the_items( $menu_items_by_parent = [], $menu_item_parent = 0, $depth = 0, $parent_active = false ){
 			if( $depth > 4 ) return;
 			if( is_array( $menu_items_by_parent ) && isset( $menu_items_by_parent[ $menu_item_parent ] ) && count( $menu_items_by_parent[ $menu_item_parent ] ) > 0 ){
-				ob_start();
 				$has_sub_active = false;
+				$R = '';
 				foreach( $menu_items_by_parent[ $menu_item_parent ] as $item ){
-					$active = structures::get( get_queried_object() )->has_object( $item ) || urls::get()->is_dirs_intersect( $item->url );
-					if( $active ) $has_sub_active = true;
-					?>
-					<li id="menu-item-<?= $item->ID ?>" class="menu-item menu-item-type-<?= $item->type ?> menu-item-<?= isset( $menu_items_by_parent[ $item->ID ] ) ? 'has-children' : 'no-children' ?> menu-item-<?= $item->ID ?> <?= $active ? 'expanded' : '' ?>">
-						<?php
-							if( $item->url == '#' || $item->url == '' ){
-								?>
-								<span href="<?= $item->url ?>" class="item-link <?= $active ? 'active' : '' ?>"><?= $item->title ?></span>
-								<?php
-							} else {
-								?>
-								<a href="<?= $item->url ?>" class="item-link <?= $active ? 'active' : '' ?>"><?= $item->title ?></a>
-								<?php
-							}
-						?>
-
-						<?php $this->the_items( $menu_items_by_parent, $item->ID, $depth + 1, $active ) ?>
-					</li>
-					<?php
+					ob_start();
+					$current = structures::get( get_queried_object() )->has_object( $item );
+					$active = $current || urls::get()->is_dirs_intersect( $item->url );
+					$classes = [ 'menu-item', 'menu-item-type-' . $item->type, 'menu-item-' . ( isset( $menu_items_by_parent[ $item->ID ] ) ? 'has-children' : 'no-children' ), 'menu-item-' . $item->ID, 'depth-' . $depth ];
+					if( $active ){
+						$has_sub_active = true;
+						$classes[] = 'expanded';
+					}
+					if( $current ){
+						$classes[] = 'current';
+					}
+					if( $parent_active ){
+						$classes[] = 'menu-item-parent-active';
+					}
+					$classes = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_classes', $classes, $item, get_defined_vars(), $this );
+					///item before
+					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_before', "<li id=\"menu-item-{$item->ID}\" class=\"" . join( ' ', $classes ) . "\">", $item, get_defined_vars(), $this );
+					$item_title = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_title', "{$item->title}", $item, get_defined_vars(), $this );
+					if( $item->url == '#' || $item->url == '' ){
+						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_span', "<span href=\"{$item->url}\" class=\"item-link\">{$item_title}</span>", $item, get_defined_vars(), $this );
+					} else {
+						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_a', "<a href=\"{$item->url}\" class=\"item-link\">{$item_title}</a>", $item, get_defined_vars(), $this );
+					}
+					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_content', $item_content, $item, get_defined_vars(), $this );
+					///sub items
+					$this->the_items( $menu_items_by_parent, $item->ID, $depth + 1, $active );
+					///item after
+					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_after', "</li>", $item, get_defined_vars(), $this );
+					$R .= apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_html', ob_get_clean(), $item, get_defined_vars(), $this );
 				}
-				$R = ob_get_clean();
 				?>
 				<ul class="<?= $depth == 0 ? 'menu' : 'sub-menu' ?>" <?= ( $has_sub_active || $parent_active || $depth == 0 ) ? '' : 'style="display: none;"' ?>>
-					<?= $R ?>
+					<?= apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-items', $R, $this, get_defined_vars() ); ?>
 				</ul>
 				<?php
 			}

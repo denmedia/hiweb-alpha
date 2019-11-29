@@ -97,7 +97,7 @@
 
 		public function the(){
 			$this->the_prefix();
-			?><input tabindex="" type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/>
+			?><input tabindex="" type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/>
 			<?php
 			$this->the_sufix();
 		}
@@ -105,9 +105,10 @@
 
 		public function the_sufix(){
 			?>
+			<?= $this->get_require_error_message_html() ?>
 			</div>
 			<?php
-			if( self::is_required_empty_label() ){
+			if( $this->is_required_empty_label() ){
 				?>
 				</div>
 				<?php
@@ -133,6 +134,25 @@
 		 */
 		public function get_email_value( $value ){
 			return nl2br( trim( $value ) );
+		}
+
+
+		/**
+		 * @return string
+		 */
+		public function get_require_error_message(){
+			return self::get_data( 'require-message', false );
+		}
+
+
+		/**
+		 * @return string
+		 */
+		public function get_require_error_message_html(){
+			if( $this->is_required() && $this->get_require_error_message() ){
+				return '<div class="require-error-message">' . $this->get_require_error_message() . '</div>';
+			}
+			return '';
 		}
 
 
