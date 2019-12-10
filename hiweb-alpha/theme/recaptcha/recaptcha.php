@@ -11,6 +11,7 @@
 
 	use hiweb\strings;
 	use hiweb\urls;
+	use theme\includes\frontend;
 
 
 	class recaptcha{
@@ -23,6 +24,8 @@
 		static function init(){
 			///Options reCaptcha
 			require_once __DIR__ . '/options.php';
+			require_once __DIR__ . '/woocommerce.php';
+			frontend::js( __DIR__ . '/App.min.js', frontend::jquery() );
 			///
 		}
 
@@ -82,7 +85,7 @@
 				include_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key( true ) );
 				$id_rand = strings::rand();
 				?>
-				<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>">
+				<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" data-hiweb-form-recaptcha-input>
 				<?php
 			}
 		}

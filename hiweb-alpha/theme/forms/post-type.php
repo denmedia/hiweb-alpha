@@ -31,6 +31,12 @@
 	self::$post_type_object->supports()->title();
 	self::$post_type_object->public_( true )->publicly_queryable( false )->has_archive( false )->show_ui( true )->show_in_menu( true )->show_in_nav_menus( false )->show_in_admin_bar( false )->exclude_from_search( true );
 	///
+	add_action( 'admin_menu', function(){
+		global $menu, $submenu;
+		$submenu[ 'edit.php?post_type=' . forms::$post_type_name ][5][0] = '<i class="fal fa-list-alt"></i> Формы';
+		$submenu[ 'edit.php?post_type=' . forms::$post_type_name ][10][0] = '<i class="fal fa-comment-alt-plus"></i> Создать форму';
+	} );
+	///
 	$INPUTS = add_field_repeat( 'inputs' );
 	$INPUTS->label( 'Поля ввода' )->LOCATION()->POST_TYPES( self::$post_type_name )->COLUMNS_MANAGER()->name( 'Шорткоды' )->callback( function( $post_id ){
 		echo '<p>просто форма:<br><code>[hiweb-theme-widget-form id="' . $post_id . '"]</code></p><p>кнопка, вызывающая форму:<br><code>[hiweb-theme-widget-form-button id="' . $post_id . '" html="Открыть форму"]</code></p>';
@@ -81,4 +87,4 @@
 	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->LOCATION( true );
 	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->LOCATION( true );
 	///
-	add_field_textarea('callback_js')->label('JavaScript, который убдет выполнен в случае удачной отправки формы.')->description("Пример заполнения: <code>let foo = 'bar';\nalert(foo);</code>")->LOCATION(true);
+	add_field_textarea( 'callback_js' )->label( 'JavaScript, который убдет выполнен в случае удачной отправки формы.' )->description( "Пример заполнения: <code>let foo = 'bar';\nalert(foo);</code>" )->LOCATION( true );

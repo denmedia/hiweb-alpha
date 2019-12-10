@@ -178,7 +178,8 @@
 		///SAVE POST
 
 		static function save_post( $post_id, $post, $update ){
-			if( isset( $_POST['_status'] ) ) return;
+			//if( isset( $_POST['_status'] ) ) return;
+			if(isset($_POST['_inline_edit'])) return;
 			$location = locations::get_abstractLocation_from_contextObject( $post );
 			unset( $location->POST_TYPES()->options['position'] );
 			$fields = locations::get_fields_by_contextLocation( $location );
@@ -187,10 +188,11 @@
 				if( isset( $_POST[ $field->INPUT()->name() ] ) ){
 					update_post_meta( $post_id, $field->id(), $_POST[ $field->INPUT()->name() ] );
 				} else {
-				    if( strpos( $field->get_type(), '\\types\\checkbox\\' ) != false || strpos( $field->get_type(), '\\types\\images\\' ) != false ){
-    					//Удалять мета-данные, если они не передаются?
-    					update_post_meta( $post_id, $field->id(), null );
-				    }
+					//Удалять мета-данные, если они не передаются?
+					update_post_meta( $post_id, $field->id(), '' ); //TODO NULL не удается найти в get_post meta_query, поэтому пока что '' пустая строка, вместо NULL
+					//				    if( strpos( $field->get_type(), '\\types\\checkbox\\' ) != false || strpos( $field->get_type(), '\\types\\images\\' ) != false ){
+					//
+					//				    }
 				}
 			}
 		}

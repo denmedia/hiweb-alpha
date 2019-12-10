@@ -345,7 +345,7 @@
 		 * @param bool $return_filtered
 		 * @return string
 		 */
-		public function description( $return_filtered = true ){
+		public function description( $return_filtered = false ){
 			if( $this->is_attachment_exists() ){
 				return $return_filtered ? $this->get_wp_post()->post_content_filtered : $this->get_wp_post()->post_content;
 			}
@@ -662,6 +662,10 @@
 				///
 				if( $this->alt() != '' )
 					$attributes->push( 'alt', $this->alt() );
+				$attributes->merge( $attr );
+				if( $this->description() != '' ){
+					$attributes->push( 'title', $this->description() );
+				}
 				$attributes->merge( $attr );
 				///
 				$attributes = apply_filters( '\hiweb\images\image::html-attributes', $attributes, $this );

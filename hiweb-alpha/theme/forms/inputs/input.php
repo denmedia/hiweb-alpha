@@ -97,7 +97,7 @@
 
 		public function the(){
 			$this->the_prefix();
-			?><input tabindex="" type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/>
+			?><input type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/>
 			<?php
 			$this->the_sufix();
 		}

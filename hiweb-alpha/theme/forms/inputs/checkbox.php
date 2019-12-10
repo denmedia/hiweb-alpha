@@ -47,7 +47,7 @@
 				<?php
 			}
 			?>
-			<input tabindex="" type="checkbox" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/>
+			<input type="checkbox" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/>
 			<?php
 			if( self::get_data( 'label' ) != '' ){
 				?>

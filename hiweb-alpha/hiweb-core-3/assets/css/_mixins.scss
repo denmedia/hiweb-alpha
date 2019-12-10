@@ -250,8 +250,11 @@
 
 @mixin media-size($css_name: 'font-size', $size: 12px) {
 	#{$css_name}: $size;
-	@media all and (max-width: 1200px) {
+	@media all and (max-width: 1400px) {
 		#{$css_name}: $size * 0.96;
+	}
+	@media all and (max-width: 1200px) {
+		#{$css_name}: $size * 0.94;
 	}
 	@media all and (max-width: 992px) {
 		#{$css_name}: $size * 0.90;
@@ -266,6 +269,9 @@
 
 @mixin media-size-x2($css_name: 'font-size', $size: 12px) {
 	#{$css_name}: $size;
+	@media all and (max-width: 1400px) {
+		#{$css_name}: $size * 0.95;
+	}
 	@media all and (max-width: 1200px) {
 		#{$css_name}: $size * 0.92;
 	}
@@ -282,6 +288,9 @@
 
 @mixin media-size-x3($css_name: 'font-size', $size: 12px) {
 	#{$css_name}: $size;
+	@media all and (max-width: 1400px) {
+		#{$css_name}: $size * 0.92;
+	}
 	@media all and (max-width: 1200px) {
 		#{$css_name}: $size * 0.85;
 	}

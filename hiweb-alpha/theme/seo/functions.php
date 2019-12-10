@@ -69,24 +69,57 @@
 	if( !function_exists( 'get_the_post_archive_title' ) ){
 
 		/**
+		 * Возвращает кастомный луп заголовок записи
 		 * @param null $post
 		 * @return mixed|string
 		 */
 		function get_the_post_archive_title( $post = null ){
 			$post = get_post( $post );
 			if( $post instanceof WP_Post && get_field( 'enable-custom-loop-title-' . $post->post_type, theme\seo::$admin_menu_main ) && get_field( 'seo-custom-loop-title', $post ) != '' ){
-				return get_field( 'seo-custom-loop-title', $post );
+				$title = get_field( 'seo-custom-loop-title', $post );
+			} else {
+				$title = get_the_title( $post );
 			}
-			return get_the_title( $post );
+			return apply_filters('get_the_post_archive_title', $title);
 		}
 	}
 
 	if( !function_exists( 'the_post_archive_title' ) ){
 
 		/**
+		 * Выводит кастомный луп заголовок записи
 		 * @param null $post
 		 */
 		function the_post_archive_title( $post = null ){
 			echo get_the_post_archive_title( $post );
+		}
+	}
+
+	if( !function_exists( 'get_the_term_archive_title' ) ){
+		/**
+		 * Возвращает кастомный луп заголовок для термина
+		 * @param        $wp_term
+		 * @param string $default
+		 * @return mixed|string
+		 */
+		function get_the_term_archive_title( $wp_term, $default = '...' ){
+			$title = $default;
+			if( $wp_term instanceof WP_Term ){
+				$title = get_field( 'seo-custom-loop-title', $wp_term );
+				if( $title == '' ) $title = $wp_term->name;
+			}
+			return apply_filters( 'get_the_term_archive_title', $title, $wp_term, $default );
+		}
+	}
+
+	if( !function_exists( 'the_term_archive_title' ) ){
+		/**
+		 * Выводит кастомный заголовок для лупа термина
+		 * @param        $wp_term
+		 * @param string $default
+		 * @return mixed|string
+		 */
+		function the_term_archive_title( $wp_term, $default = '...' ){
+			echo get_the_term_archive_title( $wp_term, $default );
 		}
 	}

@@ -15,6 +15,7 @@
 	class html{
 
 		static $tags;
+		static $use_lang_locale = true;
 
 
 		/**
@@ -42,7 +43,10 @@
 		 */
 		static function get_tags_array(){
 			if( !self::$tags instanceof array_ ){
-				self::$tags = new array_(self::$tags);
+				if( self::$use_lang_locale ){
+					self::$tags['lang'] = get_locale();
+				}
+				self::$tags = new array_( self::$tags );
 			}
 			return self::$tags;
 		}

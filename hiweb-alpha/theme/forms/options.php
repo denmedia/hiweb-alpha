@@ -10,6 +10,8 @@
 	namespace theme\widgets;
 
 
+	use hiweb\strings;
+	use hiweb\urls;
 	use theme\forms;
 
 
@@ -23,13 +25,13 @@
 	add_field_text( 'reply_email' )->placeholder( get_field( 'reply_email', self::$options_name ) )->label( 'Укажите адрес отправителя' )->description( 'Если оставить пустым адрес отправителя, он будет взят из опций <code>' . get_field( 'reply_email', self::$options_name ) . '</code><br>Допускаеться использование шорткода <code>{domain}</code> - домен текущего сайта.' )->LOCATION()->POST_TYPES( forms::$post_type_name )->POSITION()->edit_form_after_title();
 
 	if( !get_post( (int)get_option( 'wp_page_for_privacy_policy' ) ) instanceof \WP_Post ){
-		add_field_separator( 'Галочка для формы с информацией "Политика конфидициальности"', '<i class="fas fa-exclamation-triangle"></i> Настройка не возможна, так как у Вас на сайте нет страницы конфидициальности.' )->description('')->LOCATION()->ADMIN_MENUS( self::$options_name );
+		add_field_separator( 'Галочка для формы с информацией "Политика конфидициальности"', '<i class="fas fa-exclamation-triangle"></i> Настройка не возможна, так как у Вас на сайте нет страницы конфидициальности.' )->description( '' )->LOCATION()->ADMIN_MENUS( self::$options_name );
 	} else {
-		add_field_separator( 'Галочка для формы с информацией "Политика конфидициальности"', 'Страница политики конфидициальности находиться по адресу <a href="' . get_permalink( (int)get_option( 'wp_page_for_privacy_policy' ) ) . '" target="_blank">' . get_the_title( (int)get_option( 'wp_page_for_privacy_policy' ) ) . '</a>' )->description('')->LOCATION()->ADMIN_MENUS( self::$options_name );
+		add_field_separator( 'Галочка для формы с информацией "Политика конфидициальности"', 'Страница политики конфидициальности находиться по адресу <a href="' . get_permalink( (int)get_option( 'wp_page_for_privacy_policy' ) ) . '" target="_blank">' . get_the_title( (int)get_option( 'wp_page_for_privacy_policy' ) ) . '</a>' )->description( '' )->LOCATION()->ADMIN_MENUS( self::$options_name );
 	}
-	add_field_text('privacy-checkbox-text')->VALUE('Я согласен. Отправляя данную форму, Вы соглашаетесь с {политикой конфидициальности}.')->get_parent_field()->label('Текст для галочки "согласие с политикой конфидициальности"')->description('Используйте шорткод <code>{политика конфидициальности}</code>для конвертации части текста в ссылку на страницу политики конфидициальности.')->LOCATION(true);
-	add_field_text('privacy-checkbox-error-text')->VALUE('Вы не согласились с Политикой конфидициальности.')->get_parent_field()->label('Текст для галочки "согласие с политикой конфидициальности" в случае, если посетитель не ответил этот пункт')->description('Используйте шорткод <code>{политика конфидициальности}</code>для конвертации части текста в ссылку на страницу политики конфидициальности.')->LOCATION(true);
-	add_field_checkbox('privacy-checkbox-default')->label_checkbox('Пункт изначально всегда отмечен, посетителю перед отправкой формы не прийдеться отмечать данный пункт самостоятельно.')->LOCATION(true);
+	add_field_text( 'privacy-checkbox-text' )->VALUE( 'Я согласен. Отправляя данную форму, Вы соглашаетесь с {политикой конфидициальности}.' )->get_parent_field()->label( 'Текст для галочки "согласие с политикой конфидициальности"' )->description( 'Используйте шорткод <code>{политика конфидициальности}</code>для конвертации части текста в ссылку на страницу политики конфидициальности.' )->LOCATION( true );
+	add_field_text( 'privacy-checkbox-error-text' )->VALUE( 'Вы не согласились с Политикой конфидициальности.' )->get_parent_field()->label( 'Текст для галочки "согласие с политикой конфидициальности" в случае, если посетитель не ответил этот пункт' )->description( 'Используйте шорткод <code>{политика конфидициальности}</code>для конвертации части текста в ссылку на страницу политики конфидициальности.' )->LOCATION( true );
+	add_field_checkbox( 'privacy-checkbox-default' )->label_checkbox( 'Пункт изначально всегда отмечен, посетителю перед отправкой формы не прийдеться отмечать данный пункт самостоятельно.' )->LOCATION( true );
 
 	add_field_separator( 'Шаблоны писем' )->LOCATION()->ADMIN_MENUS( self::$options_name );
 	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->VALUE( 'На сайте {site-name} была отправлена форма' )->get_parent_field()->LOCATION( true );
@@ -57,3 +59,12 @@
 	add_field_textarea( 'text-warn' )->VALUE( 'Сообщение не отправлено, не верно заполнена форма' )->get_parent_field()->label( 'Текст ошибки заполненной формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	add_field_textarea( 'text-error' )->VALUE( 'Ошибка во время отправки сообщения, попробуйте снова.' )->get_parent_field()->label( 'Текст ошибки в процессе отправки формы' )->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 	//
+	add_field_separator( 'UTM метки, которые необходимо отслеживать и сохранять в данных формы' )->LOCATION( true );
+	add_field_textarea( 'utm-points' )->label( 'Укажите UTM метки для отслеживания и отправки в данных формы, каждую на новой строчке' )->description( 'Пример: для адреса <b>https://мойсайт.рф?<u>utm</u>=ключотметки</b> укажите на отдельной строчке <code>utm</code>' )->LOCATION( true );
+
+	$rest_url = rest_url( '/hiweb_theme/forms/messages?key=' . urlencode( get_option( 'hiweb-option-hiweb-forms-messages-rest-key' ) ) );
+	add_field_separator( 'Сбор полученных сообщений', 'Адрес для сбора письем <b><a href="' . $rest_url . '" target="_blank">' . $rest_url . '</a></b>' )->LOCATION( true );
+	add_field_checkbox( 'messages-rest-enable' )->label_checkbox( 'Использовать сбор писем через REST' )->LOCATION( true );
+	add_field_text( 'messages-rest-key' )->VALUE( strings::rand( 24, 1, 1, 1 ) )->get_parent_field()->label( 'Ключ, обязательный для сбора данных' )->description( 'Обязательно нажмите кнопку "сохранить", чтобы ключ зафиксировался.' )->LOCATION( true );
+	add_field_checkbox( 'messages-rest-hide-showed' )->label_checkbox( 'Показывать только новые сообщения. Те, что уже были показаны, скрывать.' )->LOCATION( true );
+	add_field_text( 'messages-rest-limit' )->VALUE( - 1 )->get_parent_field()->label( 'Сколько выводить сообщений в REST, -1 - без ограничений' )->LOCATION( true );

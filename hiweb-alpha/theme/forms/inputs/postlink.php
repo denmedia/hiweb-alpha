@@ -41,21 +41,6 @@
 
 
 		public function the(){
-//			$this->the_prefix();
-//			if( self::get_data( 'show' ) ){
-//				$wp_post = get_post( get_the_ID() );
-//				if( $wp_post instanceof \WP_Post ){
-//
-//					?>
-<!--					<div class="post-thumbnail">--><?//= get_image( get_post_thumbnail_id( $wp_post ) )->html( [ 200, 200 ] ) ?><!--</div>-->
-<!--					<div class="post-title">--><?//= $wp_post->post_title ?><!--</div>-->
-<!--					--><?php
-//				}
-//			}
-//			?><!--<input tabindex="" type="hidden" name="--><?//= self::get_name() ?><!--" value="--><?//= get_the_ID() ?><!--"/>-->
-<!--			--><?php
-//			$this->the_sufix();
-
 			get_template_part(HIWEB_THEME_PARTS.'/widgets/forms/inputs/postlink');
 		}
 

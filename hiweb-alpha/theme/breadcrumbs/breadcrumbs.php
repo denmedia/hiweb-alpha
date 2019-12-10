@@ -55,6 +55,8 @@
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-prefix' );
 			//items
 			foreach( self::get_crumbs() as $index => $crumb ){
+				if($crumb->wp_object instanceof \WP_Post_Type && !get_field('post-type-archive-show-' . $crumb->wp_object->name, breadcrumbs::$admin_options_slug)) continue;
+				//console_info( [$crumb->get_url() ,$crumb->wp_object, ] )
 				$crumb->the( $index + 1 );
 				if( ( get_field( 'separator-enable', self::$admin_options_slug ) && ( $index + 1 ) < count( self::get_crumbs() ) ) || get_field( 'separator-last-enable', self::$admin_options_slug ) ){
 					echo self::get_the_separator();

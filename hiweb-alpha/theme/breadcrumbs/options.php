@@ -20,7 +20,7 @@
 	add_field_separator( 'Настройки домашней крошки' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_checkbox( 'home-enable' )->label_checkbox( 'Показывать в хлебных крошках домашнюю страницу' )->VALUE( 'on' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_fontawesome( 'home-icon' )->label( 'Иконка для домашней крошки' )->VALUE( 'fas fa-home' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
-	add_field_checkbox('home-text-enable')->label_checkbox('Включить в домашней крошке текст для ссылки')->VALUE('on')->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_checkbox( 'home-text-enable' )->label_checkbox( 'Включить в домашней крошке текст для ссылки' )->VALUE( 'on' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_text( 'home-text' )->placeholder( get_bloginfo( 'name' ) )->label( 'Текст ссылки домашней кношки' )->description( 'Оставьте поле пустым, в таком случае будет взято название сайта' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_text( 'home-href' )->placeholder( get_home_url() )->label( 'Ссылка главной крошки' )->description( 'Оставьте поле пустым, в таком случае будет автоматически установлена ссылка на главную страницу' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 
@@ -47,13 +47,17 @@
 
 	///TAXONOMIES
 	add_action( 'wp_loaded', function(){
-		add_field_separator( 'Опции для отдельных таксономий')->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
-		foreach(
-			get_taxonomies( [
-				'public' => true
-			] ) as $taxonomy_name
-		){
-			add_field_separator( '', 'Управление таксономией: <b>' . $taxonomy_name.'</b>' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
-			add_field_checkbox('taxonomy-'.$taxonomy_name.'-enable')->label_checkbox('Показывать эту таксономию в крошках')->VALUE('on')->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+		add_field_separator( 'Опции для отдельных таксономий' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+		foreach( get_taxonomies( [ 'public' => true ] ) as $taxonomy_name ){
+			add_field_separator( '', 'Управление таксономией: <b>' . $taxonomy_name . '</b>' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+			add_field_checkbox( 'taxonomy-' . $taxonomy_name . '-enable' )->label_checkbox( 'Показывать эту таксономию в крошках' )->VALUE( 'on' )->get_parent_field()->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+		}
+		if( !get_array( get_post_types( [ 'has_archive' => true ] ) )->is_empty() ){
+			add_field_separator( 'Показывать в хлебных крошках архивные страницы' )->LOCATION()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+			foreach( get_post_types( [ 'has_archive' => true ] ) as $post_type_name ){
+				$wp_post_type = get_post_type_object( $post_type_name );
+				if( !$wp_post_type instanceof WP_Post_Type ) continue;
+				add_field_checkbox( 'post-type-archive-show-' . $wp_post_type->name )->label_checkbox( "Показывать ссылку на архивную страницу типа записей '<b>{$wp_post_type->label}</b>'" )->VALUE('on')->get_parent_field()->LOCATION( true );
+			}
 		}
 	} );

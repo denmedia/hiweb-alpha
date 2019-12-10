@@ -9,6 +9,7 @@
 	namespace theme;
 
 
+	use hiweb\arrays\array_;
 	use hiweb\context;
 	use hiweb\css;
 	use hiweb\js;
@@ -19,6 +20,7 @@
 	class forms{
 
 		static $post_type_name = 'hiweb-forms';
+		static $post_type_messages_name = 'hiweb-forms-messages';
 		static protected $post_type_object;
 		static $options_name = 'hiweb-forms';
 		static protected $options_object;
@@ -33,6 +35,9 @@
 		/** @var mailchimp */
 		static protected $mailchimp;
 		static $enqueue_frontend_scripts = true;
+		static private $utm_points;
+		static $utm_point_session_key = 'hiweb-forms-utm-points';
+		static private $utm_point_string_limit = 128;
 
 
 		static function init(){
@@ -41,14 +46,58 @@
 				include_css( HIWEB_DIR_VENDORS . '/font-awesome-5/css/all.min.css' );
 			}
 			require_once __DIR__ . '/post-type.php';
+			require_once __DIR__ . '/post-type-messages.php';
 			require_once __DIR__ . '/options.php';
 			require_once __DIR__ . '/rest.php';
 			require_once __DIR__ . '/shortcode.php';
 			require_once __DIR__ . '/widget.php';
-			if(self::$enqueue_frontend_scripts){
-				frontend::css(__DIR__.'/assets/forms.css');
-				frontend::js(__DIR__.'/assets/forms.min.js', frontend::jquery());
+			if( self::$enqueue_frontend_scripts ){
+				frontend::css( __DIR__ . '/assets/forms.css' );
+				frontend::js( __DIR__ . '/assets/forms.min.js', frontend::jquery() );
 			}
+			///
+			if( !self::get_utm_points_options()->is_empty() ){
+				if( !self::is_session_started() ) session_start();
+				foreach( self::get_utm_points_options()->get() as $point ){
+					if( isset( $_GET[ $point ] ) ){
+						$_SESSION[ self::$utm_point_session_key ][ $point ] = substr( $_GET[ $point ], 0, self::$utm_point_string_limit );
+					}
+				}
+			}
+		}
+
+
+		/**
+		 * @return bool
+		 */
+		static private function is_session_started(){
+			if( php_sapi_name() !== 'cli' ){
+				if( version_compare( phpversion(), '5.4.0', '>=' ) ){
+					return session_status() === PHP_SESSION_ACTIVE ? true : false;
+				} else {
+					return session_id() === '' ? false : true;
+				}
+			}
+			return false;
+		}
+
+
+		/**
+		 * @return array_
+		 */
+		static function get_utm_points_options(){
+			if( self::$utm_points instanceof array_ ) return self::$utm_points;
+			///
+			$R = get_array();
+			$test_utms = get_field( 'utm-points', self::$post_type_name );
+			if( $test_utms != '' ){
+				foreach( explode( "\n", $test_utms ) as $point ){
+					$point = trim( $point );
+					if( $point != '' ) $R->push( $point );
+				}
+			}
+			self::$utm_points = $R;
+			return $R;
 		}
 
 
@@ -73,10 +122,9 @@
 			foreach( $data as $key => $raw ){
 				$R[ $key ] = $return_descriptions ? $raw[1] : $raw[0];
 			}
-			if( is_array( $additions ) )
-				foreach( $additions as $key => $raw ){
-					$R[ $key ] = is_array( $raw ) ? ( $return_descriptions ? $raw[1] : $raw[0] ) : $raw;
-				}
+			if( is_array( $additions ) ) foreach( $additions as $key => $raw ){
+				$R[ $key ] = is_array( $raw ) ? ( $return_descriptions ? $raw[1] : $raw[0] ) : $raw;
+			}
 			return $R;
 		}
 

@@ -87,6 +87,14 @@
 
 
 		/**
+		 * @return bool
+		 */
+		public function is_home(){
+			return $this->id == '';
+		}
+
+
+		/**
 		 * @return mixed
 		 * @version 1.1
 		 */

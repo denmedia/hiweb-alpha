@@ -38,7 +38,7 @@ var hiweb_theme_widget_forms = {
 
     make: function ($form) {
         //Vars
-        var has_recaptcha = $form.find('input[name="recaptcha-token"]').length > 0;
+        // var has_recaptcha = $form.find('input[name="recaptcha-token"]').length > 0;
         ///EVENTS
         //Require Reset
         $form.on('keyup change', '[name]', function () {
@@ -105,13 +105,14 @@ var hiweb_theme_widget_forms = {
             ///
             if (validate) {
                 hiweb_theme_widget_forms.set_status($form, 'wait');
-                if (has_recaptcha) {
-                    hiweb_theme_widget_forms.recapthca_get_token($form, function () {
-                        hiweb_theme_widget_forms.submit($form);
-                    });
-                } else {
-                    hiweb_theme_widget_forms.submit($form);
-                }
+                hiweb_theme_widget_forms.submit($form);
+                // if (has_recaptcha) {
+                //     hiweb_theme_widget_forms.recapthca_get_token($form, function () {
+                //         hiweb_theme_widget_forms.submit($form);
+                //     });
+                // } else {
+                //     hiweb_theme_widget_forms.submit($form);
+                // }
             }
         });
         $form.on('click tap', '[data-form-status-close]', function (e) {
@@ -128,20 +129,20 @@ var hiweb_theme_widget_forms = {
 
     },
 
-    recapthca_get_token: function ($form, success_fn) {
-        if (typeof grecaptcha === 'undefined') {
-            console.error('Объект [grecaptcha] не подключен в теле сайта. Подключите удаленный JS файл [https://www.google.com/recaptcha/api.js?render={recaptcha public key}]');
-        } else {
-            var $input_token = $form.find(hiweb_theme_widget_forms.recaptcha_local_selector);
-            if ($input_token.length > 0) {
-                grecaptcha.execute($input_token.data('key')).then(function (token) {
-                    $input_token.val(token);
-                    if (typeof success_fn === 'function') success_fn($form, $input_token);
-                    //$input_token.closest('form').find('[type="submit"]').removeAttr('disabled');
-                });
-            }
-        }
-    },
+    // recapthca_get_token: function ($form, success_fn) {
+    //     if (typeof grecaptcha === 'undefined') {
+    //         console.error('Объект [grecaptcha] не подключен в теле сайта. Подключите удаленный JS файл [https://www.google.com/recaptcha/api.js?render={recaptcha public key}]');
+    //     } else {
+    //         var $input_token = $form.find(hiweb_theme_widget_forms.recaptcha_local_selector);
+    //         if ($input_token.length > 0) {
+    //             grecaptcha.execute($input_token.data('key')).then(function (token) {
+    //                 $input_token.val(token);
+    //                 if (typeof success_fn === 'function') success_fn($form, $input_token);
+    //                 //$input_token.closest('form').find('[type="submit"]').removeAttr('disabled');
+    //             });
+    //         }
+    //     }
+    // },
 
     set_status: function ($form, $status, message) {
         //default status message set

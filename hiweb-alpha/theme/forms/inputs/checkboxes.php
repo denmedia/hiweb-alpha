@@ -57,7 +57,7 @@
 						?>
 						<div class="form-input-field-item">
 							<label>
-								<input tabindex="" type="checkbox" name="<?= self::get_name() ?>[]" value="<?= htmlentities( trim( $item ) ) ?>"/>
+								<input type="checkbox" name="<?= self::get_name() ?>[]" value="<?= htmlentities( trim( $item ) ) ?>"/>
 								<?= $item ?>
 							</label>
 						</div>

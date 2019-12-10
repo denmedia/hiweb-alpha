@@ -6,6 +6,9 @@
 	 * Time: 19:43
 	 */
 
+	use hiweb\tools\post_duplicator;
+
+
 	require_once __DIR__ . '/hiweb-core-3/hiweb-core-3.php';
 	require_once __DIR__ . '/include/defines.php';
 	require_once __DIR__ . '/include/autoload.php';
@@ -17,5 +20,6 @@
 	theme\html_layout::init();
 	theme\error_404::init();
 	theme\pwa::init();
+	post_duplicator::init();
 
 	theme\includes\admin::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );

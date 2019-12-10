@@ -116,7 +116,7 @@
 		 */
 		static function get( $field_id ){
 			if( !isset( self::$fields_by_id[ $field_id ] ) ){
-				console::warn( sprintf( __( 'Field id:[%s] not found to display value by context', 'hw-core-3' ), $field_id ) );
+				console::debug_warn( sprintf( __( 'Field id:[%s] not found to display value by context', 'hw-core-3' ), $field_id ) );
 				return new field( $field_id );
 			}
 			return end( self::$fields_by_id[ $field_id ] );

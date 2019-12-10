@@ -413,12 +413,12 @@
 		 * @param bool $return_array_pairs
 		 * @param bool $value_to_json
 		 * @return array|string
-		 * @version 1.0
+		 * @version 1.1
 		 */
-		public function get_param_for_url( $return_array_pairs = false, $value_to_json = false ){
+		public function get_param_for_url( $return_array_pairs = false, $value_to_json = false, $return_null_values = false ){
 			$pairs = [];
 			foreach( $this->get() as $key => $val ){
-				$pairs[] = $key . '=' . urlencode( $value_to_json ? json_encode( $val ) : $val );
+				if( !is_null( $val ) || $return_null_values ) $pairs[] = $key . '=' . urlencode( $value_to_json ? json_encode( $val ) : $val );
 			}
 			return $return_array_pairs ? $pairs : implode( '&', $pairs );
 		}

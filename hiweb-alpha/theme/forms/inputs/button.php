@@ -32,7 +32,7 @@
 		public function the(){
 			$this->the_prefix();
 			?>
-			<button tabindex="" type="<?= self::get_data( 'type' ) ?>" data-form-object-id="<?=get_the_form()->get_object_id()?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>>
+			<button type="<?= self::get_data( 'type' ) ?>" data-form-object-id="<?=get_the_form()->get_object_id()?>" <?= self::get_data( 'type' ) == 'submit' ? 'disabled' : '' ?>>
 			<?php
 if( isset( $this->data['icon'] ) && $this->data['icon'] != '' ){
 				?>

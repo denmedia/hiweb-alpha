@@ -25,7 +25,7 @@
 		foreach( get_post_types() as $post_type ){
 			/** @var WP_Post_Type $post_type */
 			$post_type = get_post_type_object( $post_type );
-			if( $post_type->public ){
+			if( $post_type->public && $post_type->publicly_queryable !== false ){
 				add_field_checkbox( 'enable-' . $post_type->name )->label_checkbox( 'Включить поддержку настроек для "' . $post_type->label . '"' )->VALUE( 'on' )->get_parent_field()->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 				add_field_checkbox( 'enable-custom-h1-' . $post_type->name )->label_checkbox( 'Включить поддерджку индивидуального H1 для "' . $post_type->labels->name . '"' )->VALUE( 'on' )->get_parent_field()->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );
 				add_field_checkbox( 'enable-custom-loop-title-' . $post_type->name )->label_checkbox( 'Включить поддерджку индивидуального архивного заголовка "' . $post_type->labels->name . '"' )->VALUE( 'on' )->get_parent_field()->FORM()->WIDTH()->half()->get_parent_field()->LOCATION( true );

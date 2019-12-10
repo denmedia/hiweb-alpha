@@ -30,7 +30,7 @@
 
 		public function the(){
 			$this->the_prefix();
-			?><input tabindex="" type="number" <?=self::get_data('min') != '' ? 'min="'.self::get_data('min').'"' : ''?> <?=self::get_data('max') != '' ? 'max="'.self::get_data('max').'"' : ''?> <?=self::get_data('min') != '' ? 'value="'.self::get_data('min').'"' : '' ?> name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/>
+			?><input type="number" <?=self::get_data('min') != '' ? 'min="'.self::get_data('min').'"' : ''?> <?=self::get_data('max') != '' ? 'max="'.self::get_data('max').'"' : ''?> <?=self::get_data('min') != '' ? 'value="'.self::get_data('min').'"' : '' ?> name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/>
 			<?php
 			$this->the_sufix();
 		}

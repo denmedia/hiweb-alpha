@@ -32,7 +32,7 @@
 		public function the(){
 			$this->the_prefix();
 			?>
-			<div class="input"><input type="text" autocomplete="off" tabindex="" <?=$this->get_tag_pair('data-input-mask','mask')?> name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?>/></div>
+			<div class="input"><input type="text" autocomplete="off" <?=$this->get_tag_pair('data-input-mask','mask')?> name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?> /></div>
 			<?php
 			$this->the_sufix();
 		}

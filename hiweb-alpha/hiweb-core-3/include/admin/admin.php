@@ -15,8 +15,7 @@
 		/**
 		 * @param strings $slug
 		 * @param strings $title
-		 * @param null $parent_slug
-		 *
+		 * @param null    $parent_slug
 		 * @return page
 		 */
 		static function ADD_PAGE( $slug, $title, $parent_slug = null ){
@@ -34,12 +33,12 @@
 
 		/**
 		 * @param strings $content
-		 *
 		 * @return notice
 		 */
-		static function NOTICE( $content = '&nosp;' ){
+		static function NOTICE( $content = '&nosp;', $class = 'notice notice-info is-dismissible' ){
 			$NOTICE = new notice( $content );
 			notices::$notices[] = $NOTICE;
+			if( $class != '' ) $NOTICE->class = $class;
 			return $NOTICE;
 		}
 

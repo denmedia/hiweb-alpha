@@ -33,7 +33,7 @@
 
 		public function the(){
 			$this->the_prefix();
-			?><input tabindex="" type="hidden" name="<?= self::get_name() ?>"/>
+			?><input type="hidden" name="<?= self::get_name() ?>"/>
 			<?php
 			$this->the_sufix();
 		}

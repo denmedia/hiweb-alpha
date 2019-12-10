@@ -41,6 +41,12 @@
 					if( get_field( 'seo-meta-robots-mode' ) != '' && get_field( 'seo-meta-robots-mode' ) != 'default') \theme\html_layout\tags\head::add_html_addition( '<meta name="robots" content="' . htmlentities( get_field( 'seo-meta-robots-mode' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 				}
 			} elseif( $queried_object instanceof WP_Term ) {
+				add_filter( 'wp_title', function( $title ){
+					if( get_field( 'seo-meta-title' ) != '' ){
+						return get_field( 'seo-meta-title' );
+					}
+					return $title;
+				}, 15 );
 				//META TITLE
 				if( seo::is_paged_append_enable() ){
 					add_filter( 'wp_title', function( $title ){
@@ -93,6 +99,7 @@
 		///CANONICAL
 		//if(\theme\seo::$option_use_paginate_canonical && function_exists( 'is_paged' ) && is_paged() ){
 		if( ( get_field( 'canonical-paged-first-link', seo::$admin_menu_main ) && function_exists( 'is_paged' ) && is_paged() ) || get_field( 'canonical-all-pages', seo::$admin_menu_main ) ){
+			remove_action('wp_head', 'rel_canonical');
 			theme\html_layout\tags\head::add_html_addition( '<link rel="canonical" href="' . get_pagenum_link( 1 ) . '" />' );
 		}
 		if( get_field( 'canonical-paged-prev-next-links', seo::$admin_menu_main ) && ( is_archive() || is_post_type_archive() ) ){
@@ -100,7 +107,7 @@
 				theme\html_layout\tags\head::add_html_addition( '<link rel="prev" href="' . get_previous_posts_page_link() . '" />' );
 			}
 			global $wp_query;
-			if( intval( get_query_var( 'paged' ) ) < intval( $wp_query->max_num_pages ) ){
+			if( intval( get_query_var( 'paged' ) ) < intval( $wp_query->max_num_pages ) && $wp_query->max_num_pages > 1 ){
 				theme\html_layout\tags\head::add_html_addition( '<link rel="next" href="' . get_next_posts_page_link() . '" />' );
 			}
 		}

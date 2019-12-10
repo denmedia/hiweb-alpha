@@ -10,6 +10,8 @@
 
 
 	use hiweb\arrays;
+	use hiweb\client;
+	use hiweb\date;
 	use hiweb\dump;
 	use hiweb\paths;
 	use hiweb\strings;
@@ -53,7 +55,7 @@
 			}
 			//
 			$this->wp_post = get_post( $form_postOrId );
-			$this->action_url = rest_url( 'hiweb_theme/widgets/forms/submit' );
+			$this->action_url = rest_url( 'hiweb_theme/forms/submit' );
 			if( $this->wp_post instanceof \WP_Post ){
 				$this->post_id = $this->wp_post->ID;
 			}
@@ -420,7 +422,48 @@
 			$headers[] = 'Precedence: bulk';
 			$headers[] = 'List-Unsubscribe: ' . \hiweb\urls::root( false );
 			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );
+			///
+			$this->insert_message( $to, $subject, $content );
+			///
 			return wp_mail( $to, html_entity_decode( $subject ), $content, $headers );
+		}
+
+
+		private function insert_message( $to = '', $subject = '', $content = '' ){
+			if( !$this->is_exists() ) return;
+			$new_message_id = wp_insert_post( [
+				'post_type' => forms::$post_type_messages_name,
+				'post_status' => 'publish',
+				'post_content' => $content,
+				'post_title' => date::format() . ' - ' . $this->get_wp_post()->post_title
+			] );
+			if( is_int( $new_message_id ) ){
+				///message data insert
+				update_post_meta( $new_message_id, 'form-id', $this->post_id );
+				update_post_meta( $new_message_id, 'form-data-post', $_POST );
+				update_post_meta( $new_message_id, 'form-data-get', $_GET );
+				update_post_meta( $new_message_id, 'form-recipient', $to );
+				update_post_meta( $new_message_id, 'form-subject', $subject );
+				update_post_meta( $new_message_id, 'client-ip', client::get_ip() );
+				update_post_meta( $new_message_id, 'client-user-agent', $_SERVER['HTTP_USER_AGENT'] );
+				update_post_meta( $new_message_id, 'client-browser-name', client::get_browser() );
+				update_post_meta( $new_message_id, 'client-os', client::get_os() );
+				update_post_meta( $new_message_id, 'client-os2', client::get_os2() );
+				update_post_meta( $new_message_id, 'client-id', client::get_id_OsIp() );
+				//utm points
+				if( !forms::get_utm_points_options()->is_empty() ){
+					$utm_points = [];
+					foreach( forms::get_utm_points_options()->get() as $point ){
+						if( isset( $_SESSION[ forms::$utm_point_session_key ][ $point ] ) ){
+							if( trim( $_SESSION[ forms::$utm_point_session_key ][ $point ] ) != '' ){
+								$utm_points[ $point ] = $_SESSION[ forms::$utm_point_session_key ][ $point ];
+							}
+							unset( $_SESSION[ forms::$utm_point_session_key ][ $point ] );
+						}
+					}
+					update_post_meta( $new_message_id, 'utm-points', $utm_points );
+				}
+			}
 		}
 
 

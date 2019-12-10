@@ -28,7 +28,11 @@ jQuery(document).ready(function ($) {
         $mmenu.mmenu(mmenu_args, {
             language: "ru"
         }).find('ul.mm-listview').css('visibility', '');
-        $mmenu.find('.mm-navbar').append('<a class="mm-btn mm-btn_close mm-navbar__btn" href="#page" aria-owns="page"><span class="mm-sronly">Закрыть меню</span></a>');
+        let $close_button = $('<a class="mm-btn mm-btn_close mm-navbar__btn" href="#" aria-owns="page"><span class="mm-sronly">Закрыть меню</span></a>').on('click', function(){
+            //$(".mm-menu_offcanvas").data("mmenu").close();
+            $('.mm-wrapper__blocker a').trigger('click');
+        });
+        $mmenu.find('.mm-navbar').append($close_button);
         $mmenu.find('.mm-panels > .mm-panel:first-child .mm-navbar__title').html($mmenu.attr('data-title'));
         ///
         if (typeof $('body').swipe === 'function') {

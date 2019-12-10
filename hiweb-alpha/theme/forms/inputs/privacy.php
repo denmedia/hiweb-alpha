@@ -43,7 +43,6 @@
 
 
 		public function get_require_error_message(){
-			console_info( get_field( 'privacy-checkbox-error-text', 'hiweb-forms' ) );
 			return get_field( 'privacy-checkbox-error-text', 'hiweb-forms' );
 		}
 
@@ -56,6 +55,26 @@
 				return '<div class="require-error-message">' . $this->get_require_error_message() . '</div>';
 			}
 			return '';
+		}
+
+		public function the_prefix(){
+			?>
+			<div class="input-wrap input-wrap-<?= self::get_name() ?>">
+			<?php
+			if( isset( $this->data['icon'] ) && $this->data['icon'] != '' ){
+				?>
+				<i class="<?= $this->data['icon'] ?>"></i>
+				<?php
+			}
+			if( self::get_data( 'label' ) != '' ){
+				?>
+				<label class="label"><?= self::get_data( 'label' ) ?> <?= $this->is_required() ? '<span class="required">*</span>' : '' ?></label>
+				<?php
+			} elseif( self::is_required_empty_label() ) {
+				?>
+				<div class="">
+				<?php
+			}
 		}
 
 
@@ -71,7 +90,7 @@
 			}
 			$checked = get_field( 'privacy-checkbox-default', 'hiweb-forms' ) != '';
 			?>
-			<input tabindex="" type="checkbox" <?= $checked ? 'checked="checked"' : '' ?> name="<?= self::$default_name ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::is_required() ? 'data-required' : '' ?>/>
+			<input type="checkbox" <?= $checked ? 'checked="checked"' : '' ?> name="<?= self::$default_name ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::is_required() ? 'data-required' : '' ?>/>
 			<?php
 
 			if( $text != '' ){

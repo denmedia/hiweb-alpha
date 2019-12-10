@@ -97,6 +97,13 @@
 			} elseif( $this->wp_object instanceof WP_Term ) {
 				return apply_filters( '\theme\structures\structure::get_title', $this->wp_object->name, $this->wp_object, $force_raw, $this );
 			} elseif( $this->wp_object instanceof WP_Post_Type ) {
+				if( $this->wp_object->name == 'product' && function_exists( 'WC' ) ){
+					$shop_page_id = get_option( 'woocommerce_shop_page_id' );
+					if( get_post( $shop_page_id ) instanceof WP_Post && get_post( $shop_page_id )->post_type == 'page' ){
+						$title = get_the_title( $shop_page_id );
+						if( $title != '' ) return $title;
+					}
+				}
 				if( class_exists( '\theme\seo' ) ){
 					$title = seo::get_post_type_title( $this->wp_object->name );
 					if( $title != '' ) return $title;
@@ -248,7 +255,9 @@
 							$parent_menu_nav_item = $nav_items[ $wp_nav_item->menu_item_parent ];
 							$object = structures::wp_post_nav_to_wp_object( $parent_menu_nav_item );
 							if( is_object( $object ) && $this->wp_object != $object ){
-								$this->cache_parent_by_nav_menu[ structures::object_to_id( $object ) ] = $object;
+								if( get_post_type_object( $object->post_type ) instanceof \WP_Post_Type && get_post_type_object( $object->post_type )->public ){
+									$this->cache_parent_by_nav_menu[ structures::object_to_id( $object ) ] = $object;
+								}
 							}
 						}
 					}
