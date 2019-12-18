@@ -54,8 +54,8 @@
 			if( !$source_post instanceof \WP_Post ) return;
 			$new_post_args = [
 				'post_author' => get_current_user_id(),
-				'post_date' => $source_post->post_date,
-				'post_date_gmt' => $source_post->post_date_gmt,
+				//'post_date' => $source_post->post_date,
+				//'post_date_gmt' => $source_post->post_date_gmt,
 				'post_content' => $source_post->post_content,
 				'post_title' => $source_post->post_title . self::$new_title_append,
 				'post_excerpt' => $source_post->post_excerpt,

@@ -13,6 +13,6 @@
 			<?php
 		}
 	}
-?><input tabindex="" type="hidden" name="<?= $input->get_name() ?>" value="<?= get_the_ID() ?>"/>
+?><input type="hidden" name="<?= $input->get_name() ?>" value="<?= get_the_ID() ?>"/>
 <?php
 	$input->the_sufix();

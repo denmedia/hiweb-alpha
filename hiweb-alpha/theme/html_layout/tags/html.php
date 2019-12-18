@@ -44,7 +44,7 @@
 		static function get_tags_array(){
 			if( !self::$tags instanceof array_ ){
 				if( self::$use_lang_locale ){
-					self::$tags['lang'] = get_locale();
+					self::$tags['lang'] = strtolower(substr(get_locale(), 0, strpos(get_locale(),'_')));
 				}
 				self::$tags = new array_( self::$tags );
 			}

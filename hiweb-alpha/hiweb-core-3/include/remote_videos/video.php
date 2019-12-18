@@ -89,7 +89,7 @@
 					}
 					if( isset( $data['html'] ) ){
 						//$this->html = '<div class="hiweb-remote-video-html">' . $data['html'] . '</div>';
-						$this->html = '<div class="hiweb-remote-video-html"><iframe src="https://www.youtube.com/embed/'.$this->get_id().'?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>';
+						$this->html = '<div class="hiweb-remote-video-html"><iframe src="https://www.youtube.com/embed/'.$this->get_id().'?feature=oembed" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>';
 					}
 				} elseif( $this->is_vimeo() ) {
 					$vimeo = "http://vimeo.com/api/v2/video/" . $this->get_id() . ".json";
@@ -106,7 +106,7 @@
 					if( isset( $data[0] ) ){
 						$this->thumbnail_url = $data[0]['thumbnail_large'];
 						$this->title = $data[0]['title'];
-						$this->html = '<div class="hiweb-remote-video-html"><iframe src="https://player.vimeo.com/video/' . $data[0]['id'] . '?api=1&amp;color=#FFFFFF&amp;portrait=0&amp;title=0&amp;byline=0" frameborder="0" wmode="opaque" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" ></iframe></div>';
+						$this->html = '<div class="hiweb-remote-video-html"><iframe src="https://player.vimeo.com/video/' . $data[0]['id'] . '?api=1&amp;color=#FFFFFF&amp;portrait=0&amp;title=0&amp;byline=0" wmode="opaque" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" ></iframe></div>';
 					}
 				}
 				$this->data_is_setuped = true;

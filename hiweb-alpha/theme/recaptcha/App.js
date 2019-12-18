@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
     $('form').each(function () {
         let $form = $(this);
         let $recaptcha_input = $form.find('[data-hiweb-form-recaptcha-input]');
-        if ($recaptcha_input.length > 0 && grecaptcha) {
+        if ($recaptcha_input.length > 0 && typeof grecaptcha != 'undefined') {
             let $submit_button = $form.find('input[type="submit"], button[type="submit"]');
             $submit_button.on('click', function (e) {
                 if (!$submit_button.is('[hiweb-recaptcha-received]')) {
@@ -20,7 +20,7 @@ jQuery(document).ready(function ($) {
                     });
                 }
             });
-        } else if (!grecaptcha) {
+        } else if (typeof grecaptcha === 'undefined') {
             console.error('Объект [grecaptcha] не подключен в теле сайта. Подключите удаленный JS файл [https://www.google.com/recaptcha/api.js?render={recaptcha public key}]');
         }
     });
