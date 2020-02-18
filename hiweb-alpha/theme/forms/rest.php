@@ -6,6 +6,7 @@
 	 * Time: 16:15
 	 */
 
+	use hiweb\urls;
 	use theme\forms;
 
 
@@ -16,9 +17,36 @@
 				return forms::get( $_POST['hiweb-theme-widget-form-id'] )->do_submit( $_POST );
 			}
 		] );
-	} );
 
-	add_action( 'rest_api_init', function(){
+		register_rest_route( 'hiweb_theme', 'forms/input_html', [
+			'methods' => 'post',
+			'callback' => function(){
+				if( is_null( urls::request( 'form_id' ) ) ) return [ 'success' => false, 'message' => 'найден ID формы [form_id="..."]' ];
+				$input_id = null;
+				$input_value = null;
+				if( isset( $_POST['data'] ) && is_array( $_POST['data'] ) ){
+					foreach( $_POST['data'] as $subdata ){
+						$input_id = $subdata['name'];
+						$input_value = $subdata['value'];
+					}
+				}
+				forms::init();
+				$form = get_form( urls::request( 'form_id' ) );
+				if( !$form->is_exists() ) wp_send_json_error( [ 'success' => false, 'message' => 'форма не найдена' ] );
+				forms::setup_postdata( $form->get_id() );
+				if( !$form->is_input_exists( $input_id ) ) return [ 'success' => false, 'message' => 'инпут ID не найден 1' ];
+				$input = $form->get_input_object( $input_id );
+				$form->setup_input_id( $input_id );
+				if( $input instanceof forms\inputs\input ){
+					$input->set_data( 'value', $input_value );
+					return $input->ajax_html();
+				} else {
+					wp_send_json_error( [ 'message' => 'Непредвиденная ошибка' ] );
+				}
+				wp_send_json_error();
+			}
+		] );
+
 		register_rest_route( 'hiweb_theme', 'forms/messages', [
 			'methods' => 'get',
 			'callback' => function(){

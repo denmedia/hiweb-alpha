@@ -22,6 +22,8 @@
 		private $json;
 
 		private $rows = null;
+		private $row_index = - 1;
+		private $row_key = null;
 		private $row = null;
 		private $row_object = null;
 
@@ -461,10 +463,13 @@
 
 		/**
 		 * @return int
+		 * @version 1.1
 		 */
 		public function reset_rows(){
 			if( $this->is_empty() ) return 0;
 			$this->rows = $this->get();
+			$this->row_index = - 1;
+			$this->row_key = key( $this->rows );
 			return count( $this->rows );
 		}
 
@@ -484,10 +489,14 @@
 		public function the_row(){
 			if( is_array( $this->rows ) && count( $this->rows ) > 0 ){
 				if( $this->row_object instanceof array_ ) unset( $this->row_object );
+				$this->row_index ++;
+				$this->row_key = key( $this->rows );
 				$this->row = array_shift( $this->rows );
 				$this->row_object = get_array( $this->row );
 				return $this->row;
 			}
+			$this->row_index = - 1;
+			$this->row_key = null;
 			return null;
 		}
 
@@ -514,6 +523,22 @@
 		public function is_first_row(){
 			if( !is_array( $this->rows ) || $this->is_empty() ) return false;
 			return ( count( $this->rows ) + 1 ) == $this->count();
+		}
+
+
+		/**
+		 * @return int
+		 */
+		public function get_current_row_index(){
+			return $this->row_index;
+		}
+
+
+		/**
+		 * @return null|string|int
+		 */
+		public function get_current_row_key(){
+			return $this->row_key;
 		}
 
 

@@ -304,6 +304,15 @@
 
 
 		/**
+		 * @param $input_id
+		 * @return bool
+		 */
+		public function is_input_exists( $input_id ){
+			return array_key_exists( $input_id, $this->get_inputs() );
+		}
+
+
+		/**
 		 * @param $name
 		 * @return inputs\input
 		 */
@@ -330,6 +339,17 @@
 			$this->the_inputs = null;
 			$this->the_input = null;
 			return false;
+		}
+
+
+		/**
+		 * @param $input_name
+		 * @return bool|inputs\input
+		 */
+		public function setup_input_id( $input_name ){
+			if( !$this->is_input_exists( $input_name ) ) return false;
+			$this->the_input = $this->get_input_object( $input_name );
+			return $this->the_input;
 		}
 
 

@@ -41,6 +41,42 @@
   right: 0;
   bottom: 0;
 }
+.hiweb-theme-widget-slider.aspect-3-1, .hiweb-theme-widget-slider.aspect-3-1 .owl-item {
+  position: relative;
+  min-height: 320px;
+  max-height: 800px;
+}
+.hiweb-theme-widget-slider.aspect-3-1:before, .hiweb-theme-widget-slider.aspect-3-1 .owl-item:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 33.3333333333%;
+}
+.hiweb-theme-widget-slider.aspect-3-1 > *, .hiweb-theme-widget-slider.aspect-3-1 .owl-item > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.hiweb-theme-widget-slider.aspect-4-1, .hiweb-theme-widget-slider.aspect-4-1 .owl-item {
+  position: relative;
+  min-height: 320px;
+  max-height: 800px;
+}
+.hiweb-theme-widget-slider.aspect-4-1:before, .hiweb-theme-widget-slider.aspect-4-1 .owl-item:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 25%;
+}
+.hiweb-theme-widget-slider.aspect-4-1 > *, .hiweb-theme-widget-slider.aspect-4-1 .owl-item > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .hiweb-theme-widget-slider.aspect-4-3, .hiweb-theme-widget-slider.aspect-4-3 .owl-item {
   position: relative;
   min-height: 400px;

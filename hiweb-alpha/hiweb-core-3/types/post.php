@@ -159,15 +159,22 @@
 				$selected = [];
 				if(is_array($this->VALUE()->get()) && count($this->VALUE()->get()) > 0) {
 					///
-					$wp_query = new \WP_Query( [
-						'post_type' => $post_types,
-						'posts_per_page' => 20,
-						'post_status' => 'any',
-						'post__in' => $this->VALUE()->get()
-					] );
-					foreach( $wp_query->get_posts() as $post ){
+					foreach($this->VALUE()->get() as $post_id){
+						if(intval($post_id) < 1) continue;
+						$post = get_post($post_id);
+						if(!$post instanceof WP_Post) continue;
 						$selected[$post->ID] = $post->post_title;
 					}
+					///
+//					$wp_query = new \WP_Query( [
+//						'post_type' => $post_types,
+//						'posts_per_page' => 99,
+//						'post_status' => 'any',
+//						'post__in' => $this->VALUE()->get()
+//					] );
+//					foreach( $wp_query->get_posts() as $post ){
+//						$selected[$post->ID] = $post->post_title;
+//					}
 				}
 				///
 				$this->attributes['data-global-id'] = $this->get_parent_field()->global_id();

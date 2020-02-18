@@ -14,6 +14,10 @@
 	use theme\includes\frontend;
 
 
+	/**
+	 * Class recaptcha
+	 * @package theme
+	 */
 	class recaptcha{
 
 		static $admin_menu_slug = 'hiweb-recaptcha';
@@ -49,6 +53,15 @@
 
 
 		/**
+		 * @return float
+		 */
+		static function get_minimal_score(){
+			return floatval( get_field( 'min-score', self::$admin_menu_slug ) );
+		}
+
+
+		/**
+		 * @version 1.1
 		 * @param string $post_name
 		 * @param bool   $return_boolean - true => возвращает тоько true или false после проверки
 		 * @return array|bool|mixed|object
@@ -71,12 +84,17 @@
 			];
 			$context = stream_context_create( $opts );
 			$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-			return $return_boolean ? json_decode( $response )->success : [
-				json_decode( $response ),
-				'secret' => self::get_recaptcha_key( false ),
-				'response' => $post_token_value,
-				'remoteip' => $_SERVER['REMOTE_ADDR']
-			];
+			$response_std = json_decode( $response );
+			if( $return_boolean ){
+				return !$response_std->success ? ( floatval($response_std->score) >= self::get_minimal_score() ) : false;
+			} else {
+				return [
+					json_decode( $response ),
+					'secret' => self::get_recaptcha_key( false ),
+					'response' => $post_token_value,
+					'remoteip' => $_SERVER['REMOTE_ADDR']
+				];
+			}
 		}
 
 

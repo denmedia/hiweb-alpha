@@ -12,6 +12,11 @@
   -moz-transition: all 300ms ease;
   transition: all 300ms ease;
 }
+@media print {
+  .hiweb-theme-widget-scrolltop {
+    display: none !important;
+  }
+}
 
 .hiweb-theme-widget-scrolltop-icon-wrap {
   width: 40px;

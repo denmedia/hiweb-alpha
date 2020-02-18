@@ -76,7 +76,7 @@
 
 
 		/**
-		 * @varsion 1.1
+		 * @varsion 1.2
 		 * @param array $menu_items_by_parent
 		 * @param int   $menu_item_parent
 		 * @param int   $depth
@@ -109,7 +109,7 @@
 					if( $item->url == '#' || $item->url == '' ){
 						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_span', "<span href=\"{$item->url}\" class=\"item-link\">{$item_title}</span>", $item, get_defined_vars(), $this );
 					} else {
-						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_a', "<a href=\"{$item->url}\" class=\"item-link\">{$item_title}</a>", $item, get_defined_vars(), $this );
+						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_a', "<a href=\"{$item->url}\" class=\"item-link\"><span class='item-text'>{$item_title}</span></a>", $item, get_defined_vars(), $this );
 					}
 					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_content', $item_content, $item, get_defined_vars(), $this );
 					///sub items
@@ -118,8 +118,16 @@
 					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_after', "</li>", $item, get_defined_vars(), $this );
 					$R .= apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_html', ob_get_clean(), $item, get_defined_vars(), $this );
 				}
+				$json_options = null;
+				if( $depth == 0 ){
+					$json_options = [
+						'icon_expand' => get_field( 'icon-expand', \theme\widgets\menu_collapse::$options_handle ),
+						'icon_collapse' => get_field( 'icon-collapse', \theme\widgets\menu_collapse::$options_handle )
+					];
+					$json_options = 'data-options="' . htmlentities( json_encode( $json_options ) ) . '"';
+				}
 				?>
-				<ul class="<?= $depth == 0 ? 'menu' : 'sub-menu' ?>" <?= ( $has_sub_active || $parent_active || $depth == 0 ) ? '' : 'style="display: none;"' ?>>
+				<ul class="<?= $depth == 0 ? 'menu' : 'sub-menu' ?>" <?= ( $has_sub_active || $parent_active || $depth == 0 ) ? '' : 'style="display: none;"' ?> <?= $json_options ?>>
 					<?= apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-items', $R, $this, get_defined_vars() ); ?>
 				</ul>
 				<?php

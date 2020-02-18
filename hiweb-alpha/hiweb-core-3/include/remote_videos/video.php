@@ -32,12 +32,13 @@
 
 
 		/**
+		 * @version 1.1
 		 * @return bool|string
 		 */
 		public function get_id(){
 			if( is_null( $this->id ) ){
 				if( $this->is_youtube() ){
-					$this->id = urls::get( $this->url )->param( 'v' );
+					$this->id = (strpos($this->url, 'youtu.be') !== false) ? urls::get($this->url)->dir(0) : urls::get( $this->url )->param( 'v' );
 				} elseif( $this->is_vimeo() ) {
 					$this->id = trim( parse_url( $this->url )['path'], '/' );
 				} else {
@@ -53,7 +54,7 @@
 		 * @return bool
 		 */
 		public function is_youtube(){
-			return strpos( $this->url, 'youtube' ) !== false;
+			return strpos( $this->url, 'youtube' ) !== false || strpos( $this->url, 'youtu.be' ) !== false;
 		}
 
 

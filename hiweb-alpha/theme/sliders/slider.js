@@ -10,7 +10,7 @@ jQuery(document).ready(function ($) {
                 $slider_root.trigger('next.owl.carousel');
             }, $slide_interval);
         };
-        $slider_root.owlCarousel({
+        let options = {
             items: 1,
             nav: true,
             autoplayHoverPause: true,
@@ -28,6 +28,7 @@ jQuery(document).ready(function ($) {
                 $slider_root.find('.owl-item > .slide > video').on('ended', function () {
                     $slider_root.trigger('next.owl.carousel');
                 });
+                $slider_root.css({'visibility':'visible'});
                 setTimeout(function () {
                     $slider_root.find('.owl-item.active').addClass('showed');
                 }, 500);
@@ -38,7 +39,11 @@ jQuery(document).ready(function ($) {
             onTranslated: function () {
                 $slider_root.find('.owl-item.active').addClass('showed');
             }
-        }).on('changed.owl.carousel', function (event) {
+        };
+        if ($slider_root.is('[data-slider-options]') && $slider_root.attr('data-slider-options') !== '') {
+            options = Object.assign(options, JSON.parse($slider_root.attr('data-slider-options')));
+        }
+        $slider_root.owlCarousel(options).on('changed.owl.carousel', function (event) {
             if (slider_current_index !== event.page.index) {
                 slider_current_index = event.page.index;
 

@@ -63,10 +63,11 @@
 
 		/**
 		 * Возвращает массив с массивами элементов
+		 * @version 1.1
 		 * @param $location
 		 * @return array|false
 		 */
-		public function menu_items( $location ){
+		public function menu_items( $location, $args = [] ){
 			$R = [];
 			$menus = wp_get_nav_menus();
 			$menu_locations = $this->locations();
@@ -74,6 +75,11 @@
 				foreach( $menus as $menu ){
 					if( $menu->term_id == $menu_locations[ $location ] ){
 						$items = wp_get_nav_menu_items( $menu );
+						foreach( $items as $index => $item ){
+							if( is_array( $args ) ) foreach( $args as $key => $val ){
+								if( property_exists( $item, $key ) && $item->{$key} != $val ) unset( $items[ $index ] );
+							}
+						}
 						return $items;
 					}
 				}
@@ -132,7 +138,7 @@
 		 * @return array|null|\WP_Post
 		 */
 		public function get_blog_page(){
-			if(get_option( 'page_for_posts' ) == 0) return null;
+			if( get_option( 'page_for_posts' ) == 0 ) return null;
 			return get_post( get_option( 'page_for_posts' ) );
 		}
 	}

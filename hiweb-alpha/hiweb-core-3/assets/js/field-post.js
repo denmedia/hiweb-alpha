@@ -47,6 +47,7 @@ var hw_input_post = {
             labelField: 'title',
             searchField: 'title',
             options: [],
+            plugins: ['remove_button','drag_drop'],
             create: false,
             onInitialize: function () {
                 hw_input_post._load_posts($this, '', function (items) {

@@ -91,10 +91,31 @@
 							'hide_empty' => $this->hide_empty
 						];
 						$terms = get_terms( $args );
-						if( is_array( $terms ) ) $terms_by_taxonomy[ $taxonomy ] = $terms;
+						foreach( $terms as $wp_term ){
+							//if( is_array( $terms ) ) $terms_by_taxonomy[ $taxonomy ][ $wp_term->term_id ] = $wp_term;
+							if( is_array( $terms ) ) $terms_by_taxonomy[ $wp_term->term_id ] = $wp_term;
+						}
 					}
 				}
 				return $terms_by_taxonomy;
+			}
+
+
+			/**
+			 * @param $wp_term
+			 * @return string|null
+			 */
+			private function get_term_title( $wp_term ){
+				$title = null;
+				if( $wp_term instanceof \WP_Term ){
+					$title = '';
+					$taxonomy = get_taxonomy( $wp_term->taxonomy );
+					if( $taxonomy instanceof \WP_Taxonomy ){
+						$title = $taxonomy->label . '→ ';
+					}
+					$title .= $wp_term->name . ' (' . $wp_term->count . ')';
+				}
+				return $title;
 			}
 
 
@@ -103,15 +124,20 @@
 			 * @param null       $terms_level
 			 */
 			private function get_html_options_from_terms( $wp_terms, $terms_level = null ){
+				$selected_ids = [];
+				if( is_array( $this->VALUE()->get() ) ) foreach( $this->VALUE()->get() as $term_taxonomy_id ){
+					if( isset( $wp_terms[ $term_taxonomy_id ] ) ){
+						$wp_term = $wp_terms[ $term_taxonomy_id ];
+						?>
+						<option selected value="<?= $term_taxonomy_id ?>"><?= $this->get_term_title( $wp_term ) ?></option><?php
+						$selected_ids[ $term_taxonomy_id ] = $term_taxonomy_id;
+					}
+				}
 				/** @var \WP_Term $wp_term */
 				foreach( $wp_terms as $wp_term ){
-					$selected = is_array( $this->VALUE()->get() ) ? @in_array( $wp_term->term_id, $this->VALUE()->get() ) : ( $wp_term->term_id == $this->VALUE()->get() );
-					$title = $wp_term->name . ( $wp_term->count > 0 ? ' (' . $wp_term->count . ')' : '' );
-					if(is_array($terms_level) && array_key_exists($wp_term->term_id, $terms_level)){
-						$title = implode('', array_fill(0, intval($terms_level[$wp_term->term_id]),' &nbsp; ')).$title;
-					}
+					if( isset( $selected_ids[ $wp_term->term_taxonomy_id ] ) ) continue;
 					?>
-					<option <?= $selected ? 'selected' : '' ?> value="<?= $wp_term->term_taxonomy_id ?>"><?= $title ?></option>
+					<option value="<?= $wp_term->term_taxonomy_id ?>"><?= $this->get_term_title( $wp_term ) ?></option>
 					<?php
 				}
 			}
@@ -121,34 +147,12 @@
 				\hiweb\css( HIWEB_DIR_CSS . '/field-terms.css' );
 				\hiweb\js( HIWEB_DIR_JS . '/field-terms.js', [ 'jquery' ] );
 				ob_start();
-				$terms_by_taxonomy = $this->get_terms_by_taxonomy();
+				$terms = $this->get_terms_by_taxonomy();
 				?>
 				<div class="hiweb-field-terms">
-					<select class="ui fluid search dropdown" name="<?= $this->name() ?>[]" <?= $this->sanitize_attributes() ?>>
+					<select class="" name="<?= $this->name() ?>[]" <?= $this->sanitize_attributes() ?>>
 						<?php
-
-							foreach( $terms_by_taxonomy as $taxonomy_name => $terms ){
-								if( !is_array( $terms ) ) continue;
-								$taxonomy = get_taxonomy( $taxonomy_name );
-								if( $taxonomy instanceof \WP_Taxonomy ){
-									?>
-									<optgroup label="<?= $taxonomy->label ?>">
-										<?php
-											if( $taxonomy->hierarchical ){
-												$terms_level = [];
-												/** @var \WP_Term $wp_term */
-												foreach( $terms as $wp_term ){
-													$terms_level[ $wp_term->term_id ] = $wp_term->parent == 0 ? 0 : ( $terms_level[ $wp_term->parent ] + 1 );
-												}
-												self::get_html_options_from_terms( $terms, $terms_level );
-											} else {
-												self::get_html_options_from_terms( $terms );
-											}
-										?>
-									</optgroup>
-									<?php
-								}
-							}
+							self::get_html_options_from_terms( $terms );
 						?>
 					</select>
 				</div>

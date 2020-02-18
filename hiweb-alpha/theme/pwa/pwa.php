@@ -28,6 +28,9 @@
 		static private $service_worker_cach_urls = [ '/' ];
 
 
+		/**
+		 * @version 1.1
+		 */
 		static function init(){
 			///
 			if( self::$init ) return;
@@ -48,6 +51,12 @@
 			//manifest link
 			head::add_html_addition( '<link rel="manifest" href="' . get_rest_url( null, 'hiweb-theme/pwa/manifest' ) . '">' );
 
+			//add script to head tag
+			if( trim( get_field( 'script-head', self::$admin_menu_slug ) ) != '' ) {
+				add_action('wp_head', function(){
+					the_field( 'script-head', self::$admin_menu_slug );
+				});
+			}
 			//add script to footer
 			if( trim( get_field( 'script', self::$admin_menu_slug ) ) != '' ) add_action( '\theme\html_layout\body::the_after-before', function(){
 				the_field( 'script', self::$admin_menu_slug );

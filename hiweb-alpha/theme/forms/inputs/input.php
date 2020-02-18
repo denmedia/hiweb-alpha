@@ -39,6 +39,15 @@
 
 
 		/**
+		 * @param $key
+		 * @param $value
+		 */
+		public function set_data( $key, $value ){
+			$this->data[ $key ] = $value;
+		}
+
+
+		/**
 		 * @return mixed|null|string
 		 */
 		public function get_name(){
@@ -97,7 +106,7 @@
 
 		public function the(){
 			$this->the_prefix();
-			?><input type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?=self::is_required() ? 'data-required' : ''?>/>
+			?><input type="text" name="<?= self::get_name() ?>" <?= self::get_tag_pair( 'placeholder' ) ?> <?= self::is_required() ? 'data-required' : '' ?>/>
 			<?php
 			$this->the_sufix();
 		}
@@ -162,6 +171,14 @@
 		 */
 		public function is_email_submit_enable(){
 			return true;
+		}
+
+
+		/**
+		 *
+		 */
+		public function ajax_html(){
+			return [ 'success' => false, 'message' => 'для данного инпута нет HTML через AJAX' ];
 		}
 
 	}

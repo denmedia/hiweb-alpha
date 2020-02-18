@@ -1,21 +1,26 @@
 <?php
 
-	if( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE && defined( 'BLOG_ID_CURRENT_SITE' ) && BLOG_ID_CURRENT_SITE != get_current_blog_id() ){
+
+	if( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE && BLOG_ID_CURRENT_SITE != get_current_blog_id() ){
 
 		add_filter( 'query', function( $query ){
 			global $wpdb;
 			if( BLOG_ID_CURRENT_SITE != get_current_blog_id() ){
 				if( preg_match( "/(SELECT \* FROM\s+{$wpdb->posts}\s+WHERE ID = (?<post_id>[\d]+)\s+LIMIT 1)/im", $query, $matches ) > 0 && isset( $matches['post_id'] ) ){
 					$old_post_table = $wpdb->posts;
-					switch_to_blog( BLOG_ID_CURRENT_SITE );
 					$id = intval( trim( $matches['post_id'] ) );
-					if( $id > 0 ){
-						$post = get_post( $id );
-						if( $post instanceof WP_Post && $post->post_type == 'attachment' ){
-							$query = str_replace( $old_post_table, $wpdb->posts, $query );
+					$test_id_is_exists = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS {$wpdb->posts}.ID FROM {$wpdb->posts} WHERE {$wpdb->posts}.ID='{$id}'" );
+					if( !is_array( $test_id_is_exists ) || count( $test_id_is_exists ) == 0 ){
+						switch_to_blog( BLOG_ID_CURRENT_SITE );
+						if( $id > 0 ){
+							$post = get_post( $id );
+							if( $post instanceof WP_Post && $post->post_type == 'attachment' ){
+								$query = str_replace( $old_post_table, $wpdb->posts, $query );
+								//console_info( [ $post, $query ] );
+							}
 						}
+						restore_current_blog();
 					}
-					restore_current_blog();
 				} elseif( preg_match( "/(SELECT\s+SQL_CALC_FOUND_ROWS\s+{$wpdb->posts}.ID\s+FROM\s+{$wpdb->posts}\s+WHERE[\s\S]+{$wpdb->posts}.post_type = ['\"]attachment['\"][\s\S]+)/im", $query ) > 0 ) {
 					$old_post_table = $wpdb->posts;
 					switch_to_blog( BLOG_ID_CURRENT_SITE );
@@ -24,6 +29,24 @@
 				}
 			}
 			return $query;
+		} );
+
+		add_action( 'add_attachment', function( $post_ID ){
+			///
+			if( BLOG_ID_CURRENT_SITE == get_current_blog_id() ){
+				global $wpdb;
+				$sites = get_sites();
+				/** @var WP_Site $WP_Site */
+				if( is_array( $sites ) ){
+					foreach( get_sites( $sites ) as $WP_Site ){
+						if( $WP_Site->blog_id == get_current_blog_id() ) continue;
+						switch_to_blog( $WP_Site->blog_id );
+					}
+					$wpdb->query( "INSERT INTO {$wpdb->posts} SET ID='{$post_ID}'" );
+					restore_current_blog();
+				}
+			}
+			///
 		} );
 
 		add_filter( 'posts_pre_query', function( $null, $wp_query ){
@@ -142,7 +165,10 @@
 			}
 			return $data;
 		} );
+	}
 
+	///DUBLICATE POSTS
+	if( defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ){
 		///META BOX
 		add_action( 'add_meta_boxes', function(){
 			$screens = get_post_types( [ 'public' => true, 'publicly_queryable' => true ] );
@@ -193,7 +219,7 @@
 						'post_title' => 'dummy'
 					] );
 					$test_id = $wpdb->insert_id;
-					if( intval( $test_id ) > 0 && !get_array( $dummy_attached_ids )->in( $test_id ) ){
+					if( intval( $test_id ) > 0 && !hiweb\arrays::in_array( $test_id, $dummy_attached_ids ) ){
 						$new_post_id = $test_id;
 						$B = wp_update_post( [
 							'ID' => $test_id,

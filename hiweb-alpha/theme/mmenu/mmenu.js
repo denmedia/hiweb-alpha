@@ -28,7 +28,8 @@ jQuery(document).ready(function ($) {
         $mmenu.mmenu(mmenu_args, {
             language: "ru"
         }).find('ul.mm-listview').css('visibility', '');
-        let $close_button = $('<a class="mm-btn mm-btn_close mm-navbar__btn" href="#" aria-owns="page"><span class="mm-sronly">Закрыть меню</span></a>').on('click', function(){
+        let $close_button = $('<a class="mm-btn mm-btn_close mm-navbar__btn" href="#" aria-owns="page"><span class="mm-sronly">Закрыть меню</span></a>').on('click', function (e) {
+            e.preventDefault();
             //$(".mm-menu_offcanvas").data("mmenu").close();
             $('.mm-wrapper__blocker a').trigger('click');
         });

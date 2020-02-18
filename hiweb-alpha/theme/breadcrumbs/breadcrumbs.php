@@ -113,7 +113,7 @@
 
 
 		/**
-		 * @version 1.1
+		 * @version 1.2
 		 * @return crumb[]
 		 */
 		static function get_crumbs(){
@@ -129,13 +129,13 @@
 					$limit --;
 				}
 				///HOME CRUMB
-				if( get_field( 'home-enable', self::$admin_options_slug ) && $current_crumb->get_parent_crumb() == false ){
+				if( get_field( 'home-enable', self::$admin_options_slug ) && $current_crumb->get_parent_crumb() == false && !is_null(get_queried_object()) ){
 					self::$crumbs[] = new crumb( '' );
 				}
 				///
 				self::$crumbs = array_reverse( self::$crumbs );
 			}
-			if( count( self::$crumbs ) < 2 ) return [];
+			if( count( self::$crumbs ) < 2 && !is_null(get_queried_object()) ) return [];
 			return self::$crumbs;
 		}
 

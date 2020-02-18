@@ -15,6 +15,7 @@ var hiweb_theme_widget_forms = {
         $('body').on('click', 'a[href][data-widget-form-modal-open]', function () {
             let $form = $($(this).attr('href'));
             if ($form.length > 0) {
+                ///set values
                 let data = JSON.parse($(this).attr('data-values'));
                 for (let name in data) {
                     if (typeof data[name] == 'object') {
@@ -23,6 +24,25 @@ var hiweb_theme_widget_forms = {
                         $form.find('[name="' + name + '"]').val(data[name]);
                     }
                 }
+                ///ajax input reload
+                $form.find('[data-ajax-html]').each(function () {
+                    let $input_wrap = $(this);
+                    $input_wrap.css({opacity: 0});
+                    $.ajax({
+                        url: '/wp-json/hiweb_theme/forms/input_html',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {form_id: $input_wrap.closest('[data-form-id]').attr('data-form-id'), data: $input_wrap.find('[name]').serializeArray()},
+                        success: function (response) {
+                            if (response.success) {
+                                $input_wrap.fadeIn(500);
+                                $input_wrap.replaceWith(response.html);
+                            } else {
+
+                            }
+                        }
+                    });
+                });
             }
             $('body').trigger('hiweb-theme-form-modal-open', $(this));
         });
