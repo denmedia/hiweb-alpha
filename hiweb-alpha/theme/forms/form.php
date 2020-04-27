@@ -45,14 +45,7 @@
 
 
 		public function __construct( $form_postOrId ){
-			frontend::js( __DIR__ . '/assets/forms.min.js' );
-			frontend::css( __DIR__ . '/assets/forms.css' );
-			frontend::fancybox();
-			frontend::jquery_form();
-			frontend::jquery_mask();
-			if( recaptcha::is_enable() && strlen( recaptcha::get_recaptcha_key() ) > 5 ){
-				frontend::js( 'https://www.google.com/recaptcha/api.js?render=' . recaptcha::get_recaptcha_key(), [], false );
-			}
+
 			//
 			$this->wp_post = get_post( $form_postOrId );
 			$this->action_url = rest_url( 'hiweb_theme/forms/submit' );

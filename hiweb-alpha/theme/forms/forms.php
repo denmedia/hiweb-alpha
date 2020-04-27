@@ -53,7 +53,11 @@
 			require_once __DIR__ . '/widget.php';
 			if( self::$enqueue_frontend_scripts ){
 				frontend::css( __DIR__ . '/assets/forms.css' );
-				frontend::js( __DIR__ . '/assets/forms.min.js', frontend::jquery() );
+				frontend::js( __DIR__ . '/assets/forms.min.js', [ frontend::jquery(), frontend::jquery_mask(), frontend::jquery_form() ] );
+				frontend::fancybox();
+				if( recaptcha::is_enable() && strlen( recaptcha::get_recaptcha_key() ) > 5 ){
+					frontend::js( 'https://www.google.com/recaptcha/api.js?render=' . recaptcha::get_recaptcha_key(), [], false );
+				}
 			}
 			///
 			if( !self::get_utm_points_options()->is_empty() ){

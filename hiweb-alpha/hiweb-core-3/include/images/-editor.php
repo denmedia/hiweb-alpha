@@ -363,10 +363,8 @@
 						imagedestroy( $src_image );
 						imagedestroy( $image_gd_new );
 						if( $temp_file->is_exists() && $temp_file->get_size() > 0 ){
-							if( $destination_file->is_exists() )
-								unlink( $destination_file->get_path() );
-							@rename( $temp_file->get_path(), $destination_file->get_path() );
-							return $destination_file;
+							if( $destination_file->is_exists() ) unlink( $destination_file->get_path() );
+							if( rename( $temp_file->get_path(), $destination_file->get_path() ) ) return $destination_file; else return false;
 						} else {
 							return false;
 						}

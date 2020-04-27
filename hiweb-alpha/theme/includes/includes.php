@@ -236,8 +236,10 @@
 
 
 		/**
+		 * Doesn't work with responsive!!!
 		 * Плагин прикрепления блока HTML внутри другого блока, включая его перемещения во время скролла в рамках родительского блока
 		 * vendors/jquery.pin/jquery.pin.min.js
+		 * @deprecated
 		 */
 		static function jquery_pin(){
 			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] );

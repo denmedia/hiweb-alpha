@@ -75,7 +75,7 @@
 			/**
 			 * @return string
 			 */
-			public function get_classes(){
+			public function get_root_classes(){
 				return implode( ' ', $this->root_classes );
 			}
 
@@ -160,7 +160,7 @@
 					}
 					$R = ob_get_clean();
 					?>
-					<ul class="<?= implode( ' ', $this->ul_classes ) ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden;"' : '' ?> data-items-count="<?= $items_count ?>" data-items-symbols-count="<?= $items_symbol_count ?>">
+					<ul class="<?= $depth == 0 ? implode( ' ', $this->ul_classes ) : '' ?> nav-level-<?= $depth ?>" <?= $depth > 0 ? 'style="visibility: hidden;"' : '' ?> data-items-count="<?= $items_count ?>" data-items-symbols-count="<?= $items_symbol_count ?>">
 						<?php
 							echo $R;
 						?>
@@ -176,7 +176,7 @@
 					frontend::stellarnav();
 					$this->root_classes[] = 'stellarnav';
 					?>
-					<div id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= $this->get_classes() == '' ? '' : 'class="' . $this->get_classes() . '"' ?>>
+					<div id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= $this->get_root_classes() == '' ? '' : 'class="' . $this->get_root_classes() . '"' ?>>
 					<nav>
 					<?php
 				} else {

@@ -16,7 +16,7 @@
 
 		/**
 		 * @return bool
-		 */ 
+		 */
 		static function is_feed(){
 			return \is_feed();
 		}
