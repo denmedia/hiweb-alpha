@@ -9,7 +9,7 @@
 	namespace theme\pages_cache;
 
 
-	use hiweb\dump;
+	use hiweb\Dump;
 
 
 	require_once __DIR__ . '/tools.php';

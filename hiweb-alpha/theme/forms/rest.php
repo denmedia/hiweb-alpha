@@ -21,7 +21,7 @@
 		register_rest_route( 'hiweb_theme', 'forms/input_html', [
 			'methods' => 'post',
 			'callback' => function(){
-				if( is_null( urls::request( 'form_id' ) ) ) return [ 'success' => false, 'message' => 'найден ID формы [form_id="..."]' ];
+				if( is_null( PathsFactory::request( 'form_id' ) ) ) return [ 'success' => false, 'message' => 'найден ID формы [form_id="..."]' ];
 				$input_id = null;
 				$input_value = null;
 				if( isset( $_POST['data'] ) && is_array( $_POST['data'] ) ){
@@ -31,7 +31,7 @@
 					}
 				}
 				forms::init();
-				$form = get_form( urls::request( 'form_id' ) );
+				$form = get_form( PathsFactory::request( 'form_id' ) );
 				if( !$form->is_exists() ) wp_send_json_error( [ 'success' => false, 'message' => 'форма не найдена' ] );
 				forms::setup_postdata( $form->get_id() );
 				if( !$form->is_input_exists( $input_id ) ) return [ 'success' => false, 'message' => 'инпут ID не найден 1' ];
@@ -82,7 +82,7 @@
 					/** @var WP_Post $message */
 					foreach( $messages as $index => $message ){
 						$R[ $index ] = [
-							'site' => \hiweb\urls::get()->domain(),
+							'site' => \hiweb\PathsFactory::get()->domain(),
 							'post_date' => get_the_date( 'Y:m:d H:i:s', $message ),
 							'post_content' => strip_tags( $message->post_content )
 						];

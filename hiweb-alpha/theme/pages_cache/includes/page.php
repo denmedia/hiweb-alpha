@@ -78,9 +78,9 @@
 				} else {
 					///DESKTOP
 					if( function_exists( 'get_remote_data' ) ){
-						$this->content = get_remote_data( urls::root( false ) . '/' . trim( $this->url, '/' ) . '?cache-disable' . ( $this->is_mobile() ? '&cache-mobile' : '' ) );
+						$this->content = get_remote_data( PathsFactory::root( false ) . '/' . trim( $this->url, '/' ) . '?cache-disable' . ( $this->is_mobile() ? '&cache-mobile' : '' ) );
 					} else {
-						$this->content = file_get_contents( urls::root( false ) . '/' . trim( $this->url, '/' ) . '?cache-disable' . ( $this->is_mobile() ? '&cache-mobile' : '' ) );
+						$this->content = file_get_contents( PathsFactory::root( false ) . '/' . trim( $this->url, '/' ) . '?cache-disable' . ( $this->is_mobile() ? '&cache-mobile' : '' ) );
 					}
 					$this->get_cache()->do_flush();
 					$B = $this->get_cache()->set_content( $this->content );

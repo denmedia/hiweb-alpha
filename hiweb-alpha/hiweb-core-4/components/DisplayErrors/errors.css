@@ -1,0 +1,13 @@
+.wpdberror {
+  z-index: 500000;
+  position: relative;
+  background: #eee;
+}
+
+.hiweb-core-error-line {
+  z-index: 500000;
+  position: relative;
+  background: #eee;
+}
+
+/*# sourceMappingURL=errors.css.map */

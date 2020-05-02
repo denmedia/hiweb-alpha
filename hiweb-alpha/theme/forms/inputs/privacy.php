@@ -3,8 +3,8 @@
 	namespace theme\forms\inputs;
 
 
-	use hiweb\fields\types\repeat\field;
-
+	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
+	
 
 	class privacy extends input{
 
@@ -12,7 +12,7 @@
 		static $input_title = 'Галочка политики конфидициальности';
 
 
-		static function add_repeat_field( field $parent_repeat_field ){
+		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_separator( 'Галочка политики конфидициальности', 'Настройки данной галочки находятся на странице опций' ) )->label( '' )->description( '' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( get_option( 'hiweb-option-hiweb-forms-privacy-checkbox-text' ) ) )->label( 'Текст напротив галочки согласия политики конфидициальности:' )->description( 'Оставьте это поле пусты, в таком случае будет взят стандартный текст из опций' );
 		}

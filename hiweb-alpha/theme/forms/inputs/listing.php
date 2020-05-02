@@ -3,8 +3,7 @@
 	namespace theme\forms\inputs;
 
 
-	use hiweb\fields\types\repeat\field;
-	use theme\sendpulse;
+	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
 
 
 	class listing extends input{
@@ -13,7 +12,7 @@
 		static $input_title = 'Список значений и свойств';
 
 
-		static function add_repeat_field( field $parent_repeat_field ){
+		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
 			$repeat = add_field_repeat( 'items' );
 			$repeat->add_col_field( add_field_text( 'key' ) )->label( 'Ключ списка' );
 			$repeat->add_col_field( add_field_text( 'value' ) )->label( 'Значение списка' );

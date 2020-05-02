@@ -9,9 +9,10 @@
 	namespace theme\html_layout\tags;
 
 
-	use hiweb\arrays\array_;
 
-
+	use hiweb\core\ArrayObject\ArrayObject;
+	
+	
 	class html{
 
 		static $tags;
@@ -39,14 +40,14 @@
 
 
 		/**
-		 * @return array_
+		 * @return ArrayObject
 		 */
 		static function get_tags_array(){
-			if( !self::$tags instanceof array_ ){
+			if( !self::$tags instanceof ArrayObject ){
 				if( self::$use_lang_locale ){
 					self::$tags['lang'] = strtolower(substr(get_locale(), 0, strpos(get_locale(),'_')));
 				}
-				self::$tags = new array_( self::$tags );
+				self::$tags = ArrayObject::get_instance( self::$tags );
 			}
 			return self::$tags;
 		}

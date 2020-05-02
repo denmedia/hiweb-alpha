@@ -32,7 +32,7 @@
 							the_row();
 							$source = get_sub_field( 'source' );
 							if( trim( $source ) == '' ) continue;
-							$current_url = urls::get_current_url( false );
+							$current_url = PathsFactory::get_current_url( false );
 							if( preg_match( '/[\*\(\)]+/', $source ) > 0 ) $source = "/{$source}/";
 							if( $current_url == $source || strings::is_regex( $source ) && preg_match( $source, $current_url, $matches ) > 0 ){
 								$strtr = [];

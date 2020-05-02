@@ -5,8 +5,8 @@
 	 * Date: 22/11/2018
 	 * Time: 12:12
 	 */
-
-	use hiweb\context;
+	
+	use hiweb\components\Context;
 	use theme\includes\admin;
 	use theme\pages_cache;
 	use theme\pages_cache\options;
@@ -29,14 +29,14 @@
 				$args = [
 					'id' => 'hiweb-theme-pagescache-update',
 					'title' => '<span style="font-size: 1.2em">♺</span> Обновить кэш страницы',
-					'href' => \hiweb\urls::get()->set_params( [ 'cache-disable' => 1 ] ),
+					'href' => get_path()->Url()->get(),
 					'meta' => [ 'class' => 'my-toolbar-page' ]
 				];
 			}else{
 				$args = [
 					'id' => 'hiweb-theme-pagescache-update',
 					'title' => '<span style="font-size: 1.2em">♺</span> Создать кэш страницы',
-					'href' => \hiweb\urls::get()->set_params( [ 'cache-disable' => 1 ] ),
+					'href' => get_path()->Url()->get(),
 					'meta' => [ 'class' => 'my-toolbar-page' ]
 				];
 			}

@@ -9,8 +9,8 @@
 	namespace theme\forms\inputs;
 
 
-	use hiweb\dump;
-	use hiweb\fields\types\repeat\field;
+	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
+	use hiweb\Dump;
 
 
 	class json extends input{
@@ -19,9 +19,9 @@
 		static $input_title = 'Данные JSON';
 
 
-		static function add_repeat_field( field $parent_repeat_field ){
+		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' ) )->label( 'Данные JSON' )->compact( 1 );
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' )->VALUE( self::$default_name )->get_parent_field() )->label( 'Имя поля на латинице' );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' )->default_value( self::$default_name ) )->label( 'Имя поля на латинице' );
 		}
 
 
@@ -48,7 +48,7 @@
 
 		public function get_email_value( $value ){
 			$value_array = json_decode( stripslashes( $value ), true );
-			dump::to_file( [$value,$value_array] );
+			Dump::to_file( [$value,$value_array] );
 			if( json_last_error() === JSON_ERROR_NONE ){
 				$filter_tag = 'hiweb-theme-widgets-form-input-json-' . $this->get_name() . '-email-value';
 				if( has_filter( $filter_tag ) ){

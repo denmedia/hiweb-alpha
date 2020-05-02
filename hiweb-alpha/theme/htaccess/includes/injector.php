@@ -3,7 +3,7 @@
 	namespace theme\htaccess;
 
 
-	use hiweb\paths;
+	use hiweb\core\Paths\PathsFactory;
 	use theme\htaccess;
 
 
@@ -13,7 +13,7 @@
 
 
 		static function setup(){
-			$htaccess = paths::get( '/.htaccess' );
+			$htaccess = PathsFactory::get_file( '/.htaccess' );
 			if( $htaccess->is_writable() ){
 				$htaccess_content = $htaccess->get_content();
 				if( preg_match( '/(?<marker>#hiweb theme htaccess (?>start|end))/im', $htaccess_content ) < 1 ){
@@ -29,7 +29,7 @@
 		static function get_templates_content(){
 			$R = [];
 			foreach( htaccess::$template_files as $template_name ){
-				$path = paths::get( dirname( __DIR__ ) . '/templates/' . $template_name );
+				$path = PathsFactory::get_file( dirname( __DIR__ ) . '/templates/' . $template_name );
 				if( $path->is_readable() ){
 					$R[] = strtr( $path->get_content(), [
 						'{mod_expires_time}' => htaccess::$mod_expires_time,

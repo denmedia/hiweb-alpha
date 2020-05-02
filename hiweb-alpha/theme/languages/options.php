@@ -9,7 +9,7 @@
 	use theme\languages;
 
 
-	if( \hiweb\context::is_admin_page() ){
+	if( \hiweb\components\Context::is_admin_page() ){
 		include_css( HIWEB_DIR_VENDORS . '/font-awesome-5/css/all.min.css' );
 	}
 	$admin_menu = add_admin_menu_page( languages::$options_page_slug, '<i class="far fa-globe-africa"></i> Локализации', 'options-general.php' );
@@ -123,7 +123,7 @@
 			///POSTS LIST
 			add_filter( 'views_edit-' . $post_type, function( $views ){
 				foreach( languages::get_languages() as $language ){
-					$views[ 'hiweb-language-lang-id-' . $language->get_id() ] = '<a href="' . \hiweb\urls::get()->set_params( [ 'lang' => $language->get_id() ] ) . '" ' . ( \hiweb\urls::request( 'lang' ) == $language->get_id() ? 'class="current"' : '' ) . ' aria-current="page">
+					$views[ 'hiweb-language-lang-id-' . $language->get_id() ] = '<a href="' . \hiweb\PathsFactory::get()->set_params( [ 'lang' => $language->get_id() ] ) . '" ' . ( \hiweb\PathsFactory::request( 'lang' ) == $language->get_id() ? 'class="current"' : '' ) . ' aria-current="page">
 					' . strtoupper( $language->get_id() ) . ' <span class="count">(0)</span>
 					</a>';
 				}

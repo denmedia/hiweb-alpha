@@ -108,7 +108,7 @@
 						<?php
 					} else {
 						$cron_string = queue::get_cron_string();
-						if( false && \hiweb\cron::job_exists( $cron_string ) ){
+						if( false && \hiweb\components\Cron::job_exists( $cron_string ) ){
 							echo '<code>' . queue::get_cron_url() . '</code>';
 						} else {
 							?><p style="color: red; font-weight: bolder">не создана! она необходима для создания кэша в фоне!</p>
@@ -158,7 +158,7 @@
 				<th>
 					Размер и количество файлов кэша
 				</th>
-				<td>Размер: <b><?= \hiweb\paths::get( pages_cache\cache::get_dir() )->get_size_formatted() ?></b> / <?= count( \hiweb\paths::get( pages_cache\cache::get_dir() )->get_sub_files() ) ?> файлов</td>
+				<td>Размер: <b><?= get_path( pages_cache\cache::get_dir() )->File()->get_size_formatted() ?></b> / <?= count( get_path( pages_cache\cache::get_dir() )->File()->get_sub_files() ) ?> файлов</td>
 			</tr>
 			</tbody>
 		</table>

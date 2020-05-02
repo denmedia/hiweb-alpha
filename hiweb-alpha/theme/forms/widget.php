@@ -1,8 +1,6 @@
 <?php
 
-	use hiweb\urls;
 	use theme\forms;
-	use theme\structures;
 
 
 	add_action( 'widgets_init', function(){ register_widget( 'hiweb_theme_form' ); } );

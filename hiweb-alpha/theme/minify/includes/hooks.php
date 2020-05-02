@@ -1,7 +1,7 @@
 <?php
-
-	use hiweb\context;
-	use hiweb\urls;
+	
+	use hiweb\components\Context;
+	use hiweb\core\Paths\PathsFactory;
 	use theme\html_layout\tags\head;
 	use theme\minify;
 
@@ -117,14 +117,14 @@
 	} );
 
 	add_filter( 'script_loader_tag', function( $tag, $handle, $src ){
-		if( context::is_frontend_page() && minify::$js_enable && minify::get_template()->js()->is_exists() && hiweb\urls::get( $src )->is_local() ){
+		if( context::is_frontend_page() && minify::$js_enable && minify::get_template()->js()->is_exists() && PathsFactory::get( $src )->is_local() ){
 			return '';
 		}
 		return $tag;
 	}, 99, 3 );
 
 	add_filter( 'style_loader_tag', function( $tag, $handle, $src ){
-		if( context::is_frontend_page() && minify::$css_enable && minify::get_template()->css()->is_exists() && hiweb\urls::get( $src )->is_local() ){
+		if( context::is_frontend_page() && minify::$css_enable && minify::get_template()->css()->is_exists() && PathsFactory::get( $src )->is_local() ){
 			return '';
 		}
 		return $tag;

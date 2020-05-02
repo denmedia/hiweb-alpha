@@ -10,7 +10,7 @@
 	use theme\includes\includes;
 
 
-	if( \hiweb\context::is_admin_page() ){
+	if( \hiweb\components\Context::is_admin_page() ){
 		includes::fontawesome();
 	}
 

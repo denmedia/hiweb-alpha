@@ -9,7 +9,7 @@
 	namespace theme\mmenu\extension;
 
 
-	use hiweb\hidden_methods;
+	use hiweb\core\hidden_methods;
 	use theme\mmenu\extensions;
 
 

@@ -9,7 +9,7 @@
 	namespace theme\languages;
 
 
-	use hiweb\dump;
+	use hiweb\Dump;
 	use hiweb\fields\types\image\field;
 	use hiweb\files;
 	use hiweb\images;

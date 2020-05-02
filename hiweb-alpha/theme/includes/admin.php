@@ -9,32 +9,35 @@
 	namespace theme\includes;
 
 
-	use hiweb\context;
 
 
+	use hiweb\components\Context;
+	use hiweb\components\Includes\IncludesFactory;
+	use hiweb\components\Includes\Js;
+	
+	
 	class admin extends includes{
-
+		
 		/**
 		 * @param       $filePathOrUrl
 		 * @param bool  $in_footer
 		 * @param array $deeps
-		 * @return bool|\hiweb\css\file
+		 * @return bool|Js
 		 */
 		static function css( $filePathOrUrl, $in_footer = false, $deeps = [] ){
-			if( !context::is_admin_page() ) return false;
-			return parent::css( $filePathOrUrl, $in_footer, $deeps );
+			return IncludesFactory::css($filePathOrUrl)->to_footer($in_footer)->deeps($deeps)->on_admin(true);
 		}
-
-
+		
+		
 		/**
 		 * @param       $jsPathOrURL
 		 * @param array $deeps
 		 * @param bool  $inFooter
-		 * @return bool|\hiweb\js\file|null
+		 * @return bool|Js
 		 */
 		static function js( $jsPathOrURL, $deeps = [], $inFooter = true ){
-			if( !context::is_admin_page() ) return false;
-			return parent::js( $jsPathOrURL, $deeps, $inFooter );
+			return IncludesFactory::js($jsPathOrURL)->deeps($deeps)->to_footer($inFooter)->on_admin(true);
+			//return parent::js( $jsPathOrURL, $deeps, $inFooter );
 		}
 
 

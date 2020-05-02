@@ -219,7 +219,7 @@
 		 * @return mixed
 		 */
 		public function __toString(){
-			return $this->get_term_id();
+			return (string)$this->get_term_id();
 		}
 
 

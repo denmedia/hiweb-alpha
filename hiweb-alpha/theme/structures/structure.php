@@ -65,7 +65,7 @@
 		 */
 		public function get_url(){
 			if( $this->is_search ){
-				return get_home_url() . '?s=' . urls::request( 's' );
+				return get_home_url() . '?s=' . PathsFactory::request( 's' );
 			} elseif( $this->wp_object instanceof WP_Post ) {
 				return get_permalink( $this->wp_object );
 			} elseif( $this->wp_object instanceof WP_Term ) {

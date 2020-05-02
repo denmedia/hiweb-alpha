@@ -9,7 +9,7 @@
 	namespace theme\breadcrumbs;
 
 
-	use hiweb\tools\taxonomy_main_select;
+	use components\Taxonomy_Main_Select\Taxonomy_Main_Select;
 	use theme\breadcrumbs;
 	use theme\structures\structure;
 
@@ -102,9 +102,9 @@
 			$candidates = $this->get_parent_wp_objects();
 			if( !is_array( $candidates ) || count( $candidates ) == 0 ) return false;
 			///hiWeb Core main term
-			if( taxonomy_main_select::is_init() ){
+			if( Taxonomy_Main_Select::is_init() ){
 				foreach( $candidates as $candidate ){
-					if( $candidate instanceof \WP_Term && $candidate->term_id == get_post_meta( $this->wp_object->ID, taxonomy_main_select::$meta_key . '-' . $candidate->taxonomy, true ) ) return $candidate;
+					if( $candidate instanceof \WP_Term && $candidate->term_id == get_post_meta( $this->wp_object->ID, Taxonomy_Main_Select::$meta_key . '-' . $candidate->taxonomy, true ) ) return $candidate;
 				}
 			}
 			///Yoast SEO main term

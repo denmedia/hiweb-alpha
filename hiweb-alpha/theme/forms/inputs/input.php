@@ -9,9 +9,9 @@
 	namespace theme\forms\inputs;
 
 
-	use hiweb\fields\types\repeat\field;
-
-
+	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
+	
+	
 	class input{
 
 		static $default_name = 'input';
@@ -19,7 +19,7 @@
 		public $data = [];
 
 
-		static function add_repeat_field( field $parent_repeat_field ){
+		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
 
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_separator( self::$input_title, 'Для данного инпута нет изменяемых данных' ) );
 		}

@@ -9,6 +9,9 @@
 	namespace theme;
 
 
+	use hiweb\components\AdminMenu\AdminMenu_Page;
+	
+	
 	class seo{
 
 		private static $init = false;
@@ -23,7 +26,7 @@
 
 		static $admin_menu_main = 'hiweb-seo-main';
 		static $admin_menu_main_parent = 'options-general.php';
-		/** @var \hiweb\admin\pages\page */
+		/** @var AdminMenu_Page */
 		static $admin_menu_main_page;
 
 
@@ -34,7 +37,7 @@
 				require_once __DIR__ . '/hooks.php';
 				require_once __DIR__ . '/post-type-meta.php';
 				require_once __DIR__ . '/authors.php';
-				require_once __DIR__ . '/functions.php';
+				require_once __DIR__ . '/global_functions.php';
 			}
 		}
 

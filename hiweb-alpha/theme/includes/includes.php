@@ -9,13 +9,10 @@
 	namespace theme\includes;
 
 
-	use hiweb\css;
-	use hiweb\js;
-	use hiweb\js\file;
-	use hiweb\paths;
-	use hiweb\urls;
-
-
+	use hiweb\components\Includes\IncludesFactory;
+	use hiweb\components\Includes\Js;
+	
+	
 	class includes{
 
 
@@ -31,61 +28,26 @@
 				HIWEB_THEME_VENDORS_DIR . '/' . $fileNameOrPath,
 				HIWEB_THEME_VENDORS_DIR . '/' . $fileNameOrPath . '.min.' . $extension,
 				HIWEB_THEME_VENDORS_DIR . '/' . $fileNameOrPath . '.' . $extension,
-				HIWEB_DIR_VENDORS . '/' . $fileNameOrPath,
-				HIWEB_DIR_VENDORS . '/' . $fileNameOrPath . '.min.' . $extension,
-				HIWEB_DIR_VENDORS . '/' . $fileNameOrPath . '.' . $extension
+				HIWEB_DIR_VENDOR . '/' . $fileNameOrPath,
+				HIWEB_DIR_VENDOR . '/' . $fileNameOrPath . '.min.' . $extension,
+				HIWEB_DIR_VENDOR . '/' . $fileNameOrPath . '.' . $extension
 			];
 		}
 
 
 		static function css( $filePathOrUrl, $in_footer = false, $deeps = [] ){
-			///
-			if( urls::is_url( $filePathOrUrl ) ){
-				return css::add( $filePathOrUrl );
-			}
-			///
-			foreach( self::_get_search_paths( $filePathOrUrl, 'css' ) as $path ){
-				if( file_exists( $path ) && is_file( $path ) ){
-					$css = css::add( $path );
-					//$css->rel()->preload();
-					if( $in_footer ) $css->put_to_footer();
-					if( !get_array( $deeps )->is_empty() ) $css->add_deeps( $deeps );
-					return $css;
-				}
-			}
-			console_error( 'Не удалось подключить CSS файл [' . $filePathOrUrl . ']' );
-			return false;
+			return IncludesFactory::css($filePathOrUrl)->to_footer($in_footer)->deeps($deeps);
 		}
-
-
+		
+		
 		/**
 		 * @param       $jsPathOrURL
 		 * @param array $deeps
 		 * @param bool  $inFooter
-		 * @return bool|file|null
+		 * @return bool|Js
 		 */
 		static function js( $jsPathOrURL, $deeps = [], $inFooter = true ){
-			///
-			if( urls::is_url( $jsPathOrURL ) ){
-				$js = js::add( $jsPathOrURL );
-				$js->set_defer();
-				if( is_array( $deeps ) ) $js->add_deeps( $deeps );
-				if( $inFooter ) $js->put_to_footer();
-				return $js;
-			}
-			///
-			foreach( self::_get_search_paths( $jsPathOrURL, 'js' ) as $path ){
-				$path = paths::get( $path );
-				if( $path->is_url() || ( $path->is_readable() && $path->is_file() ) ){
-					$js = js::add( $path->get() );
-					$js->set_defer();
-					if( is_array( $deeps ) ) $js->add_deeps( $deeps );
-					if( $inFooter ) $js->put_to_footer();
-					return $js;
-				}
-			}
-			console_error( 'Не удалось подключить JS файл [' . $jsPathOrURL . ']' );
-			return false;
+			return IncludesFactory::js($jsPathOrURL)->deeps($deeps)->to_footer($inFooter);
 		}
 
 
@@ -106,7 +68,7 @@
 			if( $include_migrate_js ){
 				static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-migrate-1.4.1.min.js' );
 			}
-			return $R instanceof file ? $R->handle() : false;
+			return $R->Path()->handle();
 		}
 
 
@@ -145,8 +107,7 @@
 		static function jquery_mmenu(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.css', false );
 			$js = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ self::jquery() ] );
-			if( $js instanceof file ) return $js->handle();
-			return false;
+			return $js->Path()->handle();
 		}
 
 
@@ -157,9 +118,9 @@
 
 		static function fontawesome( $use_js = false ){
 			if( $use_js ){
-				static::js( HIWEB_DIR_VENDORS . '/font-awesome-5/js/all.min.js' );
+				static::js( HIWEB_DIR_VENDOR . '/font-awesome-5/js/all.min.js' );
 			} else {
-				static::css( HIWEB_DIR_VENDORS . '/font-awesome-5/css/all.min.css' );
+				static::css( HIWEB_DIR_VENDOR . '/font-awesome-5/css/all.min.css' );
 			}
 		}
 
@@ -171,7 +132,7 @@
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css' );
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css' );
 			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] );
-			return $R instanceof \hiweb\files\file ? $R->handle() : null;
+			return $R->Path()->handle();
 		}
 
 
@@ -190,11 +151,7 @@
 		 * @return bool|string
 		 */
 		static function isotope(){
-			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] );
-			if( $R instanceof \hiweb\files\file ){
-				return $R->handle();
-			}
-			return false;
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] )->Path()->handle();
 		}
 
 
@@ -207,12 +164,12 @@
 		 * vendors/jquery.form/jquery.form.min.js
 		 */
 		static function jquery_form(){
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] )->Path()->handle();
 		}
 
 
 		static function jquery_mask(){
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] )->Path()->handle();
 		}
 
 
@@ -227,11 +184,7 @@
 		 * @return string js handler
 		 */
 		static function jquery_parallaxie(){
-			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ self::jquery() ] );
-			if( $R instanceof file ){
-				return $R->handle();
-			}
-			return false;
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ self::jquery() ] )->Path()->handle();
 		}
 
 
@@ -242,7 +195,7 @@
 		 * @deprecated
 		 */
 		static function jquery_pin(){
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] )->Path()->handle();
 		}
 
 
@@ -283,14 +236,14 @@
 				} );
 			}
 		}
-
-
+		
+		
 		/**
 		 * vendors/jquery.autocomplete/jquery.autocomplete.min.js
-		 * @return bool|file|null
+		 * @return bool|Js
 		 */
 		static function jquery_autocomplete(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery() );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery() )->Path()->handle();
 		}
 
 

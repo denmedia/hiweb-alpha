@@ -46,7 +46,8 @@
 			if( !is_string( $link ) ){
 				if( mmenu::is_init() ){
 					if( is_array( mmenu::get_all() ) && count( mmenu::get_all() ) > 0 ){
-						$link = '#' . reset(mmenu::get_all())->get_nav_id();
+						$mmenus = mmenu::get_all();
+						$link = '#' . reset($mmenus)->get_nav_id();
 					}
 				}
 			}

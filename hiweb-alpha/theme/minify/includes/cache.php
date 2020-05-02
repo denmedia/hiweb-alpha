@@ -1,11 +1,8 @@
 <?php
 
-	namespace theme\_minify;
 
-
-	use hiweb\date;
-	use hiweb\files;
-	use hiweb\paths;
+	use hiweb\core\Paths\PathsFactory;
+	use theme\_minify\template;
 	use theme\minify;
 
 
@@ -17,7 +14,7 @@
 			if( defined( 'WP_CONTENT_DIR' ) ){
 				$base_dir = WP_CONTENT_DIR;
 			} else {
-				$base_dir = paths::root() . '/wp-content';
+				$base_dir = PathsFactory::get_root_path() . '/wp-content';
 			}
 			return $base_dir . '/cache/hiweb-alpha-minify/site-' . get_current_blog_id();
 		}
@@ -51,7 +48,7 @@
 		 */
 		static function do_clear_all(){
 			$R = [];
-			foreach( paths::get( self::get_dir() )->get_sub_files() as $path => $file ){
+			foreach( PathsFactory::get_file( self::get_dir() )->get_sub_files() as $path => $file ){
 				$R[ $path ] = @unlink( $path );
 			}
 			return $R;
@@ -63,7 +60,7 @@
 		 */
 		static function do_clear_css(){
 			$R = [];
-			foreach( paths::get( self::get_dir() )->get_sub_files('css') as $path => $file ){
+			foreach( PathsFactory::get_file( self::get_dir() )->get_sub_files('css') as $path => $file ){
 				$R[ $path ] = @unlink( $path );
 			}
 			return $R;
@@ -75,7 +72,7 @@
 		 */
 		static function do_clear_js(){
 			$R = [];
-			foreach( paths::get( self::get_dir() )->get_sub_files('js') as $path => $file ){
+			foreach( PathsFactory::get_file( self::get_dir() )->get_sub_files('js') as $path => $file ){
 				$R[ $path ] = @unlink( $path );
 			}
 			return $R;
@@ -153,7 +150,7 @@
 					$this->data[ $path ] = [
 						'md5sum' => is_string( $md5sum ) ? $md5sum : md5( $data ),
 						'time' => time(),
-						'date' => date::format( time() )
+						'date' => \hiweb\components\Date::format( time() )
 					];
 					$this->do_update( $this->data, 'json' );
 				}

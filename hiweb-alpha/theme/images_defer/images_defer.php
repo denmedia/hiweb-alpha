@@ -9,8 +9,9 @@
 	namespace theme;
 
 
-	use hiweb\hidden_methods;
-	use hiweb\paths;
+	use hiweb\components\Images\ImagesFactory;
+	use hiweb\core\hidden_methods;
+	use hiweb\core\Paths\PathsFactory;
 	use theme\html_layout\tags\head;
 	use theme\includes\frontend;
 
@@ -26,7 +27,7 @@
 		static function init(){
 			require_once __DIR__ . '/hooks.php';
 			frontend::js( __DIR__ . '/images_defer.min.js', frontend::jquery() );
-			$css_content = paths::get( __DIR__ . '/images_defer.min.css' )->get_content( '' );
+			$css_content = PathsFactory::get_file( __DIR__ . '/images_defer.min.css' )->get_content( '' );
 			if( $css_content != '' ){
 				$css_content = str_replace( '../../hiweb-core-3/assets', HIWEB_URL_ASSETS, $css_content );
 				head::add_html_addition( '<style type="text/css" data-defer-inline-styles>' . $css_content . '</style>' );
@@ -88,7 +89,7 @@
 			}
 
 			$image_src = preg_match( '/src="([^"]+)"/', $image, $match_src ) ? $match_src[1] : '';
-			list( $image_src ) = explode( '?', $image_src );
+			[ $image_src ] = explode( '?', $image_src );
 
 			// Return early if we couldn't get the image source.
 			if( !$image_src ){
@@ -167,9 +168,9 @@
 		 */
 		static function _add_filter_wp_calculate_image_sizes( $sizes, $size, $image_src, $image_meta, $attachment_id ){
 			if( (int)$attachment_id > 0 ){
-				$image = \hiweb\images::get( $attachment_id );
+				$image = ImagesFactory::get( $attachment_id );
 				$max_width = $size[0] * 1.5;
-				$size_x2 = $image->get_size_by_dimension( [ $max_width, $max_width ], 1, false, [ 'jpg', 'jpe', 'jpeg', 'png', 'gif', 'webp', 'jp2', 'jxr' ] );
+				$size_x2 = $image->Sizes()->get( [ $max_width, $max_width,1 ], false );
 				$sizes = "(max-width: {$size_x2->width()}px) 100vw, {$size_x2->width()}px";
 			}
 			return $sizes;
@@ -186,13 +187,13 @@
 		 */
 		static function _add_filter_wp_calculate_image_srcset( $sources, $size_array, $image_src, $image_meta, $attachment_id ){
 			if( (int)$attachment_id > 0 ){
-				$image = \hiweb\images::get( $attachment_id );
+				$image = ImagesFactory::get( $attachment_id );
 				ksort( $sources, SORT_NUMERIC );
 				end( $sources );
 				$max_width = key( $sources ) * 1.5;
-				$size_x2 = $image->get_size_by_dimension( [ $max_width, $max_width ], 1, false, [ 'jpg', 'jpe', 'jpeg', 'png', 'gif', 'webp', 'jp2', 'jxr' ] );
+				$size_x2 = $image->Sizes()->get( [ $max_width, $max_width, 1], false );
 				$sources[ $size_x2->width() ] = [
-					'url' => $size_x2->get_url( false ),
+					'url' => $size_x2->Path()->get_url( false ),
 					'descriptor' => 'w',
 					'value' => $size_x2->width()
 				];

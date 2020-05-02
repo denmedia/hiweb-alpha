@@ -219,7 +219,7 @@
 						'post_title' => 'dummy'
 					] );
 					$test_id = $wpdb->insert_id;
-					if( intval( $test_id ) > 0 && !hiweb\arrays::in_array( $test_id, $dummy_attached_ids ) ){
+					if( intval( $test_id ) > 0 && !\hiweb\core\ArrayObject\ArrayObject::get_instance($dummy_attached_ids)->in( $test_id ) ){
 						$new_post_id = $test_id;
 						$B = wp_update_post( [
 							'ID' => $test_id,

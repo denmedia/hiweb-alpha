@@ -3,19 +3,20 @@
 	namespace theme\forms\inputs;
 
 
-	use hiweb\fields\types\repeat\field;
-
-
+	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
+	use hiweb\components\Images\ImagesFactory;
+	
+	
 	class image extends input{
 
 		static $default_name = 'image';
 		static $input_title = 'Вставка определенного изображения в форму';
 
 
-		static function add_repeat_field( field $parent_repeat_field ){
+		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_image( 'image' ) )->label( 'Изображение для вставки в форму' )->compact( 1 );
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'width' )->VALUE( 480 )->get_parent_field() )->label( 'Максимальная ширина' )->compact( 1 );
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'height' )->VALUE( 360 )->get_parent_field() )->label( 'Максимальная высота' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'width' )->default_value( 480 ))->label( 'Максимальная ширина' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'height' )->default_value( 360 ) )->label( 'Максимальная высота' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'send_enable' )->label_checkbox( 'Не отправлять данное поле по почте' ) );
 		}
 
@@ -24,7 +25,7 @@
 		 *
 		 */
 		public function the(){
-			$image = get_image( self::get_data( 'image' ) );
+			$image = ImagesFactory::get( self::get_data( 'image' ) );
 			if( $image->is_attachment_exists() ){
 				$width = intval( self::get_data( 'width' ) );
 				$height = intval( self::get_data( 'height' ) );

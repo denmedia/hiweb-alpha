@@ -262,8 +262,8 @@
 		 * @return string
 		 */
 		static function get_cron_url(){
-			//return urls::root( false ) . '/wp-cron.php';
-			return urls::root( false ) . '/wp-json/hiweb_theme/pages_cache/background';
+			//return PathsFactory::root( false ) . '/wp-cron.php';
+			return PathsFactory::root( false ) . '/wp-json/hiweb_theme/pages_cache/background';
 		}
 
 

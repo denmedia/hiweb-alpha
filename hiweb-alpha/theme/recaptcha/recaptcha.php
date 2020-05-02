@@ -68,7 +68,7 @@
 		 */
 		static function get_recaptcha_verify( $post_name = 'recaptcha-token', $return_boolean = true ){
 			if( self::is_enable() == '' ) return true;
-			$post_token_value = urls::request( $post_name );
+			$post_token_value = PathsFactory::request( $post_name );
 			///
 			$post_data = http_build_query( [
 				'secret' => self::get_recaptcha_key( false ),

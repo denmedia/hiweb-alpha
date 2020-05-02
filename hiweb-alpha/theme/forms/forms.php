@@ -9,10 +9,8 @@
 	namespace theme;
 
 
-	use hiweb\arrays\array_;
-	use hiweb\context;
-	use hiweb\css;
-	use hiweb\js;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\Paths\PathsFactory;
 	use theme\forms\form;
 	use theme\includes\frontend;
 
@@ -41,10 +39,6 @@
 
 
 		static function init(){
-			if( context::is_admin_page() ){
-				include_js( HIWEB_DIR_VENDORS . '/font-awesome-5/js/all.min.js' );
-				include_css( HIWEB_DIR_VENDORS . '/font-awesome-5/css/all.min.css' );
-			}
 			require_once __DIR__ . '/post-type.php';
 			require_once __DIR__ . '/post-type-messages.php';
 			require_once __DIR__ . '/options.php';
@@ -87,10 +81,10 @@
 
 
 		/**
-		 * @return array_
+		 * @return ArrayObject
 		 */
 		static function get_utm_points_options(){
-			if( self::$utm_points instanceof array_ ) return self::$utm_points;
+			if( self::$utm_points instanceof ArrayObject ) return self::$utm_points;
 			///
 			$R = get_array();
 			$test_utms = get_field( 'utm-points', self::$post_type_name );
@@ -151,7 +145,7 @@
 		static function get_input_classes(){
 			if( !is_array( self::$input_classes ) ){
 				self::$input_classes = [];
-				foreach( \hiweb\file( __DIR__ . '/inputs' )->get_sub_files( [ 'php' ] ) as $path => $class_file ){
+				foreach( PathsFactory::get_file( __DIR__ . '/inputs' )->get_sub_files( [ 'php' ] ) as $path => $class_file ){
 					self::$input_classes[ $class_file->filename() ] = ( 'theme\\forms\\inputs\\' . $class_file->filename() );
 				}
 			}

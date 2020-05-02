@@ -3,7 +3,7 @@
 	namespace theme\pages_cache;
 
 
-	use hiweb\dump;
+	use hiweb\Dump;
 	use hiweb\urls;
 	use theme\includes\frontend;
 	use theme\pages_cache;

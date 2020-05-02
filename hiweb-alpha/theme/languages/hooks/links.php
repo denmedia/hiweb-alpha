@@ -10,8 +10,8 @@
 
 if(!languages\detect::is_multisite()){
 	add_filter( 'home_url', function( $url, $path, $orig_scheme, $blog_id ){
-		if( languages\detect::is_url_prefix() && \hiweb\context::is_frontend_page() && ( $path == '' || $path == '/' ) ){
-			return \hiweb\urls::root() . '/' . languages::get_current_id() . $path;
+		if( languages\detect::is_url_prefix() && \hiweb\components\Context::is_frontend_page() && ( $path == '' || $path == '/' ) ){
+			return \hiweb\PathsFactory::root() . '/' . languages::get_current_id() . $path;
 		}
 		return $url;
 	}, 10, 4 );

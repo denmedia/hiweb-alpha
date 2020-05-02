@@ -9,8 +9,7 @@
 	namespace theme\languages;
 
 
-	use hiweb\arrays;
-	use hiweb\urls;
+	use hiweb\core\ArrayObject\ArrayObject;
 	use theme\languages;
 
 
@@ -24,12 +23,13 @@
 
 
 		public function __construct( $data ){
-			$this->id = mb_strtolower( arrays::get_value_by_key( $data, 'id', 'ru' ) );
-			$this->locale = mb_strtolower( arrays::get_value_by_key( $data, 'locale', 'ru_RU' ) );
-			$this->name = mb_strtolower( arrays::get_value_by_key( $data, 'name', 'стандартный язык' ) );
-			$this->title = mb_strtolower( arrays::get_value_by_key( $data, 'title', 'по-умолчанию' ) );
+			$data_array = new ArrayObject($data);
+			$this->id = mb_strtolower( $data_array->_('id', 'ru' ) );
+			$this->locale = mb_strtolower( $data_array->_( 'locale', 'ru_RU' ) );
+			$this->name = mb_strtolower(  $data_array->_('name', 'стандартный язык' ) );
+			$this->title = mb_strtolower(  $data_array->_( 'title', 'по-умолчанию' ) );
 			if( detect::is_multisite() )
-				$this->site_id = intval( arrays::get_value_by_key( $data, 'site_id', 0 ) );
+				$this->site_id = intval(  $data_array->_('site_id', 0 ) );
 		}
 
 
@@ -147,7 +147,7 @@
 						}
 					}
 				}
-				return urls::root() . '/' . $this->get_id();
+				return PathsFactory::root() . '/' . $this->get_id();
 			}
 		}
 

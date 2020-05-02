@@ -3,7 +3,7 @@
 	namespace theme\_minify;
 
 
-	use hiweb\paths;
+	use hiweb\core\Paths\PathsFactory;
 
 
 	class html extends scripts{
@@ -24,13 +24,13 @@
 		private function get_critical_file_path(){
 			return $this->_template()->cache()->get_cache_path( $this->file_critical_append );
 		}
-
-
+		
+		
 		/**
-		 * @return paths\path
+		 * @return \hiweb\core\Paths\Path
 		 */
 		public function get_critical_file(){
-			return paths::get( $this->get_critical_file_path() );
+			return PathsFactory::get( $this->get_critical_file_path() );
 		}
 
 
@@ -38,7 +38,7 @@
 		 * @return bool|null
 		 */
 		public function is_critical_exists(){
-			return $this->get_critical_file()->is_exists();
+			return $this->get_critical_file()->File()->is_exists();
 		}
 
 
@@ -46,7 +46,7 @@
 		 * @return string|bool
 		 */
 		public function get_critical_content(){
-			return $this->get_critical_file()->get_content( false );
+			return $this->get_critical_file()->File()->get_content( false );
 		}
 
 

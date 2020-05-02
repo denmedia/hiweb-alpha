@@ -9,7 +9,7 @@
 	namespace theme\languages;
 
 
-	use hiweb\urls;
+	use hiweb\core\Paths\PathsFactory;
 	use theme\languages;
 
 
@@ -30,7 +30,7 @@
 
 		static function init(){
 			///Check SubDomain
-			$domain = urls::get()->domain();
+			$domain = PathsFactory::get_url()->domain();
 			if( substr_count( $domain, '.' ) > 1 ){
 				$explode = explode( '.', $domain );
 				if( languages::is_exists( $explode[0] ) ){
@@ -39,7 +39,7 @@
 			}
 			///Check SubFolder
 			$params = '';
-			if( strpos( '?', $_SERVER['REQUEST_URI'] ) !== false ) list( $dirs, $params ) = explode( '?', $_SERVER['REQUEST_URI'] ); else $dirs = $_SERVER['REQUEST_URI'];
+			if( strpos( '?', $_SERVER['REQUEST_URI'] ) !== false ) [ $dirs, $params ] = explode( '?', $_SERVER['REQUEST_URI'] ); else $dirs = $_SERVER['REQUEST_URI'];
 			$explode = explode( '/', $dirs );
 			self::$uri_original = $_SERVER['REQUEST_URI'];
 			if( languages::is_exists( $explode[1] ) ){
@@ -101,7 +101,7 @@
 		static function get_id(){
 			if( !is_string( self::$lang_id ) ){
 				if( self::is_multisite() ){
-					if( rtrim( urls::root(), '/' ) == rtrim( urls::get()->get(), '/' ) && (string)self::get_id_by_browser() != '' && self::get_id_by_browser() != get_field( 'default-id', languages::$options_page_slug ) && ( !isset( $_SERVER['HTTP_REFERER'] ) || $_SERVER['HTTP_REFERER'] == '' ) ){
+					if( rtrim( PathsFactory::root()->get_url(), '/' ) == rtrim( PathsFactory::get_current_url(), '/' ) && (string)self::get_id_by_browser() != '' && self::get_id_by_browser() != get_field( 'default-id', languages::$options_page_slug ) && ( !isset( $_SERVER['HTTP_REFERER'] ) || $_SERVER['HTTP_REFERER'] == '' ) ){
 						self::$lang_id = self::get_id_by_browser();
 						//wp_redirect( languages::get_language( self::$lang_id )->get_url(), 302 );
 					} else {
@@ -165,7 +165,7 @@
 				}
 			}
 			///CHECK CURRENT POST/PAGE
-			if( $R == '' && urls::get()->get_clear() != urls::root() && function_exists( 'get_queried_object' ) ){
+			if( $R == '' && PathsFactory::get_current_url() != PathsFactory::root()->get_url() && function_exists( 'get_queried_object' ) ){
 				if( get_queried_object() instanceof \WP_Post && !is_front_page() ) $R = self::get_post( get_queried_object_id() )->get_lang_id();
 				if( get_queried_object() instanceof \WP_Term ) $R = self::get_term( get_queried_object_id() )->get_lang_id();
 			}

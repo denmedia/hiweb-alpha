@@ -1,6 +1,5 @@
 <?php
 
-	use hiweb\context;
 	use theme\includes\admin;
 
 	if( is_admin() ){

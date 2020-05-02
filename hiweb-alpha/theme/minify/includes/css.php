@@ -3,10 +3,9 @@
 	namespace theme\_minify;
 
 
-	use hiweb\css_parser;
-	use hiweb\paths;
-	use hiweb\paths\path;
-	use theme\minify;
+	use hiweb\components\CSS_Parser\CSS_Parser;
+	use hiweb\core\Paths\Path;
+	use hiweb\core\Paths\PathsFactory;
 	use WP_Styles;
 
 
@@ -32,8 +31,8 @@
 			$R = [];
 			foreach( $wp_styles->done as $handle ){
 				if( !isset( $wp_styles->registered[ $handle ] ) ) continue;
-				$file = paths::get( $wp_styles->registered[ $handle ]->src );
-				if( $file->is_readable() && $file->is_file() && $file->is_local() ){
+				$file = PathsFactory::get_file($wp_styles->registered[ $handle ]->src );
+				if( $file->is_readable() && $file->is_file() && $file->Path()->is_local() ){
 					$R[ $file->get_path_relative() ] = [ 'size' => $file->get_size(), 'filemtime' => filemtime( $file->get_path() ) ];
 					$files[] = $file;
 				}
@@ -65,13 +64,13 @@
 		private function get_critical_file_path(){
 			return $this->_template()->cache()->get_cache_path( $this->file_critical_append );
 		}
-
-
+		
+		
 		/**
-		 * @return paths\path
+		 * @return \hiweb\core\Paths\Path
 		 */
 		public function get_critical_file(){
-			return paths::get( $this->get_critical_file_path() );
+			return PathsFactory::get( $this->get_critical_file_path() );
 		}
 
 
@@ -79,7 +78,7 @@
 		 * @return bool|string
 		 */
 		public function get_critical_content(){
-			return $this->get_critical_file() instanceof path ? $this->get_critical_file()->get_content( false ) : false;
+			return $this->get_critical_file() instanceof Path ? $this->get_critical_file()->File()->get_content( false ) : false;
 		}
 
 
@@ -87,7 +86,7 @@
 		 * @return bool|null
 		 */
 		public function is_critical_exists(){
-			return $this->get_critical_file()->is_exists();
+			return $this->get_critical_file()->File()->is_exists();
 		}
 
 
@@ -106,7 +105,7 @@
 		 */
 		public function try_generate_critical_css( $cHtml = null, $url_referer_for_pages_cache_update = null ){
 			if( !is_string( $cHtml ) && $this->_template()->html()->is_critical_exists() ){
-				$cHtml = $this->_template()->html()->get_critical_file()->get_content();
+				$cHtml = $this->_template()->html()->get_critical_file()->File()->get_content();
 			}
 			if( !is_string( $cHtml ) || trim( $cHtml ) == '' ) return - 1;
 			if( !$this->is_exists() ) return - 2;

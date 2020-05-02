@@ -5,28 +5,23 @@
 	 * Date: 11.10.2018
 	 * Time: 12:45
 	 */
-
+	
 	namespace theme\forms;
-
-
-	use hiweb\arrays;
-	use hiweb\client;
-	use hiweb\date;
-	use hiweb\dump;
-	use hiweb\paths;
-	use hiweb\strings;
-	use hiweb\themes\theme;
-	use hiweb\urls;
-	use theme\breadcrumbs;
+	
+	
+	use hiweb\components\Client\Client;
+	use hiweb\components\Date;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\Paths\PathsFactory;
+	use hiweb\core\Strings;
 	use theme\forms;
-	use theme\includes\frontend;
 	use theme\mailchimp;
 	use theme\recaptcha;
 	use theme\sendpulse;
-
-
+	
+	
 	class form{
-
+		
 		protected $post_id;
 		protected $wp_post;
 		protected $template_name = 'default';
@@ -42,10 +37,10 @@
 		protected $the_fancybox_button_classes = [];
 		protected $the_fancybox_button_values = [];
 		static protected $fancy_box_form_added = [];
-
-
+		
+		
 		public function __construct( $form_postOrId ){
-
+			
 			//
 			$this->wp_post = get_post( $form_postOrId );
 			$this->action_url = rest_url( 'hiweb_theme/forms/submit' );
@@ -53,24 +48,24 @@
 				$this->post_id = $this->wp_post->ID;
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
 		public function get_action_url(){
 			return $this->action_url;
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
 		public function get_method(){
 			return $this->method;
 		}
-
-
+		
+		
 		/**
 		 * @param string $name
 		 * @return $this
@@ -79,32 +74,32 @@
 			$this->template_name = $name;
 			return $this;
 		}
-
-
+		
+		
 		/**
 		 * @return \WP_Post
 		 */
 		public function get_wp_post(){
 			return $this->wp_post;
 		}
-
-
+		
+		
 		/**
 		 * @return int
 		 */
 		public function get_id(){
 			return $this->post_id;
 		}
-
-
+		
+		
 		/**
 		 * @return int
 		 */
 		public function get_object_id(){
 			return spl_object_hash( $this );
 		}
-
-
+		
+		
 		/**
 		 * @param string $status_name - process|success|warn|error
 		 * @return mixed
@@ -114,8 +109,8 @@
 			if( $R == '' ) $R = get_field( 'icon-' . $status_name, forms::$options_name );
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @param string $status_name - process|success|warn|error
 		 * @return mixed
@@ -125,8 +120,8 @@
 			if( $R == '' ) $R = get_field( 'text-' . $status_name, forms::$options_name );
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 *
 		 */
@@ -136,18 +131,20 @@
 				?>
 				<!-- <?= __FUNCTION__ ?>: форма [<?= $this->get_id() ?>] не найдена -->
 				<?php
-			} elseif( $this->get_wp_post()->post_type != forms::$post_type_name ) {
+			}
+			elseif( $this->get_wp_post()->post_type != forms::$post_type_name ){
 				console_error( __FUNCTION__ . ': форма [' . $this->get_id() . '] не является типом записей формы [' . forms::$post_type_name . ']' );
 				?>
 				<!-- <?= __FUNCTION__ ?>: форма [<?= $this->get_id() ?>] не является типом записей формы [<?= forms::$post_type_name ?>] -->
 				<?php
-			} else {
+			}
+			else{
 				forms::setup_postdata( $this->get_id() );
 				get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/form', forms::$template_name );
 			}
 		}
-
-
+		
+		
 		/**
 		 * @param string $html
 		 * @param array  $button_classes
@@ -156,13 +153,14 @@
 		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [] ){
 			forms::setup_postdata( $this->get_wp_post() );
 			if( !is_array( $button_classes ) ){
-				if( is_string( $button_classes ) && $button_classes != '' ) $button_classes = [ $button_classes ]; else $button_classes = [ 'hiweb-theme-widget-form-button' ];
+				if( is_string( $button_classes ) && $button_classes != '' ) $button_classes = [ $button_classes ];
+				else $button_classes = [ 'hiweb-theme-widget-form-button' ];
 			}
 			$this->the_fancybox_button_html = $html;
 			$this->the_fancybox_button_classes = $button_classes;
 			$this->the_fancybox_button_values = $values;
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/fancybox-button' );
-
+			
 			if( !array_key_exists( $this->get_id(), self::$fancy_box_form_added ) ){
 				self::$fancy_box_form_added[ $this->get_id() ] = $this->get_object_id();
 				add_action( '\theme\html_layout\body::the_after-before', function(){
@@ -181,32 +179,32 @@
 				} );
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
 		public function the_fancybox_button_html(){
 			return $this->the_fancybox_button_html;
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
 		public function the_fancybox_button_classes(){
 			return implode( ' ', $this->the_fancybox_button_classes );
 		}
-
-
+		
+		
 		/**
 		 * @return false|mixed|string
 		 */
 		public function the_fancybox_button_values(){
 			return htmlentities( json_encode( $this->the_fancybox_button_values ) );
 		}
-
-
+		
+		
 		/**
 		 * @param string $html
 		 * @param array  $button_classes
@@ -218,8 +216,8 @@
 			$this->the_fancybox_button( $html, $button_classes, $values );
 			return ob_get_clean();
 		}
-
-
+		
+		
 		/**
 		 * @return string
 		 */
@@ -228,8 +226,8 @@
 			$this->the();
 			return ob_get_clean();
 		}
-
-
+		
+		
 		/**
 		 * @param $name
 		 * @return bool|array
@@ -241,8 +239,8 @@
 			}
 			return null;
 		}
-
-
+		
+		
 		/**
 		 * @param $name
 		 * @return string
@@ -257,8 +255,8 @@
 			}
 			return 'theme\forms\inputs\input';
 		}
-
-
+		
+		
 		/**
 		 * @return array
 		 */
@@ -273,13 +271,13 @@
 			}
 			return $this->inputs_options;
 		}
-
-
+		
+		
 		/**
 		 * @return forms\inputs\input[]
 		 */
 		public function get_inputs(){
-			paths::get( __DIR__ . '/inputs' )->include_files( 'php' );
+			PathsFactory::get_file( __DIR__ . '/inputs' )->include_files( 'php' );
 			if( !is_array( $this->inputs ) ){
 				$this->inputs = [];
 				foreach( $this->get_inputs_options() as $name => $options ){
@@ -288,14 +286,14 @@
 					$new_class = new $class_name();
 					$new_class->data = $options;
 					$input_name = $new_class->get_data( 'name' );
-					$input_name = $input_name == '' ? strings::rand() : $input_name;
+					$input_name = $input_name == '' ? Strings::rand() : $input_name;
 					$this->inputs[ $input_name ] = $new_class;
 				}
 			}
 			return $this->inputs;
 		}
-
-
+		
+		
 		/**
 		 * @param $input_id
 		 * @return bool
@@ -303,8 +301,8 @@
 		public function is_input_exists( $input_id ){
 			return array_key_exists( $input_id, $this->get_inputs() );
 		}
-
-
+		
+		
 		/**
 		 * @param $name
 		 * @return inputs\input
@@ -316,8 +314,8 @@
 			}
 			return new forms\inputs\input();
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
@@ -333,8 +331,8 @@
 			$this->the_input = null;
 			return false;
 		}
-
-
+		
+		
 		/**
 		 * @param $input_name
 		 * @return bool|inputs\input
@@ -344,8 +342,8 @@
 			$this->the_input = $this->get_input_object( $input_name );
 			return $this->the_input;
 		}
-
-
+		
+		
 		/**
 		 * @return inputs\input
 		 */
@@ -355,16 +353,16 @@
 			}
 			return $this->the_input;
 		}
-
-
+		
+		
 		/**
 		 * @return inputs\input
 		 */
 		public function get_the_input(){
 			return $this->the_input;
 		}
-
-
+		
+		
 		/**
 		 * @return array
 		 */
@@ -374,11 +372,14 @@
 			if( $emails_str == '' ) $emails_str = trim( get_field( 'email', forms::$options_name ), ',' );
 			if( $emails_str == '' ){
 				$emails = [ get_bloginfo( 'admin_email' ) ];
-			} elseif( strpos( $emails_str, ' ' ) ) {
+			}
+			elseif( strpos( $emails_str, ' ' ) ){
 				$emails = explode( ' ', $emails_str );
-			} elseif( strpos( $emails_str, ',' ) ) {
+			}
+			elseif( strpos( $emails_str, ',' ) ){
 				$emails = explode( ',', $emails_str );
-			} elseif( trim( $emails_str ) != '' ) {
+			}
+			elseif( trim( $emails_str ) != '' ){
 				$emails = [ trim( $emails_str ) ];
 			}
 			$R = [];
@@ -389,8 +390,8 @@
 			}
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @param array $addition_strtr
 		 * @return array
@@ -399,16 +400,16 @@
 			$R = forms::get_strtr_templates( $addition_strtr );
 			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
 		public function is_exists(){
 			return ( intval( $this->post_id ) > 0 && $this->get_wp_post() instanceof \WP_Post && $this->get_wp_post()->post_type == forms::$post_type_name );
 		}
-
-
+		
+		
 		/**
 		 * @param string $to
 		 * @param string $subject
@@ -429,26 +430,26 @@
 			if( get_field( 'reply_email', $this->get_wp_post() ) != '' ){
 				$reply_to = get_field( 'reply_email', $this->get_wp_post() );
 			}
-			$reply_to = str_replace( '{domain}', urls::get()->domain(), $reply_to );
+			$reply_to = str_replace( '{domain}', PathsFactory::get_url()->domain(), $reply_to );
 			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <' . $reply_to . '>' ];
 			$headers[] = 'Reply-To: ' . $reply_to;
 			$headers[] = 'Precedence: bulk';
-			$headers[] = 'List-Unsubscribe: ' . \hiweb\urls::root( false );
+			$headers[] = 'List-Unsubscribe: ' . PathsFactory::root()->get_url( false ) . '?unsubscribe';
 			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );
 			///
 			$this->insert_message( $to, $subject, $content );
 			///
 			return wp_mail( $to, html_entity_decode( $subject ), $content, $headers );
 		}
-
-
+		
+		
 		private function insert_message( $to = '', $subject = '', $content = '' ){
 			if( !$this->is_exists() ) return;
 			$new_message_id = wp_insert_post( [
 				'post_type' => forms::$post_type_messages_name,
 				'post_status' => 'publish',
 				'post_content' => $content,
-				'post_title' => date::format() . ' - ' . $this->get_wp_post()->post_title
+				'post_title' => Date::format() . ' - ' . $this->get_wp_post()->post_title
 			] );
 			if( is_int( $new_message_id ) ){
 				///message data insert
@@ -457,12 +458,12 @@
 				update_post_meta( $new_message_id, 'form-data-get', $_GET );
 				update_post_meta( $new_message_id, 'form-recipient', $to );
 				update_post_meta( $new_message_id, 'form-subject', $subject );
-				update_post_meta( $new_message_id, 'client-ip', client::get_ip() );
+				update_post_meta( $new_message_id, 'client-ip', client::get_instance()->get_ip() );
 				update_post_meta( $new_message_id, 'client-user-agent', $_SERVER['HTTP_USER_AGENT'] );
-				update_post_meta( $new_message_id, 'client-browser-name', client::get_browser() );
-				update_post_meta( $new_message_id, 'client-os', client::get_os() );
-				update_post_meta( $new_message_id, 'client-os2', client::get_os2() );
-				update_post_meta( $new_message_id, 'client-id', client::get_id_OsIp() );
+				update_post_meta( $new_message_id, 'client-browser-name', client::get_instance()->get_browser() );
+				update_post_meta( $new_message_id, 'client-os', client::get_instance()->get_os() );
+				update_post_meta( $new_message_id, 'client-os2', client::get_instance()->get_os2() );
+				update_post_meta( $new_message_id, 'client-id', client::get_instance()->get_id_OsIp() );
 				//utm points
 				if( !forms::get_utm_points_options()->is_empty() ){
 					$utm_points = [];
@@ -478,8 +479,8 @@
 				}
 			}
 		}
-
-
+		
+		
 		/**
 		 * Submit form
 		 * @param $submit_data
@@ -503,15 +504,15 @@
 			$addition_strtr['{data-list}'] = '';
 			$addition_strtr['{form-title}'] = $this->get_wp_post()->post_title;
 			$client_email = [];
-
+			
 			foreach( $inputs as $input ){
 				if( !array_key_exists( 'name', $input ) ) continue;
 				$name = $input['name'];
 				$input_object = $this->get_input_object( $name );
-				$require = arrays::get_value_by_key( $input, 'require' ) == 'on';
-				$value = $input_object->get_email_value( arrays::get_value_by_key( $submit_data, $name ) );
+				$require = ArrayObject::get_instance( $input )->_( 'require' ) == 'on';
+				$value = $input_object->get_email_value( ArrayObject::get_instance( $submit_data )->_( $name ) );
 				$addition_strtr[ '{' . $name . '}' ] = $value;
-				if( $value != '' && $input_object->is_email_submit_enable() ) $addition_strtr['{data-list}'] .= $input_object->get_email_html( arrays::get_value_by_key( $submit_data, $name ) ) . "<br>";
+				if( $value != '' && $input_object->is_email_submit_enable() ) $addition_strtr['{data-list}'] .= $input_object->get_email_html( ArrayObject::get_instance( $submit_data )->_( $name ) ) . "<br>";
 				switch( $input['_flex_row_id'] ){
 					case 'Адрес почты':
 						if( filter_var( $value, FILTER_VALIDATE_EMAIL ) ){
@@ -545,9 +546,9 @@
 											foreach( $inputs as $subinput ){
 												switch( $subinput['_flex_row_id'] ){
 													case 'Чекбоксы':
-														if( arrays::get_value_by_key( $subinput, 'sendpusle_append' ) == 'on' && arrays::get_value_by_key( $subinput, 'name' ) != '' && arrays::get_value_by_key( $subinput, 'variants' ) != '' ){
+														if( ArrayObject::get_instance( $subinput )->_( 'sendpusle_append' ) == 'on' && ArrayObject::get_instance( $subinput )->_( 'name' ) != '' && ArrayObject::get_instance( $subinput )->_( 'variants' ) != '' ){
 															$exist_variants = [];
-															foreach( explode( "\n", trim( arrays::get_value_by_key( $subinput, 'variants' ) ) ) as $exist_variant ){
+															foreach( explode( "\n", trim( ArrayObject::get_instance( $subinput )->_( 'variants' ) ) ) as $exist_variant ){
 																if( trim( $exist_variant ) == '' ) continue;
 																$exist_variants[] = trim( $exist_variant );
 															}
@@ -578,7 +579,7 @@
 						}
 						break;
 					case 'Чекбоксы':
-						if( $require && ( ( is_array( $value ) && count( $value ) < intval( arrays::get_value_by_key( $input, 'require-min' ) ) ) || ( is_string( $value ) && trim( $value ) == '' ) ) ){
+						if( $require && ( ( is_array( $value ) && count( $value ) < intval( ArrayObject::get_instance( $input )->_( 'require-min' ) ) ) || ( is_string( $value ) && trim( $value ) == '' ) ) ){
 							$require_empty_inputs[] = $name . '[]';
 						}
 						break;
@@ -592,7 +593,8 @@
 			///
 			if( count( $require_empty_inputs ) > 0 ){
 				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
-			} else {
+			}
+			else{
 				///
 				$allow_submit_form_after_validate = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form_after_validate', [ null, $this, $submit_data, $require_empty_inputs ] );
 				if( is_array( $allow_submit_form_after_validate ) ) return $allow_submit_form_after_validate;

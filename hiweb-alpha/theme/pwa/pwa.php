@@ -9,9 +9,9 @@
 	namespace theme;
 
 
-	use hiweb\arrays;
-	use hiweb\files\file;
-	use hiweb\paths;
+	use hiweb\core\ArrayObject\ArrayObject;
+	use hiweb\core\Paths\Path_File;
+	use hiweb\core\Paths\PathsFactory;
 	use theme\html_layout\tags\head;
 	use theme\pwa\favicon;
 
@@ -22,9 +22,9 @@
 		static $admin_menu_slug = 'hiweb-theme-pwa';
 		static $admin_menu_parent = 'options-general.php';
 		static private $service_worker_filename = 'service-worker.js';
-		/** @var file */
+		/** @var Path_File */
 		static private $service_worker;
-		/** @var arrays\array_ */
+		/** @var ArrayObject */
 		static private $service_worker_cach_urls = [ '/' ];
 
 
@@ -36,7 +36,7 @@
 			if( self::$init ) return;
 			self::$init = true;
 			///
-			self::$service_worker_cach_urls = arrays::get( self::$service_worker_cach_urls );
+			self::$service_worker_cach_urls = ArrayObject::get_instance( self::$service_worker_cach_urls );
 
 			require_once __DIR__ . '/options.php';
 			require_once __DIR__ . '/rest.php';
@@ -69,7 +69,7 @@
 			head::add_code( '<meta name="apple-mobile-web-app-status-bar-style" content="' . get_field( 'apple-mobile-web-app-status-bar-style', self::$admin_menu_slug ) . '">' );
 
 			if( get_field( 'service-worker-enable', self::$admin_menu_slug ) ){
-				self::$service_worker = \hiweb\file( '/' . self::$service_worker_filename );
+				self::$service_worker = PathsFactory::get_file( '/' . self::$service_worker_filename );
 				$B = false; //TODO-
 				//$B = self::make_service_worker();
 				if( $B === true || $B === - 1 ){
@@ -85,11 +85,11 @@
 		 * @return bool|string
 		 */
 		static function get_generated_service_worker_content(){
-			$template = paths::get( __DIR__ . '/pwa/service-worker-template.js' );
+			$template = PathsFactory::get_file( __DIR__ . '/pwa/service-worker-template.js' );
 			if( !$template->is_readable() ) return false;
 			if( $template->get_content() == '' ) return false;
 			$R = strtr( $template->get_content( '' ), [
-				'{cache_urls:cache_urls}' => self::$service_worker_cach_urls->get_json()->get()
+				'{cache_urls:cache_urls}' => self::$service_worker_cach_urls->Json()->get()
 			] );
 			return $R;
 		}
@@ -106,11 +106,11 @@
 			if( $new_content == '' ) return - 3;
 			return self::$service_worker->make_file( $new_content );
 		}
-
-
+		
+		
 		/**
 		 * @param $url
-		 * @return arrays\array_
+		 * @return ArrayObject|string[]
 		 */
 		static function add_service_worker_cache_url( $url ){
 			self::$service_worker_cach_urls->push( $url );

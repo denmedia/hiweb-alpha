@@ -43,7 +43,7 @@
 				if( $background_color != '' )
 					$manifest->push( 'background_color', $background_color );
 
-				$manifest->push( 'scope', urls::root( false ) . '/' );
+				$manifest->push( 'scope', PathsFactory::root( false ) . '/' );
 				$manifest->push( 'start_url', '/?pwa=1' );
 				//icons
 				$icons = [];

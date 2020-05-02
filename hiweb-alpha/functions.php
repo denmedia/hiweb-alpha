@@ -5,21 +5,24 @@
 	 * Date: 04.10.2018
 	 * Time: 19:43
 	 */
-
-	use hiweb\tools\post_duplicator;
-
-
-	require_once __DIR__ . '/hiweb-core-3/hiweb-core-3.php';
+	
+	use hiweb\components\Post_Duplicator\Post_Duplicator;
+	
+	
+	require_once __DIR__ . '/hiweb-core-4/hiweb-core-4.php';
 	require_once __DIR__ . '/include/defines.php';
 	require_once __DIR__ . '/include/autoload.php';
-
-	hiweb\paths::get( __DIR__ . '/theme' )->include_files_by_name( [ 'init.php', 'functions.php' ] );
-
+	
+	get_path( __DIR__ . '/theme' )->File()->include_files_by_name( [ 'init.php', 'functions.php' ] );
+	
 	theme\migration::init();
 	theme\cyr3lat::init();
 	theme\html_layout::init();
 	theme\error_404::init();
 	theme\pwa::init();
-	post_duplicator::init();
-
-	theme\includes\admin::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );
+	Post_Duplicator::init();
+	theme\forms::init();
+	theme\recaptcha::init();
+	
+	\hiweb\components\Includes\IncludesFactory_AdminPage::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );
+	//theme\includes\admin::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );

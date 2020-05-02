@@ -3,10 +3,14 @@
 	namespace theme\pages_cache;
 
 
-	use hiweb\paths;
-	use hiweb\vendors\php_html_css_js_minifier;
 
 
+	use hiweb\components\Date;
+	use hiweb\components\HTML_CSS_JS_Minifier;
+	use hiweb\core\Paths\PathsFactory;
+	use hiweb\UsersFactory;
+	
+	
 	require_once __DIR__ . '/tools.php';
 	require_once __DIR__ . '/options.php';
 
@@ -61,7 +65,7 @@
 
 		static function do_clear_all(){
 			$R = [];
-			foreach( paths::get( self::get_dir() )->get_sub_files() as $path => $file ){
+			foreach( PathsFactory::get_file( self::get_dir() )->get_sub_files() as $path => $file ){
 				$R[ $path ] = @unlink( $path );
 			}
 			return $R;
@@ -159,8 +163,8 @@
 				'user_agent' => $_SERVER['HTTP_USER_AGENT'],
 				'request_uri' => $_SERVER['REQUEST_URI'],
 				'current_url' => tools::get_current_url(),
-				'login' => \hiweb\users::get()->login(),
-				'data_time' => \hiweb\date::format(),
+				'login' => UsersFactory::get()->login(),
+				'data_time' => Date::format(),
 				'time' => time(),
 				'doc_size' => strlen( $this->content )
 			];
@@ -174,7 +178,7 @@
 		 */
 		public function set_content( $content_string ){
 			if(strlen($content_string) < 10) return false;
-			$this->content = php_html_css_js_minifier::minify_html( $content_string );
+			$this->content = HTML_CSS_JS_Minifier::minify_html( $content_string );
 			//$this->content = $content_string;
 			self::auto_make_dir();
 			$R = file_put_contents( $this->get_path( 'html' ), $this->content );
