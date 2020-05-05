@@ -95,7 +95,7 @@
 		static function get_row( $field_ID, $objectContext = null ){
 			$Field = self::get_Field( $field_ID, $objectContext );
 			$objectContext = FieldsFactory::sanitize_objectContext( $objectContext );
-			$field_context_id = $Field->ID() . '-' . (is_object($objectContext) ? spl_object_id( $objectContext ) : 'options-'.(string)$objectContext);
+			$field_context_id = $Field->ID() . '-' . ( is_object( $objectContext ) ? spl_object_id( $objectContext ) : 'options-' . (string)$objectContext );
 			if( !array_key_exists( $field_context_id, self::$rows ) ){
 				self::$rows[ $field_context_id ] = new ArrayObject();
 				$value = self::get_value( $field_ID, $objectContext );

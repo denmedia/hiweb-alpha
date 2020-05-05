@@ -50,7 +50,6 @@
       <change beforePath="$PROJECT_DIR$/hiweb-alpha/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hiweb-alpha/theme/redirects/redirects.php" beforeDir="false" afterPath="$PROJECT_DIR$/hiweb-alpha/theme/redirects/redirects.php" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,28 +70,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="$PROJECT_DIR$/.idea" />
-      </set>
-    </option>
-  </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/../../(WORK)/(wordpress)" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
-  </component>
   <component name="ProjectId" id="1Q6xNoJo2lRk1HmtUqrzKgsH53x" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
@@ -100,7 +94,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../(WORK)/2020-02-10 - polyanaflowers.ru" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -111,18 +105,6 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/hiweb-alpha/hiweb-core-4" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
@@ -147,27 +129,63 @@
       <workItem from="1567619337463" duration="5041000" />
       <workItem from="1567667042985" duration="13000" />
       <workItem from="1568474007781" duration="43000" />
+      <workItem from="1588434484318" duration="52000" />
+      <workItem from="1588434575850" duration="47512000" />
+      <workItem from="1588607071501" duration="9586000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="872" y="178" key="#Deployment" timestamp="1588435074609">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="872" y="178" key="#Deployment/0.0.2560.1040@0.0.2560.1040" timestamp="1588435074609" />
+    <state x="1010" y="274" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1588610702292">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="1010" y="274" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.2560.1040@0.0.2560.1040" timestamp="1588610702292" />
+    <state x="1060" y="274" key="FileChooserDialogImpl" timestamp="1588596764878">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="1060" y="274" key="FileChooserDialogImpl/0.0.2560.1040@0.0.2560.1040" timestamp="1588596764878" />
+    <state x="1050" y="242" key="NewPhpClassDialog" timestamp="1588515164296">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="1050" y="242" key="NewPhpClassDialog/0.0.2560.1040@0.0.2560.1040" timestamp="1588515164296" />
+    <state x="1114" y="443" key="NewPhpFileDialog" timestamp="1588532363368">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="1114" y="443" key="NewPhpFileDialog/0.0.2560.1040@0.0.2560.1040" timestamp="1588532363368" />
+    <state x="987" y="253" width="1033" height="624" key="find.popup" timestamp="1588616117756">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="987" y="253" width="1033" height="624" key="find.popup/0.0.2560.1040@0.0.2560.1040" timestamp="1588616117756" />
+    <state x="936" y="240" key="run.anything.popup" timestamp="1588584831362">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="936" y="240" key="run.anything.popup/0.0.2560.1040@0.0.2560.1040" timestamp="1588584831362" />
+    <state x="936" y="173" width="672" height="676" key="search.everywhere.popup" timestamp="1588614633999">
+      <screen x="0" y="0" width="2560" height="1040" />
+    </state>
+    <state x="936" y="173" width="672" height="676" key="search.everywhere.popup/0.0.2560.1040@0.0.2560.1040" timestamp="1588614633999" />
   </component>
   <component name="WordPressConfiguration" doNotAskAgain="true" />
 </project>

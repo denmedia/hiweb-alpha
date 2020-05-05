@@ -9,8 +9,8 @@
 	namespace theme;
 
 
-	use hiweb\strings;
-	use hiweb\urls;
+	use hiweb\core\Paths\PathsFactory;
+	use hiweb\core\Strings;
 	use theme\includes\frontend;
 
 
@@ -31,6 +31,12 @@
 			require_once __DIR__ . '/woocommerce.php';
 			frontend::js( __DIR__ . '/App.min.js', frontend::jquery() );
 			///
+			add_filter('\theme\forms\form::do_submit-allow_submit_form', function($array, $form, $submit_data){
+				if(self::is_enable() && !self::get_recaptcha_verify()) {
+					return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
+				}
+				return null;
+			},10,3);
 		}
 
 
@@ -101,7 +107,7 @@
 		static function the_input(){
 			if( self::is_enable() ){
 				include_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key( true ) );
-				$id_rand = strings::rand();
+				$id_rand = Strings::rand();
 				?>
 				<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" data-hiweb-form-recaptcha-input>
 				<?php

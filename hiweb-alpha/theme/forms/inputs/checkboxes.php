@@ -10,8 +10,9 @@
 
 
 	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
-
-
+	use hiweb\core\ArrayObject\ArrayObject;
+	
+	
 	class checkboxes extends input{
 
 		static $input_title = 'Чекбоксы';
@@ -98,6 +99,15 @@
 		public function get_email_value( $value ){
 			return is_array( $value ) ? join( ', ', $value ) : '-';
 		}
-
-
+		
+		
+		/**
+		 * @param string $submit_value
+		 * @return bool
+		 */
+		public function is_required_validate( $submit_value = '' ){
+			return ( ( is_array( $submit_value ) && count( $submit_value ) < intval( ArrayObject::get_instance( $submit_value )->_( 'require-min' ) ) ) || ( is_string( $submit_value ) && trim( $submit_value ) == '' ) );
+		}
+		
+		
 	}

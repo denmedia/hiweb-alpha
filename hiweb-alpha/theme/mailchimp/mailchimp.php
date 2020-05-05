@@ -9,8 +9,7 @@
 	namespace theme;
 
 
-	use hiweb\hidden_methods;
-	use theme\forms;
+	use hiweb\core\hidden_methods;
 
 
 	/**
@@ -38,6 +37,7 @@
 		static function init(){
 			\theme\forms::init();
 			require_once __DIR__ . '/options.php';
+			add_action('');
 		}
 
 

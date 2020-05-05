@@ -17,9 +17,9 @@
 		use hidden_methods;
 
 		/** @var ArrayObject */
-		private $Options;
+		protected $Options;
 		/** @var Options|null */
-		private $parent_OptionsObject;
+		protected $parent_OptionsObject;
 
 
 		public function __construct( $parent_OptionsObject = null ){

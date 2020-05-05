@@ -70,7 +70,6 @@
 	}
 	$strtr_descriptions = implode( ', ', $strtr_descriptions );
 	//
-	//
 	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->Location()->PostType( self::$post_type_name );
 	add_field_fontawesome( 'icon-process' )->label( 'Иконка процесса отправки' )->Location( true );
 	add_field_fontawesome( 'icon-success' )->label( 'Иконка удачной отправки сообщения' )->Location( true );

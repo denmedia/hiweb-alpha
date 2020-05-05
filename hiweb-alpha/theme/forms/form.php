@@ -11,6 +11,8 @@
 	
 	use hiweb\components\Client\Client;
 	use hiweb\components\Date;
+	use hiweb\components\Fields\FieldsFactory;
+	use hiweb\components\Fields\FieldsFactory_FrontEnd;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
@@ -37,6 +39,8 @@
 		protected $the_fancybox_button_classes = [];
 		protected $the_fancybox_button_values = [];
 		static protected $fancy_box_form_added = [];
+		/** @var form_submit[] */
+		protected $form_submits = [];
 		
 		
 		public function __construct( $form_postOrId ){
@@ -247,9 +251,10 @@
 		 */
 		public function get_input_object_class( $name ){
 			$data = $this->get_input_options( $name );
-			$input_id = $data['_flex_row_id'];
+			$input_type = $data['_flex_row_id'];
 			foreach( forms::get_input_classes() as $input_class_name ){
-				if( $input_id == $input_class_name::$input_title ){
+				$input_class_name::init();
+				if( $input_type == $input_class_name::$input_type ){
 					return $input_class_name;
 				}
 			}
@@ -364,35 +369,6 @@
 		
 		
 		/**
-		 * @return array
-		 */
-		public function get_target_emails(){
-			$emails = [];
-			$emails_str = trim( get_field( 'email', self::get_wp_post() ), ',' );
-			if( $emails_str == '' ) $emails_str = trim( get_field( 'email', forms::$options_name ), ',' );
-			if( $emails_str == '' ){
-				$emails = [ get_bloginfo( 'admin_email' ) ];
-			}
-			elseif( strpos( $emails_str, ' ' ) ){
-				$emails = explode( ' ', $emails_str );
-			}
-			elseif( strpos( $emails_str, ',' ) ){
-				$emails = explode( ',', $emails_str );
-			}
-			elseif( trim( $emails_str ) != '' ){
-				$emails = [ trim( $emails_str ) ];
-			}
-			$R = [];
-			foreach( $emails as $test_email ){
-				$test_email = trim( $test_email );
-				if( $test_email == '' ) continue;
-				if( filter_var( $test_email, FILTER_VALIDATE_EMAIL ) ) $R[] = $test_email;
-			}
-			return $R;
-		}
-		
-		
-		/**
 		 * @param array $addition_strtr
 		 * @return array
 		 */
@@ -411,73 +387,15 @@
 		
 		
 		/**
-		 * @param string $to
-		 * @param string $subject
-		 * @param string $content
-		 * @return bool
+		 * @param $submit_data
+		 * @return form_submit
 		 */
-		private function send_mail( $to = '', $subject = '', $content = '' ){
-			if( !is_string( $to ) || trim( $to ) == '' ){
-				$to = get_bloginfo( 'admin_email' );
-				if( !filter_var( $to, FILTER_VALIDATE_EMAIL ) ){
-					$to = get_option( 'admin_email' );
-				}
+		public function get_form_submit( $submit_data ){
+			$submit_key = json_encode( $submit_data );
+			if( !array_key_exists( $submit_key, $this->form_submits ) ){
+				$this->form_submits[ $submit_key ] = new form_submit( $this, $submit_data );
 			}
-			$reply_to = 'noreply@{domain}';
-			if( get_field( 'reply_email', $this->get_wp_post() ) != '' ){
-				$reply_to = get_field( 'reply_email', forms::$options_name );
-			}
-			if( get_field( 'reply_email', $this->get_wp_post() ) != '' ){
-				$reply_to = get_field( 'reply_email', $this->get_wp_post() );
-			}
-			$reply_to = str_replace( '{domain}', PathsFactory::get_url()->domain(), $reply_to );
-			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <' . $reply_to . '>' ];
-			$headers[] = 'Reply-To: ' . $reply_to;
-			$headers[] = 'Precedence: bulk';
-			$headers[] = 'List-Unsubscribe: ' . PathsFactory::root()->get_url( false ) . '?unsubscribe';
-			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );
-			///
-			$this->insert_message( $to, $subject, $content );
-			///
-			return wp_mail( $to, html_entity_decode( $subject ), $content, $headers );
-		}
-		
-		
-		private function insert_message( $to = '', $subject = '', $content = '' ){
-			if( !$this->is_exists() ) return;
-			$new_message_id = wp_insert_post( [
-				'post_type' => forms::$post_type_messages_name,
-				'post_status' => 'publish',
-				'post_content' => $content,
-				'post_title' => Date::format() . ' - ' . $this->get_wp_post()->post_title
-			] );
-			if( is_int( $new_message_id ) ){
-				///message data insert
-				update_post_meta( $new_message_id, 'form-id', $this->post_id );
-				update_post_meta( $new_message_id, 'form-data-post', $_POST );
-				update_post_meta( $new_message_id, 'form-data-get', $_GET );
-				update_post_meta( $new_message_id, 'form-recipient', $to );
-				update_post_meta( $new_message_id, 'form-subject', $subject );
-				update_post_meta( $new_message_id, 'client-ip', client::get_instance()->get_ip() );
-				update_post_meta( $new_message_id, 'client-user-agent', $_SERVER['HTTP_USER_AGENT'] );
-				update_post_meta( $new_message_id, 'client-browser-name', client::get_instance()->get_browser() );
-				update_post_meta( $new_message_id, 'client-os', client::get_instance()->get_os() );
-				update_post_meta( $new_message_id, 'client-os2', client::get_instance()->get_os2() );
-				update_post_meta( $new_message_id, 'client-id', client::get_instance()->get_id_OsIp() );
-				//utm points
-				if( !forms::get_utm_points_options()->is_empty() ){
-					$utm_points = [];
-					foreach( forms::get_utm_points_options()->get() as $point ){
-						if( isset( $_SESSION[ forms::$utm_point_session_key ][ $point ] ) ){
-							if( trim( $_SESSION[ forms::$utm_point_session_key ][ $point ] ) != '' ){
-								$utm_points[ $point ] = $_SESSION[ forms::$utm_point_session_key ][ $point ];
-							}
-							unset( $_SESSION[ forms::$utm_point_session_key ][ $point ] );
-						}
-					}
-					update_post_meta( $new_message_id, 'utm-points', $utm_points );
-				}
-			}
+			return $this->form_submits[ $submit_key ];
 		}
 		
 		
@@ -488,135 +406,56 @@
 		 * @version 1.4
 		 */
 		public function do_submit( $submit_data ){
+			$response_html = '';
 			if( !$this->is_exists() ){
-				return [ 'success' => false, 'message' => 'Формы не существует', 'status' => 'error' ];
+				return [ 'success' => false, 'message' => 'Формы не существует', 'status' => 'error', 'html' => $response_html ];
 			}
 			$allow_submit_form = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form', [ null, $this, $submit_data ] );
 			if( is_array( $allow_submit_form ) ) return $allow_submit_form;
-			///reCaptcha Validate
-			if( !recaptcha::get_recaptcha_verify() ){
-				return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
-			}
 			///
-			$inputs = $this->get_inputs_options();
+			$form_submit = $this->get_form_submit( $submit_data );
+			///
 			$require_empty_inputs = [];
 			$addition_strtr = [];
 			$addition_strtr['{data-list}'] = '';
 			$addition_strtr['{form-title}'] = $this->get_wp_post()->post_title;
 			$client_email = [];
-			
-			foreach( $inputs as $input ){
-				if( !array_key_exists( 'name', $input ) ) continue;
-				$name = $input['name'];
-				$input_object = $this->get_input_object( $name );
-				$require = ArrayObject::get_instance( $input )->_( 'require' ) == 'on';
-				$value = $input_object->get_email_value( ArrayObject::get_instance( $submit_data )->_( $name ) );
-				$addition_strtr[ '{' . $name . '}' ] = $value;
-				if( $value != '' && $input_object->is_email_submit_enable() ) $addition_strtr['{data-list}'] .= $input_object->get_email_html( ArrayObject::get_instance( $submit_data )->_( $name ) ) . "<br>";
-				switch( $input['_flex_row_id'] ){
-					case 'Адрес почты':
-						if( filter_var( $value, FILTER_VALIDATE_EMAIL ) ){
-							$client_email[] = $value;
-							///MailChimp insert form
-							if( forms::mailchimp()->is_api_key_exists() ){
-								if( forms::mailchimp()->is_connected() ){
-									$list_id = get_field( 'mailchimp-list-id', self::get_wp_post() );
-									if( get_field( 'enable-default-list-id', mailchimp::$options_name_mailchimp ) && $list_id == '' ){
-										$list_id = get_field( 'list-id', mailchimp::$options_name_mailchimp );
-									}
-									if( forms::mailchimp()->is_list_exists( $list_id ) ){
-										forms::mailchimp()->get_api()->post( "lists/{$list_id}/members", [
-											'email_address' => $value,
-											'status' => 'subscribed'
-										] );
-									}
-								}
-							}
-							///SENDPULSE
-							if( sendpulse::is_keys_exists() ){
-								if( sendpulse::get_instance()->is_api_exists() ){
-									$list_id = get_field( 'list-id', self::get_wp_post() );
-									if( get_field( 'default-list-id', sendpulse::$options_name ) && $list_id == '' ){
-										$list_id = get_field( 'default-list-id', sendpulse::$options_name );
-									}
-									$list_id = substr( $list_id, 3 );
-									if( sendpulse::get_instance()->is_list_exists( $list_id ) ){
-										$addition_params = [ 'email' => $value ];
-										if( is_array( $inputs ) ){
-											foreach( $inputs as $subinput ){
-												switch( $subinput['_flex_row_id'] ){
-													case 'Чекбоксы':
-														if( ArrayObject::get_instance( $subinput )->_( 'sendpusle_append' ) == 'on' && ArrayObject::get_instance( $subinput )->_( 'name' ) != '' && ArrayObject::get_instance( $subinput )->_( 'variants' ) != '' ){
-															$exist_variants = [];
-															foreach( explode( "\n", trim( ArrayObject::get_instance( $subinput )->_( 'variants' ) ) ) as $exist_variant ){
-																if( trim( $exist_variant ) == '' ) continue;
-																$exist_variants[] = trim( $exist_variant );
-															}
-															if( is_array( $_POST[ $subinput['name'] ] ) ) foreach( $_POST[ $subinput['name'] ] as $variant ){
-																if( trim( $variant ) == '' || !in_array( trim( $variant ), $exist_variants ) ) continue;
-																$addition_params['variables'][ strtr( $subinput['name'] . ' - ' . $variant, [ ':' => '-' ] ) ] = '+';
-															}
-														}
-														break;
-												}
-											}
-										}
-										if( isset( $_POST['name'] ) ){
-											$addition_params['variables']['имя'] = strtr( $_POST['name'], [ ':' => '-' ] );
-										}
-										$B = sendpulse::get_instance()->get_api()->addEmails( $list_id, [ $addition_params ] );
-									}
-								}
-							}
-						}
-						if( $require && !filter_var( $value, FILTER_VALIDATE_EMAIL ) ){
-							$require_empty_inputs[] = $name;
-						}
-						break;
-					case 'Цифровое поле':
-						if( $require && strlen( $value ) < 1 ){
-							$require_empty_inputs[] = $name;
-						}
-						break;
-					case 'Чекбоксы':
-						if( $require && ( ( is_array( $value ) && count( $value ) < intval( ArrayObject::get_instance( $input )->_( 'require-min' ) ) ) || ( is_string( $value ) && trim( $value ) == '' ) ) ){
-							$require_empty_inputs[] = $name . '[]';
-						}
-						break;
-					default:
-						if( $require && strlen( $value ) < 2 ){
-							$require_empty_inputs[] = $name;
-						}
-						break;
-				}
-			}
+			$inputs = $this->get_inputs_options();
 			///
-			if( count( $require_empty_inputs ) > 0 ){
-				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => $require_empty_inputs ];
+			///
+			if( !$form_submit->is_required_no_errors() ){
+				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => array_keys( $form_submit->get_required_errors() ) ];
 			}
 			else{
 				///
 				$allow_submit_form_after_validate = apply_filters_ref_array( '\theme\forms\form::do_submit-allow_submit_form_after_validate', [ null, $this, $submit_data, $require_empty_inputs ] );
 				if( is_array( $allow_submit_form_after_validate ) ) return $allow_submit_form_after_validate;
 				///Send Message to Admin
-				foreach( $this->get_target_emails() as $email ){
-					$theme = strtr( get_field( 'theme-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
-					$content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
-					if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
-					if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
-					$this->send_mail( $email, $theme, $content );
-				}
-				///Send client Email
-				if( get_field( 'send-client-email', forms::$options_name ) != '' && count( $client_email ) > 0 ){
-					foreach( $client_email as $email ){
-						$theme = strtr( get_field( 'theme-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
-						$content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
-						if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
-						if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
-						$this->send_mail( $email, $theme, $content );
+				if( count( $form_submit->get_target_emails_admin() ) > 0 ){
+					$form_submit->insert_message( $form_submit->get_target_emails_admin()[0], $form_submit->get_email_theme_admin(), $form_submit->get_email_content_admin() );
+					///
+					foreach( $form_submit->get_target_emails_admin() as $email ){
+						$form_submit->send_mail( $email, $form_submit->get_email_theme_admin(), $form_submit->get_email_content_admin() );
 					}
 				}
-				return [ 'success' => true, 'callback_js' => get_field( 'callback_js', $this->get_wp_post() ), 'message' => $this->get_status_message( 'success' ), 'status' => 'success' ];
+				//				foreach( $this->get_target_emails() as $email ){
+				//					$theme = strtr( get_field( 'theme-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
+				//					$content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
+				//					if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
+				//					if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-admin', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
+				//					$this->send_mail( $email, $theme, $content );
+				//				}
+				//				///Send client Email
+				//				if( get_field( 'send-client-email', forms::$options_name ) != '' && count( $client_email ) > 0 ){
+				//					foreach( $client_email as $email ){
+				//						$theme = strtr( get_field( 'theme-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) );
+				//						$content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', self::get_wp_post() ), form::get_strtr_templates( $addition_strtr ) ) );
+				//						if( trim( $theme ) == '' ) $theme = strtr( get_field( 'theme-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) );
+				//						if( trim( $content ) == '' ) $content = apply_filters( 'the_content', strtr( get_field( 'content-email-client', forms::$options_name ), form::get_strtr_templates( $addition_strtr ) ) );
+				//						$this->send_mail( $email, $theme, $content );
+				//					}
+				//				}
+				return [ 'success' => true, 'callback_js' => get_field( 'callback_js', $this->get_wp_post() ), 'message' => $this->get_status_message( 'success' ), 'status' => 'success', 'html' => $response_html ];
 			}
 		}
 	}

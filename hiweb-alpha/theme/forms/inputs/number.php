@@ -34,5 +34,14 @@
 			<?php
 			$this->the_sufix();
 		}
-
+		
+		
+		/**
+		 * @param string $submit_value
+		 * @return bool
+		 */
+		public function is_required_validate( $submit_value = '' ){
+			return strlen( $submit_value ) < 1 ;
+		}
+		
 	}

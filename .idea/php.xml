@@ -10,4 +10,5 @@
       <path value="$PROJECT_DIR$/../../(WORK)/(wordpress)" />
     </include_path>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7" />
 </project>

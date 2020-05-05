@@ -34,6 +34,23 @@
 			<?php
 			$this->the_sufix();
 		}
-
-
+		
+		
+		/**
+		 * @param string $submit_value
+		 * @return bool|mixed
+		 */
+		public function is_required_validate( $submit_value = '' ){
+			return filter_var( $submit_value, FILTER_VALIDATE_EMAIL );
+		}
+		
+		
+		/**
+		 * @return bool
+		 */
+		public function is_type_email(){
+			return true;
+		}
+		
+		
 	}

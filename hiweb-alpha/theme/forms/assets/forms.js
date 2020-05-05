@@ -212,6 +212,10 @@ var hiweb_theme_widget_forms = {
                     if (response.hasOwnProperty('callback_js') && response.callback_js !== '') {
                         eval(response.callback_js);
                     }
+
+                    if (response.hasOwnProperty('html') && response.html !== '') {
+                        jQuery('body').append(response.html);
+                    }
                 }
             },
             error: function (response) {
