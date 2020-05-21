@@ -1,4 +1,4 @@
-@import "../../../hiweb-core-3/assets/css/mixins";
+@import "../../../hiweb-core-4/assets/css/mixins";
 
 @mixin hiweb-theme-widgets-forms-placeholder {
 	color: grey;
@@ -190,6 +190,14 @@
 				font-size: 48pt;
 				line-height: 48pt;
 				display: none;
+				margin: 0 auto .6em auto;
+				max-width: 48px;
+				max-height: 48px;
+
+				svg {
+					max-width: 100%;
+					max-height: 100%;
+				}
 
 				&.wait {
 					//color: dodgerblue;

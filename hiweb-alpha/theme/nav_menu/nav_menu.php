@@ -7,12 +7,10 @@
 	 */
 
 	namespace theme {
-
-
-		use hiweb\arrays;
-		use hiweb\arrays\array_;
-		use hiweb\themes;
-		use hiweb\urls;
+		
+		
+		use hiweb\components\NavMenus\NavMenusFactory;
+		use hiweb\core\ArrayObject\ArrayObject;
 		use theme\includes\frontend;
 
 
@@ -104,13 +102,14 @@
 
 
 			/**
+			 * @version 1.1
 			 * @param bool $by_parent
 			 * @return array
 			 */
 			public function get_items( $by_parent = false ){
 				if( !is_array( $this->items ) ){
 					$this->items = [];
-					$menu_items = apply_filters( '\theme\nav_menu::get_items', themes::get()->menu_items( $this->nav_location ), $this );
+					$menu_items = apply_filters( '\theme\nav_menu::get_items', NavMenusFactory::get_by_location( $this->nav_location )->get_items(), $this );
 					foreach( $menu_items as $item ){
 						$this->items[ (int)$item->ID ] = $item;
 						$this->items_by_parent[ (int)$item->menu_item_parent ][ (int)$item->ID ] = $item;
@@ -121,6 +120,7 @@
 				} elseif( is_numeric( $by_parent ) ) {
 					return array_key_exists( (int)$by_parent, $this->items_by_parent ) ? $this->items_by_parent[ (int)$by_parent ] : [];
 				}
+				return [];
 			}
 
 
@@ -181,7 +181,7 @@
 					<?php
 				} else {
 					?>
-					<nav id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= arrays::is_empty( $this->root_classes ) ? '' : 'class="' . implode( ' ', $this->root_classes ) . '"' ?>>
+					<nav id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= ArrayObject::get_instance( $this->root_classes )->is_empty() ? '' : 'class="' . implode( ' ', $this->root_classes ) . '"' ?>>
 					<?php
 				}
 				$this->the_list( 0 );

@@ -1,10 +1,7 @@
 <?php
 
-	use hiweb\urls;
-	use theme\structures;
 
-
-	$active = structures::get()->has_object( theme\nav_menu::the_item() ) || urls::get()->is_dirs_intersect( theme\nav_menu::the_item()->url );
+	$active = \hiweb\components\Structures\StructuresFactory::get()->has_children_object( theme\nav_menu::the_item() ) || get_url()->is_dirs_intersect( theme\nav_menu::the_item()->url );
 ?>
 <li class="<?= implode( ' ', theme\nav_menu::the_instance()->item_classes ) ?><?= $active ? ' ' . theme\nav_menu::the_instance()->item_class_active : '' ?>">
 	<?php

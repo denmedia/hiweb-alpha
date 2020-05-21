@@ -102,7 +102,7 @@
 			$candidates = $this->get_parent_wp_objects();
 			if( !is_array( $candidates ) || count( $candidates ) == 0 ) return false;
 			///hiWeb Core main term
-			if( Taxonomy_Main_Select::is_init() ){
+			if(class_exists('\components\Taxonomy_Main_Select\Taxonomy_Main_Select') && Taxonomy_Main_Select::is_init() ){
 				foreach( $candidates as $candidate ){
 					if( $candidate instanceof \WP_Term && $candidate->term_id == get_post_meta( $this->wp_object->ID, Taxonomy_Main_Select::$meta_key . '-' . $candidate->taxonomy, true ) ) return $candidate;
 				}

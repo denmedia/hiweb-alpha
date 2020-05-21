@@ -9,8 +9,8 @@
 	namespace theme\forms\inputs;
 
 
+	use hiweb\components\Dump\Dump;
 	use hiweb\components\Fields\Types\Repeat\Field_Repeat_Options;
-	use hiweb\Dump;
 
 
 	class json extends input{
@@ -48,7 +48,6 @@
 
 		public function get_email_value( $value ){
 			$value_array = json_decode( stripslashes( $value ), true );
-			Dump::to_file( [$value,$value_array] );
 			if( json_last_error() === JSON_ERROR_NONE ){
 				$filter_tag = 'hiweb-theme-widgets-form-input-json-' . $this->get_name() . '-email-value';
 				if( has_filter( $filter_tag ) ){

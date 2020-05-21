@@ -47,7 +47,7 @@
 			$Field->global_ID = $global_ID;
 			self::$fields[ $global_ID ] = $Field;
 			CacheFactory::remove_group( '\hiweb\components\Fields\FieldsFactory::get_field_by_query' );
-			return $Field->Options();
+			return $Field->options();
 		}
 		
 		
@@ -138,7 +138,7 @@
 				if( is_string( $locationQuery ) ) $locationQuery = json_decode( $locationQuery, true );
 				$Fields = [];
 				foreach( FieldsFactory::get_fields() as $global_id => $Field ){
-					$field_location_options = $Field->Options()->Location()->_get_optionsCollect();
+					$field_location_options = $Field->options()->location()->_get_optionsCollect();
 					if( count( $field_location_options ) == 0 ) continue;
 					$diff = self::diff( $locationQuery, $field_location_options );
 					if( count( $diff ) == 0 ){

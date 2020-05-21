@@ -9,7 +9,7 @@
 	namespace theme;
 
 
-	use hiweb\strings;
+	use hiweb\core\Strings;
 	use theme\includes\frontend;
 	use theme\sliders\slider;
 

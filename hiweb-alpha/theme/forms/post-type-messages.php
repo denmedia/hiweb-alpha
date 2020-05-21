@@ -9,7 +9,7 @@
 	$messages->public_( true )->publicly_queryable( false )->has_archive( false )->show_ui( true )->show_in_nav_menus( false )->show_in_admin_bar( false )->exclude_from_search( true );
 	$messages->supports()->title();
 
-	add_field_select( 'message-rest-exported' )->options( [ '1' => 'Экспортировать', '0' => 'Не экспортировать' ] )->label( 'Не выводить в REST для экспорта в ЦРМ' )->Location()->PostType( forms::$post_type_messages_name )->MetaBox()->title( 'REST экспорт' )->context()->side()->priority()->high();
+	add_field_select( 'message-rest-exported' )->options( [ '1' => 'Экспортировать', '0' => 'Не экспортировать' ] )->label( 'Не выводить в REST для экспорта в ЦРМ' )->location()->posts( forms::$post_type_messages_name )->MetaBox()->title( 'REST экспорт' )->context()->side()->priority()->high();
 
 	add_action( 'admin_menu', function(){
 		global $menu, $submenu;

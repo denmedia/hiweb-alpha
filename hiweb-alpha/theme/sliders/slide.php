@@ -168,7 +168,7 @@
 		
 		
 		private function the_image(){
-			echo $this->image->html_picture( [ 1920, 1080 ], 1, [ 'class' => 'slide-poster' ] );
+			echo $this->image->html( [ 1920, 1080, 1 ], [ 'class' => 'slide-poster' ] );
 		}
 		
 	}

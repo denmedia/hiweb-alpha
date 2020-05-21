@@ -26,7 +26,7 @@
 		public function __construct( $field_ID = null ){
 			$this->debug_backtrace = debug_backtrace();
 			if( !is_string( $field_ID ) ){
-				$field_ID = strtolower( basename( str_replace( '\\', '/', get_called_class() ) ) );
+				$field_ID = strtolower( basename( str_replace( '\\', '/', get_called_class() ) ) ) . '_' . Strings::rand( 5 );
 				$this->id_empty = true;
 			}
 			$this->ID = $field_ID;
@@ -69,7 +69,7 @@
 		/**
 		 * @return Field_Options|mixed
 		 */
-		public function Options(){
+		public function options(){
 			if( $this->options_class instanceof Field_Options ){
 				return $this->options_class;
 			}

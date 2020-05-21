@@ -8,16 +8,16 @@
 	
 	add_admin_menu_page( 'comments', '<i class="fas fa-cog"></i> Опции', 'edit-comments.php' );
 	
-	add_field_text( 'title' )->VALUE( 'Отзывы' )->get_parent_field()->label( 'Заголовок перед комментариями' )->LOCATION()->ADMIN_MENUS( 'comments' );
-	add_field_text( 'text-empty' )->VALUE( 'Нет записей' )->get_parent_field()->label( 'Текст, если нет отзывов' )->LOCATION()->ADMIN_MENUS( 'comments' );
-	add_field_image( 'default-avatar' )->label( 'Стандартная аватарка' )->description( 'Эта аватарка будет установлена для каждого отзыва, если для такого не была установлена индивидуальная аватарка.' )->LOCATION()->ADMIN_MENUS( 'comments' );
-	add_field_text( 'form-title' )->label( 'Заголовок формы' )->VALUE( 'Заполните форму' )->get_parent_field()->LOCATION( true );
-	add_field_content( 'form-description' )->label( 'Комментарий к форме' )->LOCATION()->ADMIN_MENUS( 'comments' );
-	add_field_text( 'form-placeholder-name' )->label( 'Плейсхолдер "Ваше имя"' )->VALUE( 'Ваше имя' )->get_parent_field()->LOCATION( true );
-	add_field_text( 'form-placeholder-text' )->label( 'Плейсхолдер "Ваш отзыв"' )->VALUE( 'Ваш отзыв' )->get_parent_field()->LOCATION( true );
-	add_field_text( 'form-submit-text' )->label( 'Текст на кнопке "Оставить отзыв"' )->VALUE( 'Оставить отзыв' )->get_parent_field()->LOCATION( true );
+	add_field_text( 'title' )->VALUE( 'Отзывы' )->get_parent_field()->label( 'Заголовок перед комментариями' )->location()->ADMIN_MENUS( 'comments' );
+	add_field_text( 'text-empty' )->VALUE( 'Нет записей' )->get_parent_field()->label( 'Текст, если нет отзывов' )->location()->ADMIN_MENUS( 'comments' );
+	add_field_image( 'default-avatar' )->label( 'Стандартная аватарка' )->description( 'Эта аватарка будет установлена для каждого отзыва, если для такого не была установлена индивидуальная аватарка.' )->location()->ADMIN_MENUS( 'comments' );
+	add_field_text( 'form-title' )->label( 'Заголовок формы' )->VALUE( 'Заполните форму' )->get_parent_field()->location( true );
+	add_field_content( 'form-description' )->label( 'Комментарий к форме' )->location()->ADMIN_MENUS( 'comments' );
+	add_field_text( 'form-placeholder-name' )->label( 'Плейсхолдер "Ваше имя"' )->VALUE( 'Ваше имя' )->get_parent_field()->location( true );
+	add_field_text( 'form-placeholder-text' )->label( 'Плейсхолдер "Ваш отзыв"' )->VALUE( 'Ваш отзыв' )->get_parent_field()->location( true );
+	add_field_text( 'form-submit-text' )->label( 'Текст на кнопке "Оставить отзыв"' )->VALUE( 'Оставить отзыв' )->get_parent_field()->location( true );
 	
-	add_field_image( 'avatar' )->label( 'Аватарка для данного отзыва' )->LOCATION()->COMMENTS();
+	add_field_image( 'avatar' )->label( 'Аватарка для данного отзыва' )->location()->COMMENTS();
 	
 	add_action( 'rest_api_init', function(){
 		

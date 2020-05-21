@@ -20,7 +20,7 @@
 
 				add_field_separator( 'Правила для редиректа', 'Допускается использовать регулярные выражения для исходных ссылок' );
 				$repeat = add_field_repeat( 'rules' );
-				$repeat->LOCATION()->ADMIN_MENUS( self::$option_admin_slug );
+				$repeat->location()->ADMIN_MENUS( self::$option_admin_slug );
 				$repeat->add_col_field( add_field_text( 'source' ) )->label( 'Исходная ссылка' )->width( 2 );
 				$repeat->add_col_field( add_field_text( 'destination' ) )->label( 'Путь назначения' )->width( 2 );
 				$repeat->add_col_field( add_field_text( 'status' )->VALUE( '301' )->get_parent_field() )->label( 'Код редиректа' );

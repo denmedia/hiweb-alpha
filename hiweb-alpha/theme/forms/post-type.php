@@ -38,7 +38,7 @@
 	} );
 	///
 	$INPUTS = add_field_repeat( 'inputs' );
-	$INPUTS->label( 'Поля ввода' )->Location()->PostType( self::$post_type_name )->COLUMNS_MANAGER()->name( 'Шорткоды' )->callback( function( $post_id ){
+	$INPUTS->label( 'Поля ввода' )->location()->posts( self::$post_type_name )->COLUMNS_MANAGER()->name( 'Шорткоды' )->callback( function( $post_id ){
 		echo '<p>просто форма:<br><code>[hiweb-theme-widget-form id="' . $post_id . '"]</code></p><p>кнопка, вызывающая форму:<br><code>[hiweb-theme-widget-form-button id="' . $post_id . '" html="Открыть форму"]</code></p>';
 	} );
 	//
@@ -70,20 +70,20 @@
 	}
 	$strtr_descriptions = implode( ', ', $strtr_descriptions );
 	//
-	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->Location()->PostType( self::$post_type_name );
-	add_field_fontawesome( 'icon-process' )->label( 'Иконка процесса отправки' )->Location( true );
-	add_field_fontawesome( 'icon-success' )->label( 'Иконка удачной отправки сообщения' )->Location( true );
-	add_field_fontawesome( 'icon-warn' )->label( 'Иконка не верно заполненной формы' )->Location( true );
-	add_field_fontawesome( 'icon-error' )->label( 'Иконка ошибки во время отправки' )->Location( true );
-	add_field_textarea( 'text-process' )->label( 'Текст отправки формы' )->Location( true );
-	add_field_textarea( 'text-success' )->label( 'Текст удачной отправки формы' )->Location( true );
-	add_field_textarea( 'text-warn' )->label( 'Текст ошибки заполненной формы' )->Location( true );
-	add_field_textarea( 'text-error' )->label( 'Текст ошибки в процессе отправки формы' )->Location( true );
-	add_field_separator( 'Шаблоны писем для данной формы', 'Эти настройки шаблонов актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->Location()->PostType( self::$post_type_name );
-	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->Location( true );
-	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->Location( true );
-	add_field_checkbox( 'send-client-email' )->label_checkbox( 'Отправлять письмо заполнителю формы по указанному им адресу, в случае, если в форме было поле email и оно было корректно заполнено.' )->Location( true );
-	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->Location( true );
-	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->Location( true );
+	add_field_separator( 'Статус отправки формы AJAX', 'Эти настройки актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->location()->posts( self::$post_type_name );
+	add_field_fontawesome( 'icon-process' )->label( 'Иконка процесса отправки' )->location( true );
+	add_field_fontawesome( 'icon-success' )->label( 'Иконка удачной отправки сообщения' )->location( true );
+	add_field_fontawesome( 'icon-warn' )->label( 'Иконка не верно заполненной формы' )->location( true );
+	add_field_fontawesome( 'icon-error' )->label( 'Иконка ошибки во время отправки' )->location( true );
+	add_field_textarea( 'text-process' )->label( 'Текст отправки формы' )->location( true );
+	add_field_textarea( 'text-success' )->label( 'Текст удачной отправки формы' )->location( true );
+	add_field_textarea( 'text-warn' )->label( 'Текст ошибки заполненной формы' )->location( true );
+	add_field_textarea( 'text-error' )->label( 'Текст ошибки в процессе отправки формы' )->location( true );
+	add_field_separator( 'Шаблоны писем для данной формы', 'Эти настройки шаблонов актуальны только для данной формы. Если оставить их незаполненными, вместо них будут использованы стандартные установки со страницы <a data-tooltip="Открыть страницу опций" href="' . get_admin_url( null, 'edit.php?post_type=' . self::$post_type_name . '&page=' . self::$options_name ) . '">Опции формы</a>' )->location()->posts( self::$post_type_name );
+	add_field_text( 'theme-email-admin' )->label( 'Тема письма для администратора' )->description( $strtr_descriptions )->location( true );
+	add_field_content( 'content-email-admin' )->label( 'Стандартное содердимое письма для администратора' )->description( $strtr_descriptions )->location( true );
+	add_field_checkbox( 'send-client-email' )->label_checkbox( 'Отправлять письмо заполнителю формы по указанному им адресу, в случае, если в форме было поле email и оно было корректно заполнено.' )->location( true );
+	add_field_text( 'theme-email-client' )->label( 'Тема письма для заполнителя' )->description( $strtr_descriptions )->location( true );
+	add_field_content( 'content-email-client' )->label( 'Стандартное содердимое письма для заполнителя' )->description( $strtr_descriptions )->location( true );
 	///
-	add_field_textarea( 'callback_js' )->label( 'JavaScript, который убдет выполнен в случае удачной отправки формы.' )->description( "Пример заполнения: <code>let foo = 'bar';\nalert(foo);</code>" )->Location( true );
+	add_field_textarea( 'callback_js' )->label( 'JavaScript, который убдет выполнен в случае удачной отправки формы.' )->description( "Пример заполнения: <code>let foo = 'bar';\nalert(foo);</code>" )->location( true );

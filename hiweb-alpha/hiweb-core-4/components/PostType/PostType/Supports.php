@@ -3,10 +3,10 @@
 	namespace hiweb\components\PostType\PostType;
 	
 	
-	use hiweb\core\Options\Options_Once;
+	use hiweb\core\Options\Options;
 	
 	
-	class Supports extends Options_Once{
+	class Supports extends Options{
 		
 		/**
 		 * блок заголовка;
@@ -111,10 +111,11 @@
 		 * @return array|Supports|mixed|null
 		 */
 		public function custom_fields( $set = true ){
-			if($set) {
-				$this->options_ArrayObject()->push('custom-fields');
-			} else {
-				$this->options_ArrayObject()->unset_value('custom-fields');
+			if( $set ){
+				$this->options_ArrayObject()->push( 'custom-fields' );
+			}
+			else{
+				$this->options_ArrayObject()->unset_value( 'custom-fields' );
 			}
 			return $this;
 		}
