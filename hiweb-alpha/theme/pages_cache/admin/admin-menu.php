@@ -29,14 +29,14 @@
 				$args = [
 					'id' => 'hiweb-theme-pagescache-update',
 					'title' => '<span style="font-size: 1.2em">♺</span> Обновить кэш страницы',
-					'href' => get_path()->Url()->get(),
+					'href' => get_path()->url()->get(),
 					'meta' => [ 'class' => 'my-toolbar-page' ]
 				];
 			}else{
 				$args = [
 					'id' => 'hiweb-theme-pagescache-update',
 					'title' => '<span style="font-size: 1.2em">♺</span> Создать кэш страницы',
-					'href' => get_path()->Url()->get(),
+					'href' => get_path()->url()->get(),
 					'meta' => [ 'class' => 'my-toolbar-page' ]
 				];
 			}

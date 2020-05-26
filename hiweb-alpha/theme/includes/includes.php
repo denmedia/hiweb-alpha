@@ -68,7 +68,7 @@
 			if( $include_migrate_js ){
 				static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-migrate-1.4.1.min.js' );
 			}
-			return $R->Path()->handle();
+			return $R->path()->handle();
 		}
 
 
@@ -107,7 +107,7 @@
 		static function jquery_mmenu(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.css', false );
 			$js = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ self::jquery() ] );
-			return $js->Path()->handle();
+			return $js->path()->handle();
 		}
 
 
@@ -132,7 +132,7 @@
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css' );
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css' );
 			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] );
-			return $R->Path()->handle();
+			return $R->path()->handle();
 		}
 
 
@@ -151,7 +151,7 @@
 		 * @return bool|string
 		 */
 		static function isotope(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] )->Path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] )->path()->handle();
 		}
 
 
@@ -164,12 +164,12 @@
 		 * vendors/jquery.form/jquery.form.min.js
 		 */
 		static function jquery_form(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] )->Path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] )->path()->handle();
 		}
 
 
 		static function jquery_mask(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] )->Path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] )->path()->handle();
 		}
 
 
@@ -184,7 +184,7 @@
 		 * @return string js handler
 		 */
 		static function jquery_parallaxie(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ self::jquery() ] )->Path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ self::jquery() ] )->path()->handle();
 		}
 
 
@@ -195,7 +195,7 @@
 		 * @deprecated
 		 */
 		static function jquery_pin(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] )->Path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] )->path()->handle();
 		}
 
 
@@ -243,7 +243,7 @@
 		 * @return bool|Js
 		 */
 		static function jquery_autocomplete(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery() )->Path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.autocomplete/jquery.autocomplete.min.js', static::jquery() )->path()->handle();
 		}
 
 

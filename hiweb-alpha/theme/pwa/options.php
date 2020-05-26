@@ -15,9 +15,9 @@
 
 	theme\includes\admin::fontawesome();
 
-	add_action( 'current_screen', function(){
+//	add_action( 'current_screen', function(){
 		//if( get_current_screen()->base == 'dashboard' && !PathsFactory::get()->is_ssl() ) hiweb\admin::NOTICE( 'Внимание! На сайте не установлен SSL. Это требуется для того, чтобы браузер работал в режиме PWA.' )->CLASS_()->error();
-	} );
+//	} );
 
 	$admin_menu = add_admin_menu_page( \theme\pwa::$admin_menu_slug, '<i class="fal fa-mobile-android"></i> Progress Web App', \theme\pwa::$admin_menu_parent );
 	$admin_menu->page_title( '<i class="fal fa-mobile-android"></i> Установки Progressive Web Application' );
@@ -54,5 +54,5 @@
 	add_field_select( 'apple-mobile-web-app-status-bar-style' )->placeholder('--выберите пункт--')->options( [ 'default' => 'Стандартный', 'black' => 'Черный статус бар', 'black-translucent' => 'Прозрачный с черным текстом' ] )->default_value('default' )->label( 'Стиль статус бара в Safari iOS' )->description( '' )->location( true );
 
 	///
-	add_field_tab( '<i class="fab fa-android"></i> Установка для браузера Android и Google Chrome (на iOS)' )->location( true );
-	add_field_color( 'head-meta-theme-color' )->label( 'Цвет адресной строки в браузераз (для Android 5.0 и выше)' )->location( true );
+	add_field_tab( '<i class="fab fa-android"></i> Установка для браузера','Android и Google Chrome (на iOS)' )->location( true );
+	add_field_color( 'head-meta-theme-color' )->label( 'Цвет адресной строки в браузерах (для Android 5.0 и выше)' )->location( true );

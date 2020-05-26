@@ -158,7 +158,7 @@
 				<th>
 					Размер и количество файлов кэша
 				</th>
-				<td>Размер: <b><?= get_path( pages_cache\cache::get_dir() )->File()->get_size_formatted() ?></b> / <?= count( get_path( pages_cache\cache::get_dir() )->File()->get_sub_files() ) ?> файлов</td>
+				<td>Размер: <b><?= get_path( pages_cache\cache::get_dir() )->file()->get_size_formatted() ?></b> / <?= count( get_path( pages_cache\cache::get_dir() )->file()->get_sub_files() ) ?> файлов</td>
 			</tr>
 			</tbody>
 		</table>

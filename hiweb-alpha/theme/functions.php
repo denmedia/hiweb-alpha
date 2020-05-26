@@ -22,8 +22,8 @@
 					$to = get_option( 'admin_email' );
 				}
 			}
-			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <' . $from . '@' . \hiweb\core\Paths\PathsFactory::root()->Url()->domain() . '>' ];
-			$headers[] = 'Reply-To: noreply@' . \hiweb\core\Paths\PathsFactory::root()->Url()->domain() . '';
+			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <' . $from . '@' . \hiweb\core\Paths\PathsFactory::root()->url()->domain() . '>' ];
+			$headers[] = 'Reply-To: noreply@' . \hiweb\core\Paths\PathsFactory::root()->url()->domain() . '';
 			$headers[] = 'Precedence: bulk';
 			$headers[] = 'List-Unsubscribe: ' . \hiweb\core\Paths\PathsFactory::root()->get_url( false );
 			add_filter( 'wp_mail_content_type', function(){ return "text/html"; } );

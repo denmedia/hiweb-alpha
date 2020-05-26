@@ -13,7 +13,7 @@
 	require_once __DIR__ . '/include/defines.php';
 	require_once __DIR__ . '/include/autoload.php';
 	
-	get_path( __DIR__ . '/theme' )->File()->include_files_by_name( [ 'init.php', 'functions.php' ] );
+	get_path( __DIR__ . '/theme' )->file()->include_files_by_name( [ 'init.php', 'functions.php' ] );
 	
 	theme\migration::init();
 	theme\cyr3lat::init();

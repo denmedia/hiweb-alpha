@@ -5,15 +5,15 @@
 	 * Date: 2019-01-21
 	 * Time: 11:18
 	 */
-
+	
 	namespace theme;
-
-
+	
+	
 	use hiweb\components\AdminMenu\AdminMenu_Page;
 	
 	
 	class seo{
-
+		
 		private static $init = false;
 		/**
 		 * @deprecated
@@ -23,13 +23,13 @@
 		static $option_page_permalink_force_slash_end = false;
 		static $option_term_permalink_force_slash_end = false;
 		static $option_use_paginate_canonical = true;
-
+		
 		static $admin_menu_main = 'hiweb-seo-main';
 		static $admin_menu_main_parent = 'options-general.php';
 		/** @var AdminMenu_Page */
 		static $admin_menu_main_page;
-
-
+		
+		
 		static function init(){
 			if( !self::$init ){
 				self::$init = true;
@@ -40,16 +40,16 @@
 				require_once __DIR__ . '/global_functions.php';
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
 		static function is_init(){
 			return self::$init;
 		}
-
-
+		
+		
 		/**
 		 * @param string $post_type
 		 * @return mixed|null
@@ -61,22 +61,22 @@
 			}
 			return null;
 		}
-
-
+		
+		
 		/**
 		 * @return mixed
 		 */
 		static function is_author_enable(){
 			return get_field( 'authors-enable', self::$admin_menu_main );
 		}
-
-
+		
+		
 		/**
 		 * @return mixed
 		 */
 		static function is_paged_append_enable(){
-			return get_field('paged-append-enable', self::$admin_menu_main);
+			return get_field( 'paged-append-enable', self::$admin_menu_main );
 		}
-
-
+		
+		
 	}

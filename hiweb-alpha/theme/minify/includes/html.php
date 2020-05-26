@@ -38,7 +38,7 @@
 		 * @return bool|null
 		 */
 		public function is_critical_exists(){
-			return $this->get_critical_file()->File()->is_exists();
+			return $this->get_critical_file()->file()->is_exists();
 		}
 
 
@@ -46,7 +46,7 @@
 		 * @return string|bool
 		 */
 		public function get_critical_content(){
-			return $this->get_critical_file()->File()->get_content( false );
+			return $this->get_critical_file()->file()->get_content( false );
 		}
 
 

@@ -36,16 +36,16 @@
 		if( !$has_public ) add_field_info( 'таких страниц не обнаружено' )->location( theme\seo::$admin_menu_main );
 		///
 		
-		add_field_tab( 'Мета-теги на страницах авторов' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
+		add_field_separator( 'Мета-теги на страницах авторов' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
 		add_field_checkbox( 'authors-enable' )->label_checkbox( 'Включить поддержку SEO страницы автора статей' )->location( true );
 		
-		add_field_separator( 'Другие общие настройки' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
+		add_field_tab( 'Другие общие настройки' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
 		add_field_checkbox( 'paged-append-enable' )->label_checkbox( 'Включить добавление номера страницы в тайтле, например "Главная - страница 2 из 2"' )->location( true );
 		add_field_text( 'paged-append-template' )->default_value( 'Страница {page} из {pages}' )->label( 'Шаблон титла для страница-пагинаций' )->location( true );
 		add_field_select( 'redirect-last-slash-mod' )->options( [ 'default' => '--выберите вариант--', 'none' => 'Редирект 301 на URL без слэша в конце', 'slash' => 'Редирект 301 на URL вместе со слэшем в конце' ] )->label( 'Режим URL\'а и знак "/" (слэша) в конце' )->location( true );
 		
 		///CANONICAL OPTIONS
-		add_field_tab( 'Установки ссылок CANONICAL' )->location( true );
+		add_field_separator( 'Установки ссылок CANONICAL' )->location( true );
 		add_field_checkbox( 'canonical-paged-first-link' )->label_checkbox( 'Выводить каноническую ссылку на странице пагинации, ссылка на первую страницу' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”canonical” href=”http://...” />' ) . '</code>' )->location( true );
 		add_field_checkbox( 'canonical-paged-prev-next-links' )->label_checkbox( 'Выводить канонические ссылки на странице пагинации, ссылки на предыдущую и следующую страницы' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”next” href=”http://...” />' ) . '</code>' )->location( true );
 		add_field_checkbox( 'canonical-all-pages' )->label_checkbox( 'Выводить каноническую ссылку на всех страницах не пагинации, ссылка на текущую страницу' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”canonical” href=”http://...” />' ) . '</code>' )->location( true );

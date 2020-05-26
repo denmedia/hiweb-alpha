@@ -17,7 +17,8 @@
 	add_admin_menu_page( breadcrumbs::$admin_options_slug, '<i class="far fa-shoe-prints"></i> Хлебные крошки', 'options-general.php' );
 	
 	///HOME CRUMB
-	add_field_tab( 'Настройки домашней крошки', 'Установки самого первого элемента, ведузего на главную страницу' )->location()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_tab( 'Настройки домашней крошки')->location()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
+	add_field_separator( 'Настройки домашней крошки', 'Установки самого первого элемента, ведущего на главную страницу' )->location()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_checkbox( 'home-enable' )->label_checkbox( 'Показывать в хлебных крошках домашнюю страницу' )->VALUE( 'on' )->get_parent_field()->location()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_fontawesome( 'home-icon' )->label( 'Иконка для домашней крошки' )->VALUE( 'fas fa-home' )->get_parent_field()->location()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );
 	add_field_checkbox( 'home-text-enable' )->label_checkbox( 'Включить в домашней крошке текст для ссылки' )->VALUE( 'on' )->get_parent_field()->location()->ADMIN_MENUS( breadcrumbs::$admin_options_slug );

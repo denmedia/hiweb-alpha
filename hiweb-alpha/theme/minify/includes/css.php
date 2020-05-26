@@ -78,7 +78,7 @@
 		 * @return bool|string
 		 */
 		public function get_critical_content(){
-			return $this->get_critical_file() instanceof Path ? $this->get_critical_file()->File()->get_content( false ) : false;
+			return $this->get_critical_file() instanceof Path ? $this->get_critical_file()->file()->get_content( false ) : false;
 		}
 
 
@@ -86,7 +86,7 @@
 		 * @return bool|null
 		 */
 		public function is_critical_exists(){
-			return $this->get_critical_file()->File()->is_exists();
+			return $this->get_critical_file()->file()->is_exists();
 		}
 
 
@@ -105,7 +105,7 @@
 		 */
 		public function try_generate_critical_css( $cHtml = null, $url_referer_for_pages_cache_update = null ){
 			if( !is_string( $cHtml ) && $this->_template()->html()->is_critical_exists() ){
-				$cHtml = $this->_template()->html()->get_critical_file()->File()->get_content();
+				$cHtml = $this->_template()->html()->get_critical_file()->file()->get_content();
 			}
 			if( !is_string( $cHtml ) || trim( $cHtml ) == '' ) return - 1;
 			if( !$this->is_exists() ) return - 2;
