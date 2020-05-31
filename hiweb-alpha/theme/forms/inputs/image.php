@@ -14,7 +14,7 @@
 
 
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_image( 'image' ) )->label( 'Изображение для вставки в форму' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_image( 'image' ) )->label( 'Изображение для вставки в форму' )->compact( 1 )->flex()->icon('<i class="fad fa-image-polaroid"></i>');
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'width' )->default_value( 480 ))->label( 'Максимальная ширина' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'height' )->default_value( 360 ) )->label( 'Максимальная высота' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'send_enable' )->label_checkbox( 'Не отправлять данное поле по почте' ) );

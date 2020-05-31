@@ -21,8 +21,6 @@
 	theme\error_404::init();
 	theme\pwa::init();
 	Post_Duplicator::init();
-	theme\forms::init();
-	theme\recaptcha::init();
 	
 	\hiweb\components\Includes\IncludesFactory_AdminPage::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );
 	//theme\includes\admin::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );

@@ -81,6 +81,7 @@
 	add_field_separator( 'UTM метки, которые необходимо отслеживать и сохранять в данных формы' )->location()->options( self::$options_name );
 	add_field_textarea( 'utm-points' )->label( 'Укажите UTM метки для отслеживания и отправки в данных формы, каждую на новой строчке' )->description( 'Пример: для адреса <b>https://мойсайт.рф?<u>utm</u>=ключотметки</b> укажите на отдельной строчке <code>utm</code>' )->location()->options( self::$options_name );
 	
+	add_field_tab('Сбор полученных сообщений')->location(true);
 	$rest_url = rest_url( '/hiweb_theme/forms/messages?key=' . urlencode( get_option( 'hiweb-option-hiweb-forms-messages-rest-key' ) ) );
 	add_field_separator( 'Сбор полученных сообщений', 'Адрес для сбора письем <b><a href="' . $rest_url . '" target="_blank">' . $rest_url . '</a></b>' )->location()->options( self::$options_name );
 	add_field_checkbox( 'messages-rest-enable' )->label_checkbox( 'Использовать сбор писем через REST' )->location()->options( self::$options_name );

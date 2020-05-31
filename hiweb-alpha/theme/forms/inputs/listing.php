@@ -13,10 +13,10 @@
 
 
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			$repeat = add_field_repeat( 'items' );
+			$repeat = add_field_repeat( 'items' )->label_button_new_row('Добавить элемент');
 			$repeat->add_col_field( add_field_text( 'key' ) )->label( 'Ключ списка' );
 			$repeat->add_col_field( add_field_text( 'value' ) )->label( 'Значение списка' );
-			$parent_repeat_field->add_col_flex_field( self::$input_title, $repeat )->label( 'Список значений (свойств)' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, $repeat )->label( 'Список значений (свойств)' )->compact( 1 )->flex()->icon('<i class="fad fa-list-alt"></i>');
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'send_enable' )->label_checkbox( 'Не отправлять данное поле по почте' ) )->compact(1);
 
 		}

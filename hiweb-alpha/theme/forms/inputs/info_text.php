@@ -13,7 +13,7 @@
 
 
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_textarea( 'text' ) )->label( 'Информационно-текстовая вставка' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_textarea( 'text' ) )->label( 'Информационно-текстовая вставка' )->compact( 1 )->flex()->icon('<i class="fad fa-info-circle"></i>');
 		}
 
 

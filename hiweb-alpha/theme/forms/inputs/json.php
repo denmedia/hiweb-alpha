@@ -20,7 +20,7 @@
 
 
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' ) )->label( 'Данные JSON' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' ) )->label( 'Данные JSON' )->compact( 1 )->flex()->icon('<i class="fas fa-asterisk"></i>');
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' )->default_value( self::$default_name ) )->label( 'Имя поля на латинице' );
 		}
 

@@ -19,7 +19,7 @@
 
 
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' )->default_value( 'Форма отправлена со страницы' ) )->label( 'Ссылка на страницу' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Лейбл поля' )->default_value( 'Форма отправлена со страницы' ) )->label( 'Ссылка на страницу' )->compact( 1 )->flex()->icon('<i class="fad fa-link"></i>');
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' )->default_value( 'postlink' ) )->label( 'Имя поля на латинице' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'show' )->label_checkbox( 'Показывать в форме название страницы/записи/товара' ) );
 		}

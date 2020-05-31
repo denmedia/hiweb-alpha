@@ -19,7 +19,7 @@
 
 
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Опция' )->default_value( 'Опция' ))->label( 'Чекбокс (галочка)' )->compact( 1 );
+			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Опция' )->default_value( 'Опция' ))->label( 'Чекбокс (галочка)' )->compact( 1 )->flex()->icon('<i class="fad fa-check-square"></i>');
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'name' )->placeholder( 'Имя поля на латинице' ) )->label( 'Имя поля на латинице' )->compact( 1 );
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_checkbox( 'require' )->label_checkbox( 'Обязательно для заполнения' ) )->compact(1);
 			$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'require-message' )->label( 'Отметьте минимум один пункт' )->default_value('Вы не верно заполнили поле') )->compact(1);
