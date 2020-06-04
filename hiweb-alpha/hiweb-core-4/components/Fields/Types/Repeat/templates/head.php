@@ -47,9 +47,13 @@
 					foreach( $compacted_cols as $index => $cols ){
 						$width = ceil( $width_cols[ $index ] / array_sum( $width_cols ) * 100 ) . '%';
 						?>
-						<th <?= count( $cols ) > 1 ? '' : 'data-col="' . $cols[0]->Field()->ID() . '"' ?>
+						<th <?= count( $cols ) > 1 ? '' : 'data-col="' . $cols[0]->field()->id() . '"' ?>
 								style="width:<?= $width ?>" class="<?= count( $cols ) > 1 ? 'compacted' : '' ?>">
-							<?= $cols[0]->label() . ( $cols[0]->description() != '' ? '<p class="description">' . $cols[0]->description() . '</p>' : '' ) ?>
+							<?php
+								if(count($cols) == 1) {
+									echo $cols[0]->label() . ( $cols[0]->description() != '' ? '<p class="description">' . $cols[0]->description() . '</p>' : '' );
+								}
+							?>
 						</th>
 						<?php
 					}

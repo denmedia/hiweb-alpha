@@ -44,16 +44,16 @@
 				$value = $default;
 				$contextObject_sanitize = FieldsFactory::sanitize_objectContext( $objectContext );
 				if( $contextObject_sanitize instanceof WP_Post ){
-					$value = get_post_meta( $contextObject_sanitize->ID, $Field->ID(), true );
+					$value = get_post_meta( $contextObject_sanitize->ID, $Field->id(), true );
 				}
 				elseif( $contextObject_sanitize instanceof WP_Term ){
-					$value = get_term_meta( $contextObject_sanitize->term_id, $Field->ID(), true );
+					$value = get_term_meta( $contextObject_sanitize->term_id, $Field->id(), true );
 				}
 				elseif( $contextObject_sanitize instanceof WP_User ){
-					$value = get_user_meta( $contextObject_sanitize->ID, $Field->ID(), true );
+					$value = get_user_meta( $contextObject_sanitize->ID, $Field->id(), true );
 				}
 				elseif( $contextObject_sanitize instanceof WP_Comment ){
-					$value = get_comment_meta( $contextObject_sanitize->ID, $Field->ID(), true );
+					$value = get_comment_meta( $contextObject_sanitize->ID, $Field->id(), true );
 				}
 				elseif( is_string( $contextObject_sanitize ) ){
 					$value = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field ), $default );
@@ -90,7 +90,7 @@
 		 * @return bool
 		 */
 		static function is_exists( $field_ID, $objectContext = null ){
-			return self::get_Field( $field_ID, $objectContext )->ID() != '';
+			return self::get_Field( $field_ID, $objectContext )->id() != '';
 		}
 		
 		
@@ -102,7 +102,7 @@
 		static function get_row( $field_ID, $objectContext = null ){
 			$Field = self::get_Field( $field_ID, $objectContext );
 			$objectContext = FieldsFactory::sanitize_objectContext( $objectContext );
-			$field_context_id = $Field->ID() . '-' . ( is_object( $objectContext ) ? spl_object_id( $objectContext ) : 'options-' . (string)$objectContext );
+			$field_context_id = $Field->id() . '-' . ( is_object( $objectContext ) ? spl_object_id( $objectContext ) : 'options-' . (string)$objectContext );
 			if( !array_key_exists( $field_context_id, self::$rows ) ){
 				$new_array = new ArrayObject();
 				$value = self::get_value( $field_ID, $objectContext );

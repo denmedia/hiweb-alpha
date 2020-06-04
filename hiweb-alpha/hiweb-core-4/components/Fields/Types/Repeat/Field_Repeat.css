@@ -1,3 +1,6 @@
+.hiweb-field-type-repeat .hiweb-field-type-repeat {
+  margin-bottom: 0.4em;
+}
 .hiweb-field-type-repeat .ctrl-button {
   width: 16px;
   height: 18px;
@@ -42,7 +45,7 @@
   background-color: #f1f1f1;
   padding: 0.2em;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 500;
   line-height: 1.1;
   min-height: 16px;
   border-bottom: 1px solid #ddd;
@@ -76,7 +79,7 @@
   border-right: 1px dotted #f1f1f1;
 }
 .hiweb-field-type-repeat table.hiweb-field-type-repeat-table tbody[data-rows_list] tr td .hiweb-field-type-repeat-col-inner [data-col] {
-  margin-bottom: 0.8em;
+  margin-bottom: 0.4em;
 }
 .hiweb-field-type-repeat table.hiweb-field-type-repeat-table tbody[data-rows_list] tr td .hiweb-field-type-repeat-col-inner [data-col]:last-child {
   margin-bottom: 0.1em;
@@ -132,8 +135,10 @@
   border-top: none;
 }
 .hiweb-field-type-repeat .flex-label {
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 12px;
+  margin-bottom: 0.2em;
+  color: #72777c;
 }
 .hiweb-field-type-repeat .hiweb-field-repeat-flex {
   width: 100%;
@@ -155,7 +160,6 @@
 }
 .hiweb-field-type-repeat .hiweb-field-repeat-flex td [data-col] {
   padding-bottom: 0.4em;
-  border-bottom: 1px dotted #ccd0d4;
   margin-bottom: 0.4em;
 }
 .hiweb-field-type-repeat .hiweb-field-repeat-flex td [data-col]:last-child {
@@ -172,6 +176,11 @@
   max-height: 20px;
   width: auto;
   vertical-align: middle;
+}
+.hiweb-field-type-repeat .hiweb-field-repeat-flex .hiweb-field-repeat-flex-header .flex-description {
+  font-weight: 100;
+  font-size: 0.8em;
+  color: #444;
 }
 
 /*# sourceMappingURL=Field_Repeat.css.map */

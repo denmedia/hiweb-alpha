@@ -7,11 +7,10 @@
 	 */
 
 	//add rest manifest
-	use hiweb\arrays;
-	use hiweb\paths;
-	use hiweb\urls;
-
-
+	
+	use hiweb\core\Paths\PathsFactory;
+	
+	
 	add_action( 'rest_api_init', function(){
 
 		register_rest_route( 'hiweb-theme', 'pwa/manifest', [
@@ -29,7 +28,7 @@
 				$background_color = get_field( 'background_color', self::$admin_menu_slug );
 
 				///CONSTRUCT
-				$manifest = arrays::get();
+				$manifest = \hiweb\core\ArrayObject\ArrayObject::get_instance();
 
 				$manifest->push( 'name', $name == '' ? get_bloginfo( 'name' ) : $name );
 				$manifest->push( 'short_name', $short_name == '' ? get_bloginfo( 'name' ) : $short_name );
@@ -43,7 +42,7 @@
 				if( $background_color != '' )
 					$manifest->push( 'background_color', $background_color );
 
-				$manifest->push( 'scope', PathsFactory::root( false ) . '/' );
+				$manifest->push( 'scope', PathsFactory::root(  )->get_path_relative() . '/' );
 				$manifest->push( 'start_url', '/?pwa=1' );
 				//icons
 				$icons = [];
@@ -54,20 +53,20 @@
 					foreach( [ 192, 512 ] as $width ){
 						if( $width > $icon->width() || $width > $icon->height() )
 							continue;
-						$icon_src = $icon->get_size_by_dimension( [ $width, $width ], 0, true );
+						$icon_src = $icon->sizes()->get( [ $width, $width, 0], true );
 						$icons[] = [
-							'src' => $icon_src->get_path_relative(),
+							'src' => $icon_src->path()->get_url(),
 							'sizes' => $width . 'x' . $width,
-							'type' => $icon_src->get_image_mime_type()
+							'type' => $icon_src->image()->get_mime_type()
 						];
 					}
 					if( $icon_splash->is_attachment_exists() ){
 						if( $icon_splash->width() >= 512 && $icon_splash->height() >= 512 ){
-							$icon_splash_size = $icon_splash->get_size_by_dimension( [ 512, 512 ], 0, true );
+							$icon_splash_size = $icon_splash->sizes()->get( [ 512, 512, 0], true );
 							$icons[] = [
-								'src' => $icon_splash_size->get_path_relative(),
+								'src' => $icon_splash_size->path()->get_path_relative(),
 								'sizes' => $icon_splash_size->width() . 'x' . $icon_splash_size->height(),
-								'type' => $icon_splash_size->get_image_mime_type()
+								'type' => $icon_splash_size->path()->image()->get_mime_type()
 							];
 						}
 					}

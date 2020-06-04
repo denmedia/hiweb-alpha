@@ -9,7 +9,7 @@
 	use hiweb\core\Strings;
 	
 	
-	$this->unique_id = 'hiweb_field_repeat_' . $this->ID() . '_' . Strings::rand( 12 );
+	$this->unique_id = 'hiweb_field_repeat_' . $this->id() . '_' . Strings::rand( 12 );
 	
 	$Value = $this->Value();
 	$rand_field_id = 'hiweb_field_repeat_' . \hiweb\core\Strings::rand( 5 );
@@ -17,7 +17,7 @@
 	$root_attributes = new \hiweb\core\ArrayObject\ArrayObject( [
 		'class' => 'hiweb-field-type-repeat',
 		'data-input_name' => $name,
-		'data-id' => $this->ID(),
+		'data-id' => $this->id(),
 		'data-global_id' => $this->global_ID(),
 		'data-have_flex' => $this->have_flex_cols(),
 		'data-unique_id' => $this->get_unique_id(),
@@ -28,7 +28,7 @@
 <div <?= $root_attributes->get_param_html_tags() ?>>
 	<?php if( !$this->options()->have_cols() ){
 		?>
-		<p class="empty-message"><?= sprintf( __( 'For repeat input [%s] not add col fields. For that do this: <code>$this->add_col_field( add_field_text(...) )</code>' ), $this->ID() ) ?></p><?php
+		<p class="empty-message"><?= sprintf( __( 'For repeat input [%s] not add col fields. For that do this: <code>$this->add_col_field( add_field_text(...) )</code>' ), $this->id() ) ?></p><?php
 	}
 	else{
 		?>

@@ -87,7 +87,7 @@
 			if( !is_array( $fields ) || count( $fields ) == 0 ) return;
 			$first_field_location = reset( $fields )->options()->location()->posts();
 			foreach( $fields as $Field ){
-				$box_title = $Field->options()->location()->posts()->MetaBox()->title();
+				$box_title = $Field->options()->location()->posts()->metaBox()->title();
 				$query_by_box[ $box_title ] = $query;
 				$query_by_box[ $box_title ]['post_type']['metabox']['title'] = $box_title;
 			}
@@ -95,7 +95,7 @@
 				$box_id = 'hiweb-metabox-' . Strings::sanitize_id( $title );
 				add_meta_box( $box_id, $title, function(){
 					echo FieldsFactory_Admin::get_ajax_form_html( func_get_arg( 1 )['args'][0] );
-				}, $first_field_location->post_type(), $first_field_location->MetaBox()->Context()->_(), $first_field_location->MetaBox()->Priority()->_(), [ $query ] );
+				}, $first_field_location->post_type(), $first_field_location->metaBox()->Context()->_(), $first_field_location->metaBox()->Priority()->_(), [ $query ] );
 			}
 		}
 		
@@ -116,10 +116,10 @@
 				$field_name = FieldsFactory_Admin::get_field_input_name( $Field );
 				if( $Field->get_allow_save_field( array_key_exists( $field_name, $_POST ) ? $_POST[ $field_name ] : null ) ){
 					if( array_key_exists( $field_name, $_POST ) ){
-						update_post_meta( $post_ID, $Field->ID(), $Field->get_sanitize_admin_value( $_POST[ $field_name ], true ) );
+						update_post_meta( $post_ID, $Field->id(), $Field->get_sanitize_admin_value( $_POST[ $field_name ], true ) );
 					}
 					else{
-						update_post_meta( $post_ID, $Field->ID(), $Field->get_sanitize_admin_value( '', true ) );
+						update_post_meta( $post_ID, $Field->id(), $Field->get_sanitize_admin_value( '', true ) );
 					}
 				}
 			}
@@ -137,7 +137,7 @@
 			if( count( $fields ) > 0 ){
 				$posts_columns = ArrayObject::get_instance( $posts_columns );
 				foreach( $fields as $field_ID => $Field ){
-					$ColumnsManager = $Field->options()->location()->posts()->ColumnsManager();
+					$ColumnsManager = $Field->options()->location()->posts()->columnsManager();
 					$posts_columns->push( $ColumnsManager->id(), $ColumnsManager->name() );
 				}
 				$posts_columns = $posts_columns->get();
@@ -155,7 +155,7 @@
 					]
 				];
 				$Field = FieldsFactory_Admin::get_Field( $field_id, $query );
-				$callback = $Field->options()->location()->posts()->ColumnsManager()->callback();
+				$callback = $Field->options()->location()->posts()->columnsManager()->callback();
 				if( !is_null( $callback ) && is_callable( $callback ) ){
 					call_user_func_array( $callback, [ $post_id, $Field, $columns_name ] );
 				}
@@ -177,8 +177,8 @@
 				]
 			] );
 			foreach( $fields as $Field ){
-				if( $Field->options()->location()->posts()->ColumnsManager()->sortable() ){
-					$sortable_columns[ 'hiweb-field-' . $Field->ID() ] = 'hiweb-field-' . $Field->ID();
+				if( $Field->options()->location()->posts()->columnsManager()->sortable() ){
+					$sortable_columns[ 'hiweb-field-' . $Field->id() ] = 'hiweb-field-' . $Field->id();
 				}
 			}
 			return $sortable_columns;

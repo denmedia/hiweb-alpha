@@ -34,6 +34,15 @@
 		
 		
 		/**
+		 * @param null $set
+		 * @return array|Field_Repeat_Flex|mixed|null
+		 */
+		public function description($set = null){
+			return $this->_('description', $set);
+		}
+		
+		
+		/**
 		 * Set font awesome
 		 * @param null   $set
 		 * @param string $default

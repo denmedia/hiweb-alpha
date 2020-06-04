@@ -49,6 +49,22 @@
   border-bottom: 2px solid #007cba;
   margin-bottom: 1px;
 }
+.hiweb-field-type-date input[name]::-webkit-input-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-field-type-date input[name]:-moz-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-field-type-date input[name]::-moz-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-field-type-date input[name]:-ms-input-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
 
 .hiweb-fields-type-data-picker div.zabuto_calendar div.calendar-month-navigation svg {
   display: inline-block;

@@ -10,7 +10,7 @@
 		
 		public function __construct( $parent_OptionsObject = null ){
 			parent::__construct( $parent_OptionsObject );
-			$this->Position()->edit_form_after_editor();
+			$this->position()->edit_form_after_editor();
 		}
 		
 		
@@ -18,7 +18,7 @@
 		 * @param int|string|int[]|string[] $set
 		 * @return $this
 		 */
-		public function ID( $set = null ){
+		public function id( $set = null ){
 			return $this->_( __FUNCTION__, $set );
 		}
 		
@@ -108,7 +108,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_Position
 		 */
-		public function Position(){
+		public function position(){
 			if( !$this->_( 'position' ) instanceof Field_Options_Location_PostType_Position ){
 				$this->_( 'position', new Field_Options_Location_PostType_Position( $this ) );
 			}
@@ -120,11 +120,11 @@
 		 * @param null|string $set_title
 		 * @return Field_Options_Location_PostType_MetaBox
 		 */
-		public function MetaBox( $set_title = null ){
+		public function metaBox( $set_title = null ){
 			if( !$this->_( 'metabox' ) instanceof Field_Options_Location_PostType_MetaBox ){
 				$this->_( 'metabox', new Field_Options_Location_PostType_MetaBox( $this ) );
 			}
-			$this->Position()->clear();
+			$this->position()->clear();
 			if( !is_null( $set_title ) ) $this->_( 'metabox' )->title( $set_title );
 			return $this->_( 'metabox' );
 		}
@@ -133,7 +133,7 @@
 		/**
 		 * @return Field_Options_Location_PostType_ColumnsManager
 		 */
-		public function ColumnsManager(){
+		public function columnsManager(){
 			if( !$this->_( 'columns_manager' ) instanceof Field_Options_Location_PostType_ColumnsManager ){
 				$this->_( 'columns_manager', new Field_Options_Location_PostType_ColumnsManager( $this ) );
 			}
@@ -146,7 +146,7 @@
 		 * @return Field_Options_Location_PostType_ColumnsManager
 		 */
 		public function Columns_Manager(){
-			return $this->ColumnsManager();
+			return $this->columnsManager();
 		}
 		
 		
@@ -155,7 +155,7 @@
 		 * @return Field_Options_Location_PostType_MetaBox
 		 */
 		public function Meta_Box($title = null){
-			return $this->MetaBox($title);
+			return $this->metaBox($title);
 		}
 		
 	}

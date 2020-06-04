@@ -2,6 +2,10 @@
 
 .hiweb-field-type-repeat {
 
+	.hiweb-field-type-repeat {
+		margin-bottom: .4em;
+	}
+
 	.ctrl-button {
 		width: 16px;
 		height: 18px;
@@ -36,7 +40,7 @@
 				background-color: $fields_color_grey_white;
 				padding: .2em;
 				font-size: 14px;
-				font-weight: bold;
+				font-weight: 500;
 				line-height: 1.1;
 				min-height: 16px;
 				border-bottom: 1px solid $fields_color_grey_lighten;
@@ -84,7 +88,7 @@
 						//overflow: hidden;
 
 						[data-col] {
-							margin-bottom: .8em;
+							margin-bottom: .4em;
 
 							&:last-child {
 								margin-bottom: .1em;
@@ -149,8 +153,10 @@
 	}
 
 	.flex-label {
-		font-weight: 700;
-		font-size: 14px;
+		font-weight: 500;
+		font-size: 12px;
+		margin-bottom: .2em;
+		color: $fields_color_grey;
 	}
 
 	.hiweb-field-repeat-flex {
@@ -165,7 +171,7 @@
 
 			[data-col] {
 				padding-bottom: .4em;
-				border-bottom: 1px dotted $fields_color_border;
+				//border-bottom: 1px dotted $fields_color_border;
 				margin-bottom: .4em;
 
 				&:last-child {
@@ -186,6 +192,12 @@
 				max-height: 20px;
 				width: auto;
 				vertical-align: middle;
+			}
+
+			.flex-description {
+				font-weight: 100;
+				font-size: .8em;
+				color: $fields_color_grey_dark;
 			}
 		}
 

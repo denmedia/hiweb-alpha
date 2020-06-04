@@ -35,7 +35,7 @@
 		/**
 		 * @return WP_Post
 		 */
-		public function WP_Post(){
+		public function wp_post(){
 			return CacheFactory::get( $this->attachment_ID, __METHOD__, function(){
 				$test_wp_post = get_post( $this->attachment_ID );
 				if( !$test_wp_post instanceof WP_Post ){
@@ -50,7 +50,7 @@
 		 * @return bool
 		 */
 		public function is_attachment_exists(){
-			return $this->attachment_ID > 0 && $this->WP_Post()->post_type == 'attachment';
+			return $this->attachment_ID > 0 && $this->wp_post()->post_type == 'attachment';
 		}
 		
 		
@@ -89,7 +89,7 @@
 		/**
 		 * @return Path
 		 */
-		public function Path(){
+		public function path(){
 			if( $this->file == '' && property_exists( $this->get_attachment_meta(), 'file' ) ){
 				if( property_exists( $this->get_attachment_meta(), 'original_image' ) ){
 					$file_name = dirname( $this->get_attachment_meta()->file ) . '/' . $this->get_attachment_meta()->original_image;
@@ -106,7 +106,7 @@
 		/**
 		 * @return Image_Sizes
 		 */
-		public function Sizes(){
+		public function sizes(){
 			return CacheFactory::get( $this->attachment_ID, __METHOD__, function(){
 				return new Image_Sizes( $this );
 			} )->get_value();
@@ -118,7 +118,7 @@
 		 * @return bool
 		 */
 		public function is_exists(){
-			return $this->is_attachment_exists() && $this->Path()->file()->is_exists();
+			return $this->is_attachment_exists() && $this->path()->file()->is_exists();
 		}
 		
 		
@@ -159,7 +159,7 @@
 		 * @return bool|mixed|string
 		 */
 		public function get_mime_type(){
-			return $this->Path()->image()->get_mime_type();
+			return $this->path()->image()->get_mime_type();
 		}
 		
 		/**
@@ -174,7 +174,7 @@
 		 * @return mixed
 		 */
 		public function title(){
-			return get_the_title( $this->WP_Post() );
+			return get_the_title( $this->wp_post() );
 		}
 		
 		
@@ -184,7 +184,7 @@
 		 */
 		public function description( $return_filtered = true ){
 			if( $this->is_attachment_exists() ){
-				return $return_filtered ? $this->WP_Post()->post_content_filtered : $this->WP_Post()->post_content;
+				return $return_filtered ? $this->wp_post()->post_content_filtered : $this->wp_post()->post_content;
 			}
 			return '';
 		}
@@ -195,7 +195,7 @@
 		 */
 		public function caption(){
 			if( $this->is_attachment_exists() ){
-				return $this->WP_Post()->post_excerpt;
+				return $this->wp_post()->post_excerpt;
 			}
 			return '';
 		}
@@ -207,12 +207,12 @@
 		public function _update_image_sizes_meta(){
 			$meta = (array)$this->get_attachment_meta();
 			$meta['sizes'] = [];
-			foreach( $this->Sizes()->get_sizes() as $size_name => $Image_Size ){
+			foreach( $this->sizes()->get_sizes() as $size_name => $Image_Size ){
 				$meta['sizes'][ $size_name ] = [
-					'file' => $Image_Size->Path()->file()->basename(),
+					'file' => $Image_Size->path()->file()->basename(),
 					'width' => $Image_Size->width(),
 					'height' => $Image_Size->height(),
-					'mime' => $Image_Size->Path()->image()->get_mime_type()
+					'mime' => $Image_Size->path()->image()->get_mime_type()
 				];
 			}
 			return wp_update_attachment_metadata( $this->get_attachment_id(), $meta );
@@ -225,7 +225,7 @@
 		 * @return string
 		 */
 		public function get_src( $size, $make_new_file = true ){
-			return $this->is_exists() ? $this->Sizes()->get( $size, $make_new_file )->Path()->get_url() : ImagesFactory::get_default_src();
+			return $this->is_exists() ? $this->sizes()->get( $size, $make_new_file )->path()->get_url() : ImagesFactory::get_default_src();
 		}
 		
 		
@@ -235,7 +235,7 @@
 		 * @return string
 		 */
 		public function get_path( $size, $make_new_file = true ){
-			return $this->Sizes()->get( $size, $make_new_file )->get_file_path();
+			return $this->sizes()->get( $size, $make_new_file )->get_file_path();
 		}
 		
 		
@@ -245,7 +245,7 @@
 		 * @return string
 		 */
 		public function get_path_relative( $size, $make_new_file = true ){
-			return $this->Sizes()->get( $size, $make_new_file )->Path()->get_path_relative();
+			return $this->sizes()->get( $size, $make_new_file )->path()->get_path_relative();
 		}
 		
 		
@@ -255,7 +255,7 @@
 		 * @return string
 		 */
 		public function get_original_src( $return_path = false ){
-			return $return_path ? $this->Path()->get_absolute_path() : $this->Path()->get_url();
+			return $return_path ? $this->path()->get_absolute_path() : $this->path()->get_url();
 		}
 		
 		
@@ -279,7 +279,7 @@
 				/** @var array $sizes */
 				$sources = [];
 				///
-				foreach( $this->Sizes()->get_search( $dimensions ) as $image_Size ){
+				foreach( $this->sizes()->get_search( $dimensions ) as $image_Size ){
 				
 				}
 				///
@@ -344,7 +344,7 @@
 		 * @return mixed|string
 		 */
 		public function html_img( $dimensionsOrSizeName = 'thumbnail', $attributes = [], $make_new_file = true ){
-			$size_current = $this->Sizes()->get( $dimensionsOrSizeName, $make_new_file );
+			$size_current = $this->sizes()->get( $dimensionsOrSizeName, $make_new_file );
 			$attributes = new ArrayObject( $attributes );
 			$attributes->push( 'width', $size_current->width() );
 			$attributes->push( 'height', $size_current->height() );
@@ -353,14 +353,14 @@
 				return '<img ' . $attributes->get_param_html_tags() . '/>';
 			}
 			else{
-				$attributes->push( 'src', $size_current->Path()->get_url() );
+				$attributes->push( 'src', $size_current->path()->get_url() );
 				$limit = 3;
 				$srcset = [];
-				foreach( $this->Sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){
+				foreach( $this->sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){
 					if( $limit < 1 ) break;
-					if(!$image_Size->Path()->file()->is_exists()) continue;
+					if(!$image_Size->path()->file()->is_exists()) continue;
 					$limit --;
-					$srcset[] = $image_Size->Path()->get_url() . ' ' . $image_Size->width() . "w\n";
+					$srcset[] = $image_Size->path()->get_url() . ' ' . $image_Size->width() . "w\n";
 				}
 				$attributes->push( 'srcset', join( ', ', $srcset ) );
 				return '<img ' . $attributes->get_param_html_tags() . '/>';

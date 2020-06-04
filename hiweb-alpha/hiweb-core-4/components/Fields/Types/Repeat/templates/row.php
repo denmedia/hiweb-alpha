@@ -34,7 +34,7 @@
 			echo '<td class="flex-column">
 		<table class="hiweb-field-repeat-flex">
 			<thead>
-			<th class="hiweb-field-repeat-flex-header" colspan="' . count( $compacted_cols ) . '">' . FontAwesomeFactory::get( $Flex->icon() ) . ' ' . $this->Field()->get_flex( $this->get_flex_row_id() )->label() . '</th>
+			<th class="hiweb-field-repeat-flex-header" colspan="' . count( $compacted_cols ) . '">' . FontAwesomeFactory::get( $Flex->icon() ) . ' ' . $Flex->label() . ' ' . ( $Flex->description() == '' ? '' : '<div class="flex-description">' . $Flex->description() . '</div>' ) . '</th>
 			</thead>
 			<tbody>
 			<tr>';
@@ -59,23 +59,30 @@
 									if( $this->get_flex_row_id() !== '' ){
 										if( $col->label() != '' ){
 											?>
-											<div class="flex-label"><?= $col->label() ?></div><?php
+											<div class="flex-label"><?= $col->label() ?>:</div><?php
 										}
 									}
 									else{
-										if( $col->Field()->options()->label() != '' ){
+										if( count( $cols ) == 1 ){
+											//do nothing
+										}
+										elseif( $col->label() != '' ){
 											?>
-											<div class="flex-label"><?= $col->Field()->options()->label() ?></div><?php
+											<div class="flex-label"><?= $col->label() ?>:</div><?php
+										}
+										elseif( $col->field()->options()->label() != '' ){
+											?>
+											<div class="flex-label"><?= $col->field()->options()->label() ?>:</div><?php
 										}
 									} ?>
 								<?php
-									if( $col->Field() instanceof \hiweb\components\Fields\Field ){
+									if( $col->field() instanceof \hiweb\components\Fields\Field ){
 										ob_start();
 										try{
-											echo $col->Field()->get_admin_html( $this->get_col_input_value( $col->ID() ), $this->get_col_input_name( $col->ID() ) );
+											echo $col->field()->get_admin_html( $this->get_col_input_value( $col->ID() ), $this->get_col_input_name( $col->ID() ) );
 										} catch( Exception $e ){
 											echo 'error...';
-											\hiweb\components\Console\ConsoleFactory::add( 'Error white print admin html for col', 'warn', __FILE__, $col->Field(), true );
+											\hiweb\components\Console\ConsoleFactory::add( 'Error white print admin html for col', 'warn', __FILE__, $col->field(), true );
 										}
 										echo ob_get_clean();
 									}
@@ -83,8 +90,8 @@
 										\hiweb\components\Console\ConsoleFactory::add( 'not the Filed instance', 'warn', __FILE__, $col, true );
 									}
 								?>
-								<?php if( $col->Field()->options()->description() != '' ){
-									?><p class="description flex-description"><?= $col->Field()->options()->description() ?></p><?php
+								<?php if( $col->field()->options()->description() != '' ){
+									?><p class="description flex-description"><?= $col->field()->options()->description() ?></p><?php
 								} ?>
 							</div>
 							<?php

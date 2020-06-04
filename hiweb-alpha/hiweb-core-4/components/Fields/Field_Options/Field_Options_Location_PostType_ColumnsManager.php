@@ -19,7 +19,7 @@
 		
 		
 		public function id( $set = null ){
-			return $this->_( 'id', $set, FieldsFactory_Admin::get_columns_field_id( $this->Field()->ID() ) );
+			return $this->_( 'id', $set, FieldsFactory_Admin::get_columns_field_id( $this->Field()->id() ) );
 		}
 		
 		

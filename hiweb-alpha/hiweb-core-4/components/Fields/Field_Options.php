@@ -23,7 +23,7 @@
 		/**
 		 * @return Field
 		 */
-		public function Field(){
+		public function field(){
 			return $this->Field;
 		}
 		

@@ -43,7 +43,7 @@
 		 * @return mixed|Field_Options - return \hiweb\components\Fields\Field_Options or similar options instance
 		 */
 		static function add_field( Field $Field, $field_options_class = '\hiweb\components\Fields\Field_Options' ){
-			$global_ID = self::get_free_global_id( $Field->ID() );
+			$global_ID = self::get_free_global_id( $Field->id() );
 			$Field->global_ID = $global_ID;
 			self::$fields[ $global_ID ] = $Field;
 			CacheFactory::remove_group( '\hiweb\components\Fields\FieldsFactory::get_field_by_query' );
@@ -142,7 +142,7 @@
 					if( count( $field_location_options ) == 0 ) continue;
 					$diff = self::diff( $locationQuery, $field_location_options );
 					if( count( $diff ) == 0 ){
-						$Fields[ $Field->ID() ] = $Field;
+						$Fields[ $Field->id() ] = $Field;
 					}
 				}
 				return $Fields;

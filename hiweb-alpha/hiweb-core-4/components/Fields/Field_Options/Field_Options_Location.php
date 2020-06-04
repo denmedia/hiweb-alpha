@@ -44,7 +44,7 @@
 			$new_location = clone $this;
 			$new_location->parent_OptionsObject = $target_Field_Options;
 			if( $new_location->options() != '' ){
-				\register_setting( $new_location->options(), FieldsFactory_Admin::get_field_input_option_name( $target_Field_Options->Field()->ID(), $new_location->options() ) );
+				\register_setting( $new_location->options(), FieldsFactory_Admin::get_field_input_option_name( $target_Field_Options->field()->id(), $new_location->options() ) );
 			}
 			return $new_location;
 		}
@@ -66,7 +66,7 @@
 			if( !$this->_( 'post_type' ) instanceof Field_Options_Location_PostType ){
 				$this->_( 'post_type', new Field_Options_Location_PostType( $this ) );
 				if( !is_null( $post_type ) ) $this->posts()->post_type( $post_type );
-				FieldsFactory::$fieldIds_by_locations['post_type'][ $this->getParent_OptionsObject()->Field()->global_ID() ] = $this->getParent_OptionsObject()->Field();
+				FieldsFactory::$fieldIds_by_locations['post_type'][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
 			}
 			return $this->_( 'post_type' );
 		}
@@ -81,7 +81,7 @@
 				$this->_( 'taxonomy', new Field_Options_Location_Taxonomy( $this ) );
 				if( is_string( $taxonomy ) ) $taxonomy = [ $taxonomy ];
 				if( is_array( $taxonomy ) ) $this->taxonomies()->taxonomy( $taxonomy );
-				FieldsFactory::$fieldIds_by_locations['taxonomy'][ $this->getParent_OptionsObject()->Field()->global_ID() ] = $this->getParent_OptionsObject()->Field();
+				FieldsFactory::$fieldIds_by_locations['taxonomy'][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
 			}
 			return $this->_( 'taxonomy' );
 		}
@@ -93,7 +93,7 @@
 		public function users(){
 			if( !$this->_( 'user' ) instanceof Field_Options_Location_User ){
 				$this->_( 'user', new Field_Options_Location_User( $this ) );
-				FieldsFactory::$fieldIds_by_locations['user'][ $this->getParent_OptionsObject()->Field()->global_ID() ] = $this->getParent_OptionsObject()->Field();
+				FieldsFactory::$fieldIds_by_locations['user'][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
 			}
 			return $this->_( 'user' );
 		}
@@ -106,10 +106,10 @@
 		public function options( $page_slug = null ){
 			if( !is_null( $page_slug ) ){
 				$this->_( 'options', $page_slug );
-				FieldsFactory::$fieldIds_by_locations['options'][ $page_slug ][ $this->getParent_OptionsObject()->Field()->global_ID() ] = $this->getParent_OptionsObject()->Field();
+				FieldsFactory::$fieldIds_by_locations['options'][ $page_slug ][ $this->getParent_OptionsObject()->field()->global_ID() ] = $this->getParent_OptionsObject()->field();
 			}
-			if( is_string( $page_slug ) && $this->getParent_OptionsObject()->Field()->get_allow_save_field() ){
-				\register_setting( $page_slug, FieldsFactory_Admin::get_field_input_option_name( $this->getParent_OptionsObject()->Field()->ID(), $page_slug ) );
+			if( is_string( $page_slug ) && $this->getParent_OptionsObject()->field()->get_allow_save_field() ){
+				\register_setting( $page_slug, FieldsFactory_Admin::get_field_input_option_name( $this->getParent_OptionsObject()->field()->id(), $page_slug ) );
 			}
 			return $this->_( 'options', $page_slug );
 		}

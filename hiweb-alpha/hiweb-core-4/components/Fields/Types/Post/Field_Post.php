@@ -42,7 +42,10 @@
 		 * @return array|mixed|null
 		 */
 		public function get_sanitize_admin_value( $value, $update_meta_process = false ){
-			if( !is_array( $value ) ) $value = [ $value ];
+			if( !is_array( $value ) && $this->options()->multiple() ) $value = [ $value ];
+			elseif(is_array($value)) {
+				$value = reset($value);
+			}
 			return $value;
 		}
 		

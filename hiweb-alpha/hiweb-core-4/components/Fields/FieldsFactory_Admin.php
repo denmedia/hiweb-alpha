@@ -26,7 +26,7 @@
 		 * @return string
 		 */
 		static public function get_field_input_name( Field $field ){
-			return 'hiweb-' . $field->ID();
+			return 'hiweb-' . $field->id();
 		}
 		
 		
@@ -39,7 +39,7 @@
 		static public function get_field_input_option_name( $field_or_id, $options_slug = null ){
 			$field_id = '';
 			if( $field_or_id instanceof Field ){
-				$field_id = $field_or_id->ID();
+				$field_id = $field_or_id->id();
 				if( is_null( $options_slug ) ){
 					$options_slug = $field_or_id->options()->location()->_( 'options' ) . '-';
 				}
@@ -86,7 +86,7 @@
 		static public function get_fieldset_classes( field $field ){
 			$classes = [ 'hiweb-fieldset' ];
 			//$classes[] = 'hiweb-fieldset-width-' . $field->FORM()->WIDTH()->get();
-			$classes[] = 'hiweb-field-' . $field->ID();
+			$classes[] = 'hiweb-field-' . $field->id();
 			$classes[] = 'hiweb-field-' . $field->options()->_( 'global_id' );
 			return implode( ' ', $classes );
 		}
@@ -150,44 +150,44 @@
 			$fields = FieldsFactory::get_field_by_query( is_array( $location_query ) ? $location_query : self::get_current_fields_query() );
 			foreach( $fields as $Field ){
 				if( array_key_exists( 'post_type', $location_query ) ){
-					if( metadata_exists( 'post', $location_query['post_type']['ID'], $Field->ID() ) ){
-						$R[ $Field->ID() ] = get_post_meta( $location_query['post_type']['ID'], $Field->ID(), true );
+					if( metadata_exists( 'post', $location_query['post_type']['ID'], $Field->id() ) ){
+						$R[ $Field->id() ] = get_post_meta( $location_query['post_type']['ID'], $Field->id(), true );
 					}
 				}
 				elseif( array_key_exists( 'taxonomy', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->ID() ] = get_term_meta( $location_query['taxonomy']['term_id'], $Field->ID(), true );
+						$R[ $Field->id() ] = get_term_meta( $location_query['taxonomy']['term_id'], $Field->id(), true );
 					}
 					else{
-						$R[ $Field->ID() ] = null;
+						$R[ $Field->id() ] = null;
 					}
 				}
 				elseif( array_key_exists( 'comment', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->ID() ] = get_comment_meta( $location_query['comment']['comment_ID'], $Field->ID(), true );
+						$R[ $Field->id() ] = get_comment_meta( $location_query['comment']['comment_ID'], $Field->id(), true );
 					}
 					else{
-						$R[ $Field->ID() ] = null;
+						$R[ $Field->id() ] = null;
 					}
 				}
 				elseif( array_key_exists( 'user', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->ID() ] = get_user_meta( $location_query['user']['ID'], $Field->ID(), true );
+						$R[ $Field->id() ] = get_user_meta( $location_query['user']['ID'], $Field->id(), true );
 					}
 					else{
-						$R[ $Field->ID() ] = null;
+						$R[ $Field->id() ] = null;
 					}
 				}
 				elseif( array_key_exists( 'options', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->ID() ] = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field->ID(), $location_query['options'] ), null );
+						$R[ $Field->id() ] = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field->id(), $location_query['options'] ), null );
 					}
 					else{
-						$R[ $Field->ID() ] = null;
+						$R[ $Field->id() ] = null;
 					}
 				}
 				else{
-					$R[ $Field->ID() ] = null;
+					$R[ $Field->id() ] = null;
 				}
 			}
 			return $R;
@@ -242,7 +242,7 @@
 				$debug = 1;
 				foreach( $fields as $Field ){
 					$debug = 2;
-					if( $Field->ID() != '' ){
+					if( $Field->id() != '' ){
 						$field_css = $Field->get_css();
 						$css = array_merge( $css, is_array( $field_css ) ? $field_css : [ $field_css ] );
 						$field_js = $Field->get_js();
@@ -370,7 +370,7 @@
 				self::$the_form_field = $Field;
 				$value = null;
 				if( is_array( $field_values ) ){
-					if( array_key_exists( $Field->ID(), $field_values ) && !is_null( $field_values[ $Field->ID() ] ) ) $value = $field_values[ $Field->ID() ];
+					if( array_key_exists( $Field->id(), $field_values ) && !is_null( $field_values[ $Field->id() ] ) ) $value = $field_values[ $Field->id() ];
 					elseif( !is_null( $Field->options()->default_value() ) ) $value = $Field->options()->default_value();
 				}
 				if( is_null( $value ) && !is_null( $Field->options()->default_value() ) ){
@@ -417,10 +417,10 @@
 					}
 				}
 				elseif( $last_Field_Tab instanceof Field_Tab ){
-					$sections[ $sections_index ]['fields_by_tabs'][ $last_Field_Tab->global_ID() ][ $Field->options()->form()->order() ][ $Field->ID() ] = $Field;
+					$sections[ $sections_index ]['fields_by_tabs'][ $last_Field_Tab->global_ID() ][ $Field->options()->form()->order() ][ $Field->id() ] = $Field;
 				}
 				else{
-					$sections[ $sections_index ]['fields'][ $Field->options()->form()->order() ][ $Field->ID() ] = $Field;
+					$sections[ $sections_index ]['fields'][ $Field->options()->form()->order() ][ $Field->id() ] = $Field;
 				}
 			}
 			///
@@ -449,7 +449,7 @@
 			if( is_string( $field_ID ) ){
 				$fields = FieldsFactory::get_field_by_query( $query );
 				foreach( $fields as $field ){
-					if( $field_ID == $field->ID() ){
+					if( $field_ID == $field->id() ){
 						return $field;
 					}
 				}

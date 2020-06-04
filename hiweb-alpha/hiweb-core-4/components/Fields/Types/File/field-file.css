@@ -45,6 +45,22 @@
   border-bottom: 2px solid #007cba;
   margin-bottom: 1px;
 }
+.hiweb-type-field-file [data-message]::-webkit-input-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-type-field-file [data-message]:-moz-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-type-field-file [data-message]::-moz-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-type-field-file [data-message]:-ms-input-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
 .hiweb-type-field-file [data-status] {
   display: -webkit-box;
   display: -moz-box;

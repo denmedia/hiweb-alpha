@@ -38,7 +38,7 @@
 			$R = [ HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.css', __DIR__ . '/Field_Repeat.css' ];
 			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col_id => $col ){
-					$col_css = $col->Field()->get_css();
+					$col_css = $col->field()->get_css();
 					if( is_array( $col_css ) ) $R = array_merge( $R, $col_css );
 					elseif( is_string( $col_css ) ) $R[] = $col_css;
 				}
@@ -51,7 +51,7 @@
 			$R = [ HIWEB_DIR_VENDOR . '/deepMerge/deepMerge.min.js', HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js', __DIR__ . '/Field_Repeat.min.js' ];
 			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col_id => $col ){
-					$col_js = $col->Field()->get_js();
+					$col_js = $col->field()->get_js();
 					if( is_array( $col_js ) ) $R = array_merge( $R, $col_js );
 					elseif( is_string( $col_js ) ) $R[] = $col_js;
 				}
@@ -63,7 +63,7 @@
 		public function admin_init(){
 			foreach( $this->options()->get_cols() as $flex_id => $cols ){
 				foreach( $cols as $col ){
-					$col->Field()->admin_init();
+					$col->field()->admin_init();
 				}
 			}
 		}

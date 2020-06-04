@@ -87,7 +87,7 @@
 		 * Return field ID
 		 * @return string
 		 */
-		public function ID(){
+		public function id(){
 			return $this->ID;
 		}
 		
@@ -98,7 +98,7 @@
 		 * @return string
 		 */
 		public function get_ID(){
-			return $this->ID();
+			return $this->id();
 		}
 		
 		
@@ -116,7 +116,7 @@
 		 * @return null
 		 */
 		public function get_sanitize_admin_name( $name = null ){
-			if( !is_string( $name ) || trim( $name ) == '' ) return $this->ID();
+			if( !is_string( $name ) || trim( $name ) == '' ) return $this->id();
 			return $name;
 		}
 		
@@ -155,18 +155,18 @@
 		public function get_admin_columns_html( $wp_object = null, $object_id = null, $columns_name = null ){
 			ob_start();
 			if( $wp_object instanceof \WP_Post ){
-				$value = get_post_meta( $wp_object->ID, $this->ID(), true );
+				$value = get_post_meta( $wp_object->ID, $this->id(), true );
 			}
 			elseif( $wp_object instanceof \WP_Term ){
-				$value = get_term_meta( $wp_object->term_id, $this->ID(), true );
+				$value = get_term_meta( $wp_object->term_id, $this->id(), true );
 			}
 			elseif( $wp_object instanceof \WP_User ){
-				$value = get_user_meta( $wp_object->ID, $this->ID(), true );
+				$value = get_user_meta( $wp_object->ID, $this->id(), true );
 			}
 			elseif( $wp_object instanceof \WP_Comment ){
-				$value = get_comment_meta( $wp_object->comment_ID, $this->ID(), true );
+				$value = get_comment_meta( $wp_object->comment_ID, $this->id(), true );
 			}
-			echo '<div class="hiweb-' . Strings::sanitize_id( basename( str_replace( '\\', '/', get_called_class() ) ) ) . '-column-' . $this->ID() . '">' . $value . '</div>';
+			echo '<div class="hiweb-' . Strings::sanitize_id( basename( str_replace( '\\', '/', get_called_class() ) ) ) . '-column-' . $this->id() . '">' . $value . '</div>';
 			return ob_get_clean();
 		}
 		

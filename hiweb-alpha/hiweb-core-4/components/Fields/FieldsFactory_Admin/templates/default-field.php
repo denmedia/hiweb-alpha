@@ -9,7 +9,7 @@
 	$Field = FieldsFactory_Admin::get_the_field();
 
 ?>
-<div class="hiweb-fieldset" data-id="<?= $Field->ID() ?>" data-global-id="<?= $Field->global_ID() ?>">
+<div class="hiweb-fieldset" data-id="<?= $Field->id() ?>" data-global-id="<?= $Field->global_ID() ?>">
 	<?php
 		if( $Field->options()->label() != '' || $Field->options()->tooltip_help()['text'] != '' || $Field->options()->tooltip_help()['image'] != '' ){
 			?>

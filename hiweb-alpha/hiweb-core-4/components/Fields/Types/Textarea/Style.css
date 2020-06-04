@@ -35,5 +35,21 @@
   border-bottom: 2px solid #007cba;
   margin-bottom: 1px;
 }
+.hiweb-field-type-textarea textarea::-webkit-input-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-field-type-textarea textarea:-moz-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-field-type-textarea textarea::-moz-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
+.hiweb-field-type-textarea textarea:-ms-input-placeholder {
+  color: #ccd0d4;
+  font-weight: 100;
+}
 
 /*# sourceMappingURL=Style.css.map */

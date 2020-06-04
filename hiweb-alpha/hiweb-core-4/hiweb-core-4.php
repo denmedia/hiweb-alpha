@@ -3,7 +3,7 @@
 	Plugin Name: hiWeb Core 4
 	Plugin URI: https://github.com/denmedia/hiweb-core-4
 	Description: Framework Plugin for WordPress min v5, PHP min v5.6
-	Version: 4.0.0.0 develop
+	Version: 4.0.0.1 develop
 	Author: Den Media
 	Author URI: http://hiweb.moscow
 	*/
@@ -18,6 +18,3 @@
 			die( __( 'Your version of PHP must be 7.0 or higher.', 'hiweb-core-4' ) );
 		}, 11 );
 	}
-	
-	
-	add_field_checkbox( 'test' )->label_checkbox( 'Тестовое поле' )->location()->taxonomies('category');

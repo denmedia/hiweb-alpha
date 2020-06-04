@@ -110,7 +110,7 @@
 
 @mixin box-shadow($size: 5px, $opacity: .35, $offset_x: 0px, $offset_y: 0px, $inset: false, $color: #000) {
 	$props: none;
-	@if($size != none){
+	@if ($size != none) {
 		$props: $offset_x $offset_y $size 0 rgba($color, $opacity);
 		@if $inset {
 			$props: inset $offset_x $offset_y $size 0 rgba(0, 0, 0, $opacity);
@@ -400,5 +400,21 @@
 		50% {
 			transform: translateX(-31px);
 		}
+	}
+}
+
+
+@mixin placeholder {
+	&::-webkit-input-placeholder {
+		@content
+	}
+	&:-moz-placeholder {
+		@content
+	}
+	&::-moz-placeholder {
+		@content
+	}
+	&:-ms-input-placeholder {
+		@content
 	}
 }

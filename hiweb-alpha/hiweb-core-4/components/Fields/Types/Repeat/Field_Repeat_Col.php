@@ -32,7 +32,7 @@
 				$this->Field = $Field_or_FieldOptions;
 			}
 			elseif( $Field_or_FieldOptions instanceof Field_Options ){
-				$this->Field = $Field_or_FieldOptions->Field();
+				$this->Field = $Field_or_FieldOptions->field();
 			}
 			parent::__construct( $this->Field->options() );
 		}
@@ -50,7 +50,7 @@
 		 * @return string
 		 */
 		public function get_id(){
-			return $this->is_exist() ? $this->Field->ID() : null;
+			return $this->is_exist() ? $this->Field->id() : null;
 		}
 		
 		
@@ -66,7 +66,7 @@
 		/**
 		 * @return Field|Field_Options
 		 */
-		public function Field(){
+		public function field(){
 			return $this->is_exist() ? $this->Field : FieldsFactory::get_field( '' );
 		}
 		

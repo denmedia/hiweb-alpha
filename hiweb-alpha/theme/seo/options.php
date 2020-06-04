@@ -45,6 +45,7 @@
 		add_field_select( 'redirect-last-slash-mod' )->options( [ 'default' => '--выберите вариант--', 'none' => 'Редирект 301 на URL без слэша в конце', 'slash' => 'Редирект 301 на URL вместе со слэшем в конце' ] )->label( 'Режим URL\'а и знак "/" (слэша) в конце' )->location( true );
 		
 		///CANONICAL OPTIONS
+		add_field_tab('Ссылки CANONICAL')->location(true);
 		add_field_separator( 'Установки ссылок CANONICAL' )->location( true );
 		add_field_checkbox( 'canonical-paged-first-link' )->label_checkbox( 'Выводить каноническую ссылку на странице пагинации, ссылка на первую страницу' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”canonical” href=”http://...” />' ) . '</code>' )->location( true );
 		add_field_checkbox( 'canonical-paged-prev-next-links' )->label_checkbox( 'Выводить канонические ссылки на странице пагинации, ссылки на предыдущую и следующую страницы' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”next” href=”http://...” />' ) . '</code>' )->location( true );
