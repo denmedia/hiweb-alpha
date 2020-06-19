@@ -158,12 +158,21 @@
 			margin-top: -.2em;
 			font-size: .9em;
 			margin-bottom: .2em;
-			&:before {
-				font-family: "Font Awesome 5 Pro";
-				content: "\f071";
+
+			svg {
+				max-width: 1.2em;
+				height: .8em;
+				line-height: 1.2;
+				vertical-align: baseline;
 				display: inline-block;
-				margin-right: .2em;
 			}
+
+			//&:before {
+			//	font-family: "Font Awesome 5 Pro";
+			//	content: "\f071";
+			//	display: inline-block;
+			//	margin-right: .2em;
+			//}
 		}
 
 		[type="submit"] {

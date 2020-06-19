@@ -48,7 +48,7 @@
 		/**
 		 * @return ArrayObject
 		 */
-		public function ArrayObject(){
+		public function arrayObject(){
 			return $this->array;
 		}
 		
@@ -156,7 +156,7 @@
 		 * @return bool
 		 */
 		public function have_sub_field($col_id) {
-			if( $this->is_sub_rows() ) return $this->current_sub_rows->ArrayObject()->key_exists( $col_id );
+			if( $this->is_sub_rows() ) return $this->current_sub_rows->arrayObject()->key_exists( $col_id );
 			else return false;
 		}
 		
@@ -167,7 +167,7 @@
 		 * @return array|mixed|null
 		 */
 		public function get_sub_field( $col_id = null, $default = null ){
-			if( $this->is_sub_rows() ) return $this->current_sub_rows->ArrayObject()->_( $col_id, $default );
+			if( $this->is_sub_rows() ) return $this->current_sub_rows->arrayObject()->_( $col_id, $default );
 			else return $default;
 		}
 		

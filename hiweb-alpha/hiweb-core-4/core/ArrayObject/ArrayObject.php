@@ -26,12 +26,13 @@
 			ArraysRowsFactory::$latestCreated_ArrayObject = $this;
 		}
 		
+		
 		public function __clone(){
-			if($this->Json instanceof ArrayObject_Json) {
-				$this->Json = new ArrayObject_Json($this);
+			if( $this->Json instanceof ArrayObject_Json ){
+				$this->Json = new ArrayObject_Json( $this );
 			}
-			if($this->Rows instanceof ArrayObject_Rows) {
-				$this->Rows = new ArrayObject_Rows($this);
+			if( $this->Rows instanceof ArrayObject_Rows ){
+				$this->Rows = new ArrayObject_Rows( $this );
 			}
 		}
 		
@@ -49,7 +50,7 @@
 		 * @return string
 		 */
 		public function __toString(){
-			return htmlentities( $this->Json()->JSON_PRETTY_PRINT()->get() );
+			return htmlentities( $this->json()->JSON_PRETTY_PRINT()->get() );
 		}
 		
 		
@@ -103,7 +104,7 @@
 		/**
 		 * @return ArrayObject_Json
 		 */
-		public function Json(){
+		public function json(){
 			if( !$this->Json instanceof ArrayObject_Json ) $this->Json = new ArrayObject_Json( $this );
 			return $this->Json;
 		}
@@ -112,7 +113,7 @@
 		/**
 		 * @return ArrayObject_Rows
 		 */
-		public function Rows(){
+		public function rows(){
 			if( !$this->Rows instanceof ArrayObject_Rows ) $this->Rows = new ArrayObject_Rows( $this );
 			return $this->Rows;
 		}
@@ -594,6 +595,18 @@
 		
 		
 		/**
+		 * @return string
+		 */
+		public function get_params_url(){
+			$R = [];
+			foreach( $this->get() as $key => $val ){
+				$R[] = urlencode( $key ) . '=' . urlencode( $val );
+			}
+			return join( '&', $R );
+		}
+		
+		
+		/**
 		 * @param $key
 		 * @return bool
 		 */
@@ -652,7 +665,7 @@
 		 * @deprecated
 		 */
 		public function have_rows(){
-			return $this->Rows()->have();
+			return $this->rows()->have();
 		}
 		
 		
@@ -661,7 +674,7 @@
 		 * @deprecated
 		 */
 		public function the_row(){
-			return $this->Rows()->the();
+			return $this->rows()->the();
 		}
 		
 		
@@ -670,7 +683,7 @@
 		 * @deprecated
 		 */
 		public function get_current_row(){
-			return $this->Rows()->get_current();
+			return $this->rows()->get_current();
 		}
 		
 		
@@ -681,7 +694,7 @@
 		 * @deprecated
 		 */
 		public function get_sub_field( $key, $default = null ){
-			return $this->Rows()->get_sub_field($key, $default);
+			return $this->rows()->get_sub_field( $key, $default );
 		}
 		
 		

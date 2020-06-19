@@ -172,11 +172,10 @@
 					<div class="hiweb-theme-widget-form-modal-wrap" style="display: none;">
 						<div class="hiweb-theme-widget-form-modal hiweb-theme-widget-form-modal-<?= $this->get_wp_post()->ID ?> hiweb-theme-widget-form-modal-<?= $this->get_wp_post()->post_name ?>" id="hiweb-theme-widgets-form-<?= $this->get_id() ?>" data-form-id="<?= get_the_form()->get_id() ?>" data-form-object-id="<?= $this->get_object_id() ?>">
 							<?php if( $this->is_exists() ){
-								?>
-								<div class="form-title"><?= get_the_title( $this->get_wp_post() ) ?></div>
-								<?php
+								$this->the();
+							} else {
+								echo 'form not exists';
 							} ?>
-							<?php $this->the() ?>
 						</div>
 					</div>
 					<?php

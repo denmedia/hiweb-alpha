@@ -89,7 +89,7 @@
 			if( !$template->is_readable() ) return false;
 			if( $template->get_content() == '' ) return false;
 			$R = strtr( $template->get_content( '' ), [
-				'{cache_urls:cache_urls}' => self::$service_worker_cach_urls->Json()->get()
+				'{cache_urls:cache_urls}' => self::$service_worker_cach_urls->json()->get()
 			] );
 			return $R;
 		}

@@ -128,15 +128,37 @@
 		
 		
 		/**
+		 * Include js file (path or url)
 		 * @param null $fileNameOrPathOrURL
+		 * @param null $deeps
 		 * @return Js
+		 * @version 1.1
 		 */
-		static function js( $fileNameOrPathOrURL = null ){
+		static function js( $fileNameOrPathOrURL = null, $deeps = null ){
 			$Path = self::get_Path_bySearch( $fileNameOrPathOrURL, 'js' );
-			return CacheFactory::get( $Path->handle(), __CLASS__ . ':js', function(){
+			/** @var Js $js */
+			$js = CacheFactory::get( $Path->handle(), __CLASS__ . ':js', function(){
 				$Path = func_get_arg( 0 );
 				return new Js( $Path );
 			}, $Path )();
+			///deeps
+			if( is_string( $deeps ) || is_array( $deeps ) ){
+				$js->deeps( $deeps );
+			}
+			///backend / frontend
+			switch( basename( str_replace( '\\', '/', get_called_class() ) ) ){
+				case 'IncludesFactory_FrontendPage':
+					$js->on_frontend( true );
+					break;
+				case 'IncludesFactory_LoginPage':
+					$js->on_login( true );
+					break;
+				case 'IncludesFactory_AdminPage':
+					$js->on_admin( true );
+					break;
+			}
+			///
+			return $js;
 		}
 		
 		
@@ -201,25 +223,24 @@
 		}
 		
 		
-//		/**
-//		 * @param bool $include_migrate_js
-//		 * @return bool
-//		 */
-//		static function jquery( $include_migrate_js = false ){
-//			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-3.3.1.min.js' );
-//			if( $include_migrate_js ){
-//				static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-migrate-1.4.1.min.js' );
-//			}
-//			return $R->path()->handle();
-//		}
-		
+		//		/**
+		//		 * @param bool $include_migrate_js
+		//		 * @return bool
+		//		 */
+		//		static function jquery( $include_migrate_js = false ){
+		//			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-3.3.1.min.js' );
+		//			if( $include_migrate_js ){
+		//				static::js( HIWEB_THEME_VENDORS_DIR . '/jquery3/jquery-migrate-1.4.1.min.js' );
+		//			}
+		//			return $R->path()->handle();
+		//		}
 		
 		/**
 		 * @return bool|int|string
 		 */
 		static function jquery_qtip(){
-			static::css(HIWEB_DIR_VENDOR.'/jquery.qtip/jquery.qtip.min.css');
-			$js = static::js(HIWEB_DIR_VENDOR.'/jquery.qtip/jquery.qtip.min.js');
+			static::css( HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.css' );
+			$js = static::js( HIWEB_DIR_VENDOR . '/jquery.qtip/jquery.qtip.min.js' );
 			//$js->deeps(['jquery-core']);
 			return $js->path()->handle();
 		}
@@ -262,51 +283,55 @@
 		 * wp-content/themes/hiweb-alpha/assets/css/bootstrap-additions.css
 		 */
 		static function bootstrap_addition(){
-			static::css(HIWEB_THEME_ASSETS_DIR.'/css/bootstrap-additions.css');
+			static::css( HIWEB_THEME_ASSETS_DIR . '/css/bootstrap-additions.css' );
 		}
 		
 		
 		static function hamburgers(){
-			static::js( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburders.min.js', [ self::jquery() ] );
+			static::js( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburders.min.js', [ static::jquery() ] );
 			static::css( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburgers.min.css' );
 		}
 		
 		
+		/**
+		 * @return bool|int|string
+		 */
 		static function fancybox(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.css' );
-			static::js( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.js', [ self::jquery() ] );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.js' )->deeps( static::jquery() )->path()->handle();
 		}
 		
 		
 		static function jquery_mmenu(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.css', false );
-			$js = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ self::jquery() ] );
+			$js = static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mmenu/jquery.mmenu.all.min.js', [ static::jquery() ] );
 			return $js->path()->handle();
 		}
 		
 		
 		static function jquery_touchswipe(){
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.touchSwipe/jquery.touchSwipe.min.js', [ self::jquery() ] );
+			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.touchSwipe/jquery.touchSwipe.min.js', [ static::jquery() ] );
 		}
 		
 		
 		static function fontawesome( $use_js = false ){
 			if( $use_js ){
 				static::js( HIWEB_DIR_VENDOR . '/font-awesome-5/js/all.min.js' );
-			} else {
+			}
+			else{
 				static::css( HIWEB_DIR_VENDOR . '/font-awesome-5/css/all.min.css' );
 			}
 		}
 		
 		
 		/**
+		 * Include OWL Carousel
 		 * @return string|null
 		 */
 		static function owl_carousel(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.carousel.min.css' );
 			static::css( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/assets/owl.theme.default.min.css' );
-			$R = static::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', [ self::jquery() ] );
-			return $R->path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/owl-carousel/owl.carousel.min.js', static::jquery() )->path()->handle();
 		}
 		
 		
@@ -317,7 +342,7 @@
 		
 		static function jquery_mhead(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.css' );
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.js', [ self::jquery() ] );
+			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mhead/jquery.mhead.min.js', [ static::jquery() ] );
 		}
 		
 		
@@ -325,7 +350,7 @@
 		 * @return bool|string
 		 */
 		static function isotope(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', [ self::jquery() ] )->path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/isotope.pkgd/isotope.pkgd.min.js', static::jquery() )->path()->handle();
 		}
 		
 		
@@ -338,18 +363,18 @@
 		 * vendors/jquery.form/jquery.form.min.js
 		 */
 		static function jquery_form(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ self::jquery() ] )->path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.form/jquery.form.min.js', [ static::jquery() ] )->path()->handle();
 		}
 		
 		
 		static function jquery_mask(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ self::jquery() ] )->path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.mask/jquery.mask.min.js', [ static::jquery() ] )->path()->handle();
 		}
 		
 		
 		static function stellarnav(){
 			static::css( HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.css' );
-			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.js', [ self::jquery() ] );
+			static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.stellarnav/stellarnav.min.js', [ static::jquery() ] );
 		}
 		
 		
@@ -358,7 +383,7 @@
 		 * @return string js handler
 		 */
 		static function jquery_parallaxie(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ self::jquery() ] )->path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.parallaxie/jquery.parallax.min.js', [ static::jquery() ] )->path()->handle();
 		}
 		
 		
@@ -369,7 +394,7 @@
 		 * @deprecated
 		 */
 		static function jquery_pin(){
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ self::jquery() ] )->path()->handle();
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/jquery.pin/jquery.pin.min.js', [ static::jquery() ] )->path()->handle();
 		}
 		
 		

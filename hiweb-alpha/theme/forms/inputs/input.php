@@ -182,7 +182,7 @@
 		 */
 		public function get_require_error_message_html(){
 			if( $this->is_required() && $this->get_require_error_message() ){
-				return '<div class="require-error-message">' . $this->get_require_error_message() . '</div>';
+				return '<div class="require-error-message">' . get_fontawesome( '<i class="fad fa-exclamation-triangle"></i>' ) . ' ' . $this->get_require_error_message() . '</div>';
 			}
 			return '';
 		}

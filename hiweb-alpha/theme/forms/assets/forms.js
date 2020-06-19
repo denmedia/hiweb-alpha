@@ -23,6 +23,7 @@ var hiweb_theme_widget_forms = {
                     } else {
                         $form.find('[name="' + name + '"]').val(data[name]);
                     }
+
                 }
                 ///ajax input reload
                 $form.find('[data-ajax-html]').each(function () {

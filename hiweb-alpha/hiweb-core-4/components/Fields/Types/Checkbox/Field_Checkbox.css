@@ -1,14 +1,6 @@
 .hiweb-field-type-checkbox {
-  position: relative;
+  margin-bottom: 0.8em;
 }
-.hiweb-field-type-checkbox .name, .hiweb-field-type-checkbox .description {
-  padding-left: 60px;
-}
-.hiweb-field-type-checkbox .hw-input-checkbox {
-  position: absolute;
-  top: 0;
-}
-
 @keyframes motionblur {
   15% {
     width: 19px;
@@ -30,8 +22,9 @@
   margin: 0 3px 0 0;
 }
 .hiweb-field-type-checkbox .checkbox + label {
+  font-size: 0.8em;
   cursor: pointer;
-  line-height: 2.5em;
+  line-height: 1.5em;
 }
 .hiweb-field-type-checkbox .checkbox:not(checked) {
   position: absolute;

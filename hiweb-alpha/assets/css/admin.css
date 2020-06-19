@@ -8,4 +8,11 @@
   box-sizing: border-box;
 }
 
+.wp-admin #edittag {
+  max-width: 100%;
+}
+.wp-admin #edittag .form-table {
+  max-width: 800px;
+}
+
 /*# sourceMappingURL=admin.css.map */

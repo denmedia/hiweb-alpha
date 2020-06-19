@@ -1,27 +1,27 @@
 <?php
-
+	
 	namespace hiweb\components\Preloader;
-
-
+	
+	
 	use hiweb\core\Cache\CacheFactory;
 	use stdClass;
 	use WP_Post;
 	use WP_Term;
-
-
+	
+	
 	class Preloader_Post{
-
+		
 		private $post_ID;
 		/** @var WP_Post */
 		private $WP_Post;
 		private $post_meta = [];
 		private $parent = 0;
 		private $children = [];
-
+		
 		private $terms_by_taxonomy = [];
 		private $term_meta = [];
-
-
+		
+		
 		public function __construct( $post_data = null ){
 			if( $post_data instanceof stdClass ){
 				///WP_Post setup
@@ -61,16 +61,16 @@
 				}
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
 		public function is_exist(){
 			return $this->WP_Post instanceof WP_Post;
 		}
-
-
+		
+		
 		/**
 		 * Return current Post ID
 		 * @return int
@@ -78,18 +78,28 @@
 		public function get_ID(){
 			return $this->post_ID;
 		}
-
-
+		
+		
 		/**
 		 * Return current WP_Post
 		 * @return WP_Post
 		 */
-		public function WP_Post(){
+		public function wp_post(){
 			if( !$this->is_exist() ) return get_post( 0 );
 			return $this->WP_Post;
 		}
-
-
+		
+		
+		/**
+		 * @return string
+		 */
+		public function get_permalink(){
+			if( !$this->is_exist() ) return '';
+			$R = get_permalink( $this->wp_post() );
+			return is_string( $R ) ? $R : '';
+		}
+		
+		
 		/**
 		 * Return array of current post
 		 * @return array
@@ -97,33 +107,50 @@
 		public function get_meta_array(){
 			return $this->post_meta;
 		}
-
-
+		
+		
 		/**
 		 * Return post meta
 		 * @param null|string|int $key - set NULL, then function return the array of all current post meta
-		 * @param mixed $default
+		 * @param mixed           $default
 		 * @return array|mixed|null
 		 */
 		public function get_meta( $key = null, $default = null ){
-			if(!is_string($key) && !is_int($key)) return $this->post_meta;
+			if( !is_string( $key ) && !is_int( $key ) ) return $this->post_meta;
 			return array_key_exists( $key, $this->post_meta ) ? $this->post_meta[ $key ] : $default;
 		}
-
-
+		
+		
 		/**
-		 * Return the array of terms
+		 * @return array|mixed|null
+		 */
+		public function get_thumbnail_id(){
+			return $this->get_meta( '_thumbnail_id' );
+		}
+		
+		
+		/**
+		 * Return the array of terms variations or unique
 		 * @param string $taxonomy
+		 * @param bool   $return_unique
 		 * @return array|WP_Term[]
 		 */
-		public function get_terms( $taxonomy = 'category' ){
+		public function get_terms( $taxonomy = 'category', $return_unique = false ){
 			if( array_key_exists( $taxonomy, $this->terms_by_taxonomy ) && is_array( $this->terms_by_taxonomy[ $taxonomy ] ) ){
-				return $this->terms_by_taxonomy[ $taxonomy ];
+				if( $return_unique ){
+					$R = [];
+					/** @var WP_Term $term */
+					foreach( $this->terms_by_taxonomy[ $taxonomy ] as $term ){
+						$R[ $term->term_id ] = $term;
+					}
+					return $R;
+				}
+				else return $this->terms_by_taxonomy[ $taxonomy ];
 			}
 			return [];
 		}
-
-
+		
+		
 		/**
 		 * Return term meta by term_id
 		 * @param int  $terms_id
@@ -136,5 +163,5 @@
 			if( !array_key_exists( $key, $this->term_meta[ $terms_id ] ) ) return $default;
 			return $this->term_meta[ $terms_id ][ $key ];
 		}
-
+		
 	}

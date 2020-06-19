@@ -50,8 +50,8 @@
 			$query[] = "LEFT JOIN {$wpdb->termmeta} AS termmeta ON termmeta.term_id=terms.term_id";
 			$query[] = "WHERE (posts.ID=" . join( ' OR posts.ID=', $post_ids_for_preload ) . ') AND posts.post_status!="inherit" AND (children.post_status!="inherit" OR children.post_status IS NULL)';
 			$R = [];
-			$query = join( "\n", $query );
-			$wpdb->query( $query );
+			$query_str = join( "\n", $query );
+			$wpdb->query( $query_str );
 			if( $wpdb->last_result ) foreach( $wpdb->last_result as $row ){
 				if( !array_key_exists( $row->ID, $R ) ){
 					$R[ $row->ID ] = new \stdClass();

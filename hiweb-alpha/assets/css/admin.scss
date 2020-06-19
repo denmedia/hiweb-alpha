@@ -7,3 +7,10 @@
 	padding: 4px 0;
 	box-sizing: border-box;
 }
+
+.wp-admin #edittag {
+	.form-table {
+		max-width: 800px;
+	}
+	max-width: 100%;
+}

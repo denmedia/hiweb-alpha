@@ -44,16 +44,24 @@
 				$value = $default;
 				$contextObject_sanitize = FieldsFactory::sanitize_objectContext( $objectContext );
 				if( $contextObject_sanitize instanceof WP_Post ){
-					$value = get_post_meta( $contextObject_sanitize->ID, $Field->id(), true );
+					if( metadata_exists( 'post', $contextObject_sanitize->ID, $Field->id() ) ){
+						$value = get_post_meta( $contextObject_sanitize->ID, $Field->id(), true );
+					}
 				}
 				elseif( $contextObject_sanitize instanceof WP_Term ){
+					//if( metadata_exists( 'term', $contextObject_sanitize->ID, $Field->id() ) ){ //TODO
 					$value = get_term_meta( $contextObject_sanitize->term_id, $Field->id(), true );
+					//}
 				}
 				elseif( $contextObject_sanitize instanceof WP_User ){
+					//if( metadata_exists( 'user', $contextObject_sanitize->ID, $Field->id() ) ){ //TODO
 					$value = get_user_meta( $contextObject_sanitize->ID, $Field->id(), true );
+					//}
 				}
 				elseif( $contextObject_sanitize instanceof WP_Comment ){
+					//if( metadata_exists( 'comment', $contextObject_sanitize->ID, $Field->id() ) ){ //TODO
 					$value = get_comment_meta( $contextObject_sanitize->ID, $Field->id(), true );
+					//}
 				}
 				elseif( is_string( $contextObject_sanitize ) ){
 					$value = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field ), $default );
@@ -107,7 +115,7 @@
 				$new_array = new ArrayObject();
 				$value = self::get_value( $field_ID, $objectContext );
 				if( is_array( $value ) ) $new_array->set( $value );
-				self::$rows[ $field_context_id ] = $new_array->Rows();
+				self::$rows[ $field_context_id ] = $new_array->rows();
 			}
 			self::$rows_current_id = $field_context_id;
 			self::$rows_current = self::$rows[ $field_context_id ];
@@ -128,7 +136,7 @@
 		 */
 		static function get_current_row(){
 			if( !self::$rows_current instanceof ArrayObject_Rows ){
-				self::$rows_current = ( new ArrayObject() )->Rows();
+				self::$rows_current = ( new ArrayObject() )->rows();
 			}
 			return self::$rows_current;
 		}
@@ -139,8 +147,8 @@
 		 * @return array|ArrayObject_Rows|null
 		 */
 		static function get_sub_field_rows( $col_id ){
-			if(self::get_current_row()->get_sub_field_rows($col_id)->have()) {
-				self::$rows_current = self::get_current_row()->get_sub_field_rows($col_id);
+			if( self::get_current_row()->get_sub_field_rows( $col_id )->have() ){
+				self::$rows_current = self::get_current_row()->get_sub_field_rows( $col_id );
 			}
 			return self::$rows_current;
 		}

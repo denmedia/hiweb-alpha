@@ -81,6 +81,9 @@
 		 * @return Css
 		 */
 		public function deeps( $deeps = null ){
+			if( is_string( $deeps ) && $deeps != '' ){
+				$deeps = [ $deeps ];
+			}
 			return $this->_( 'deeps', $deeps );
 		}
 

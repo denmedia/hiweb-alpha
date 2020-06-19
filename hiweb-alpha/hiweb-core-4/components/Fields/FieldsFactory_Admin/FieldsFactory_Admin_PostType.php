@@ -95,7 +95,7 @@
 				$box_id = 'hiweb-metabox-' . Strings::sanitize_id( $title );
 				add_meta_box( $box_id, $title, function(){
 					echo FieldsFactory_Admin::get_ajax_form_html( func_get_arg( 1 )['args'][0] );
-				}, $first_field_location->post_type(), $first_field_location->metaBox()->Context()->_(), $first_field_location->metaBox()->Priority()->_(), [ $query ] );
+				}, $first_field_location->post_type(), $first_field_location->metaBox()->context()->_(), $first_field_location->metaBox()->priority()->_(), [ $query ] );
 			}
 		}
 		
