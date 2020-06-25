@@ -1,5 +1,9 @@
 jQuery(document).ready(function ($) {
 
+
+    let loaded_scripts = [];
+    let loaded_stylesheets = [];
+
     let notify_max_input_vars_excess = function (inputs_length, max_input_vars) {
         if (typeof Noty === 'function') {
             new Noty({
@@ -66,7 +70,10 @@ jQuery(document).ready(function ($) {
         ///LOAD JAVASCRIPTS
         let javascripts = [];
         for (let handle in response.js) {
-            javascripts.push([handle, response.js[handle]]);
+            if(loaded_scripts.indexOf(handle) == -1) {
+                javascripts.push([handle, response.js[handle]]);
+                loaded_scripts.push(handle);
+            }
         }
         let load_next_javascript = () => {
             if (javascripts.length > 0) {
