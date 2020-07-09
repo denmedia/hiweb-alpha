@@ -29,7 +29,7 @@
 			foreach( $wp_scripts->done as $handle ){
 				if( !isset( $wp_scripts->registered[ $handle ] ) ) continue;
 				$file = PathsFactory::get_file( $wp_scripts->registered[ $handle ]->src );
-				if($file->Path()->is_local() && $file->is_readable() && $file->is_file() ){
+				if($file->path()->is_local() && $file->is_readable() && $file->is_file() ){
 					$R[ $file->get_path_relative() ] = [ 'size' => $file->get_size(), 'filemtime' => filemtime( $file->get_path() ) ];
 					$files[] = $file;
 				}

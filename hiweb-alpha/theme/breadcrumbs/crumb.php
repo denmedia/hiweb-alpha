@@ -52,7 +52,7 @@
 			if( $this->get_id() == '' ){
 				$home_title = '';
 				if( get_field( 'home-icon', breadcrumbs::$admin_options_slug ) != '' ){
-					$home_title .= '<i class="' . get_field( 'home-icon', breadcrumbs::$admin_options_slug ) . '"></i> ';
+					$home_title .= '' .get_fontawesome(get_field( 'home-icon', breadcrumbs::$admin_options_slug )).' ';
 				}
 				if( !get_field( 'home-text-enable', breadcrumbs::$admin_options_slug ) ){
 					//do nothing

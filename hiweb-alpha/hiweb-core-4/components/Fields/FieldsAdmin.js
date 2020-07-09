@@ -218,6 +218,13 @@ jQuery(document).ready(function ($) {
                     content: {
                         text: $source.attr('data-hiweb-fields-tooltip-help')
                     },
+                    hide: {
+                        //event: 'unfocus click mouseclick',
+                        delay: 1000,
+                        effect: function(offset) {
+                            jQuery(this).fadeOut(400); // "this" refers to the tooltip
+                        }
+                    },
                     style: {
                         classes: 'qtip-light qtip-shadow'
                     },
@@ -225,8 +232,9 @@ jQuery(document).ready(function ($) {
                         target: $source,
                         my: 'bottom center',
                         at: 'top center',
+                        viewport: true,
                         adjust: {
-                            method: 'shift none'
+                            method: 'shift flip'
                         }
                     }
                 });

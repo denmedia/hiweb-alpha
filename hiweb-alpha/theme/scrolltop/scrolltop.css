@@ -26,6 +26,11 @@
   text-transform: uppercase;
   line-height: 34px;
 }
+.hiweb-theme-widget-scrolltop-icon-wrap svg {
+  color: white;
+  max-width: 60%;
+  max-height: 60%;
+}
 
 .hiweb-theme-widget-scrolltop-text-wrap {
   margin-top: 10px;

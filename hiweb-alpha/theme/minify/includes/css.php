@@ -32,7 +32,7 @@
 			foreach( $wp_styles->done as $handle ){
 				if( !isset( $wp_styles->registered[ $handle ] ) ) continue;
 				$file = PathsFactory::get_file($wp_styles->registered[ $handle ]->src );
-				if( $file->is_readable() && $file->is_file() && $file->Path()->is_local() ){
+				if( $file->is_readable() && $file->is_file() && $file->path()->is_local() ){
 					$R[ $file->get_path_relative() ] = [ 'size' => $file->get_size(), 'filemtime' => filemtime( $file->get_path() ) ];
 					$files[] = $file;
 				}

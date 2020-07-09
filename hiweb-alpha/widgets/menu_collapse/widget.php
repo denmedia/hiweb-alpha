@@ -1,20 +1,19 @@
 <?php
-
-	use hiweb\urls;
+	
 	use theme\includes\frontend;
 	use theme\structures;
-
-
+	
+	
 	add_action( 'widgets_init', function(){ register_widget( 'hiweb_theme_widget_menu_collapse' ); } );
-
-
+	
+	
 	class hiweb_theme_widget_menu_collapse extends WP_Widget{
-
+		
 		function __construct(){
 			parent::__construct( 'hiweb_theme_widget_menu_collapse', 'Навигация по категориям hiWeb', [ 'description' => 'Вывести меню с поддержкой раскрытия списка', 'customize_selective_refresh' => true ] );
 		}
-
-
+		
+		
 		/**
 		 * Outputs the content for the current Navigation Menu widget instance.
 		 * @param array $args     Display arguments including 'before_title', 'after_title',
@@ -25,32 +24,32 @@
 		public function widget( $args, $instance ){
 			// Get menu
 			$nav_menu = !empty( $instance['nav_menu'] ) ? wp_get_nav_menu_object( $instance['nav_menu'] ) : false;
-
+			
 			if( !$nav_menu ){
 				return;
 			}
-
+			
 			if( theme\widgets\menu_collapse::$defer_include_scripts ){
-				frontend::css( __DIR__ . '/style.css' );
-				frontend::js( __DIR__ . '/app.js', frontend::jquery() );
+				include_frontend_css( __DIR__ . '/style.css' );
+				include_frontend_js( __DIR__ . '/app.min.js', 'jquery' );
 			}
-
+			
 			$title = !empty( $instance['title'] ) ? $instance['title'] : '';
-
+			
 			/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 			$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-
+			
 			echo $args['before_widget'];
-
+			
 			if( $title ){
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
-
+			
 			$nav_menu_args = [
 				'fallback_cb' => '',
 				'menu' => $nav_menu,
 			];
-
+			
 			/**
 			 * Filters the arguments for the Navigation Menu widget.
 			 * @param array        $nav_menu_args {
@@ -73,8 +72,8 @@
 			$this->the_items( $menu_items_by_parent );
 			echo $args['after_widget'];
 		}
-
-
+		
+		
 		/**
 		 * @varsion 1.2
 		 * @param array $menu_items_by_parent
@@ -90,7 +89,7 @@
 				foreach( $menu_items_by_parent[ $menu_item_parent ] as $item ){
 					ob_start();
 					$current = structures::get( get_queried_object() )->has_object( $item );
-					$active = $current || urls::get()->is_dirs_intersect( $item->url );
+					$active = $current || get_url()->is_dirs_intersect( $item->url );
 					$classes = [ 'menu-item', 'menu-item-type-' . $item->type, 'menu-item-' . ( isset( $menu_items_by_parent[ $item->ID ] ) ? 'has-children' : 'no-children' ), 'menu-item-' . $item->ID, 'depth-' . $depth ];
 					if( $active ){
 						$has_sub_active = true;
@@ -108,7 +107,8 @@
 					$item_title = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_title', "{$item->title}", $item, get_defined_vars(), $this );
 					if( $item->url == '#' || $item->url == '' ){
 						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_span', "<span href=\"{$item->url}\" class=\"item-link\">{$item_title}</span>", $item, get_defined_vars(), $this );
-					} else {
+					}
+					else{
 						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_a', "<a href=\"{$item->url}\" class=\"item-link\"><span class='item-text'>{$item_title}</span></a>", $item, get_defined_vars(), $this );
 					}
 					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_content', $item_content, $item, get_defined_vars(), $this );
@@ -121,8 +121,8 @@
 				$json_options = null;
 				if( $depth == 0 ){
 					$json_options = [
-						'icon_expand' => get_field( 'icon-expand', \theme\widgets\menu_collapse::$options_handle ),
-						'icon_collapse' => get_field( 'icon-collapse', \theme\widgets\menu_collapse::$options_handle )
+						'icon_expand' => (string)get_fontawesome( get_field( 'icon-expand', theme\widgets\menu_collapse::$options_handle ) ),
+						'icon_collapse' => (string)get_fontawesome( get_field( 'icon-collapse', theme\widgets\menu_collapse::$options_handle ) )
 					];
 					$json_options = 'data-options="' . htmlentities( json_encode( $json_options ) ) . '"';
 				}
@@ -133,8 +133,8 @@
 				<?php
 			}
 		}
-
-
+		
+		
 		/**
 		 * Handles updating settings for the current Navigation Menu widget instance.
 		 * @param array $new_instance New settings for this instance as input by the user via
@@ -153,8 +153,8 @@
 			}
 			return $instance;
 		}
-
-
+		
+		
 		/**
 		 * Outputs the settings form for the Navigation Menu widget.
 		 * @param array                 $instance Current settings.
@@ -165,29 +165,31 @@
 			global $wp_customize;
 			$title = isset( $instance['title'] ) ? $instance['title'] : '';
 			$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
-
+			
 			// Get menus
 			$menus = wp_get_nav_menus();
-
+			
 			$empty_menus_style = $not_empty_menus_style = '';
 			if( empty( $menus ) ){
 				$empty_menus_style = ' style="display:none" ';
-			} else {
+			}
+			else{
 				$not_empty_menus_style = ' style="display:none" ';
 			}
-
+			
 			$nav_menu_style = '';
 			if( !$nav_menu ){
 				$nav_menu_style = 'display: none;';
 			}
-
+			
 			// If no menus exists, direct the user to go and create some.
 			?>
 			<p class="nav-menu-widget-no-menus-message" <?php echo $not_empty_menus_style; ?>>
 				<?php
 					if( $wp_customize instanceof WP_Customize_Manager ){
 						$url = 'javascript: wp.customize.panel( "nav_menus" ).focus();';
-					} else {
+					}
+					else{
 						$url = admin_url( 'nav-menus.php' );
 					}
 				?>

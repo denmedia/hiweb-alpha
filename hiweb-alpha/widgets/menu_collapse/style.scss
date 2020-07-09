@@ -1,4 +1,4 @@
-@import "../../hiweb-core-3/assets/css/mixins";
+@import "../../hiweb-core-4/assets/css/mixins";
 
 .widget_hiweb_theme_widget_menu_collapse {
 	padding: 0;
@@ -45,12 +45,21 @@
 			background: transparent;
 			border: none;
 			right: 0;
-			top: 4px;
+			top: 10px;
 			padding: 0 .4em;
 			cursor: pointer;
 			outline: none;
 			@include transition();
 			@include opacity(.5);
+			box-sizing: content-box;
+			width: 1.2em;
+			height: 1.2em;
+			line-height: .6;
+
+			svg {
+				max-width: 100%;
+				max-height: 100%;
+			}
 
 			&:hover {
 				@include opacity(1);

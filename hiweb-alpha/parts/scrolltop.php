@@ -22,7 +22,7 @@
 		} else {
 			?>
 			<div class="hiweb-theme-widget-scrolltop-icon-wrap">
-				<span class="<?= $icon_class ?>"></span>
+				<?= get_fontawesome($icon_class) ?>
 			</div>
 			<?php
 		}

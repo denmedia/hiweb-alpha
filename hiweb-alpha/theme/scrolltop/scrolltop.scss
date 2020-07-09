@@ -1,4 +1,4 @@
-@import "../../hiweb-core-3/assets/css/mixins";
+@import "../../hiweb-core-4/assets/css/mixins";
 
 .hiweb-theme-widget-scrolltop {
 	position: fixed;
@@ -25,6 +25,12 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	line-height: 34px;
+
+	svg {
+		color: white;
+		max-width: 60%;
+		max-height: 60%;
+	}
 }
 
 .hiweb-theme-widget-scrolltop-text-wrap {

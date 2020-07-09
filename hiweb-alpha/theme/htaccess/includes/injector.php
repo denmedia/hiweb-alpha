@@ -19,7 +19,9 @@
 				if( preg_match( '/(?<marker>#hiweb theme htaccess (?>start|end))/im', $htaccess_content ) < 1 ){
 					$htaccess->set_content( self::get_templates_content(), true );
 				}
-			}
+			} else {
+			    console_warn('Error while init \theme\htaccess\injector::setup', __CLASS__);
+            }
 		}
 
 

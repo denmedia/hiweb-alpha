@@ -9,7 +9,7 @@
 	class menu_collapse{
 
 		static $defer_include_scripts;
-		static $options_handle = 'hiweb-theme-widget-menu-collapse';
+		static $options_handle = 'hiweb-menu-collapse';
 
 
 		static function init( $defer_include_scripts = true ){
@@ -18,8 +18,8 @@
 			if( !$init ){
 				$init = true;
 				if( !$defer_include_scripts ){
-					frontend::css( __DIR__ . '/style.css' );
-					frontend::js( __DIR__ . '/app.js', frontend::jquery() );
+					include_frontend_css( __DIR__ . '/style.css' );
+					include_frontend_js( __DIR__ . '/app.min.js', 'jquery' );
 				}
 				require_once __DIR__ . '/options.php';
 				require_once __DIR__ . '/widget.php';

@@ -54,6 +54,10 @@
   display: none;
 }
 
+.hiweb-components-form-ajax-wrap svg, .hiweb-components-form-wrap svg {
+  max-width: 1em;
+  height: 1em;
+}
 .hiweb-components-form-ajax-wrap .hiweb-fieldset, .hiweb-components-form-wrap .hiweb-fieldset {
   margin-bottom: 1.2em;
 }

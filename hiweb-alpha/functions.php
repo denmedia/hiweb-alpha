@@ -22,5 +22,4 @@
 	theme\pwa::init();
 	Post_Duplicator::init();
 	
-	\hiweb\components\Includes\IncludesFactory_AdminPage::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );
-	//theme\includes\admin::css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );
+	include_admin_css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );
