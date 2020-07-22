@@ -34,23 +34,23 @@
 		
 		
 		static function taxonomy_add_form_fields( $taxonomy ){
-			echo FieldsFactory_Admin::get_ajax_form_html( self::get_current_query() );
+			echo FieldsFactory_Admin::get_ajax_form_html( self::get_current_query(), [ 'name_before' => 'hiweb-' ] );
 		}
 		
 		
 		static function taxonomy_edit_form( $term, $taxonomy ){
-			echo FieldsFactory_Admin::get_ajax_form_html( self::get_current_query() );
+			echo FieldsFactory_Admin::get_ajax_form_html( self::get_current_query(), [ 'name_before' => 'hiweb-' ] );
 		}
 		
 		
 		static function taxonomy_edited_term( $term_id, $tt_id, $taxonomy ){
-			if(!array_key_exists('hiweb-core-field-form-nonce', $_POST) || !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
+			if( !array_key_exists( 'hiweb-core-field-form-nonce', $_POST ) || !wp_verify_nonce( $_POST['hiweb-core-field-form-nonce'], 'hiweb-core-field-form-save' ) ) return;
 			$term = get_term_by( 'id', $term_id, $taxonomy );
 			if( $term instanceof \WP_Term ){
 				$query = FieldsFactory::get_query_from_contextObject( get_term( $term_id ) );
 				$fields = FieldsFactory::get_field_by_query( $query );
 				foreach( $fields as $Field ){
-					$field_name = FieldsFactory_Admin::get_field_input_name( $Field );
+					$field_name = 'hiweb-' . $Field->get_ID();
 					if( isset( $_POST[ $field_name ] ) ){
 						update_term_meta( $term_id, $Field->id(), $Field->get_sanitize_admin_value( $_POST[ $field_name ], true ) );
 					}

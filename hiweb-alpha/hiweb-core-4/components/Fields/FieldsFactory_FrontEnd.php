@@ -64,7 +64,7 @@
 					//}
 				}
 				elseif( is_string( $contextObject_sanitize ) ){
-					$value = get_option( FieldsFactory_Admin::get_field_input_option_name( $Field ), $default );
+					$value = get_option( 'hiweb-option-'.$contextObject_sanitize.'-'.$Field->id(), $default );
 				}
 				return $Field->get_sanitize_admin_value( $value );
 			}

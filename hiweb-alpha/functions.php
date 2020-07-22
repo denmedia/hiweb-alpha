@@ -7,6 +7,7 @@
 	 */
 	
 	use hiweb\components\Post_Duplicator\Post_Duplicator;
+	use hiweb\components\TinyMCE\TinyMCE;
 	
 	
 	require_once __DIR__ . '/hiweb-core-4/hiweb-core-4.php';
@@ -21,5 +22,6 @@
 	theme\error_404::init();
 	theme\pwa::init();
 	Post_Duplicator::init();
+	TinyMCE::init();
 	
 	include_admin_css( HIWEB_THEME_ASSETS_DIR . '/css/admin.css' );

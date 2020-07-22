@@ -7,7 +7,6 @@
 	min-height: 50px;
 	padding-bottom: 1em;
 	@include fields_ui_load_wrap();
-
 }
 
 .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
@@ -41,6 +40,13 @@
 				color: $fields_color_main_dark;
 			}
 		}
+	}
+}
+
+.nav-menus-php {
+	.hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
+		padding: 1em 1em 0 0;
+		clear: both;
 	}
 }
 

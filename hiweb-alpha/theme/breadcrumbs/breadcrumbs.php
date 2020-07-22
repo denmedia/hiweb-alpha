@@ -50,7 +50,6 @@
 		 */
 		static function the(){
 			self::init();
-			frontend::fontawesome();
 			self::$queried_object = get_queried_object();
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/wrap-prefix' );
 			//items
@@ -96,7 +95,7 @@
 		static function get_the_separator(){
 			ob_start();
 			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-separator' );
-			$separator_icon = get_field( 'separator-icon', self::$admin_options_slug ) != '' ? '<i class="' . get_field( 'separator-icon', self::$admin_options_slug ) . '"></i>' : '';
+			$separator_icon = get_field( 'separator-icon', self::$admin_options_slug ) != '' ? (string)get_fontawesome(get_field( 'separator-icon', self::$admin_options_slug )) : '';
 			$separator_text = get_field( 'separator-text', self::$admin_options_slug );
 			return strtr( ob_get_clean(), [ '{separator-icon}' => $separator_icon, '{separator-text}' => $separator_text ] );
 		}

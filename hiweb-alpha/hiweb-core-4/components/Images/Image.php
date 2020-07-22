@@ -354,6 +354,8 @@
 			}
 			else{
 				$attributes->push( 'src', $size_current->path()->get_url() );
+				if($this->alt() != '') $attributes->push('alt', htmlentities($this->alt()));
+				if($this->title() != '') $attributes->push('title', htmlentities($this->title()));
 				$limit = 3;
 				$srcset = [];
 				foreach( $this->sizes()->get_search( $dimensionsOrSizeName, 1, 0 ) as $image_Size ){

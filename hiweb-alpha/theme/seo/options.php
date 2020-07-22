@@ -21,7 +21,7 @@
 		}
 		if( !$has_archives ) add_field_info( 'таких страниц не обнаружено' )->location( true );
 		///
-		add_field_tab( 'Мета-теги на страницах' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
+		add_field_tab( 'Мета-теги на страницах' )->location()->admin_menus( theme\seo::$admin_menu_main );
 		$has_public = false;
 		foreach( get_post_types() as $post_type ){
 			/** @var WP_Post_Type $post_type */
@@ -36,10 +36,10 @@
 		if( !$has_public ) add_field_info( 'таких страниц не обнаружено' )->location( theme\seo::$admin_menu_main );
 		///
 		
-		add_field_separator( 'Мета-теги на страницах авторов' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
+		add_field_separator( 'Мета-теги на страницах авторов' )->location()->admin_menus( theme\seo::$admin_menu_main );
 		add_field_checkbox( 'authors-enable' )->label_checkbox( 'Включить поддержку SEO страницы автора статей' )->location( true );
 		
-		add_field_tab( 'Другие общие настройки' )->location()->ADMIN_MENUS( theme\seo::$admin_menu_main );
+		add_field_tab( 'Другие общие настройки' )->location()->admin_menus( theme\seo::$admin_menu_main );
 		add_field_checkbox( 'paged-append-enable' )->label_checkbox( 'Включить добавление номера страницы в тайтле, например "Главная - страница 2 из 2"' )->location( true );
 		add_field_text( 'paged-append-template' )->default_value( 'Страница {page} из {pages}' )->label( 'Шаблон титла для страница-пагинаций' )->location( true );
 		add_field_select( 'redirect-last-slash-mod' )->options( [ 'default' => '--выберите вариант--', 'none' => 'Редирект 301 на URL без слэша в конце', 'slash' => 'Редирект 301 на URL вместе со слэшем в конце' ] )->label( 'Режим URL\'а и знак "/" (слэша) в конце' )->location( true );

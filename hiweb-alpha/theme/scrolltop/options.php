@@ -10,11 +10,11 @@
 
 	add_admin_menu_page( \theme\scrolltop::$admin_menu_slug, '<i class="fas fa-arrow-to-top"></i> Scroll Top', \theme\scrolltop::$admin_menu_parent );
 
-	add_field_fontawesome( 'icon' )->VALUE( 'far fa-arrow-to-top' )->get_parent_field()->label( 'Иконка на кнопке' )->location()->ADMIN_MENUS( \theme\scrolltop::$admin_menu_slug );
+	add_field_fontawesome( 'icon' )->VALUE( 'far fa-arrow-to-top' )->get_parent_field()->label( 'Иконка на кнопке' )->location()->admin_menus( \theme\scrolltop::$admin_menu_slug );
 
-	add_field_image( 'image' )->label( 'Использовать изображение, вместо иконки' )->description( 'Если установить изображение, иконка будет проигнорированна' )->location()->ADMIN_MENUS( \theme\scrolltop::$admin_menu_slug );
+	add_field_image( 'image' )->label( 'Использовать изображение, вместо иконки' )->description( 'Если установить изображение, иконка будет проигнорированна' )->location()->admin_menus( \theme\scrolltop::$admin_menu_slug );
 
-	add_field_text( 'text' )->label( 'Подпись для стрелки, например <code>вверх</code>' )->location()->ADMIN_MENUS( \theme\scrolltop::$admin_menu_slug );
+	add_field_text( 'text' )->label( 'Подпись для стрелки, например <code>вверх</code>' )->location()->admin_menus( \theme\scrolltop::$admin_menu_slug );
 
 	add_field_text( 'scroll-speed' )->label( 'Скорость прокрутки вверх, милисек' )->VALUE( 1000 )->get_parent_field()->location( true );
 	add_field_text( 'fade-speed' )->label( 'Скорость появления/исчезновения кнопки, милисек' )->VALUE( 300 )->get_parent_field()->location( true );

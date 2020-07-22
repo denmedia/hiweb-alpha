@@ -570,13 +570,12 @@
 		
 		/**
 		 * @param bool $return_array_pairs
-		 * @param bool $value_to_json
 		 * @return array|string
 		 */
-		public function get_param_html_tags( $return_array_pairs = false, $value_to_json = false ){
+		public function get_param_html_tags( $return_array_pairs = false ){
 			$pairs = [];
 			foreach( $this->get() as $key => $val ){
-				$pairs[] = $key . '="' . ( $value_to_json ? json_encode( $val ) : htmlentities( $val, ENT_QUOTES, 'UTF-8' ) ) . '"';
+				$pairs[] = $key . '="' . htmlentities( is_array($val) ? json_encode($val) : $val, ENT_QUOTES, 'UTF-8' ) . '"';
 			}
 			return $return_array_pairs ? $pairs : implode( ' ', $pairs );
 		}

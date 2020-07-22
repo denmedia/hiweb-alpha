@@ -7,9 +7,9 @@
 	sendpulse::$options_object = add_admin_menu_page( sendpulse::$options_name, '<i class="fas fa-cogs"></i> SendPulse', 'edit.php?post_type=' . \theme\forms::$post_type_name );
 	sendpulse::$options_object->page_title( 'Интеграция с сервисом SendPulse' );
 
-	add_field_separator( 'Подключение сайта к сервису по API. Получите ключи на странице <a href="https://login.sendpulse.com/settings/#api" target="_blank">https://login.sendpulse.com/settings/#api</a>' )->location()->ADMIN_MENUS( sendpulse::$options_name );
-	add_field_text( 'api-id' )->label( 'ID' )->location()->ADMIN_MENUS( sendpulse::$options_name );
-	add_field_text( 'api-secret' )->label( 'SECRET' )->location()->ADMIN_MENUS( sendpulse::$options_name );
+	add_field_separator( 'Подключение сайта к сервису по API. Получите ключи на странице <a href="https://login.sendpulse.com/settings/#api" target="_blank">https://login.sendpulse.com/settings/#api</a>' )->location()->admin_menus( sendpulse::$options_name );
+	add_field_text( 'api-id' )->label( 'ID' )->location()->admin_menus( sendpulse::$options_name );
+	add_field_text( 'api-secret' )->label( 'SECRET' )->location()->admin_menus( sendpulse::$options_name );
 
 	if( sendpulse::is_keys_exists() ){
 		$options = [ 'default' => '--выберите стандартный список получателей--' ];

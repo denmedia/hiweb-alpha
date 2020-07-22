@@ -16,17 +16,17 @@
 	$admin_menu->page_title( '<i class="far fa-globe-africa"></i> Управление языками на сайте' );
 
 	if( languages\detect::is_wp_user_multisite() ){
-		add_field_checkbox( 'multisite' )->label_checkbox( 'Использовать мультисайт (поддомены), как способ переключиться между языками' )->description( 'После включения данной опции необходимо сохранить настройки. После обновления страницы появятся варианты переключения.' )->location()->ADMIN_MENUS( languages::$options_page_slug );
+		add_field_checkbox( 'multisite' )->label_checkbox( 'Использовать мультисайт (поддомены), как способ переключиться между языками' )->description( 'После включения данной опции необходимо сохранить настройки. После обновления страницы появятся варианты переключения.' )->location()->admin_menus( languages::$options_page_slug );
 	}
 
 	if( languages\detect::is_multisite() ){
-		add_field_separator( 'Текущий язык сайта' )->location()->ADMIN_MENUS( languages::$options_page_slug );
+		add_field_separator( 'Текущий язык сайта' )->location()->admin_menus( languages::$options_page_slug );
 		add_field_text( 'default-id' )->label( 'ID текущего языка' )->VALUE( 'ru' )->get_parent_field()->location( true );
 		add_field_text( 'default-name' )->label( 'Название текущего языка' )->VALUE( 'русский язык' )->get_parent_field()->location( true );
 		add_field_text( 'default-locale-name' )->label( 'Имя текущей локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->VALUE( 'ru_RU' )->get_parent_field()->location( true );
 		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->VALUE( 'русский' )->get_parent_field()->location( true );
 	} else {
-		add_field_separator( 'Стандартный язык сайта' )->location()->ADMIN_MENUS( languages::$options_page_slug );
+		add_field_separator( 'Стандартный язык сайта' )->location()->admin_menus( languages::$options_page_slug );
 
 		add_field_text( 'default-id' )->label( 'ID стандартного языка' )->VALUE( 'ru' )->get_parent_field()->location( true );
 		add_field_text( 'default-name' )->label( 'Название стандартного языка' )->VALUE( 'русский язык' )->get_parent_field()->location( true );
@@ -36,7 +36,7 @@
 		add_field_separator( 'Дополнительные языки' )->location( true );
 
 		$repeat = add_field_repeat( 'languages' );
-		$repeat->location()->ADMIN_MENUS( languages::$options_page_slug );
+		$repeat->location()->admin_menus( languages::$options_page_slug );
 		$repeat->add_col_field( add_field_text( 'name' )->placeholder( 'Английский язык' ) )->label( 'Название языка' );
 		$repeat->add_col_field( add_field_text( 'id' )->placeholder( 'en' ) )->label( 'ID языка' );
 		$repeat->add_col_field( add_field_text( 'locale' )->placeholder( 'en_GB' ) )->label( 'Имя локалии языка' );
@@ -45,11 +45,11 @@
 
 	///POST TYPES
 	add_action( 'wp_loaded', function(){
-		add_field_separator( 'Список типов записей, для которых включить использование локалей' )->location()->ADMIN_MENUS( languages::$options_page_slug );
+		add_field_separator( 'Список типов записей, для которых включить использование локалей' )->location()->admin_menus( languages::$options_page_slug );
 		$default_checked = array_flip( [ 'post', 'page' ] );
 		foreach( languages::get_post_types( false ) as $post_type_name ){
 			$post_type = get_post_type_object( $post_type_name );
-			add_field_checkbox( 'post-type-' . $post_type_name )->label_checkbox( '<b>' . $post_type->label . '</b> (' . $post_type_name . ')' )->VALUE( array_key_exists( $post_type_name, $default_checked ) ? 'on' : '' )->get_parent_field()->location()->ADMIN_MENUS( languages::$options_page_slug );
+			add_field_checkbox( 'post-type-' . $post_type_name )->label_checkbox( '<b>' . $post_type->label . '</b> (' . $post_type_name . ')' )->VALUE( array_key_exists( $post_type_name, $default_checked ) ? 'on' : '' )->get_parent_field()->location()->admin_menus( languages::$options_page_slug );
 		}
 		///
 		foreach( languages::get_post_types( true ) as $post_type ){

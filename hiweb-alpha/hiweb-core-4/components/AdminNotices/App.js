@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
 
 
-    let $admin_notices = $('#wpbody-content > .wrap > .notice, #wpbody-content > .wrap > .manage-menus, #wpbody-content > .update-nag, #post-body-content > .notice').not('.hidden');
+    let $admin_notices = $('#wpbody-content > .wrap > .notice, #wpbody-content > .update-nag, #post-body-content > .notice').not('.hidden');
     if (typeof Noty === 'function') {
         let popups = {};
         let popup_ids = [];

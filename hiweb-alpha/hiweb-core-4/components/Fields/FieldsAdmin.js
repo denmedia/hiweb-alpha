@@ -164,7 +164,7 @@ jQuery(document).ready(function ($) {
                     url: ajaxurl + '?action=hiweb-components-form',
                     type: 'post',
                     dataType: 'json',
-                    data: {field_query: $form_wrap.attr('data-fields-query'), scripts_done: hiweb_components_fields_form_scripts_done},
+                    data: {field_query: $form_wrap.attr('data-fields-query'), form_options: $form_wrap.attr('data-form-options'), scripts_done: hiweb_components_fields_form_scripts_done},
                     async: true,
                     success: function (response) {
                         if (response.hasOwnProperty('success')) {

@@ -5,6 +5,7 @@
 	
 	use hiweb\core\Cache\CacheFactory;
 	use stdClass;
+	use theme\forms\inputs\number;
 	use WP_Post;
 	use WP_Term;
 	
@@ -52,18 +53,38 @@
 		
 		
 		/**
+		 * @param null|number $parent_id
 		 * @return array|WP_Post[]
+		 * @version 1.1
 		 */
-		public function get_items(){
-			return CacheFactory::get( $this->id, __CLASS__ . '::$items', function(){
+		public function get_items( $parent_id = null ){
+			if( $parent_id instanceof WP_Post ){
+				$parent_id = $parent_id->ID;
+			}
+			return CacheFactory::get( $this->id . '/' . $parent_id, __CLASS__ . '::$items', function(){
 				if( $this->id == 0 ){
 					return [];
 				}
 				else{
-					$R = wp_get_nav_menu_items( $this->id );
-					return is_array( $R ) ? $R : [];
+					$R = [];
+					$items = wp_get_nav_menu_items( $this->id );
+					if( is_array( $items ) ) foreach( $items as $item ){
+						if( is_numeric( func_get_arg( 0 ) ) && $item->menu_item_parent != func_get_arg( 0 ) ) continue;
+						$R[] = $item;
+					}
+					return $R;
 				}
-			} )->get_value();
+			}, [ $parent_id ] )->get_value();
+		}
+		
+		
+		/**
+		 * Return true, if items is exists
+		 * @param null|number $parent_id
+		 * @return bool
+		 */
+		public function has_items( $parent_id = null ){
+			return count( $this->get_items( $parent_id ) ) > 0;
 		}
 		
 		
@@ -82,24 +103,26 @@
 		
 		
 		/**
-		 * @param int $parent_id
+		 * @varsion 1.1
+		 * @param int    $parent_id
+		 * @param string $ul_class
+		 * @param string $li_class
 		 */
-		public function the( $parent_id = 0 ){
+		public function the( $parent_id = 0, $ul_class = '', $li_class = '' ){
+			if( $parent_id instanceof WP_Post ){
+				$parent_id = $parent_id->ID;
+			}
 			?>
-			<ul>
-				<?php
-					$items = $this->get_items();
-					if( is_array( $items ) ){
-						foreach( $items as $item ){
-							if( $item->parent_menu_item != $parent_id ) continue;
-							?>
-							<li><a href="<?= $item->url ?>"><span><?= $item->title ?></span></a></li>
-							<?php
-						}
-					}
-				?>
-			</ul>
-			<?php
+			<ul class="<?= htmlentities( $ul_class ) ?>"><?php
+			$items = $this->get_items();
+			if( is_array( $items ) ){
+				foreach( $items as $item ){
+					if( $item->parent_menu_item != $parent_id ) continue;
+					?>
+					<li class="<?= htmlentities( $li_class ) ?>"><a href="<?= $item->url ?>"><span><?= $item->title ?></span></a></li><?php
+				}
+			}
+			?></ul><?php
 		}
 		
 	}

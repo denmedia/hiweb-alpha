@@ -1,1 +1,7 @@
-{"version":3,"sourceRoot":"","sources":["inline-styles.scss"],"names":[],"mappings":"AAAA;EACC","file":"inline-styles.css"}
+{
+"version": 3,
+"mappings": "AAAA,+IAA8J,CAC7J,OAAO,CAAE,eAAe",
+"sources": ["inline-styles.scss"],
+"names": [],
+"file": "inline-styles.css"
+}
