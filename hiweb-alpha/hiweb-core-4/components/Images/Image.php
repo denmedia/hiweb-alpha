@@ -33,6 +33,13 @@
 		
 		
 		/**
+		 * @return string
+		 */
+		public function __toString(){
+			return $this->html('large');
+		}
+		
+		/**
 		 * @return WP_Post
 		 */
 		public function wp_post(){

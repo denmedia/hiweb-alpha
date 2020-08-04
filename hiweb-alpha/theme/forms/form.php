@@ -41,6 +41,7 @@
 		static protected $fancy_box_form_added = [];
 		/** @var form_submit[] */
 		protected $form_submits = [];
+		protected $the_fancybox_button_tags = [];
 		
 		
 		public function __construct( $form_postOrId ){
@@ -153,8 +154,9 @@
 		 * @param string $html
 		 * @param array  $button_classes
 		 * @param array  $values
+		 * @version 1.3
 		 */
-		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [] ){
+		public function the_fancybox_button( $html = 'Открыть форму', $button_classes = [ 'hiweb-theme-widget-form-button' ], $values = [], $button_tags = [] ){
 			forms::setup_postdata( $this->get_wp_post() );
 			if( !is_array( $button_classes ) ){
 				if( is_string( $button_classes ) && $button_classes != '' ) $button_classes = [ $button_classes ];
@@ -163,6 +165,7 @@
 			$this->the_fancybox_button_html = $html;
 			$this->the_fancybox_button_classes = $button_classes;
 			$this->the_fancybox_button_values = $values;
+			$this->the_fancybox_button_tags = $button_tags;
 			get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/fancybox-button' );
 			
 			if( !array_key_exists( $this->get_id(), self::$fancy_box_form_added ) ){
@@ -173,7 +176,8 @@
 						<div class="hiweb-theme-widget-form-modal hiweb-theme-widget-form-modal-<?= $this->get_wp_post()->ID ?> hiweb-theme-widget-form-modal-<?= $this->get_wp_post()->post_name ?>" id="hiweb-theme-widgets-form-<?= $this->get_id() ?>" data-form-id="<?= get_the_form()->get_id() ?>" data-form-object-id="<?= $this->get_object_id() ?>">
 							<?php if( $this->is_exists() ){
 								$this->the();
-							} else {
+							}
+							else{
 								echo 'form not exists';
 							} ?>
 						</div>
@@ -205,6 +209,18 @@
 		 */
 		public function the_fancybox_button_values(){
 			return htmlentities( json_encode( $this->the_fancybox_button_values ) );
+		}
+		
+		
+		/**
+		 * @return false|mixed|string
+		 */
+		public function the_fancybox_button_tags(){
+			$R = [];
+			if( is_array( $this->the_fancybox_button_tags ) ) foreach( $this->the_fancybox_button_tags as $name => $value ){
+				$R[] = $name . '="' . htmlentities( is_array( $value ) ? json_encode( $value ) : $value ) . '"';
+			}
+			return join( ' ', $R );
 		}
 		
 		

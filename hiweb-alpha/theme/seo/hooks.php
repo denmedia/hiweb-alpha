@@ -94,6 +94,24 @@
 				///SEO META
 				if( get_field( 'seo-meta-description' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="description" content="' . htmlentities( get_field( 'seo-meta-description' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
 				if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+			} elseif($queried_object instanceof WP_Post_Type) {
+				if($queried_object->name == 'product' && function_exists('WC') && get_option('woocommerce_shop_page_id') != '') {
+					add_filter( 'wp_title', function( $title ){
+						if( get_field( 'seo-meta-title' ) != '' ){
+							return get_field( 'seo-meta-title' );
+						}
+						return $title;
+					}, 15 );
+					if( get_field( 'seo-meta-description' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="description" content="' . htmlentities( get_field( 'seo-meta-description' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+					if( get_field( 'seo-meta-keywords' ) != '' ) \theme\html_layout\tags\head::add_html_addition( '<meta name="keywords" content="' . htmlentities( get_field( 'seo-meta-keywords' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+					if( get_field( 'seo-meta-robots-mode' ) != '' && get_field( 'seo-meta-robots-mode' ) != 'default') \theme\html_layout\tags\head::add_html_addition( '<meta name="robots" content="' . htmlentities( get_field( 'seo-meta-robots-mode' ), ENT_QUOTES, 'UTF-8' ) . '" />' );
+					if( seo::is_paged_append_enable() ){
+						add_filter( 'wp_title', function( $title ){
+							$title .= ( is_paged() ? ' - страница ' . get_query_var( 'paged' ) : '' );
+							return $title;
+						}, 16 );
+					}
+				}
 			}
 		}
 		///CANONICAL

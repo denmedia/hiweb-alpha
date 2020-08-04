@@ -15,6 +15,8 @@
 	add_action( 'dbx_post_sidebar', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_dbx_post_sidebar' );
 	//Post type Meta Box
 	add_action( 'add_meta_boxes', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_add_meta_boxes', 8, 2 );
+	//Post Disable Gutenberg
+	add_action( 'current_screen', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_disable_gutenberg_editor' );
 	///Post Save
 	add_action( 'save_post', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_PostType::_save_post', 10, 3 );
 	

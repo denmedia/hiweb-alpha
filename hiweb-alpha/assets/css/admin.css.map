@@ -1,1 +1,7 @@
-{"version":3,"sourceRoot":"","sources":["admin.scss"],"names":[],"mappings":"AAAA;EACC;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGD;EAIC;;AAHA;EACC","file":"admin.css"}
+{
+"version": 3,
+"mappings": "AAUA,kBAAmB,CAIlB,SAAS,CAAE,IAAI,CAHf,8BAAY,CACX,SAAS,CAAE,KAAK",
+"sources": ["admin.scss"],
+"names": [],
+"file": "admin.css"
+}

@@ -3,10 +3,10 @@
 	namespace theme;
 
 
-	use hiweb\strings;
-	use hiweb\urls;
-
-
+	use hiweb\core\Paths\PathsFactory;
+	use hiweb\core\Strings;
+	
+	
 	class redirects{
 
 		static $option_admin_slug = 'hiweb-redirects';
@@ -23,8 +23,8 @@
 				$repeat->location()->admin_menus( self::$option_admin_slug );
 				$repeat->add_col_field( add_field_text( 'source' ) )->label( 'Исходная ссылка' )->width( 2 );
 				$repeat->add_col_field( add_field_text( 'destination' ) )->label( 'Путь назначения' )->width( 2 );
-				$repeat->add_col_field( add_field_text( 'status' )->VALUE( '301' )->get_parent_field() )->label( 'Код редиректа' );
-				$repeat->add_col_field( add_field_checkbox( 'enable' )->VALUE( 'on' )->get_parent_field() )->label( 'Включено' );
+				$repeat->add_col_field( add_field_text( 'status' )->default_value( '301' ) )->label( 'Код редиректа' );
+				$repeat->add_col_field( add_field_checkbox( 'enable' )->label_checkbox('Включить')->default_value( true ) )->label( 'Включено' );
 
 				add_action( 'get_header', function(){
 					if( have_rows( 'rules', self::$option_admin_slug ) ){
@@ -34,7 +34,7 @@
 							if( trim( $source ) == '' ) continue;
 							$current_url = PathsFactory::get_current_url( false );
 							if( preg_match( '/[\*\(\)]+/', $source ) > 0 ) $source = "/{$source}/";
-							if( $current_url == $source || strings::is_regex( $source ) && preg_match( $source, $current_url, $matches ) > 0 ){
+							if( $current_url == $source || Strings::is_regex( $source ) && preg_match( $source, $current_url, $matches ) > 0 ){
 								$strtr = [];
 								foreach( $matches as $index => $match ){
 									$strtr[ '$'.((string)$index) ] = $match;

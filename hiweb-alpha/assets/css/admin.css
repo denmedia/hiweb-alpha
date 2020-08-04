@@ -1,18 +1,2 @@
-#adminmenu .wp-menu-image img {
-  float: left;
-  width: 36px;
-  height: 32px;
-  margin: 0;
-  text-align: center;
-  padding: 4px 0;
-  box-sizing: border-box;
-}
-
-.wp-admin #edittag {
-  max-width: 100%;
-}
-.wp-admin #edittag .form-table {
-  max-width: 800px;
-}
-
+.wp-admin #edittag{max-width:100%}.wp-admin #edittag .form-table{max-width:800px}
 /*# sourceMappingURL=admin.css.map */

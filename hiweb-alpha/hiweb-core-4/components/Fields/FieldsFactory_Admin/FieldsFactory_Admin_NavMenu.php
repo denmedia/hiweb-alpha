@@ -19,11 +19,13 @@
 			$fields = FieldsFactory::get_field_by_query( [ 'nav_menu' => [] ] );
 			foreach( $fields as $Field ){
 				$field_name = 'hiweb-nav_menu-' . $Field->id();
-				if( array_key_exists( $field_name, $_POST ) && array_key_exists( $menu_item_db_id, $_POST[ $field_name ] ) ){
-					update_post_meta( $menu_item_db_id, $Field->id(), $Field->get_sanitize_admin_value( $_POST[ $field_name ][ $menu_item_db_id ], true ) );
-				}
-				else{
-					update_post_meta( $menu_item_db_id, $Field->id(), $Field->get_sanitize_admin_value( '', true ) );
+				if( $Field->get_allow_save_field( array_key_exists( $field_name, $_POST ) ? $_POST[ $field_name ] : null ) ){
+					if( array_key_exists( $field_name, $_POST ) && array_key_exists( $menu_item_db_id, $_POST[ $field_name ] ) ){
+						update_post_meta( $menu_item_db_id, $Field->id(), $Field->get_sanitize_admin_value( $_POST[ $field_name ][ $menu_item_db_id ], true ) );
+					}
+					else{
+						update_post_meta( $menu_item_db_id, $Field->id(), $Field->get_sanitize_admin_value( '', true ) );
+					}
 				}
 			}
 		}

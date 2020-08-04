@@ -28,6 +28,7 @@
 
 	add_field_script( 'script-head' )->label( 'Скрипт для всех страниц сайта, будет расположен внутри тега <code>head</code> (до тега <code>body</code>)' )->location( true );
 	add_field_script( 'script' )->label( 'Скрипт для всех страниц сайта, будет расположен в футере сайта' )->location( true );
+	add_field_checkbox( 'script-footer-bot-hide' )->label_checkbox('Скрывать данный блок скрипта для ботов Google и Yandex')->default_value(true)->location( true );
 
 	add_field_text( 'viewport' )->label('Meta Viewport')->description('<a href="https://developer.mozilla.org/ru/docs/Mozilla/Mobile/Viewport_meta_tag" target="_blank">Using the viewport meta tag to control layout on mobile browsers - Mozilla | MDN</a>')->default_value( 'width=device-width, initial-scale=1' )->location( true );
 

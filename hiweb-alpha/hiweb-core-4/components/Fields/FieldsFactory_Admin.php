@@ -27,19 +27,17 @@
 		 * @param Field $field
 		 * @return string
 		 */
-//		static public function get_field_input_name( Field $field ){
-//			return 'hiweb-' . $field->id();
-//		}
-		
+		//		static public function get_field_input_name( Field $field ){
+		//			return 'hiweb-' . $field->id();
+		//		}
 		
 		/**
 		 * @param Field $field
 		 * @return string
 		 */
-//		static public function get_field_nav_menu_name( Field $field ){
-//			return 'hiweb-menu_item-' . $field->id();
-//		}
-		
+		//		static public function get_field_nav_menu_name( Field $field ){
+		//			return 'hiweb-menu_item-' . $field->id();
+		//		}
 		
 		/**
 		 * Return field name(id) form options page and options field register
@@ -130,6 +128,7 @@
 		/**
 		 * Get current admin fields query
 		 * @return array
+		 * @deprecated
 		 */
 		static function get_current_fields_query_by_currentScreen(){
 			$R = [
@@ -199,7 +198,7 @@
 				}
 				elseif( array_key_exists( 'options', $location_query ) ){
 					if( $Field->get_allow_save_field() ){
-						$R[ $Field->id() ] = get_option( 'hiweb-option-'.$location_query['options'].'-'.$Field->id(), null );
+						$R[ $Field->id() ] = get_option( 'hiweb-option-' . $location_query['options'] . '-' . $Field->id(), null );
 					}
 					else{
 						$R[ $Field->id() ] = null;

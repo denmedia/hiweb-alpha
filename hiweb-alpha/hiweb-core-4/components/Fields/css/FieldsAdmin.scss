@@ -11,11 +11,6 @@
 
 .hiweb-components-form-ajax-wrap, .hiweb-components-form-wrap {
 
-	svg {
-		max-width: 1em;
-		height: 1em;
-	}
-
 	.hiweb-fieldset {
 		margin-bottom: 1.2em;
 
@@ -118,9 +113,9 @@
 			@include transition();
 
 			.label-wrap {
-				position: relative;
-				top: 50%;
-				@include transform(translateY(-50%));
+				//position: relative;
+				//top: 50%;
+				//@include transform(translateY(-50%));
 			}
 
 			&[data-tab-active="1"] {

@@ -189,13 +189,17 @@
 		
 		/**
 		 * @return WP_Post_Type[]
+		 * @version 1.1
 		 */
 		public function get_parent_wp_post_type(){
 			if( !is_array( $this->cache_parent_post_types ) ){
 				$this->cache_parent_post_types = [];
 				if( $this->wp_object instanceof WP_Post ){
 					$post_type_object = get_post_type_object( $this->wp_object->post_type );
-					if( $post_type_object->public && $post_type_object->has_archive ){
+					if( $post_type_object->name == 'product' && function_exists( 'WC' ) ){
+						$this->cache_parent_blog_page[ $this->wp_object->post_type ] = self::get_parent_woocommerce_shop_page();
+					}
+					elseif( $post_type_object->public && $post_type_object->has_archive ){
 						$this->cache_parent_post_types[ $this->wp_object->post_type ] = $post_type_object;
 					}
 				}
@@ -204,7 +208,10 @@
 					if( $taxonomy instanceof WP_Taxonomy ){
 						foreach( $taxonomy->object_type as $post_type ){
 							$post_type_object = get_post_type_object( $post_type );
-							if( $post_type_object->public && $post_type_object->has_archive ){
+							if( $post_type_object->name == 'product' && function_exists( 'WC' ) ){
+								$this->cache_parent_blog_page[ $post_type ] = self::get_parent_woocommerce_shop_page();
+							}
+							elseif( $post_type_object->public && $post_type_object->has_archive ){
 								$this->cache_parent_post_types[ $post_type ] = $post_type_object;
 							}
 						}
@@ -217,13 +224,14 @@
 		
 		/**
 		 * @return WP_Post[]
+		 * @version 1.1
 		 */
 		public function get_parent_woocommerce_shop_page(){
 			$R = [];
 			if( function_exists( 'WC' ) && WC() instanceof WooCommerce ){
 				if( ( $this->wp_object instanceof WP_Post && in_array( $this->wp_object->post_type, apply_filters( 'rest_api_allowed_post_types', [] ) ) ) ){
-					$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
-					if( $wp_post_test instanceof WP_Post && $wp_post_test != $this->wp_object ){
+					$wp_post_test = get_post( get_option( 'woocommerce_shop_page_id' ) );
+					if( $wp_post_test instanceof WP_Post && $wp_post_test != $this->wp_object && $wp_post_test->post_status == 'publish' ){
 						$R[ $wp_post_test->ID ] = $wp_post_test;
 					}
 				}
@@ -232,8 +240,8 @@
 					foreach( $taxonomy->object_type as $post_type ){
 						$post_type_object = get_post_type_object( $post_type );
 						if( $post_type_object->public && in_array( $post_type, apply_filters( 'rest_api_allowed_post_types', [] ) ) ){
-							$wp_post_test = get_post( wc_get_page_id( 'shop' ) );
-							if( $wp_post_test instanceof WP_Post && $wp_post_test != $this->wp_object ){
+							$wp_post_test = get_post( get_option( 'woocommerce_shop_page_id' ) );
+							if( $wp_post_test instanceof WP_Post && $wp_post_test != $this->wp_object && $wp_post_test->post_status == 'publish' ){
 								$R[ $wp_post_test->ID ] = $wp_post_test;
 							}
 						}
