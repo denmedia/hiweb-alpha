@@ -1,13 +1,13 @@
 <?php
-
+	
 	namespace hiweb\components\Preloader;
-
-
+	
+	
 	use hiweb\core\Cache\CacheFactory;
-
-
+	
+	
 	class PreloaderFactory{
-
+		
 		static $enable = true;
 		static private $preloaded_post_ids = [];
 		static private $preloaded_post_meta_ids = [];
@@ -29,25 +29,26 @@
 			}
 			return [];
 		}
-
-
+		
+		
 		static private function posts_to_ids( $postOrIds ){
 			$post_ids = [];
 			if( !is_array( $postOrIds ) ) $postOrIds = [ $postOrIds ];
 			foreach( (array)$postOrIds as $postOrId ){
 				if( $postOrId instanceof \WP_Post ){
 					$post_ids[] = $postOrId->ID;
-				} elseif( is_numeric( $postOrId ) ) {
+				}
+				elseif( is_numeric( $postOrId ) ){
 					$post_ids[] = $postOrId;
 				}
 			}
 			return $post_ids;
 		}
-
-
+		
+		
 		/**
 		 * Return preloaded posts + post meta + terms + terms meta
-		 * @param $postOrIds
+		 * @param      $postOrIds
 		 * @param bool $preload_thumbnails
 		 * @param bool $preload_children_posts
 		 * @param bool $preload_terms
@@ -129,18 +130,22 @@
 				//$select_fields[] = 'termmeta.meta_key AS term_meta_key';
 				//$select_fields[] = 'termmeta.meta_value AS term_meta_value';
 				$query = [ 'SELECT ' . join( ',', $select_fields ) . ' FROM ' . $wpdb->posts . ' AS posts' ];
-			$query[] = "LEFT JOIN {$wpdb->term_relationships} AS relation ON relation.object_id=posts.ID";
-			$query[] = "LEFT JOIN {$wpdb->terms} AS terms ON terms.term_id=relation.term_taxonomy_id";
-			$query[] = "LEFT JOIN {$wpdb->term_taxonomy} AS taxonomy ON taxonomy.term_taxonomy_id=relation.term_taxonomy_id";
+				$query[] = "LEFT JOIN {$wpdb->term_relationships} AS relation ON relation.object_id=posts.ID";
+				$query[] = "LEFT JOIN {$wpdb->terms} AS terms ON terms.term_id=relation.term_taxonomy_id";
+				$query[] = "LEFT JOIN {$wpdb->term_taxonomy} AS taxonomy ON taxonomy.term_taxonomy_id=relation.term_taxonomy_id";
 				//$query[] = "LEFT JOIN {$wpdb->termmeta} AS termmeta ON termmeta.term_id=terms.term_id";
 				$where = [ 'posts.ID IN (' . join( ',', $found_post_ids ) . ')' ];
 				$where[] = 'relation.term_taxonomy_id IS NOT NULL';
 				$query[] = 'WHERE ' . join( ' AND ', $where );
-			$query_str = join( "\n", $query );
-			$wpdb->query( $query_str );
+				$query_str = join( "\n", $query );
+				$wpdb->query( $query_str );
 				if( $wpdb->last_result ){
 					foreach( $wpdb->last_result as $row ){
-						$term = clone( $row );
+						$term = new \stdClass();
+						foreach((array)$row as $tmp_key => $tmp_val) {
+							if(strpos($tmp_key, 'term_') === 0) $tmp_key = substr($tmp_key, 5);
+							$term->{$tmp_key} = $tmp_val;
+						}
 						unset( $term->ID );
 						$term->term_id = $term->term_taxonomy_id;
 						$found_term_ids[ $term->term_id ][] = $row->ID;
@@ -170,9 +175,9 @@
 						wp_cache_set( $row->term_id, $current_meta, 'term_meta' );
 						if( $preload_thumbnails && $row->meta_key == 'thumbnail_id' ) $found_thumbnail_ids[] = $row->meta_value;
 						$R->terms[ $row->term_id ]['term_meta'][ $row->meta_key ] = $row->meta_value;
-				}
 					}
 				}
+			}
 			///
 			if( $preload_thumbnails && count( $found_thumbnail_ids ) ){
 				self::batch_preload_posts( $found_thumbnail_ids, false, false, false );
@@ -193,8 +198,8 @@
 			}
 			return $R;
 		}
-
-
+		
+		
 		static function batch_preload_terms( $termsOrIds, $preload_children_terms = true, $preload_thumbnails = true ){
 			if( !is_array( $termsOrIds ) ) $termsOrIds = [ $termsOrIds ];
 			$term_ids = [];
@@ -268,8 +273,8 @@
 			//			}
 			//			return $R;
 		}
-
-
+		
+		
 		/**
 		 * @param $post_id
 		 * @return Preloader_Post
@@ -284,5 +289,5 @@
 				} )->get_value();
 			}
 		}
-
+		
 	}

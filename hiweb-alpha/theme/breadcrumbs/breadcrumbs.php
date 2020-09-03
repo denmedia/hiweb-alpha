@@ -10,7 +10,6 @@
 
 
 	use theme\breadcrumbs\crumb;
-	use theme\includes\frontend;
 
 
 	class breadcrumbs{

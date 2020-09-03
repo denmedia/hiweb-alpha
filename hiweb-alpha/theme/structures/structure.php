@@ -22,6 +22,11 @@
 	use WP_Term;
 	
 	
+	/**
+	 * Class structure
+	 * @package theme\structures
+	 * @version 1.0.1
+	 */
 	class structure{
 		
 		public $wp_object;
@@ -88,6 +93,7 @@
 		/**
 		 * @param bool $force_raw
 		 * @return mixed|string
+		 * @version 1.1
 		 */
 		public function get_title( $force_raw = true ){
 			if( $this->is_search ){
@@ -97,7 +103,7 @@
 				return apply_filters( '\theme\structures\structure::get_title', $force_raw ? $this->wp_object->post_title : get_the_title( $this->wp_object ), $this->wp_object, $force_raw, $this );
 			}
 			elseif( $this->wp_object instanceof WP_Term ){
-				return apply_filters( '\theme\structures\structure::get_title', $this->wp_object->name, $this->wp_object, $force_raw, $this );
+				return apply_filters( '\theme\structures\structure::get_title', $this->wp_object->name == '' ? $this->wp_object->term_name : $this->wp_object->name, $this->wp_object, $force_raw, $this );
 			}
 			elseif( $this->wp_object instanceof WP_Post_Type ){
 				if( $this->wp_object->name == 'product' && function_exists( 'WC' ) ){
