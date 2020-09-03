@@ -3,6 +3,7 @@
 	namespace hiweb\components\Includes;
 	
 	
+	use hiweb\components\Client\Client;
 	use hiweb\components\Console\ConsoleFactory;
 	use hiweb\components\Context;
 	use hiweb\core\Backtrace\Backtrace;
@@ -168,6 +169,8 @@
 				if( !$Css instanceof Css ) continue;
 				///Stop repeat include
 				if( in_array( $Css->Path()->handle(), self::$already_printed ) ) continue;
+				///Hide script for web bots
+				if( Client::get_instance()->is_webBot() && $Css->hide_forWebBots() ) continue;
 				///Context check
 				if( !( ( Context::is_frontend_page() && $Css->on_frontend() ) || ( Context::is_admin_page() && $Css->on_admin() ) || ( Context::is_login_page() && $Css->on_login() ) ) && !( is_null( $Css->on_frontend() ) && is_null( $Css->on_admin() ) && is_null( $Css->on_login() ) ) ) continue;
 				///Footer check
@@ -182,6 +185,8 @@
 				if( !$Js instanceof Js ) continue;
 				///Stop repeat include
 				if( in_array( $Js->path()->handle(), self::$already_printed ) ) continue;
+				///Hide script for web bots
+				if( Client::get_instance()->is_webBot() && $Js->hide_forWebBots() ) continue;
 				///Context check
 				if( !( ( Context::is_frontend_page() && $Js->on_frontend() ) || ( Context::is_admin_page() && $Js->on_admin() ) || ( Context::is_login_page() && $Js->on_login() ) ) && !( is_null( $Js->on_frontend() ) && is_null( $Js->on_admin() ) && is_null( $Js->on_login() ) ) ) continue;
 				///Footer check
@@ -281,9 +286,10 @@
 		
 		/**
 		 * wp-content/themes/hiweb-alpha/assets/css/bootstrap-additions.css
+		 * @param bool $hide_forWebBots
 		 */
-		static function bootstrap_addition(){
-			static::css( HIWEB_THEME_ASSETS_DIR . '/css/bootstrap-additions.css' );
+		static function bootstrap_addition( $hide_forWebBots = false ){
+			static::css( HIWEB_THEME_ASSETS_DIR . '/css/bootstrap-additions.css' )->hide_forWebBots( $hide_forWebBots );
 		}
 		
 		
@@ -294,11 +300,12 @@
 		
 		
 		/**
+		 * @param bool $hide_forWebBots
 		 * @return bool|int|string
 		 */
-		static function fancybox(){
-			static::css( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.css' );
-			return static::js( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.js' )->deeps( static::jquery() )->path()->handle();
+		static function fancybox( $hide_forWebBots = false ){
+			static::css( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.css' )->hide_forWebBots( $hide_forWebBots );
+			return static::js( HIWEB_THEME_VENDORS_DIR . '/fancybox3/jquery.fancybox.min.js' )->deeps( static::jquery() )->hide_forWebBots( $hide_forWebBots )->path()->handle();
 		}
 		
 		

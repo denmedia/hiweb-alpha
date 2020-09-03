@@ -17,7 +17,7 @@ jQuery(document).ready(function () {
             let $button_collapse = $('<button data-expand="1"/>').html(icon_collapse);
             // $li.append($button_expand);
             // $li.append($button_collapse);
-            $button_expand.insertAfter( $li.find('> .item-link') );
+            $button_expand.insertAfter( $li.find('.item-link').eq(0) );
             $button_collapse.insertAfter($button_expand);
             if (!$li.is('.expanded')) {
                 $li.addClass('collapsed');
@@ -25,14 +25,14 @@ jQuery(document).ready(function () {
         });
 
         //EVENTS
-        $('aside, .widget_hiweb_theme_widget_menu_collapse').on('click', '.collapsed > button, .expanded > button', function () {
+        $('aside, .widget_hiweb_theme_widget_menu_collapse').on('click', '.collapsed > .item-wrap > button, .expanded > .item-wrap > button', function () {
             let $this = $(this).closest('li');
             if ($this.is('.expanded')) {
                 $this.removeClass('expanded').find('> .children, > .sub-menu').slideUp(500, function () {
                     $this.addClass('collapsed');
                 });
             } else {
-                $this.parent().find('> *.expanded > button').trigger('click');
+                $this.parent().find('> *.expanded > .item-wrap > button').trigger('click');
 
                 $this.find('> .children, > .sub-menu').slideDown(500, function () {
                     $this.removeClass('collapsed').addClass('expanded');

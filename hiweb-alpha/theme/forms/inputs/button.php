@@ -36,7 +36,7 @@
 				<?php
 	if( isset( $this->data['icon'] ) && $this->data['icon'] != '' ){
 					?>
-					<i class="<?= $this->data['icon'] ?>"></i>
+					<?= get_fontawesome($this->data['icon']) ?>
 					<?php
 				}
 	 ?>

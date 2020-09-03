@@ -10,6 +10,11 @@
 	use WP_Term;
 	
 	
+	/**
+	 * Class NavMenu
+	 * @package hiweb\components\NavMenus
+	 * @version 1.1
+	 */
 	class NavMenu{
 		
 		
@@ -95,7 +100,26 @@
 			return CacheFactory::get( $this->id, __CLASS__ . '::$associated_objects', function(){
 				$R = [];
 				foreach( self::get_items() as $nav_menu_item ){
-					$R[ $nav_menu_item->ID . ':' . hiweb_nav_menu_item_to_wp_object_id( $nav_menu_item ) ] = hiweb_nav_menu_item_to_wp_object( $nav_menu_item );
+					$R[ $nav_menu_item->ID . ':' . NavMenusFactory::get_id_from_object( $nav_menu_item ) ] = NavMenusFactory::get_wp_object_from_nav_menu_post( $nav_menu_item );
+				}
+				return $R;
+			} )->get_value();
+		}
+		
+		
+		/**
+		 * Return locations array
+		 * @return array
+		 */
+		public function get_locations(){
+			return CacheFactory::get( $this->id, __CLASS__ . '::$locations', function(){
+				global $_wp_registered_nav_menus;
+				$R = [];
+				$nav_menu_locations = get_theme_mod( 'nav_menu_locations' );
+				if( is_array( $nav_menu_locations ) ) foreach( $nav_menu_locations as $slug => $nav_menu_id ){
+					if( $nav_menu_id == $this->id && array_key_exists( $slug, $_wp_registered_nav_menus ) ){
+						$R[] = $slug;
+					}
 				}
 				return $R;
 			} )->get_value();
@@ -104,9 +128,9 @@
 		
 		/**
 		 * @varsion 1.1
-		 * @param int    $parent_id
-		 * @param string $ul_class
-		 * @param string $li_class
+		 * @param int|WP_post $parent_id
+		 * @param string      $ul_class
+		 * @param string      $li_class
 		 */
 		public function the( $parent_id = 0, $ul_class = '', $li_class = '' ){
 			if( $parent_id instanceof WP_Post ){
@@ -119,7 +143,7 @@
 				foreach( $items as $item ){
 					if( $item->parent_menu_item != $parent_id ) continue;
 					?>
-					<li class="<?= htmlentities( $li_class ) ?>"><a href="<?= $item->url ?>"><span><?= $item->title ?></span></a></li><?php
+				<li class="<?= htmlentities( $li_class ) ?>"><a href="<?= $item->url ?>"><span><?= $item->title ?></span></a></li><?php
 				}
 			}
 			?></ul><?php

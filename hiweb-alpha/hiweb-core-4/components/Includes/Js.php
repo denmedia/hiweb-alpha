@@ -7,6 +7,11 @@
 	use hiweb\core\Paths\Path;
 	
 	
+	/**
+	 * Class Js
+	 * @package hiweb\components\Includes
+	 * @version 1.1
+	 */
 	class Js extends Options{
 		
 		/** @var Path */
@@ -79,7 +84,7 @@
 		 * @param bool $set
 		 * @return Js
 		 */
-		public function defer( $set = true ){
+		public function defer( $set = null ){
 			if( $set ) return $this->_( 'async', 'defer' );
 			else $this->remove( 'async' );
 			return $this;
@@ -95,6 +100,16 @@
 				$deeps = [ $deeps ];
 			}
 			return $this->_( 'deeps', $deeps );
+		}
+		
+		
+		/**
+		 * Hide that script for web bots, like Google, Yandex, Insights
+		 * @param null $set
+		 * @return array|Js|mixed|null
+		 */
+		public function hide_forWebBots( $set = null ){
+			return $this->_( 'hide_forWebBots', $set );
 		}
 		
 		

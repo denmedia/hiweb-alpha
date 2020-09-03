@@ -1,8 +1,11 @@
 <?php
 	
+	add_action('admin_head', function(){
+		?><style type="text/css" id="hiweb-components-adminnotices-inline-styles">
+			<?= hiweb\components\AdminNotices\AdminNotices_Factory::$selectors; ?> { display: none !important; }
+		</style><?php
+	});
+	
 	add_action( 'admin_notices', function(){
-		?>
-		<style id="hiweb-components-adminnotices-inline-styles"><?= file_get_contents( __DIR__ . '/inline-styles.css' ); ?></style>
-		<div id="hiweb-components-adminnotices-wrap"></div>
-		<?php
-	} );
+		?><div id="hiweb-components-adminnotices-wrap" data-selectors="<?= htmlentities( hiweb\components\AdminNotices\AdminNotices_Factory::$selectors ) ?>"></div><?php
+	}, -999999 );

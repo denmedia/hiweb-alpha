@@ -27,7 +27,7 @@
 		}
 
 		&.collapsed {
-			> [data-expand="0"] {
+			> .item-wrap > [data-expand="0"] {
 				display: inline-block;
 			}
 
@@ -37,7 +37,7 @@
 		}
 
 
-		&.expanded > [data-expand="1"] {
+		&.expanded > .item-wrap > [data-expand="1"] {
 			display: inline-block;
 		}
 
@@ -45,7 +45,6 @@
 			background: transparent;
 			border: none;
 			right: 0;
-			top: 10px;
 			padding: 0 .4em;
 			cursor: pointer;
 			outline: none;

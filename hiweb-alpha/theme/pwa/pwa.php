@@ -58,10 +58,8 @@
 				});
 			}
 			//add script to footer
-			if( trim( get_field( 'script', self::$admin_menu_slug ) ) != '' ) add_action( '\theme\html_layout\body::the_after-before', function(){
-				if(!get_field('script-footer-bot-hide',self::$admin_menu_slug) || !get_client()->is_webBot()) {
-					the_field( 'script', self::$admin_menu_slug );
-				}
+			if( trim( get_field( 'script', self::$admin_menu_slug ) ) != '' && !(get_field('script-footer-bot-hide',self::$admin_menu_slug) && get_client()->is_webBot()) ) add_action( '\theme\html_layout\body::the_after-before', function(){
+				the_field( 'script', self::$admin_menu_slug );
 			} );
 
 			if( get_field( 'head-meta-theme-color', self::$admin_menu_slug ) != '' ){

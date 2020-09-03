@@ -5,8 +5,8 @@
 	 * Date: 2019-01-20
 	 * Time: 16:15
 	 */
-
-	use hiweb\urls;
+	
+	use hiweb\core\Paths\PathsFactory;
 	use theme\forms;
 
 
@@ -82,7 +82,7 @@
 					/** @var WP_Post $message */
 					foreach( $messages as $index => $message ){
 						$R[ $index ] = [
-							'site' => \hiweb\PathsFactory::get()->domain(),
+							'site' => get_url()->domain(),
 							'post_date' => get_the_date( 'Y:m:d H:i:s', $message ),
 							'post_content' => strip_tags( $message->post_content )
 						];

@@ -569,6 +569,7 @@
 		
 		
 		/**
+		 * Return string like `color="#000" background="#fff"`
 		 * @param bool $return_array_pairs
 		 * @return array|string
 		 */
@@ -582,6 +583,7 @@
 		
 		
 		/**
+		 * Return string like `color: #000; background: #fff`
 		 * @return string
 		 */
 		public function get_param_html_style(){
@@ -594,14 +596,27 @@
 		
 		
 		/**
+		 * Return string like `color=#000&background=#fff`
+		 * @param bool $return_null_params
 		 * @return string
 		 */
-		public function get_params_url(){
-			$R = [];
+		public function get_param_url( $return_null_params = false ){
+			$pairs = [];
 			foreach( $this->get() as $key => $val ){
-				$R[] = urlencode( $key ) . '=' . urlencode( $val );
+				if( !$return_null_params && is_null( $val ) ) continue;
+				$pairs[] = urlencode( $key ) . '=' . urlencode( is_array( $val ) ? json_encode( $val ) : $val );
 			}
-			return join( '&', $R );
+			return join( '&', $pairs );
+		}
+		
+		
+		/**
+		 * Return string like `color=#000&background=#fff`
+		 * @param bool $return_null_params
+		 * @return string
+		 */
+		public function get_params_url( $return_null_params = false ){
+			return $this->get_param_url( $return_null_params );
 		}
 		
 		

@@ -24,6 +24,12 @@
 				}
 				elseif( $queried_object instanceof WP_Post_Type ){
 					if( get_field( 'enable-' . $queried_object->name, 'hiweb-seo-main' ) ){
+						if($queried_object->name == 'product' && function_exists('WC') && get_option('woocommerce_shop_page_id') != ''){
+							if( get_field( 'seo-custom-h1') != '' ){
+								return get_field( 'seo-custom-h1' );
+							}
+						}
+						///else
 						$archive_title = get_field( 'archive-title-' . $queried_object->name, 'hiweb-seo-main' );
 						if( $archive_title != '' ){
 							return $archive_title;

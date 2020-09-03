@@ -51,10 +51,11 @@
 		 * @param bool $preload_thumbnails
 		 * @param bool $preload_children_posts
 		 * @param bool $preload_terms
-		 * @return Preloader_Post[]
+		 * @param bool $woocommerce_cache
+		 * @return \stdClass
 		 * @version 2.0
 		 */
-		static function batch_preload_posts( $postOrIds, $preload_thumbnails = true, $preload_children_posts = true, $preload_terms = true ){
+		static function batch_preload_posts( $postOrIds, $preload_thumbnails = true, $preload_children_posts = true, $preload_terms = true, $woocommerce_cache = true ){
 			if( !self::$enable ) return [];
 			///
 			$post_ids = self::posts_to_ids( $postOrIds );
@@ -87,28 +88,20 @@
 			$query[] = 'WHERE ' . join( ' AND ', $where );
 			$query_str = join( "\n", $query );
 			$wpdb->query( $query_str );
-			$R = [];
+			$R = new \stdClass();
 			if( $wpdb->last_result ) foreach( $wpdb->last_result as $row ){
 				$found_post_ids[] = $row->ID;
-				wp_cache_set( $row->ID, get_post( (object)$row ), 'posts' );
+				$post = get_post( (object)$row );
+				wp_cache_set( $row->ID, $post, 'posts' );
+				$R->posts[ $row->ID ]['wp_post'] = $post;
+				$R->posts_hierarchy[ $row->post_parent ][] = $row->ID;
+				$R->post_type[ $row->post_type ][] = $row->ID;
 			}
-			/// preload children
-			//			$query = [ "/*" . __METHOD__ . ": preload children */" ];
-			//			$query[] = 'SELECT * FROM ' . $wpdb->posts . ' AS posts';
-			//			$where = [];
-			//			$where[] = 'posts.post_parent IN (' . join( ',', $found_post_ids ) . ')';
-			//			$query[] = 'WHERE ' . join( ' AND ', $where );
-			//			$query_str = join( "\n", $query );
-			//			$wpdb->query( $query_str );
-			//			if( $wpdb->last_result ) foreach( $wpdb->last_result as $row ){
-			//				wp_cache_set( $row->ID, get_post( (object)$row ), 'post' );
-			//				$found_post_ids[] = $row->ID;
-			//			}
 			/// preload post meta
 			$query = [ "/*" . __METHOD__ . ": preload post meta */" ];
 			$query[] = 'SELECT posts.ID, meta.meta_key, meta.meta_value FROM ' . $wpdb->posts . ' AS posts';
 			$query[] = "LEFT JOIN {$wpdb->postmeta} AS meta ON meta.post_id=posts.ID";
-			$where = [ '(posts.ID=' . join( ' OR posts.ID=', $found_post_ids ) . ')' ];
+			$where = [ 'posts.ID IN (' . join( ',', $found_post_ids ) . ')' ];
 			$query[] = 'WHERE ' . join( ' AND ', $where );
 			$query_str = join( "\n", $query );
 			$wpdb->query( $query_str );
@@ -117,7 +110,11 @@
 				if( !is_array( $current_meta ) ) $current_meta = [];
 				$current_meta[ $row->meta_key ] = [ $row->meta_value ];
 				wp_cache_set( $row->ID, $current_meta, 'post_meta' );
-				if( $preload_thumbnails && $row->meta_key == '_thumbnail_id' ) $found_thumbnail_ids[] = $row->meta_value;
+				if( $preload_thumbnails && $row->meta_key == '_thumbnail_id' ){
+					$found_thumbnail_ids[] = $row->meta_value;
+					if( $row->meta_value != 0 ) $R->post_thumbnails[ $row->ID ] = $row->meta_value;
+				}
+				$R->posts[ $row->ID ]['post_meta'][ $row->meta_key ] = $row->meta_value;
 			}
 			if( $preload_terms ){
 				/// preload terms
@@ -136,7 +133,7 @@
 			$query[] = "LEFT JOIN {$wpdb->terms} AS terms ON terms.term_id=relation.term_taxonomy_id";
 			$query[] = "LEFT JOIN {$wpdb->term_taxonomy} AS taxonomy ON taxonomy.term_taxonomy_id=relation.term_taxonomy_id";
 				//$query[] = "LEFT JOIN {$wpdb->termmeta} AS termmeta ON termmeta.term_id=terms.term_id";
-				$where = [ '(posts.ID=' . join( ' OR posts.ID=', array_keys( $R ) ) . ')' ];
+				$where = [ 'posts.ID IN (' . join( ',', $found_post_ids ) . ')' ];
 				$where[] = 'relation.term_taxonomy_id IS NOT NULL';
 				$query[] = 'WHERE ' . join( ' AND ', $where );
 			$query_str = join( "\n", $query );
@@ -149,9 +146,11 @@
 						$found_term_ids[ $term->term_id ][] = $row->ID;
 						wp_cache_set( $term->term_id, $term, 'terms' );
 						$current_relation = wp_cache_get( $row->ID, $row->taxonomy . '_relationships' );
-						if( !is_array( $current_relation[ $row->ID ] ) ) $current_relation[ $row->ID ] = [];
-						$current_relation[ $row->ID ][] = $term->term_id;
+						if( !is_array( $current_relation[ $row->ID ] ) ) $current_relation = [];
+						$current_relation[] = (int)$term->term_id;
 						wp_cache_set( $row->ID, $current_relation, $row->taxonomy . '_relationships' );
+						$R->terms[ $term->term_id ]['term'] = $term;
+						$R->relationships[ $row->taxonomy ][ $row->ID ] = $current_relation;
 					}
 				}
 				/// preload terms meta
@@ -170,12 +169,27 @@
 						$current_meta[ $row->meta_key ] = [ $row->meta_value ];
 						wp_cache_set( $row->term_id, $current_meta, 'term_meta' );
 						if( $preload_thumbnails && $row->meta_key == 'thumbnail_id' ) $found_thumbnail_ids[] = $row->meta_value;
+						$R->terms[ $row->term_id ]['term_meta'][ $row->meta_key ] = $row->meta_value;
 				}
 					}
 				}
 			///
 			if( $preload_thumbnails && count( $found_thumbnail_ids ) ){
 				self::batch_preload_posts( $found_thumbnail_ids, false, false, false );
+			}
+			///WooCommerce Cache
+			if( $woocommerce_cache && isset( $R->relationships['product_type'] ) && is_array( $R->relationships['product_type'] ) ){
+				$found_products = [];
+				foreach( $R->relationships['product_type'] as $product_id => $terms ){
+					$type_slug = null;
+					if( is_array( $terms ) && count( $terms ) > 0 ){
+						$type_id = reset( $terms );
+						if( isset( $R->terms[ $type_id ]['term'] ) ) $type_slug = $R->terms[ $type_id ]['term']->term_slug;
+					}
+					$found_products[ $product_id ] = microtime();
+					wp_cache_set( 'wc_product_' . $product_id . '_cache_prefix', $found_products[ $product_id ], 'product_' . $product_id );
+					wp_cache_set( 'wc_cache_' . $found_products[ $product_id ] . '__type_' . $product_id, $type_slug, 'products' );
+				}
 			}
 			return $R;
 		}

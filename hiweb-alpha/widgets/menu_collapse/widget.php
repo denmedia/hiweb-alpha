@@ -109,7 +109,7 @@
 						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_span', "<span href=\"{$item->url}\" class=\"item-link\">{$item_title}</span>", $item, get_defined_vars(), $this );
 					}
 					else{
-						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_a', "<a href=\"{$item->url}\" class=\"item-link\"><span class='item-text'>{$item_title}</span></a>", $item, get_defined_vars(), $this );
+						$item_content = apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_a', "<div class='item-wrap'><a href=\"{$item->url}\" class=\"item-link\"><span class='item-text'>{$item_title}</span></a></div>", $item, get_defined_vars(), $this );
 					}
 					echo apply_filters( '\hiweb_theme_widget_menu_collapse::the_items-item_content', $item_content, $item, get_defined_vars(), $this );
 					///sub items
