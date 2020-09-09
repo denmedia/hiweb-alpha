@@ -20,6 +20,7 @@
 		public $root_classes = [ 'hiweb-theme-widget-slider', 'owl-carousel' ];
 		public $full_height = true;
 		private $aspect_ratio = '16-9';
+		private $image_contain = false;
 		public $slide_interval = 8000;
 		public $random = false;
 		public $stop_on_hover = true;
@@ -60,6 +61,10 @@
 			$this->full_height = false;
 			$this->aspect_ratio = '4-3';
 		}
+		
+		public function set_image_contain($set = true){
+			$this->image_contain = true;
+		}
 
 
 		/**
@@ -88,7 +93,7 @@
 				$this->root_classes[] = 'aspect-' . $this->aspect_ratio;
 			}
 			?>
-			<div id="<?= $this->id ?>" class="<?= implode( ' ', $this->root_classes ) ?>" data-slide-interval="<?= $this->slide_interval ?>" data-slider-stop-hover="<?= $this->stop_on_hover ? '1' : '0' ?>" data-slider-options="<?= htmlentities( json_encode( $this->options ) ) ?>" style="visibility: hidden;">
+			<div id="<?= $this->id ?>" class="<?= implode( ' ', $this->root_classes ) ?><?=$this->image_contain ? ' image_contain' : ''?>" data-slide-interval="<?= $this->slide_interval ?>" data-slider-stop-hover="<?= $this->stop_on_hover ? '1' : '0' ?>" data-slider-options="<?= htmlentities( json_encode( $this->options ) ) ?>" style="visibility: hidden;">
 				<?php
 					foreach( $this->get_slides() as $slide ){
 						$slide->the();

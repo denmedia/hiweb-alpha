@@ -5,7 +5,6 @@
 	
 	use hiweb\core\Cache\CacheFactory;
 	use stdClass;
-	use theme\forms\inputs\number;
 	use WP_Post;
 	use WP_Term;
 	
@@ -58,7 +57,7 @@
 		
 		
 		/**
-		 * @param null|number $parent_id
+		 * @param null|int $parent_id
 		 * @return array|WP_Post[]
 		 * @version 1.1
 		 */
@@ -85,7 +84,7 @@
 		
 		/**
 		 * Return true, if items is exists
-		 * @param null|number $parent_id
+		 * @param null|int $parent_id
 		 * @return bool
 		 */
 		public function has_items( $parent_id = null ){
@@ -138,10 +137,10 @@
 			}
 			?>
 			<ul class="<?= htmlentities( $ul_class ) ?>"><?php
-			$items = $this->get_items();
+			$items = $this->get_items( $parent_id );
 			if( is_array( $items ) ){
 				foreach( $items as $item ){
-					if( $item->parent_menu_item != $parent_id ) continue;
+					if( $item->menu_item_parent != $parent_id ) continue;
 					?>
 				<li class="<?= htmlentities( $li_class ) ?>"><a href="<?= $item->url ?>"><span><?= $item->title ?></span></a></li><?php
 				}
