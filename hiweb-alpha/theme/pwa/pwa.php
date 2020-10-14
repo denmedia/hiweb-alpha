@@ -9,6 +9,7 @@
 	namespace theme;
 
 
+	use hiweb\components\Context;
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\Paths\Path_File;
 	use hiweb\core\Paths\PathsFactory;
@@ -43,40 +44,42 @@
 
 			favicon::init();
 
-			//viewport meta tag
-			if( get_field( 'viewport', self::$admin_menu_slug ) != '' ){
-				head::add_html_addition( "<meta name='viewport' content='" . get_field( 'viewport', self::$admin_menu_slug ) . "'>" );
-			}
-
-			//manifest link
-			head::add_html_addition( '<link rel="manifest" href="' . get_rest_url( null, 'hiweb-theme/pwa/manifest' ) . '">' );
-
-			//add script to head tag
-			if( trim( get_field( 'script-head', self::$admin_menu_slug ) ) != '' ) {
-				add_action('wp_head', function(){
-					the_field( 'script-head', self::$admin_menu_slug );
-				});
-			}
-			//add script to footer
-			if( trim( get_field( 'script', self::$admin_menu_slug ) ) != '' && !(get_field('script-footer-bot-hide',self::$admin_menu_slug) && get_client()->is_webBot()) ) add_action( '\theme\html_layout\body::the_after-before', function(){
-				the_field( 'script', self::$admin_menu_slug );
-			} );
-
-			if( get_field( 'head-meta-theme-color', self::$admin_menu_slug ) != '' ){
-				head::add_html_addition( '<meta name="theme-color" content="' . get_field( 'head-meta-theme-color', self::$admin_menu_slug ) . '">' );
-			}
-			head::add_code( '<meta name="apple-mobile-web-app-capable" content="' . ( get_field( 'apple-mobile-web-app-capable', self::$admin_menu_slug ) ? 'yes' : 'no' ) . '">' );
-			head::add_code( '<meta name="apple-mobile-web-app-status-bar-style" content="' . get_field( 'apple-mobile-web-app-status-bar-style', self::$admin_menu_slug ) . '">' );
-
-			if( get_field( 'service-worker-enable', self::$admin_menu_slug ) ){
-				self::$service_worker = PathsFactory::get_file( '/' . self::$service_worker_filename );
-				$B = false; //TODO-
-				//$B = self::make_service_worker();
-				if( $B === true || $B === - 1 ){
-					//includes::async_script_file( 'pwa' );
+			if(Context::is_frontend_page()) {
+				//viewport meta tag
+				if( get_field( 'viewport', self::$admin_menu_slug ) != '' ){
+					head::add_html_addition( "<meta name='viewport' content='" . get_field( 'viewport', self::$admin_menu_slug ) . "'>" );
 				}
-			} else {
-				//includes::defer_script_file( 'pwa-unreg' );
+				
+				//manifest link
+				head::add_html_addition( '<link rel="manifest" href="' . get_rest_url( null, 'hiweb-theme/pwa/manifest' ) . '">' );
+				
+				//add script to head tag
+				if( trim( get_field( 'script-head', self::$admin_menu_slug ) ) != '' ) {
+					add_action('wp_head', function(){
+						the_field( 'script-head', self::$admin_menu_slug );
+					});
+				}
+				//add script to footer
+				if( trim( get_field( 'script', self::$admin_menu_slug ) ) != '' && !(get_field('script-footer-bot-hide',self::$admin_menu_slug) && get_client()->is_webBot()) ) add_action( '\theme\html_layout\body::the_after-before', function(){
+					the_field( 'script', self::$admin_menu_slug );
+				} );
+				
+				if( get_field( 'head-meta-theme-color', self::$admin_menu_slug ) != '' ){
+					head::add_html_addition( '<meta name="theme-color" content="' . get_field( 'head-meta-theme-color', self::$admin_menu_slug ) . '">' );
+				}
+				head::add_code( '<meta name="apple-mobile-web-app-capable" content="' . ( get_field( 'apple-mobile-web-app-capable', self::$admin_menu_slug ) ? 'yes' : 'no' ) . '">' );
+				head::add_code( '<meta name="apple-mobile-web-app-status-bar-style" content="' . get_field( 'apple-mobile-web-app-status-bar-style', self::$admin_menu_slug ) . '">' );
+				
+				if( get_field( 'service-worker-enable', self::$admin_menu_slug ) ){
+					self::$service_worker = PathsFactory::get_file( '/' . self::$service_worker_filename );
+					$B = false; //TODO-
+					//$B = self::make_service_worker();
+					if( $B === true || $B === - 1 ){
+						//includes::async_script_file( 'pwa' );
+					}
+				} else {
+					//includes::defer_script_file( 'pwa-unreg' );
+				}
 			}
 		}
 

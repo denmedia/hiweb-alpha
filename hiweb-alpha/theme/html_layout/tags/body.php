@@ -83,7 +83,7 @@
 		 */
 		static function the_tags(){
 			if( self::$tags instanceof ArrayObject ){
-				echo self::$tags->get_param_html_tags();
+				echo self::$tags->get_as_tag_attributes();
 			}
 		}
 		

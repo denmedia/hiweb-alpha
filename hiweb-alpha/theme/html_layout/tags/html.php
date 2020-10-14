@@ -57,7 +57,7 @@
 		 * @return string
 		 */
 		static function get_tags(){
-			return self::get_tags_array()->get_param_html_tags();
+			return self::get_tags_array()->get_as_tag_attributes();
 		}
 
 

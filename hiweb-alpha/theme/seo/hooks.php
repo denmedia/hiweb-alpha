@@ -153,7 +153,7 @@
 	}, 10, 2 );
 	///СЛЭШ В КОНЦЕ URL ЗАПИСЕЙ
 	add_filter( 'post_link', function( $permalink, $post, $leavename ){
-		$slash_option = get_field( 'redirect-last-slash-mod', theme\seo::$admin_menu_main );
+		$slash_option = get_option( 'hiweb-option-'.theme\seo::$admin_menu_main.'-redirect-last-slash-mod' );
 		if( \hiweb\components\Context::is_frontend_page() && $slash_option != 'default' ){
 			if( preg_match( '~\/$~i', $permalink ) == ( $slash_option == 'none' ? 1 : 0 ) && strpos( $permalink, '?' ) === false ){
 				$permalink = preg_replace( '~\/$~i', $slash_option == 'none' ? '' : '/', $permalink );

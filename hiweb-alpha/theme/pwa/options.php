@@ -13,7 +13,7 @@
 	 * @var \theme\pwa self
 	 */
 
-	theme\includes\admin::fontawesome();
+	//theme\includes\admin::fontawesome();
 
 //	add_action( 'current_screen', function(){
 		//if( get_current_screen()->base == 'dashboard' && !PathsFactory::get()->is_ssl() ) hiweb\admin::NOTICE( 'Внимание! На сайте не установлен SSL. Это требуется для того, чтобы браузер работал в режиме PWA.' )->CLASS_()->error();

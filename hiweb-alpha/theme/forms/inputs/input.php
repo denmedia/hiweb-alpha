@@ -27,7 +27,6 @@
 		
 		
 		static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-			
 			$parent_repeat_field->add_col_flex_field( self::$input_type, add_field_separator( self::$input_title, 'Для данного инпута нет изменяемых данных' ) );
 		}
 		

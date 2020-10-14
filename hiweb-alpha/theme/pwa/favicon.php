@@ -9,6 +9,7 @@
 	namespace theme\pwa;
 	
 	
+	use hiweb\components\Context;
 	use hiweb\components\Images\ImagesFactory;
 	use theme\html_layout\tags\head;
 	
@@ -20,9 +21,11 @@
 		
 		
 		static function init(){
-			$favicon_attach_id = get_field( 'icon', \theme\pwa::$admin_menu_slug );
-			if( is_numeric( $favicon_attach_id ) ){
-				head::add_html_addition( self::get() );
+			if(Context::is_frontend_page()) {
+				$favicon_attach_id = get_field( 'icon', \theme\pwa::$admin_menu_slug );
+				if( is_numeric( $favicon_attach_id ) ){
+					head::add_html_addition( self::get() );
+				}
 			}
 		}
 		

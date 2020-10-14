@@ -39,7 +39,7 @@
 	///
 	add_field_tab('Форма')->location()->posts( self::$post_type_name );
 	$INPUTS = add_field_repeat( 'inputs' );
-	$INPUTS->label( 'Поля ввода' )->location()->posts( self::$post_type_name )->COLUMNS_MANAGER()->name( 'Шорткоды' )->callback( function( $post_id ){
+	$INPUTS->label( 'Поля ввода' )->location()->posts( self::$post_type_name )->columnsManager()->name( 'Шорткоды' )->callback( function( $post_id ){
 		echo '<p>просто форма:<br><code>[hiweb-theme-widget-form id="' . $post_id . '"]</code></p><p>кнопка, вызывающая форму:<br><code>[hiweb-theme-widget-form-button id="' . $post_id . '" html="Открыть форму"]</code></p>';
 	} );
 	//

@@ -37,8 +37,47 @@
 				require_once __DIR__ . '/hooks.php';
 				require_once __DIR__ . '/post-type-meta.php';
 				require_once __DIR__ . '/authors.php';
+				require_once __DIR__ . '/yoast.php';
 				require_once __DIR__ . '/global_functions.php';
 			}
+		}
+		
+		
+		/**
+		 * @param string|\WP_Post_Type $post_type
+		 * @return bool
+		 */
+		static function post_type_has_settings( $post_type ){
+			$post_type = $post_type instanceof \WP_Post_Type ? $post_type : get_post_type_object( $post_type );
+			if( !$post_type instanceof \WP_Post_Type ) return false;
+			return $post_type->public && ( $post_type->name == 'page' || $post_type->name == 'post' || $post_type->publicly_queryable );
+		}
+		
+		
+		static function post_type_is_enable( $post_type ){
+			$post_type = $post_type instanceof \WP_Post_Type ? $post_type : get_post_type_object( $post_type );
+			if( !$post_type instanceof \WP_Post_Type ) return false;
+			if( !self::post_type_has_settings( $post_type ) ) return false;
+			$R = get_option( 'hiweb-option-' . \theme\seo::$admin_menu_main . '-enable-' . $post_type->name );
+			return $R;
+		}
+		
+		
+		static function post_type_is_enable_customH1( $post_type ){
+			$post_type = $post_type instanceof \WP_Post_Type ? $post_type : get_post_type_object( $post_type );
+			if( !$post_type instanceof \WP_Post_Type ) return false;
+			if( !self::post_type_has_settings( $post_type ) ) return false;
+			$R = get_option( 'hiweb-option-' . \theme\seo::$admin_menu_main . '-enable-custom-h1-' . $post_type->name );
+			return $R;
+		}
+		
+		
+		static function post_type_is_enable_customLoopTitle( $post_type ){
+			$post_type = $post_type instanceof \WP_Post_Type ? $post_type : get_post_type_object( $post_type );
+			if( !$post_type instanceof \WP_Post_Type ) return false;
+			if( !self::post_type_has_settings( $post_type ) ) return false;
+			$R = get_option( 'hiweb-option-' . \theme\seo::$admin_menu_main . '-enable-custom-loop-title-' . $post_type->name );
+			return $R;
 		}
 		
 		
@@ -57,7 +96,7 @@
 		static function get_post_type_title( $post_type = 'post' ){
 			$post_type = get_post_type_object( $post_type );
 			if( $post_type->has_archive ){
-				return get_field( 'archive-title-' . $post_type->name, self::$admin_menu_main );
+				return (bool)get_option( 'hiweb-option-' . self::$admin_menu_main . '-archive-title-' . $post_type->name );
 			}
 			return null;
 		}
@@ -67,7 +106,7 @@
 		 * @return mixed
 		 */
 		static function is_author_enable(){
-			return get_field( 'authors-enable', self::$admin_menu_main );
+			return (bool)get_option( 'hiweb-option-' . self::$admin_menu_main . '-authors-enable' );
 		}
 		
 		
@@ -75,7 +114,7 @@
 		 * @return mixed
 		 */
 		static function is_paged_append_enable(){
-			return get_field( 'paged-append-enable', self::$admin_menu_main );
+			return (bool)get_option( 'hiweb-option-' . self::$admin_menu_main . '-paged-append-enable' );
 		}
 		
 		
