@@ -51,6 +51,6 @@
 		add_field_checkbox( 'canonical-paged-prev-next-links' )->label_checkbox( 'Выводить канонические ссылки на странице пагинации, ссылки на предыдущую и следующую страницы' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”next” href=”http://...” />' ) . '</code>' )->location( true );
 		add_field_checkbox( 'canonical-all-pages' )->label_checkbox( 'Выводить каноническую ссылку на всех страницах не пагинации, ссылка на текущую страницу' )->description( 'Пример кода: <code>' . htmlentities( '<link rel=”canonical” href=”http://...” />' ) . '</code>' )->location( true );
 		add_field_separator( 'YOAST SEO интеграция' )->location( true );
-		add_field_checkbox( 'yoast-canonical-disable' )->label_checkbox( 'Отключать ссылки canonical от плагина YOAST SEO' )->location( true );
-		add_field_checkbox( 'yoast-canonical-prev-next-disable' )->label_checkbox( 'Отключать ссылки prev/next от плагина YOAST SEO' )->location( true );
+		add_field_checkbox( 'yoast-canonical-disable' )->label_checkbox( 'Отключать ссылки <code>canonical</code> от плагина YOAST SEO' )->location( true );
+		add_field_checkbox( 'yoast-canonical-prev-next-disable' )->label_checkbox( 'Отключать ссылки <code>prev/next</code> от плагина YOAST SEO' )->location( true );
 	}, 10 );
