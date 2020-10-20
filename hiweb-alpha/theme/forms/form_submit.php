@@ -11,6 +11,11 @@
 	use theme\forms;
 	
 	
+	/**
+	 * Class form_submit
+	 * @package theme\forms
+	 * @version 1.1
+	 */
 	class form_submit{
 		
 		/**
@@ -71,12 +76,11 @@
 		/**
 		 * @return string
 		 */
-		public function get_mail_content(){
-			$R = '';
-			
-			return $R;
-		}
-		
+		//		public function get_mail_content(){
+		//			$R = '';
+		//
+		//			return $R;
+		//		}
 		
 		/**
 		 * @return array
@@ -204,9 +208,9 @@
 		 * @return string
 		 */
 		public function get_email_theme_admin(){
-			$theme = get_field('theme-email-admin', $this->form->get_wp_post(), '');
-			if($theme == '') {
-				$theme = get_field('theme-email-admin', forms::$options_name);
+			$theme = get_field( 'theme-email-admin', $this->form->get_wp_post(), '' );
+			if( $theme == '' ){
+				$theme = get_field( 'theme-email-admin', forms::$options_name );
 			}
 			return strtr( $theme, $this->form->get_strtr_templates( $this->content_array ) );
 		}
@@ -217,7 +221,7 @@
 		 */
 		public function get_email_content_admin(){
 			$email_content_admin = get_field( 'content-email-admin', $this->form->get_wp_post() );
-			if(trim($email_content_admin) == '') {
+			if( trim( $email_content_admin ) == '' ){
 				$email_content_admin = get_field( 'content-email-admin', forms::$options_name );
 			}
 			return apply_filters( 'the_content', strtr( $email_content_admin, $this->form->get_strtr_templates( $this->content_array ) ) );
@@ -228,9 +232,9 @@
 		 * @return string
 		 */
 		public function get_email_theme_client(){
-			$theme = get_field('theme-email-client', $this->form->get_wp_post(), '');
-			if($theme == '') {
-				$theme = get_field('theme-email-client', forms::$options_name);
+			$theme = get_field( 'theme-email-client', $this->form->get_wp_post(), '' );
+			if( $theme == '' ){
+				$theme = get_field( 'theme-email-client', forms::$options_name );
 			}
 			return strtr( $theme, $this->form->get_strtr_templates( $this->content_array ) );
 		}

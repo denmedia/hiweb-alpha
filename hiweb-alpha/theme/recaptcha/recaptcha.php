@@ -5,41 +5,45 @@
 	 * Date: 11.10.2018
 	 * Time: 13:01
 	 */
-
+	
 	namespace theme;
-
-
+	
+	
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
 	use theme\includes\frontend;
-
-
+	
+	
 	/**
 	 * Class recaptcha
 	 * @package theme
+	 * @version 1.2
 	 */
 	class recaptcha{
-
+		
 		static $admin_menu_slug = 'hiweb-recaptcha';
 		static $admin_menu_parent = 'options-general.php';
 		static $options_object_recaptcha;
-
-
+		static $last_response = null;
+		
+		
 		static function init(){
 			///Options reCaptcha
 			require_once __DIR__ . '/options.php';
 			require_once __DIR__ . '/woocommerce.php';
 			frontend::js( __DIR__ . '/App.min.js', frontend::jquery() );
 			///
-			add_filter('\theme\forms\form::do_submit-allow_submit_form', function($array, $form, $submit_data){
-				if(self::is_enable() && !self::get_recaptcha_verify()) {
-					return [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
+			add_filter( '\theme\forms\form::do_submit-allow_submit_form', function( $array, $form, $submit_data ){
+				if( self::is_enable() && !self::get_recaptcha_verify() ){
+					$R = [ 'success' => false, 'message' => get_field( 'text-error', recaptcha::$admin_menu_slug ), 'status' => 'warn' ];
+					//$R['recaptcha_error'] = self::$last_response;
+					return $R;
 				}
 				return null;
-			},10,3);
+			}, 10, 3 );
 		}
-
-
+		
+		
 		/**
 		 * @param bool $public
 		 * @return string
@@ -48,29 +52,29 @@
 			self::init();
 			return get_field( ( $public ? 'public-key' : 'private-key' ), self::$admin_menu_slug );
 		}
-
-
+		
+		
 		/**
 		 * @return bool
 		 */
 		static function is_enable(){
 			return ( trim( self::get_recaptcha_key() ) != '' && get_field( 'enable', self::$admin_menu_slug ) );
 		}
-
-
+		
+		
 		/**
 		 * @return float
 		 */
 		static function get_minimal_score(){
 			return floatval( get_field( 'min-score', self::$admin_menu_slug ) );
 		}
-
-
+		
+		
 		/**
-		 * @version 1.1
 		 * @param string $post_name
 		 * @param bool   $return_boolean - true => возвращает тоько true или false после проверки
 		 * @return array|bool|mixed|object
+		 * @version 1.2
 		 */
 		static function get_recaptcha_verify( $post_name = 'recaptcha-token', $return_boolean = true ){
 			if( self::is_enable() == '' ) return true;
@@ -91,9 +95,11 @@
 			$context = stream_context_create( $opts );
 			$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
 			$response_std = json_decode( $response );
+			self::$last_response = $response_std;
 			if( $return_boolean ){
-				return !$response_std->success ? ( floatval($response_std->score) >= self::get_minimal_score() ) : false;
-			} else {
+				return !$response_std->success ? ( floatval( $response_std->score ) >= self::get_minimal_score() ) : true;
+			}
+			else{
 				return [
 					json_decode( $response ),
 					'secret' => self::get_recaptcha_key( false ),
@@ -102,8 +108,8 @@
 				];
 			}
 		}
-
-
+		
+		
 		static function the_input(){
 			if( self::is_enable() ){
 				include_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key( true ) );
@@ -113,13 +119,13 @@
 				<?php
 			}
 		}
-
-
+		
+		
 		/**
 		 * @return mixed
 		 */
 		static function get_error_message(){
 			return get_field( 'text-error', self::$admin_menu_slug );
 		}
-
+		
 	}

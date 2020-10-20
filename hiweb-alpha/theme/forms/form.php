@@ -418,7 +418,7 @@
 		 * Submit form
 		 * @param $submit_data
 		 * @return array
-		 * @version 1.4
+		 * @version 1.5
 		 */
 		public function do_submit( $submit_data ){
 			$response_html = '';
@@ -439,7 +439,9 @@
 			///
 			///
 			if( !$form_submit->is_required_no_errors() ){
-				return [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => array_keys( $form_submit->get_required_errors() ) ];
+				$R = [ 'success' => false, 'message' => $this->get_status_message( 'warn' ), 'inputs' => $inputs, 'status' => 'warn', 'error_inputs' => array_keys( $form_submit->get_required_errors() ) ];
+				$R['debug'] = apply_filters( '\theme\forms\form::do_submit-require_error_debug', [], $this, get_defined_vars() );
+				return $R;
 			}
 			else{
 				///

@@ -90,12 +90,14 @@
 		}
 		
 		
+		
 		/**
-		 * @param string $submit_value
+		 * Return true, if value is valid (check required post data)
+		 * @param $value
 		 * @return bool
 		 */
-		public function is_required_validate( $submit_value = '' ){
-			return $submit_value != '';
+		public function is_required_validate( $value ){
+			return strlen( $value ) != '';
 		}
 		
 		
@@ -202,5 +204,5 @@
 		public function ajax_html(){
 			return [ 'success' => false, 'message' => 'для данного инпута нет HTML через AJAX' ];
 		}
-		
+
 	}

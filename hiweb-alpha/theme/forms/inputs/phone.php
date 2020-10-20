@@ -38,4 +38,17 @@
 		}
 
 
+		/**
+		 * @param $value
+		 * @return bool
+		 */
+		public function is_required_validate( $value ){
+			$mask = $this->get_data( 'mask' );
+			if(strlen($mask) != strlen($value)) return false;
+			$mask_count = preg_match_all( '~\d~im', $this->get_data( 'mask' ) );
+			$value_count = preg_match_all( '~\d~im', $value );
+			return $mask_count == $value_count;
+		}
+
+
 	}
