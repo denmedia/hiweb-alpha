@@ -40,7 +40,7 @@
 			2 => 'col-md-6',
 			3 => 'col-md-6 col-lg-4',
 			4 => 'col-sm-6 col-lg-3',
-			5 => 'col-sm-6 col-lg-3',
+			5 => 'col-sm-6 col-lg-5th',
 			6 => 'col-sm-6 col-md-4 col-lg-2',
 			7 => 'col-sm-6 col-md-4 col-lg-2',
 			8 => 'col-sm-6 col-md-4 col-lg-2'
