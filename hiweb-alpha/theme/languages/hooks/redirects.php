@@ -6,8 +6,8 @@
 	 * Time: 21:07
 	 */
 
-	use hiweb\urls;
-	use theme\languages\detect;
+use hiweb\core\Paths\PathsFactory;
+use theme\languages\detect;
 
 
 	if( !detect::is_multisite() ){
@@ -26,13 +26,13 @@
 			if( function_exists( 'get_queried_object' ) ){
 				$qo = get_queried_object();
 				if( $qo instanceof WP_Post ){
-					if( !is_front_page() && \theme\languages::is_post_type_allowed( $qo->post_type ) && get_permalink( $qo ) != PathsFactory::root( false ) . detect::$uri_original ){
+					if( !is_front_page() && \theme\languages::is_post_type_allowed( $qo->post_type ) && get_permalink( $qo ) != PathsFactory::root(  ) . detect::$uri_original ){
 						console_info( 'REDIRECT FROM DUPLICATE DEFAULT LANG URLS: 1' );
 						wp_redirect( get_permalink( $qo ), 301,'hiweb-theme-language' );
 					}
 				} elseif( $qo instanceof WP_Term ) {
 					foreach( get_taxonomy( $qo->taxonomy )->object_type as $post_type ){
-						if( \theme\languages::is_post_type_allowed( $post_type ) && rtrim( get_term_link( $qo ), '/' ) != rtrim( preg_replace( '/\/page\/[\d]+\/?$/im', '', PathsFactory::root( false ) . detect::$uri_original ), '/' ) ){
+						if( \theme\languages::is_post_type_allowed( $post_type ) && rtrim( get_term_link( $qo ), '/' ) != rtrim( preg_replace( '/\/page\/[\d]+\/?$/im', '', PathsFactory::root(  ) . detect::$uri_original ), '/' ) ){
 							console_log( 'REDIRECT FROM DUPLICATE DEFAULT LANG URLS: 2' );
 							wp_redirect( get_term_link( $qo ), 301,'hiweb-theme-language' );
 						}

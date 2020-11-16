@@ -37,19 +37,19 @@
 					self::$sub_domain = $explode[0];
 				}
 			}
-			///Check SubFolder
-			$params = '';
-			if( strpos( '?', $_SERVER['REQUEST_URI'] ) !== false ) [ $dirs, $params ] = explode( '?', $_SERVER['REQUEST_URI'] ); else $dirs = $_SERVER['REQUEST_URI'];
-			$explode = explode( '/', $dirs );
-			self::$uri_original = $_SERVER['REQUEST_URI'];
-			if( languages::is_exists( $explode[1] ) ){
+            ///Check SubFolder
+            $params = '';
+            if( strpos( '?', $_SERVER['REQUEST_URI'] ) !== false ) [ $dirs, $params ] = explode( '?', $_SERVER['REQUEST_URI'] ); else $dirs = $_SERVER['REQUEST_URI'];
+            $explode = explode( '/', $dirs );
+            self::$uri_original = $_SERVER['REQUEST_URI'];
+            if( languages::is_exists( $explode[1] ) ){
 				self::$url_prefix = $explode[1];
 				unset ( $explode[1] );
 			}
 			//			else {
 			//				self::$url_prefix = languages::get_default_id();
 			//			}
-			$_SERVER['REQUEST_URI'] = join( '/', $explode ) . ( $params != '' ? '?' . $params : '' );
+			$_SERVER['REQUEST_URI'] = join( '/', $explode ) . ( $params != '' ? '?' . $params : '/' );
 		}
 
 

@@ -117,6 +117,21 @@
 				else return null;
 			} )->get_value();
 		}
+
+        /**
+         * Return posts array by template name
+         * @param string $templateFile
+         * @return int[]|WP_Post[]
+         */
+		static function get_posts_byTemplate($templateFile = 'template.php'){
+            $args = [
+                'post_type' => 'page',
+                'nopaging' => true,
+                'meta_key' => '_wp_page_template',
+                'meta_value' => $templateFile
+            ];
+            return get_posts( $args );
+        }
 		
 		
 		/**

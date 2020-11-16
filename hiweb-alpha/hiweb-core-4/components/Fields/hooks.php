@@ -78,7 +78,7 @@
 	//	add_action( 'current_screen', [ $this, 'admin_menu_fields' ], 999999 );
 	
 	/// THEME SETTINGS
-	//	add_action( 'customize_register', 'hiweb\\fields\\locations\\admin::customize_register' );
+	//add_action( 'customize_register', '\hiweb\components\Fields\FieldsFactory_Admin\FieldsFactory_Admin_Customize::customize_register' );
 	
 	///COMMENTS
 	//	add_action( 'add_meta_boxes_comment', 'hiweb\\fields\\locations\\admin::add_meta_boxes_comment' );

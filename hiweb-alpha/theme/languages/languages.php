@@ -8,11 +8,8 @@
 
 	namespace theme;
 
-
-	use hiweb\arrays;
-	use hiweb\fields;
-	use hiweb\fields\field;
-	use theme\html_layout\tags\head;
+	use hiweb\components\Fields\Field;
+    use theme\html_layout\tags\head;
 	use theme\languages\detect;
 	use theme\languages\language;
 	use theme\languages\multisites;
@@ -53,13 +50,13 @@
 
 		static function init(){
 			require_once __DIR__ . '/options.php';
-			require_once __DIR__ . '/multisite-migrate.php';
-			require_once __DIR__ . '/hooks/ajax.php';
-			require_once __DIR__ . '/hooks/hooks.php';
-			require_once __DIR__ . '/hooks/links.php';
-			require_once __DIR__ . '/hooks/redirects.php';
-			detect::init();
-			if( !self::set_lang_id( detect::get_id() ) ){
+            require_once __DIR__ . '/multisite-migrate.php';
+            require_once __DIR__ . '/hooks/ajax.php';
+            require_once __DIR__ . '/hooks/hooks.php';
+            require_once __DIR__ . '/hooks/links.php';
+            require_once __DIR__ . '/hooks/redirects.php';
+            //detect::init();
+            if( !self::set_lang_id( detect::get_id() ) ){
 				console_warn( 'Не удалось установить язык сайта' );
 			} else {
 				html_layout\tags\html::get_tags_array()->push( 'lang', self::get_current_id() );
@@ -146,7 +143,7 @@
 			if( self::get_current_id() === 'ru' ){
 				return date_i18n( $format, $timestamp );
 			} else {
-				$format = \hiweb\date::formatToLocalize( $format );
+				$format = \hiweb\components\Date::formatToLocalize( $format );
 				return strtolower( strftime( $format, $timestamp ) );
 				//return strtolower( strftime( '%e %B', $timestamp ) );
 			}
@@ -236,7 +233,7 @@
 		 */
 		static function is_taxonomy_allowed( $taxonomy ){
 			foreach( self::get_post_types( true ) as $post_type ){
-				if( arrays::in_array( $taxonomy, get_object_taxonomies( $post_type ) ) )
+				if(  in_array( $taxonomy, get_object_taxonomies( $post_type ) ) )
 					return true;
 			}
 			return false;
@@ -411,11 +408,12 @@
 		}
 
 
-		static function add_field( field $field, $ignore_multisite = false ){
+		static function add_field( Field $field, $ignore_multisite = false ){
 			if( !detect::is_multisite() ){
-				$label_original = $field->label();
+				$label_original = $field->options()->label();
 				foreach( self::get_languages() as $lang_id => $language ){
-					$field = fields::clone_field( $field, $language->get_field_id( $field->id() ) );
+					//$field = Fields::clone_field( $field, $language->get_field_id( $field->id() ) );
+                    exit('CLONE FIELD FIRST!!!'); //todo
 					$field->label( $label_original . ' (' . $language->get_name() . ')' );
 				}
 			} elseif( $ignore_multisite ) {

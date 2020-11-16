@@ -10,7 +10,8 @@
 
 
 	use hiweb\core\ArrayObject\ArrayObject;
-	use theme\languages;
+    use hiweb\core\Paths\PathsFactory;
+    use theme\languages;
 
 
 	class language{
@@ -44,6 +45,15 @@
 		public function is_default(){
 			return $this->id == languages::get_default_id();
 		}
+
+
+        /**
+         * Return true if this language is current active
+         * @return bool
+         */
+		public function is_current(){
+		    return languages::get_current_id() == $this->get_id();
+        }
 
 
 		/**

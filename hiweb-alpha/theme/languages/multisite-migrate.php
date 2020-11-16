@@ -10,8 +10,7 @@
 
 
 	if( get_current_network_id() == get_main_network_id() ){
-		\theme\includes\admin::fontawesome();
-		add_admin_menu_page( \theme\languages::$options_page_slug . '-multisite-migrate', '<i class="fas fa-plane-departure"></i> Экспорт локализированных статей', 'tools.php' )->use_default_form( false )->function_page( function(){
+		add_admin_menu_page( \theme\languages::$options_page_slug . '-multisite-migrate', get_fontawesome('<i class="fas fa-plane-departure"></i>').' Экспорт локализированных статей', 'tools.php' )->function_( function(){
 			?>
 			<div class="wrap">
 				<h1><i class="fas fa-plane-departure"></i> Экспорт статей из текущей версии сайта для сети мультисайтов</h1>

@@ -33,7 +33,7 @@
 				$sites = get_sites();
 				/** @var \WP_Site $site */
 				foreach( $sites as $site ){
-					self::$sites[ get_blog_option( $site->id, ( 'hiweb-option-' . languages::$options_page_slug . '-default-id' ) ) ] = $site->blog_id;
+					self::$sites[ get_blog_option( $site->blog_id, ( 'hiweb-option-' . languages::$options_page_slug . '-default-id' ) ) ] = $site->blog_id;
 				}
 			}
 			return self::$sites;

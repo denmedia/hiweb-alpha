@@ -9,7 +9,6 @@
 	namespace theme\languages;
 
 
-	use hiweb\arrays;
 	use theme\languages;
 
 
@@ -62,7 +61,7 @@
 		public function get_lang_id(){
 			if( !is_string( $this->lang_id ) ){
 				$this->lang_id = get_post_meta( $this->wp_post_id, languages::$post_meta_key_lang_id, true );
-				if( !arrays::in_array( $this->lang_id, languages::get_ids() ) ){
+				if( !in_array( $this->lang_id, languages::get_ids() ) ){
 					$this->lang_id = languages::get_default_id();
 				}
 			}

@@ -42,7 +42,7 @@ jQuery(document).ready(function () {
         e.preventDefault();
         $(this).fadeOut();
         if (!hiweb_language_post_ids) {
-            alert('Ошибка чтения массива зщаписей!');
+            alert('Ошибка чтения массива записей!');
         } else {
             hiweb_language_import_step_total = hiweb_language_post_ids.length;
             hiweb_language_import_step();

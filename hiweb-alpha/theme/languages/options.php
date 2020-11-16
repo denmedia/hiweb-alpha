@@ -9,9 +9,6 @@
 	use theme\languages;
 
 
-	if( \hiweb\components\Context::is_admin_page() ){
-		include_css( HIWEB_DIR_VENDORS . '/font-awesome-5/css/all.min.css' );
-	}
 	$admin_menu = add_admin_menu_page( languages::$options_page_slug, '<i class="far fa-globe-africa"></i> Локализации', 'options-general.php' );
 	$admin_menu->page_title( '<i class="far fa-globe-africa"></i> Управление языками на сайте' );
 
@@ -21,17 +18,18 @@
 
 	if( languages\detect::is_multisite() ){
 		add_field_separator( 'Текущий язык сайта' )->location()->admin_menus( languages::$options_page_slug );
-		add_field_text( 'default-id' )->label( 'ID текущего языка' )->VALUE( 'ru' )->get_parent_field()->location( true );
-		add_field_text( 'default-name' )->label( 'Название текущего языка' )->VALUE( 'русский язык' )->get_parent_field()->location( true );
-		add_field_text( 'default-locale-name' )->label( 'Имя текущей локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->VALUE( 'ru_RU' )->get_parent_field()->location( true );
-		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->VALUE( 'русский' )->get_parent_field()->location( true );
+		add_field_text( 'default-id' )->label( 'ID текущего языка' )->default_value( 'ru' )->location( true );
+		add_field_text( 'default-name' )->label( 'Название текущего языка' )->default_value( 'русский язык' )->location( true );
+		add_field_text( 'default-locale-name' )->label( 'Имя текущей локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->default_value('ru_RU' )->location( 
+		        true );
+		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->default_value( 'русский' )->location( true );
 	} else {
 		add_field_separator( 'Стандартный язык сайта' )->location()->admin_menus( languages::$options_page_slug );
 
-		add_field_text( 'default-id' )->label( 'ID стандартного языка' )->VALUE( 'ru' )->get_parent_field()->location( true );
-		add_field_text( 'default-name' )->label( 'Название стандартного языка' )->VALUE( 'русский язык' )->get_parent_field()->location( true );
-		add_field_text( 'default-locale-name' )->label( 'Имя стандартной локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->VALUE( 'ru_RU' )->get_parent_field()->location( true );
-		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->VALUE( 'русский' )->get_parent_field()->location( true );
+		add_field_text( 'default-id' )->label( 'ID стандартного языка' )->default_value( 'ru' )->location( true );
+		add_field_text( 'default-name' )->label( 'Название стандартного языка' )->default_value( 'русский язык' )->location( true );
+		add_field_text( 'default-locale-name' )->label( 'Имя стандартной локалии' )->description( 'Для английского языка это <code>en_GB</code>, <a href="http://support.sas.com/documentation/cdl/en/nlsref/61893/HTML/default/viewer.htm#a002613623.htm" target="_blank">ТАБЛИЦА ЛОКАЛЕЙ</a>' )->default_value( 'ru_RU' )->location( true );
+		add_field_text( 'default-title' )->label( 'Заголовок для смены языка' )->default_value( 'русский' )->location( true );
 
 		add_field_separator( 'Дополнительные языки' )->location( true );
 
@@ -49,7 +47,7 @@
 		$default_checked = array_flip( [ 'post', 'page' ] );
 		foreach( languages::get_post_types( false ) as $post_type_name ){
 			$post_type = get_post_type_object( $post_type_name );
-			add_field_checkbox( 'post-type-' . $post_type_name )->label_checkbox( '<b>' . $post_type->label . '</b> (' . $post_type_name . ')' )->VALUE( array_key_exists( $post_type_name, $default_checked ) ? 'on' : '' )->get_parent_field()->location()->admin_menus( languages::$options_page_slug );
+			add_field_checkbox( 'post-type-' . $post_type_name )->label_checkbox( '<b>' . $post_type->label . '</b> (' . $post_type_name . ')' )->default_value( array_key_exists( $post_type_name, $default_checked ) ? 'on' : '' )->location()->admin_menus( languages::$options_page_slug );
 		}
 		///
 		foreach( languages::get_post_types( true ) as $post_type ){
@@ -123,7 +121,7 @@
 			///POSTS LIST
 			add_filter( 'views_edit-' . $post_type, function( $views ){
 				foreach( languages::get_languages() as $language ){
-					$views[ 'hiweb-language-lang-id-' . $language->get_id() ] = '<a href="' . \hiweb\PathsFactory::get()->set_params( [ 'lang' => $language->get_id() ] ) . '" ' . ( \hiweb\PathsFactory::request( 'lang' ) == $language->get_id() ? 'class="current"' : '' ) . ' aria-current="page">
+					$views[ 'hiweb-language-lang-id-' . $language->get_id() ] = '<a href="' . get_url()->params()->set_value( [ 'lang' => $language->get_id() ] ) . '" ' . ( \hiweb\core\Paths\PathsFactory::request( 'lang' ) == $language->get_id() ? 'class="current"' : '' ) . ' aria-current="page">
 					' . strtoupper( $language->get_id() ) . ' <span class="count">(0)</span>
 					</a>';
 				}
@@ -132,7 +130,7 @@
 			if( !languages\detect::is_multisite() ){
 				///COLUMNS MANAGER
 				add_filter( "manage_{$post_type}_posts_columns", function( $posts_columns ){
-					$posts_columns = \hiweb\arrays::get( $posts_columns )->push_value( 'Локализация', 4, languages::$post_columns_id );
+					$posts_columns = get_array( $posts_columns )->push_value( 'Локализация', 4, languages::$post_columns_id );
 					return $posts_columns;
 				} );
 				add_action( "manage_{$post_type}_posts_custom_column", function( $column_name, $post_id ){
@@ -228,7 +226,7 @@
 
 
 					add_filter( "manage_edit-{$taxonomy}_columns", function( $columns ){
-						$columns = \hiweb\arrays::push( $columns, 'Локализация', 2, languages::$post_columns_id );
+						$columns = get_array($columns)->push_value( 'Локализация', 2, languages::$post_columns_id );
 						return $columns;
 					}, 99, 3 );
 					add_filter( "manage_{$taxonomy}_custom_column", function( $string, $column_name, $term_id ){
