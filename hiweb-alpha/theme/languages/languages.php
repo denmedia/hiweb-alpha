@@ -61,6 +61,7 @@
 			} else {
 				html_layout\tags\html::get_tags_array()->push( 'lang', self::get_current_id() );
 			}
+            setlocale( LC_ALL , get_locale().'.utf8' );
 		}
 
 

@@ -16,7 +16,7 @@ use hiweb\core\Paths\Path_File;
 /**
  * Control class of the slide
  * @package theme\sliders
- * @version 1.1
+ * @version 1.2
  */
 class slide {
 
@@ -139,8 +139,11 @@ class slide {
     }
 
 
+    /**
+     * @version 1.1
+     */
     public function the() {
-        if ( !$this->is_image && !$this->is_video) return;
+        //if ( !$this->is_image && !$this->is_video) return;
         ?>
         <div <?= $this->get_slide_class_tag() ?>>
             <?php

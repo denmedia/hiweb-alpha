@@ -198,26 +198,6 @@
     width: 12px;
     height: 12px;
     background-color: rgba(255, 255, 255, 0.25);
-    -webkit-box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.35);
-    -moz-box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.35);
-    -o-box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.35);
-    box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.35);
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    -webkit-border-top-left-radius: 20px;
-    -webkit-border-top-right-radius: 20px;
-    -webkit-border-bottom-right-radius: 20px;
-    -webkit-border-bottom-left-radius: 20px;
-    -moz-border-radius-topleft: 20px;
-    -moz-border-radius-topright: 20px;
-    -moz-border-radius-bottomright: 20px;
-    -moz-border-radius-bottomleft: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
     padding: 4px;
     margin: auto 5px; }
     .hiweb-theme-widget-slider .owl-dots .owl-dot:focus, .hiweb-theme-widget-slider .owl-dots .owl-dot:focus * {

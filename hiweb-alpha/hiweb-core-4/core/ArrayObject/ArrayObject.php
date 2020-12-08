@@ -400,6 +400,15 @@
 			$this->array = (array)$array;
 			return $this;
 		}
+
+
+        /**
+         * Reverse current array
+         * @return array
+         */
+		public function reverse(){
+		    return array_reverse($this->array);
+        }
 		
 		
 		/**

@@ -180,9 +180,6 @@
 			width: 12px;
 			height: 12px;
 			background-color: rgba(255, 255, 255, .25);
-			@include box-shadow();
-			@include transition();
-			@include border_radius(20px);
 			padding: 4px;
 			margin: auto 5px;
 
