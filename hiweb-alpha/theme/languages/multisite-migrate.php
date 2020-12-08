@@ -72,8 +72,8 @@
 								<p>Содайте новый сайт в разделе <a href="<?= network_admin_url( '' ) ?>">САЙТЫ</a></p>
 								<?php
 							} else {
-								\theme\includes\admin::bootstrap();
-								\theme\includes\admin::js(__DIR__.'/admin-multisites.min.js', \theme\includes\admin::jquery());
+							    //include_admin()->bootstrap();
+                                include_admin_js(__DIR__.'/admin-multisites.min.js','jquery-core');
 								$ids = [];
 								foreach($_POST['post_types'] as $post_type) {
 									$posts_args = [

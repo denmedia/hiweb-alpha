@@ -11,7 +11,6 @@
 		
 		use hiweb\components\NavMenus\NavMenusFactory;
 		use hiweb\core\ArrayObject\ArrayObject;
-		use theme\includes\frontend;
 
 
 		class nav_menu{
@@ -172,8 +171,8 @@
 
 			public function the(){
 				if( $this->use_stellarnav ){
-					frontend::fontawesome();
-					frontend::stellarnav();
+					include_frontend()->fontawesome();
+					include_frontend()->stellarnav();
 					$this->root_classes[] = 'stellarnav';
 					?>
 					<div id="<?= $this->id ?>" <?= $this->get_tags() ?> <?= $this->get_root_classes() == '' ? '' : 'class="' . $this->get_root_classes() . '"' ?>>
@@ -189,7 +188,7 @@
 					</nav>
 					</div>
 					<?php
-					frontend::js( __DIR__ . '/nav_menu.min.js', frontend::jquery() );
+                    include_frontend_js( __DIR__ . '/nav_menu.min.js', 'jquery-core' );
 				}
 			}
 

@@ -1,27 +1,25 @@
 <?php
 
-	use hiweb\admin;
-	use theme\_minify\cache;
 	use theme\minify;
 
 
 	if( is_array( $_POST ) && count( $_POST ) > 0 && is_user_logged_in() ){
 		if( isset( $_POST['clear-cache'] ) ){
 			if($_POST['clear-cache'] == 'css'){
-				\theme\_minify\cache::do_clear_css();
-				$notice = hiweb\admin::NOTICE( 'Весь кэш CSS очищен' );
-				$notice->CLASS_()->success();
-				$notice->the();
+//				\theme\_minify\cache::do_clear_css();
+//				$notice = hiweb\admin::NOTICE( 'Весь кэш CSS очищен' );
+//				$notice->CLASS_()->success();
+//				$notice->the();
 			}
 			elseif($_POST['clear-cache'] == 'js'){
-				\theme\_minify\cache::do_clear_js();
-				$notice = hiweb\admin::NOTICE( 'Весь кэш JS очищен' );
-				$notice->CLASS_()->success();
-				$notice->the();
+//				\theme\_minify\cache::do_clear_js();
+//				$notice = hiweb\admin::NOTICE( 'Весь кэш JS очищен' );
+//				$notice->CLASS_()->success();
+//				$notice->the();
 			}else{
-				\theme\_minify\cache::do_clear_all();
-				$notice = hiweb\admin::NOTICE( 'Весь кэш CSS, JS очищен' );
-				$notice->CLASS_()->success();
+//				\theme\_minify\cache::do_clear_all();
+				$notice = add_admin_notice( 'Весь кэш CSS, JS очищен' );
+				$notice->options()->success();
 				$notice->the();
 			}
 		} else {
@@ -36,9 +34,9 @@
 			minify::$critical_css_enable = get_option( 'hiweb_theme_minify_critical_css_enable', true );
 			minify::$cache_refresh_time = get_option( 'hiweb_theme_minify_cache_refresh_time', 86400 );
 			///
-			$notice = hiweb\admin::NOTICE( 'Настройки сохранены' );
-			$notice->CLASS_()->success();
-			$notice->the();
+			$notice = add_admin_notice('Настройки сохранены'); //hiweb\admin::NOTICE( 'Настройки сохранены' );
+			$notice->options()->success();
+            $notice->the();
 		}
 	}
 
@@ -101,17 +99,17 @@
 			<th>
 				Размер и количество файлов кэша
 			</th>
-			<td>Размер: <b><?= get_path( theme\_minify\cache::get_dir() )->file()->get_size_formatted() ?></b> / <?= count( get_path( theme\_minify\cache::get_dir() )->file()->get_sub_files() ) ?> файлов</td>
+			<td>Размер: <b><?= get_path( theme\minify\cache::get_dir() )->file()->get_size_formatted() ?></b> / <?= count( get_path( theme\minify\cache::get_dir() )->file()->get_sub_files() ) ?> файлов</td>
 		</tr>
 		</tbody>
 	</table>
 	<form action="<?= get_url()->get() ?>" method="post" style="float: left;">
 		<input type="hidden" name="clear-cache" value="css">
-		<button class="button button-large" type="submit">Сбросить CSS кэш</button>
+		<button class="button button-large" type="submit">Сбросить CSS кэш</button>&nbsp;
 	</form>&nbsp;
 	<form action="<?= get_url()->get() ?>" method="post" style="float: left;">
 		<input type="hidden" name="clear-cache" value="js">
-		<button class="button button-large" type="submit">Сбросить JS кэш</button>
+		<button class="button button-large" type="submit">Сбросить JS кэш</button>&nbsp;
 	</form>&nbsp;
 	<form action="<?= get_url()->get() ?>" method="post" style="float: left;">
 		<input type="hidden" name="clear-cache">

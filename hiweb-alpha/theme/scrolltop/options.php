@@ -6,7 +6,7 @@
 	 * Time: 19:29
 	 */
 
-	\theme\includes\admin::fontawesome();
+	include_admin()->fontawesome();
 
 	add_admin_menu_page( \theme\scrolltop::$admin_menu_slug, '<i class="fas fa-arrow-to-top"></i> Scroll Top', \theme\scrolltop::$admin_menu_parent );
 

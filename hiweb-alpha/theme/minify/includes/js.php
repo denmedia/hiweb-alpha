@@ -1,11 +1,11 @@
 <?php
 
-	namespace theme\_minify;
+	namespace theme\minify;
 
 
 	use Exception;
-	use hiweb\core\Paths\PathsFactory;
-	use hiweb\vendors\JShrink\Minifier;
+    use hiweb\components\HTML_CSS_JS_Minifier;
+    use hiweb\core\Paths\PathsFactory;
 	use WP_Scripts;
 
 
@@ -45,7 +45,7 @@
 					$full_content[] = $file->get_content();
 				}
 				$R = join( "\n", $full_content );
-				$full_content_test = Minifier::minify( $R, [ 'flaggedComments' => false ] );
+				$full_content_test = HTML_CSS_JS_Minifier::minify_js( $R );
 				if( is_string( $full_content_test ) && strlen( $full_content_test ) > 0 ){
 					$R = $full_content_test;
 				}

@@ -1,6 +1,5 @@
 <?php
-	
-	use theme\includes\frontend;
+
 	use theme\structures;
 	
 	

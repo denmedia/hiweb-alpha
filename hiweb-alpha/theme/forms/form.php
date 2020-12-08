@@ -125,6 +125,15 @@
 			if( $R == '' ) $R = get_field( 'text-' . $status_name, forms::$options_name );
 			return $R;
 		}
+
+
+        /**
+         * Return true if "show title" set on
+         * @return bool
+         */
+		public function is_show_title(){
+		    return (bool)get_field('show-title',$this->get_wp_post());
+        }
 		
 		
 		/**

@@ -11,9 +11,7 @@
 
 	use hiweb\components\Images\ImagesFactory;
 	use hiweb\core\hidden_methods;
-	use hiweb\core\Paths\PathsFactory;
 	use theme\html_layout\tags\head;
-	use theme\includes\frontend;
 
 
 	class images_defer{
@@ -26,8 +24,8 @@
 
 		static function init(){
 			require_once __DIR__ . '/hooks.php';
-			frontend::js( __DIR__ . '/images_defer.min.js', frontend::jquery() );
-			$css_content = PathsFactory::get_file( __DIR__ . '/images_defer.min.css' )->get_content( '' );
+            include_frontend_js(__DIR__ . '/images_defer.min.js', 'jquery-core');
+			$css_content = get_file( __DIR__ . '/images_defer.min.css' )->get_content( '' );
 			if( $css_content != '' ){
 				$css_content = str_replace( '../../hiweb-core-3/assets', HIWEB_URL_ASSETS, $css_content );
 				head::add_html_addition( '<style type="text/css" data-defer-inline-styles>' . $css_content . '</style>' );

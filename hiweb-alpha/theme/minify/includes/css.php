@@ -1,6 +1,6 @@
 <?php
 
-	namespace theme\_minify;
+	namespace theme\minify;
 
 
 	use hiweb\components\CSS_Parser\CSS_Parser;

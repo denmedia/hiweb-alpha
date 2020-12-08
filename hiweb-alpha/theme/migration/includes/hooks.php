@@ -9,7 +9,6 @@
 	namespace theme\migration\includes;
 
 
-	use theme\includes\admin;
 	use theme\migration;
 
 
@@ -43,7 +42,7 @@
 		 * @return false|string
 		 */
 		static function add_submenu_page(){
-			admin::fontawesome();
+            include_admin()->fontawesome();
 			return add_submenu_page( HW_MIGRATION_SIMPLE_AM_SHOWINMENU, '<i class="fas fa-walking"></i> hiWeb Migration Simple', '<i class="fas fa-walking"></i> Migration Simple', 'manage_options', HW_MIGRATION_SIMPLE_AM_SLUG, '\theme\migration\includes\hooks::add_submenu_page_echo' );
 		}
 

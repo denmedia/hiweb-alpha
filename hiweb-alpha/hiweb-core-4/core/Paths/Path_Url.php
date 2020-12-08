@@ -10,7 +10,7 @@
      * Класс для работы с URL
      * Class Path_Url
      * @package hiweb\core\Paths
-     * @version 1.1
+     * @version 1.3
      */
 	class Path_Url{
 
@@ -73,9 +73,8 @@
 			if( !is_array( $this->prepare_data ) ){
 				$this->prepare_data = [];
 				if( strpos( $this->url, PathsFactory::get_root_path() ) === 0 ) $this->url = str_replace( PathsFactory::get_root_path(), '', $this->url );
-				$pattern = apply_filters( '\hiweb\urls\url::prepare-pattern', '/((?<schema>[\w]+?):\/\/|\/\/)?(?<domain>[\w\d\-\_]{2,}\.[\w\d\-\_]{1,}(?>\.[\w\d\-\_]+)?(?>\.[\w\d\-\_]+)?)?(?<dirs>[^\?]*)(?<params>.*)/i', $this );
+				$pattern = '/((?<schema>[\w]+?):\/\/|\/\/)?(?<domain>[\w\d\-\_]{2,}\.[\w\d\-\_]{1,}(?>\.[\w\d\-\_]+)?(?>\.[\w\d\-\_]+)?)?(?<dirs>[^\?]*)(?<params>.*)/i';
 				preg_match( $pattern, $this->url, $this->prepare_data );
-				$this->prepare_data = apply_filters( '\hiweb\urls\url::prepare-data', $this->prepare_data, $this );
 				///SCHEMA
 				if( array_key_exists( 'schema', $this->prepare_data ) && $this->prepare_data['schema'] != '' ){
 					$this->schema = $this->prepare_data['schema'];
@@ -109,7 +108,7 @@
 			if( !is_string( $this->schema ) || $this->schema == '' ){
 				$this->schema = 'http';
 			}
-			return apply_filters( '\hiweb\urls\url::schema', $this->schema, $this );
+			return $this->schema;
 		}
 
 
@@ -124,7 +123,7 @@
 				if( !is_bool( $use_noscheme ) ) $use_noscheme = PathsFactory::$use_universal_schema_urls;
 				$this->base[ $key ] = ( $use_noscheme ? '//' : $this->schema() . '://' ) . $this->domain();
 			}
-			return apply_filters( '\hiweb\urls\url::base', $this->base[ $key ], $use_noscheme, $this );
+			return $this->base[ $key ];
 		}
 
 
@@ -132,7 +131,7 @@
 		 * @return bool
 		 */
 		public function is_ssl(){
-			return apply_filters( '\hiweb\urls\url::is_ssl', $this->schema() === 'https' );
+			return $this->schema() === 'https';
 		}
 
 
@@ -140,7 +139,7 @@
 		 * @return string
 		 */
 		public function domain(){
-			return apply_filters( '\hiweb\urls\url::domain', $this->domain, $this );
+			return $this->domain;
 		}
 
 
@@ -150,9 +149,9 @@
 		 */
 		public function get( $return_universalScheme = null ){
 			if( !is_string( $this->prepare_url ) ){
-				$this->prepare_url = apply_filters( '\hiweb\urls\url::prepare-first', $this->base( $return_universalScheme ) . ( $this->dirs()->is_empty() ? '' : '/' . $this->dirs()->join( '/' ) ) . ( $this->params()->is_empty() ? '' : '?' . $this->params()->get_params_url() ), $this );
+				$this->prepare_url = $this->base( $return_universalScheme ) . ( $this->dirs()->is_empty() ? '' : '/' . $this->dirs()->join( '/' ) ) . ( $this->params()->is_empty() ? '' : '?' . $this->params()->get_params_url() );
 			}
-			return apply_filters( '\hiweb\urls\url::prepare', $this->get_clear().( $this->params()->is_empty() ? '' : '?'.$this->params()->get_params_url() ) ); //$this->prepare_url, $this );
+			return $this->get_clear().( $this->params()->is_empty() ? '' : '?'.$this->params()->get_params_url() );
 		}
 
 
@@ -181,7 +180,7 @@
 		/**
 		 * Return params ArrayObject
 		 * @return ArrayObject
-         * @version 1.1
+         * @version 1.2
 		 */
 		public function params(){
 			if( !$this->params instanceof ArrayObject ){
@@ -192,7 +191,12 @@
 				    parse_str ($parse_str, $result);
 				    if(is_array($result)) {
 				        foreach ($result as $key => $val) {
-                            $this->params->set_value($key, json_decode( $val ));
+				            $test_val = json_decode( $val );
+				            if(json_last_error() == JSON_ERROR_NONE) {
+                                $this->params->set_value($key, $test_val);
+                            } else {
+                                $this->params->set_value($key, $val);
+                            }
                         }
                     } else {
                         $this->params->set($result);

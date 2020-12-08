@@ -1,6 +1,6 @@
 <?php
 
-	namespace theme\_minify;
+	namespace theme\minify;
 
 
 	use hiweb\core\Paths\PathsFactory;

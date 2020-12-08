@@ -11,7 +11,6 @@
 	
 	use hiweb\core\Paths\PathsFactory;
 	use hiweb\core\Strings;
-	use theme\includes\frontend;
 	
 	
 	/**
@@ -31,7 +30,7 @@
 			///Options reCaptcha
 			require_once __DIR__ . '/options.php';
 			require_once __DIR__ . '/woocommerce.php';
-			frontend::js( __DIR__ . '/App.min.js', frontend::jquery() );
+            include_frontend_js(__DIR__ . '/App.min.js', 'jquery-core');
 			///
 			add_filter( '\theme\forms\form::do_submit-allow_submit_form', function( $array, $form, $submit_data ){
 				if( self::is_enable() && !self::get_recaptcha_verify() ){

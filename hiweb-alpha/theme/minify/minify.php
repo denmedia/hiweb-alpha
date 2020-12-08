@@ -2,11 +2,8 @@
 
 	namespace theme;
 
-
-	use hiweb\paths;
-	use theme\_minify\cache;
-	use theme\_minify\template;
-	use theme\includes\frontend;
+    use theme\minify\cache;
+	use theme\minify\template;
 
 
 	class minify{
@@ -28,7 +25,7 @@
 		static function init(){
 			if( self::$init ) return;
 			self::$init = true;
-			frontend::js( __DIR__ . '/includes/frontend.min.js', frontend::jquery() );
+			include_frontend_js( __DIR__ . '/includes/frontend.min.js', 'jquery-core' );
 			///
 			self::$js_enable = get_option( 'hiweb_theme_minify_js_enable', true );
 			self::$css_enable = get_option( 'hiweb_theme_minify_css_enable', true );
@@ -52,7 +49,7 @@
 		 * @param string $path
 		 */
 		static function set_template_path( $path ){
-			self::$current_template_path = paths::get( $path )->get_path_relative();
+			self::$current_template_path = get_path( $path )->get_path_relative();
 		}
 
 
@@ -79,7 +76,7 @@
 		 */
 		static function get_template( $template_path = null ){
 			if( !is_string( $template_path ) ) $template_path = self::$current_template_path;
-			$template_path = paths::get( $template_path )->get_path_relative();
+			$template_path = get_path( $template_path )->get_path_relative();
 			if( !isset( self::$templates[ $template_path ] ) ){
 				self::$templates[ $template_path ] = new template( $template_path );
 			}

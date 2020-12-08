@@ -44,7 +44,7 @@ class Field_Options_Location extends Options {
 	protected function clone_location(Field_Options $target_Field_Options) {
 		$new_location = clone $this;
 		$new_location->parent_OptionsObject = $target_Field_Options;
-		if ( $new_location->options() != '' ) {
+		if ( $new_location->options() != '' && function_exists('\register_setting') ) {
 			\register_setting( $new_location->options(), 'hiweb-option-' . $new_location->options() . '-' . $target_Field_Options->field()->id() );
 		}
 		return $new_location;
@@ -143,7 +143,7 @@ class Field_Options_Location extends Options {
 			$this->_( 'options', $page_slug );
 			FieldsFactory::$fieldIds_by_locations['options'][$page_slug][$this->getParent_OptionsObject()->field()->global_ID()] = $this->getParent_OptionsObject()->field();
 		}
-		if ( is_string( $page_slug ) && $this->getParent_OptionsObject()->field()->get_allow_save_field() ) {
+		if ( is_string( $page_slug ) && $this->getParent_OptionsObject()->field()->get_allow_save_field() && function_exists('\register_setting') ) {
 			\register_setting( $page_slug, 'hiweb-option-' . $page_slug . '-' . $this->getParent_OptionsObject()->field()->id() );
 		}
 		return $this->_( 'options', $page_slug );

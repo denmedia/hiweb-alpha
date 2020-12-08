@@ -10,6 +10,7 @@
 	use theme\forms\inputs\button;
 	use theme\forms\inputs\checkbox;
 	use theme\forms\inputs\checkboxes;
+	use theme\forms\inputs\select;
 	use theme\forms\inputs\email;
 	use theme\forms\inputs\html_insert;
 	use theme\forms\inputs\image;
@@ -38,6 +39,7 @@
 	} );
 	///
 	add_field_tab('Форма')->location()->posts( self::$post_type_name );
+	add_field_checkbox('show-title')->label_checkbox('Показывать заголовок формы')->location(true);
 	$INPUTS = add_field_repeat( 'inputs' );
 	$INPUTS->label( 'Поля ввода' )->location()->posts( self::$post_type_name )->columnsManager()->name( 'Шорткоды' )->callback( function( $post_id ){
 		echo '<p>просто форма:<br><code>[hiweb-theme-widget-form id="' . $post_id . '"]</code></p><p>кнопка, вызывающая форму:<br><code>[hiweb-theme-widget-form-button id="' . $post_id . '" html="Открыть форму"]</code></p>';
@@ -50,6 +52,7 @@
 	phone::add_repeat_field( $INPUTS );
 	checkbox::add_repeat_field( $INPUTS );
 	checkboxes::add_repeat_field( $INPUTS );
+	select::add_repeat_field( $INPUTS );
 	privacy::add_repeat_field( $INPUTS );
 	button::add_repeat_field( $INPUTS );
 	json::add_repeat_field( $INPUTS );

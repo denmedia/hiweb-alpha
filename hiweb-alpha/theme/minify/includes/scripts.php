@@ -1,10 +1,7 @@
 <?php
 
-	namespace theme\_minify;
+	namespace theme\minify;
 
-
-	use hiweb\paths;
-	use hiweb\paths\path;
 	use theme\minify;
 
 
@@ -178,7 +175,7 @@
 		 */
 		public function get_full_url(){
 			if( !$this->is_exists() ) return false;
-			return paths::get( $this->cache()->get_cache_path( $this->file_full_append ) )->get_url();
+			return get_path( $this->cache()->get_cache_path( $this->file_full_append ) )->get_url();
 		}
 
 

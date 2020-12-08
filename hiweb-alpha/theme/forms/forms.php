@@ -13,7 +13,6 @@
 	use hiweb\core\ArrayObject\ArrayObject;
 	use hiweb\core\Paths\PathsFactory;
 	use theme\forms\form;
-	use theme\includes\frontend;
 	
 	
 	/**
@@ -53,11 +52,11 @@
 			require_once __DIR__ . '/widget.php';
 			if( Context::is_frontend_page() ){
 				if( self::$enqueue_frontend_scripts ){
-					frontend::css( __DIR__ . '/assets/forms.css' );
-					frontend::js( __DIR__ . '/assets/forms.min.js', [ frontend::jquery(), frontend::jquery_mask(), frontend::jquery_form() ] );
-					frontend::fancybox();
+					include_frontend_css( __DIR__ . '/assets/forms.css' );
+                    include_frontend_js( __DIR__ . '/assets/forms.min.js', [ include_frontend()->jquery_mask(), include_frontend()->jquery_form() ] );
+					include_scripts()->fancybox();
 					if( recaptcha::is_enable() && strlen( recaptcha::get_recaptcha_key() ) > 5 ){
-						frontend::js( 'https://www.google.com/recaptcha/api.js?render=' . recaptcha::get_recaptcha_key(), [], false );
+						include_frontend_js( 'https://www.google.com/recaptcha/api.js?render=' . recaptcha::get_recaptcha_key(), [], false );
 					}
 				}
 				///

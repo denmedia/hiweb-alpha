@@ -3,8 +3,6 @@
 	namespace theme\widgets;
 
 
-	use theme\includes\frontend;
-
 
 	class menu_collapse{
 

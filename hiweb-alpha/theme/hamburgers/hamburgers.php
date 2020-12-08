@@ -9,8 +9,6 @@
 	namespace theme;
 
 
-	use theme\includes\frontend;
-
 
 	class hamburgers{
 
@@ -24,8 +22,7 @@
 		static function init(){
 			if( !self::is_init() ){
 				self::$init = true;
-				frontend::css( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburgers.min.css' );
-				frontend::js( HIWEB_THEME_VENDORS_DIR . '/hamburgers/hamburders.min.js' );
+				include_frontend()->hamburgers();
 			}
 		}
 

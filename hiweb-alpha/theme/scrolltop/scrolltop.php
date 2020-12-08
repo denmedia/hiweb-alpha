@@ -10,7 +10,6 @@
 
 
 	use hiweb\components\Includes\IncludesFactory_FrontendPage;
-	use theme\includes\frontend;
 
 
 	class scrolltop{

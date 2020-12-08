@@ -17,7 +17,7 @@
 		static private $init = false;
 		static $template_files = ['cache_2','mod_deflate','mod_expires','mod_gzip','mod_headers'];
 		static $mod_expires_time = '1 year';
-		static $mod_expires_time_default = '2 days';
+		static $mod_expires_time_default = '35 days';
 
 
 		static function init(){

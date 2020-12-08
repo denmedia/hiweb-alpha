@@ -1,13 +1,12 @@
 <?php
 
-	namespace theme\_minify;
+	namespace theme\minify;
 
 
-	use hiweb\paths;
-	use hiweb\paths\path;
+	use hiweb\core\Paths\PathsFactory;
 
 
-	class template{
+    class template{
 
 		static $templates = [];
 		static $current_template_path;
@@ -21,7 +20,7 @@
 				if( $tmp !== false ) $template_path = $tmp;
 			}
 			//
-			$template_path = paths::get( $template_path )->get_path_relative();
+			$template_path = PathsFactory::get( $template_path )->get_path_relative();
 			if( !isset( self::$templates[ $template_path ] ) ){
 				self::$templates[ $template_path ] = new template( $template_path );
 			}

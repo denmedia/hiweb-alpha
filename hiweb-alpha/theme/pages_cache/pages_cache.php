@@ -3,7 +3,6 @@
 	namespace theme;
 
 
-	use theme\includes\admin;
 	use theme\pages_cache\options;
 	use theme\pages_cache\page;
 	use theme\pages_cache\queue;
@@ -33,7 +32,7 @@
 			setup::init();
 			queue::init();
 			if( options::is_enable() ){
-				admin::js( __DIR__ . '/admin/admin-background-make.min.js', admin::jquery() );
+			    include_admin_js( __DIR__ . '/admin/admin-background-make.min.js', 'jquery-core' );
 				if( isset( $_GET['cache-mobile'] ) ){
 					add_filter( 'wp_is_mobile', '__return_true' );
 				}

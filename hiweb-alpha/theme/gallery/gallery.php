@@ -9,12 +9,6 @@
 	namespace theme\widgets;
 
 
-	use hiweb\arrays;
-	use hiweb\images\image;
-	use hiweb\strings;
-	use theme\includes\frontend;
-	use theme\includes\includes;
-
 
 	class gallery{
 
@@ -135,8 +129,7 @@
 
 
 		public function the(){
-			includes::css( HIWEB_THEME_ASSETS_DIR . '/css/widget-gallery.min.css' );
-			includes::fontawesome(false);
+			include_frontend_css( HIWEB_THEME_ASSETS_DIR . '/css/widget-gallery.min.css' );
 			if( !$this->has_images() ){
 				?>
 				<div class="hiweb-theme-module-gallery-empty jumbotron text-center">

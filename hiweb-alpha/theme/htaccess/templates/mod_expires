@@ -1,6 +1,6 @@
 FileETag MTime Size
 <ifmodule mod_expires.c>
-    <filesmatch ".(jpg|jpeg|gif|png|ico|css|js|svg|otf|eot|woff|ttf)$">
+    <filesmatch ".(jpg|jpeg|gif|png|ico|css|js|svg|otf|eot|woff|ttf|htm|html|php)$">
         ExpiresActive on
         ExpiresDefault "access plus {mod_expires_time}"
     </filesmatch>

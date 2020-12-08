@@ -7,12 +7,6 @@
 	 */
 	
 	use theme\breadcrumbs;
-	use theme\includes\includes;
-	
-	
-	if( \hiweb\components\Context::is_admin_page() ){
-		includes::fontawesome();
-	}
 	
 	add_admin_menu_page( breadcrumbs::$admin_options_slug, '<i class="far fa-shoe-prints"></i> Хлебные крошки', 'options-general.php' );
 	

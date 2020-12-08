@@ -1,4 +1,4 @@
-<ifModule mod_headers.c>
+<IfModule mod_headers.c>
 	<FilesMatch "\.(html|htm)$">
 		Header set Cache-Control "max-age=43200"
 	</FilesMatch>

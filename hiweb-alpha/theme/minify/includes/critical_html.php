@@ -1,6 +1,6 @@
 <?php
 
-	namespace theme\_minify;
+	namespace theme\minify;
 
 
 	class critical_html extends scripts{

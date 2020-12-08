@@ -7,10 +7,9 @@
 	 */
 
 	use theme\recaptcha;
-	use theme\includes\admin;
 
 
-	admin::fontawesome(false);
+	include_admin()->fontawesome(false);
 	recaptcha::$options_object_recaptcha = add_admin_menu_page( recaptcha::$admin_menu_slug, '<i class="fas fa-user-check"></i> reCaptcha', recaptcha::$admin_menu_parent );
 	add_field_separator( 'Google reCaptcha v.3', 'Воспользуйтесь Google reCaptcha (анти-бот проверка) для фильтрации ботов.<br><a href="https://www.google.com/recaptcha/admin/create" target="_blank"><i class="fas fa-key"></i> Получите секретный и публичный ключ на странице сервиса.</a><br><a href="https://developers.google.com/recaptcha/docs/v3" target="_blank"><i class="fas fa-book"></i> Документация сервиса.</a>' )->location()->options( recaptcha::$admin_menu_slug );
 	add_field_checkbox( 'enable' )->label_checkbox( 'Включить проверку reCaptcha' )->location( true );
