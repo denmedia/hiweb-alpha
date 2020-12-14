@@ -30,7 +30,7 @@
 
 		static function init(){
 			///Check SubDomain
-			$domain = PathsFactory::get_url()->domain();
+			$domain = PathsFactory::get_url()->get_domain();
 			if( substr_count( $domain, '.' ) > 1 ){
 				$explode = explode( '.', $domain );
 				if( languages::is_exists( $explode[0] ) ){

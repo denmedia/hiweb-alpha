@@ -169,7 +169,7 @@
 				$image = ImagesFactory::get( $attachment_id );
 				$max_width = $size[0] * 1.5;
 				$size_x2 = $image->sizes()->get( [ $max_width, $max_width,1 ], false );
-				$sizes = "(max-width: {$size_x2->width()}px) 100vw, {$size_x2->width()}px";
+				$sizes = "(max-width: {$size_x2->get_width()}px) 100vw, {$size_x2->get_width()}px";
 			}
 			return $sizes;
 		}
@@ -190,10 +190,10 @@
 				end( $sources );
 				$max_width = key( $sources ) * 1.5;
 				$size_x2 = $image->sizes()->get( [ $max_width, $max_width, 1], false );
-				$sources[ $size_x2->width() ] = [
+				$sources[ $size_x2->get_width() ] = [
 					'url' => $size_x2->path()->get_url( false ),
 					'descriptor' => 'w',
-					'value' => $size_x2->width()
+					'value' => $size_x2->get_width()
 				];
 			}
 			return $sources;

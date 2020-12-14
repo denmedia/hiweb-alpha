@@ -41,7 +41,7 @@
 				if( $favicon_image->is_attachment_exists() ){
 					$R .= "<link rel='icon' type='image/png' href='{$favicon_image->get_src( [ 16, 16, 0 ], true )}' />";
 					foreach( [ 57, 72, 114, 256, 512 ] as $dimension ){
-						if( $favicon_image->width() > $dimension ){
+						if($favicon_image->get_width() > $dimension ){
 							$R .= "<link rel='" . self::$apple_rel . "' type='image/png' sizes='{$dimension}x{$dimension}' href='{$favicon_image->get_src( [ $dimension, $dimension, 0 ],  true )}'/>";
 						}
 					}

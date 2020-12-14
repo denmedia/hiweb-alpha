@@ -82,7 +82,7 @@
 					/** @var WP_Post $message */
 					foreach( $messages as $index => $message ){
 						$R[ $index ] = [
-							'site' => get_url()->domain(),
+							'site' => get_url()->get_domain(),
 							'post_date' => get_the_date( 'Y:m:d H:i:s', $message ),
 							'post_content' => strip_tags( $message->post_content )
 						];

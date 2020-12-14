@@ -4,7 +4,7 @@
 
 jQuery(document).ready(function ($) {
 
-    var hiweb_theme_imagesDefer = {
+    let hiweb_theme_imagesDefer = {
 
         $images_on_page: [],
         images_queue: [],

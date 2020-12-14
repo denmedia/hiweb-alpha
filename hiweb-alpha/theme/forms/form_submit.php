@@ -156,7 +156,7 @@
 			if( get_field( 'reply_email', $this->form->get_wp_post() ) != '' ){
 				$reply_to = get_field( 'reply_email', $this->form->get_wp_post() );
 			}
-			$reply_to = str_replace( '{domain}', PathsFactory::get_url()->domain(), $reply_to );
+			$reply_to = str_replace( '{domain}', PathsFactory::get_url()->get_domain(), $reply_to );
 			$headers = [ 'From: ' . get_bloginfo( 'name' ) . ' <' . $reply_to . '>' ];
 			$headers[] = 'Reply-To: ' . $reply_to;
 			$headers[] = 'Precedence: bulk';

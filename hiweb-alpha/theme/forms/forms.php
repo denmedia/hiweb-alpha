@@ -154,7 +154,7 @@
 			if( !is_array( self::$input_classes ) ){
 				self::$input_classes = [];
 				foreach( PathsFactory::get_file( __DIR__ . '/inputs' )->get_sub_files( [ 'php' ] ) as $path => $class_file ){
-					self::$input_classes[ $class_file->filename() ] = ( 'theme\\forms\\inputs\\' . $class_file->filename() );
+					self::$input_classes[ $class_file->get_filename() ] = ('theme\\forms\\inputs\\' . $class_file->get_filename() );
 				}
 			}
 			return self::$input_classes;

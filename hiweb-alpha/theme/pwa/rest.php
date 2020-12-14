@@ -51,7 +51,7 @@
 				}
 				if( $icon->is_attachment_exists() ){
 					foreach( [ 192, 512 ] as $width ){
-						if( $width > $icon->width() || $width > $icon->height() )
+						if( $width > $icon->get_width() || $width > $icon->get_height() )
 							continue;
 						$icon_src = $icon->sizes()->get( [ $width, $width, 0], true );
 						$icons[] = [
@@ -61,11 +61,11 @@
 						];
 					}
 					if( $icon_splash->is_attachment_exists() ){
-						if( $icon_splash->width() >= 512 && $icon_splash->height() >= 512 ){
+						if($icon_splash->get_width() >= 512 && $icon_splash->get_height() >= 512 ){
 							$icon_splash_size = $icon_splash->sizes()->get( [ 512, 512, 0], true );
 							$icons[] = [
 								'src' => $icon_splash_size->path()->get_path_relative(),
-								'sizes' => $icon_splash_size->width() . 'x' . $icon_splash_size->height(),
+								'sizes' => $icon_splash_size->get_width() . 'x' . $icon_splash_size->get_height(),
 								'type' => $icon_splash_size->path()->image()->get_mime_type()
 							];
 						}
