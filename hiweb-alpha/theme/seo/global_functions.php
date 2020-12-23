@@ -107,7 +107,7 @@ if ( !function_exists('get_the_archive_link_tag_title')) {
      * @param null|WP_Post|WP_Term $postOrTerm
      * @return mixed|void
      */
-    function get_the_archive_link_tag_title($postOrTerm = null) {
+    function get_the_archive_link_tag_title($postOrTerm = null): string {
         if (is_numeric($postOrTerm)) {
             $postOrTerm = get_post($postOrTerm);
         }
@@ -131,7 +131,7 @@ if ( !function_exists('get_the_archive_link_tag_title')) {
             }
             $title = apply_filters('get_the_archive_link_tag_title', htmlentities($title, ENT_QUOTES, 'UTF-8'), $postOrTerm);
         }
-        return $title;
+        return (string)$title;
     }
 }
 

@@ -1,12 +1,12 @@
 <?php
 
-	the_post();
-	get_header();
-	///
+the_post();
+get_header();
+///
 ?>
-	<main><?php
+    <main><?php
 	the_content();
 ?></main><?php
-	///
+///
 
-	get_footer();
+get_footer();
