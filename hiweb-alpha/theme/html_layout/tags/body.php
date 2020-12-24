@@ -28,7 +28,7 @@
 		 */
 		static function the_before(){
 			do_action( '\theme\html_layout\body::the_before-before' );
-			get_template_part( HIWEB_THEME_PARTS . '/html_layout/body-before' );
+            hw_template_part( HIWEB_THEME_PARTS . '/html_layout/body-before' );
 			do_action( '\theme\html_layout\body::the_before-after' );
 		}
 		
@@ -38,7 +38,7 @@
 		 */
 		static function the_after(){
 			do_action( '\theme\html_layout\body::the_after-before' );
-			get_template_part( HIWEB_THEME_PARTS . '/html_layout/body-after' );
+            hw_template_part( HIWEB_THEME_PARTS . '/html_layout/body-after' );
 			do_action( '\theme\html_layout\body::the_after-after' );
 		}
 		

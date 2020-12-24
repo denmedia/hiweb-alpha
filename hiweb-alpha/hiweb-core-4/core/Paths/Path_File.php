@@ -140,7 +140,7 @@ class Path_File {
      * @return string|string[]
      */
     public function get_path_at_theme() {
-        return ltrim(str_replace(get_stylesheet_directory(), '', $this->get_absolute_path()), '/\\');
+        return ltrim(str_replace(str_replace('\\','/',get_stylesheet_directory()), '', $this->get_absolute_path()), '/\\');
     }
 
 

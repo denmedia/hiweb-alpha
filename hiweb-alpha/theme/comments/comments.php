@@ -56,7 +56,7 @@
 				//Рендер блока комментариев
 				$GLOBALS['post'] = get_post( $post_id );
 				ob_start();
-				get_template_part( 'parts/single-comments' );
+				hw_template_part( 'parts/single-comments' );
 				$comments_html = ob_get_clean();
 				
 				if( is_int( $B ) ){
@@ -106,6 +106,6 @@
 		include_css( get_stylesheet_directory() . '/bootstrap-4/css/bootstrap-grid.min.css' );
 		include_css( __DIR__ . '/comments.css' );
 		include_js( __DIR__ . '/comments.min.js', [ 'jquery' ] );
-		get_template_part( 'comments/parts/single-comments' );
-		get_template_part( 'comments/parts/single-comments-form' );
+		hw_template_part( 'comments/parts/single-comments' );
+		hw_template_part( 'comments/parts/single-comments-form' );
 	} );

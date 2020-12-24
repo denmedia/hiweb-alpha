@@ -72,7 +72,7 @@
 		public function the(){
 			global $hiweb_theme_module_hamburgers_link;
 			$hiweb_theme_module_hamburgers_link = $this->link;
-			get_template_part( HIWEB_THEME_PARTS . '/modules/hamburgers/button' );
+			hw_template_part( HIWEB_THEME_PARTS . '/modules/hamburgers/button' );
 		}
 
 

@@ -15,5 +15,5 @@
 		?>
 		<?php recaptcha::the_input() ?>
 	</div>
-	<?php get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/status' ); ?>
+	<?php hw_template_part( HIWEB_THEME_PARTS . '/widgets/forms/status' ); ?>
 </form>

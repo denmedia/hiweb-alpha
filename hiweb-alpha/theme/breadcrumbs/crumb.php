@@ -77,11 +77,11 @@
 
 		public function the( $position = 0 ){
 			ob_start();
-			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-prefix' );
+			hw_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-prefix' );
 			///
-			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-title', ( ( $this->active && !get_field( 'current-url', breadcrumbs::$admin_options_slug ) ) || ( $this->get_link() === false ) ) ? '' : 'link' );
+			hw_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-title', ( ( $this->active && !get_field( 'current-url', breadcrumbs::$admin_options_slug ) ) || ( $this->get_link() === false ) ) ? '' : 'link' );
 			///
-			get_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-sufix' );
+			hw_template_part( HIWEB_THEME_PARTS . '/breadcrumbs/item-sufix' );
 			echo strtr( ob_get_clean(), [ '{link}' => $this->get_link(), '{title}' => $this->get_title(), '{active-class}' => $this->active ? 'active' : '', '{position}' => $position ] );
 		}
 

@@ -154,7 +154,7 @@
 			}
 			else{
 				forms::setup_postdata( $this->get_id() );
-				get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/form', forms::$template_name );
+				hw_template_part( HIWEB_THEME_PARTS . '/widgets/forms/form', forms::$template_name );
 			}
 		}
 		
@@ -175,7 +175,7 @@
 			$this->the_fancybox_button_classes = $button_classes;
 			$this->the_fancybox_button_values = $values;
 			$this->the_fancybox_button_tags = $button_tags;
-			get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/fancybox-button' );
+			hw_template_part( HIWEB_THEME_PARTS . '/widgets/forms/fancybox-button' );
 			
 			if( !array_key_exists( $this->get_id(), self::$fancy_box_form_added ) ){
 				self::$fancy_box_form_added[ $this->get_id() ] = $this->get_object_id();

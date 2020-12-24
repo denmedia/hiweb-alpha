@@ -62,7 +62,7 @@
 		 */
 		static function the(){
 			do_action( '\theme\html_layout\head::the-before' );
-			get_template_part( HIWEB_THEME_PARTS . '/html_layout/head' );
+            hw_template_part( HIWEB_THEME_PARTS . '/html_layout/head' );
 			do_action( '\theme\html_layout\head::the-after' );
 		}
 
@@ -72,7 +72,7 @@
 		 */
 		static function the_meta_viewport(){
 			do_action( '\theme\html_layout\head::the_meta_viewport-before' );
-			get_template_part( HIWEB_THEME_PARTS . '/html_layout/head-meta_viewport' );
+            hw_template_part( HIWEB_THEME_PARTS . '/html_layout/head-meta_viewport' );
 			do_action( '\theme\html_layout\head::the_meta_viewport-after' );
 		}
 

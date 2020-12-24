@@ -150,7 +150,6 @@ class FieldsFactory_Admin_PostType {
     }
 
 
-
     /**
      * POST META BOXES
      * @version 1.1
@@ -242,10 +241,10 @@ class FieldsFactory_Admin_PostType {
      */
     static function manage_posts_sortable_columns($sortable_columns) {
         $fields = FieldsFactory::get_field_by_query([
-                'post_type' => [
-                    'post_type' => get_current_screen()->post_type,
-                ],
-            ]);
+            'post_type' => [
+                'post_type' => get_current_screen()->post_type,
+            ],
+        ]);
         foreach ($fields as $Field) {
             if ($Field->options()->location()->posts()->columnsManager()->sortable()) {
                 $sortable_columns['hiweb-field-' . $Field->id()] = 'hiweb-field-' . $Field->id();

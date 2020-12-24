@@ -42,7 +42,7 @@
 
 
 		public function the(){
-			get_template_part( HIWEB_THEME_PARTS . '/widgets/forms/inputs/postlink' );
+			hw_template_part( HIWEB_THEME_PARTS . '/widgets/forms/inputs/postlink' );
 		}
 
 

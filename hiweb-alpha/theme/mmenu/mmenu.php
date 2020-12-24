@@ -30,10 +30,10 @@ class mmenu {
             include_frontend_js(__DIR__ . '/mmenu.min.js', include_frontend()->jquery_mmenu());
             ///
             add_action('\theme\html_layout\body::the_before-after', function() {
-                get_template_part(HIWEB_THEME_PARTS . '/mmenu/before');
+                hw_template_part(HIWEB_THEME_PARTS . '/mmenu/before');
             }, 1);
             add_action('\theme\html_layout\body::the_after-before', function() {
-                get_template_part(HIWEB_THEME_PARTS . '/mmenu/after');
+                hw_template_part(HIWEB_THEME_PARTS . '/mmenu/after');
             }, 9999999);
             ///
             add_action('\theme\html_layout\body::the_after-before', function() {
