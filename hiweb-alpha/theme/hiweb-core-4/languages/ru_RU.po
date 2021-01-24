@@ -1,0 +1,711 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: hiweb-core-4\n"
+"POT-Creation-Date: 2021-01-19 23:36+0300\n"
+"PO-Revision-Date: 2021-01-19 23:36+0300\n"
+"Last-Translator: DenMedia\n"
+"Language-Team: DenMedia\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: ;__;_e;_n:1,2;esc_attr__;esc_attr_e;esc_html__;"
+"esc_html_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: .\n"
+
+#: components/error_404/options.php:3
+msgid "Page 404"
+msgstr "Страница 404"
+
+#: components/error_404/options.php:3
+msgid "Error page 404"
+msgstr "Страница ошибки 404"
+
+#: components/error_404/options.php:5
+msgid "Page title"
+msgstr "Заголовок страницы"
+
+#: components/error_404/options.php:6
+msgid ""
+"<h2>Oops! Page not found.</h2><h4>Sorry...The requested URL was not found on "
+"the server....</h4>"
+msgstr ""
+"<h2>Оопс! Страница не найдена.</h2><h4>Извините...Страницы, которую Вы "
+"открыли, не существует...</h4>"
+
+#: components/error_404/options.php:6
+msgid "Page text content"
+msgstr "Текстовое содержимое страницы"
+
+#: components/forms/form_submit.php:51
+msgid "Invalid form field"
+msgstr "Не верное поле формы"
+
+#: components/forms/inputs/button.php:21
+msgid "Submit"
+msgstr "Отправить"
+
+#: components/forms/inputs/button.php:21
+msgid "Button with text"
+msgstr "Кнопка с текстом"
+
+#: components/forms/inputs/button.php:22
+msgid "Form submit"
+msgstr "Отправить форму"
+
+#: components/forms/inputs/button.php:22
+msgid "Form reset"
+msgstr "Сбросить форму"
+
+#: components/forms/inputs/checkbox.php:21
+msgid "Option item"
+msgstr "Элемент опции"
+
+#: components/forms/inputs/checkbox.php:21
+msgid "Checkbox"
+msgstr "Чекбокс (галочка)"
+
+#: components/forms/inputs/checkbox.php:22
+msgid "Name (id) of field"
+msgstr "Имя (id) поля на латинице"
+
+#: components/forms/inputs/checkbox.php:23
+msgid "Required to filed"
+msgstr "Обязательно для заполнения"
+
+#: components/forms/inputs/checkbox.php:24
+msgid "Incorrectly filled field message"
+msgstr "Сообщение о неверно заполненном поле"
+
+#: components/forms/inputs/checkbox.php:24
+msgid "You have filled in the field incorrectly"
+msgstr "Вы не верно заполнили поле"
+
+#: components/forms/inputs/checkbox.php:25
+msgid "Do not send this field by mail"
+msgstr "Не отправлять данное поле по email"
+
+#: components/forms/options.php:18
+msgid "Options"
+msgstr "Опции"
+
+#: components/forms/options.php:21
+msgid "Main settings"
+msgstr "Основные настройки"
+
+#: components/forms/options.php:21
+msgid "Destination address of the recipient of messages from forms"
+msgstr "Целевой адрес получателя сообщений с форм"
+
+#: components/forms/options.php:22
+msgid "The mail address to which messages will be sent."
+msgstr "Адрес почты, на который будет отправляться сообщения."
+
+#: components/forms/options.php:22
+#, php-format
+msgid ""
+"This will be the default address for receiving messages. If you leave this "
+"field empty, emails will be sent to the super-admin address <b>% s <a href="
+"\"%s\" data-tooltip=\"Change this address\" title=\"Change this address\"> "
+"<i class = \"fas fa -pencil-alt \"> </i> </a> </b> For each form, you can "
+"also set an individual address. You can also specify several addresses "
+"separated by commas or spaces, for example: <code> info@email.com "
+"admin@email.com </code>"
+msgstr ""
+"Этот адрес будет стандартным для приема сообщений. Если оставить поле "
+"пустым, письма будут отправляться на адрес супер-администратора <b>%s <a "
+"href=\"%s\" data-tooltip=\"Изменить этот адрес\" title=\"Изменить этот адрес"
+"\"><i class=\"fas fa-pencil-alt\"></i></a></b> Для каждой формы так же можно "
+"установить индивидуальный адрес. Так же можно указать несколько адресов "
+"через запятую или пробел, например: <code>info@email.com admin@email.com</"
+"code>"
+
+#: components/forms/options.php:29
+msgid "Privacy policy"
+msgstr "Политика конфиденциальности"
+
+#: components/forms/options.php:29
+msgid "Checkbox for form with information"
+msgstr "Галочка для формы с информацией"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Print form widget"
+msgstr "Вывести виджет формы"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Print button calling modal form"
+msgstr "Вывести кнопку, открывающая форму в модальном окне"
+
+#: components/forms/parts/columns-shortcode.php:3
+msgid "Open contact form"
+msgstr "Открыть форму"
+
+#: components/forms/post-type-messages.php:7
+msgid "All messages"
+msgstr "Все сообщения"
+
+#: components/forms/post-type-messages.php:7
+#: components/forms/post-type-messages.php:16
+msgid "Messages"
+msgstr "Сообщения"
+
+#: components/forms/post-type-messages.php:7
+msgid "Add message"
+msgstr "Добавить сообщение"
+
+#: components/forms/post-type-messages.php:7
+msgid "Add message item"
+msgstr "Создание нового сообщения"
+
+#: components/forms/post-type-messages.php:7
+msgid "Archive of messages"
+msgstr "Архив сообщений"
+
+#: components/forms/post-type-messages.php:7
+msgid "Edit message"
+msgstr "Редактировать"
+
+#: components/forms/post-type-messages.php:7
+msgid "Messages list"
+msgstr "Список сообщений"
+
+#: components/forms/post-type-messages.php:7
+msgid "New Message"
+msgstr "Новое сообщение"
+
+#: components/forms/post-type-messages.php:7
+msgid "Messages not found"
+msgstr "Сообщений не найдено"
+
+#: components/forms/post-type-messages.php:7
+msgid "No messanges in trash"
+msgstr "Удаленных сообщений нет"
+
+#: components/forms/post-type-messages.php:7
+msgid "Search messages"
+msgstr "Поиск сообщений"
+
+#: components/forms/post-type-messages.php:21
+msgid "Recipient and subject line"
+msgstr "Получатель и тема"
+
+#: components/forms/post-type-messages.php:31
+msgid "Message content"
+msgstr "Содержимое сообщения"
+
+#: components/forms/post-type-messages.php:34
+msgid "Client data"
+msgstr "Данные клиента"
+
+#: components/forms/post-type-messages.php:44
+msgid "UTM tracked data"
+msgstr "UTL отслеживаемые данные"
+
+#: components/forms/post-type-messages.php:48
+msgid "Form data"
+msgstr "Данные формы"
+
+#: components/forms/post-type.php:31
+msgid "Contact Form"
+msgstr "Контактные формы"
+
+#: components/forms/post-type.php:31 components/forms/post-type.php:37
+msgid "Forms"
+msgstr "Формы"
+
+#: components/forms/post-type.php:38
+msgid "Create form"
+msgstr "Создать форму"
+
+#: components/forms/post-type.php:41
+msgid "Form"
+msgstr "Форма"
+
+#: components/forms/post-type.php:42
+msgid "Show form title"
+msgstr "Показывать заголовок формы"
+
+#: components/forms/post-type.php:44
+msgid "Input fields"
+msgstr "Поля данных"
+
+#: components/forms/post-type.php:44
+msgid "Shortcodes"
+msgstr "Шорткоды"
+
+#: components/forms/post-type.php:67
+msgid "List of filled data"
+msgstr "Список заполненных данных"
+
+#: components/forms/post-type.php:68
+msgid "Content of this field (replace {name} with the field name)"
+msgstr "Содержимое данного поля (замените {name} на латинское название поля)"
+
+#: components/forms/post-type.php:75
+msgid "Submission status of this form"
+msgstr "Статус отправки сообщений формы"
+
+#: components/forms/post-type.php:77
+msgid "AJAX form submit status"
+msgstr "AJAX статус отправки данных"
+
+#: components/forms/post-type.php:77
+#, php-format
+msgid ""
+"These settings are relevant only for this form. If left blank, the default "
+"settings from the <a data-tooltip=\"Open Options Page\" href=\"%s\"> Form "
+"Options </a> page will be used instead"
+msgstr ""
+"Эти настройки актуальны только для данной формы. Если оставить их "
+"незаполненными, вместо них будут использованы стандартные установки со "
+"страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции формы</"
+"a>"
+
+#: components/forms/post-type.php:78
+msgid "Submission process icon"
+msgstr "Иконка процесса отправки"
+
+#: components/forms/post-type.php:79
+msgid "Successful message icon"
+msgstr "Иконка удачной отправки сообщения"
+
+#: components/forms/post-type.php:80
+msgid "Incorrectly filled form icon"
+msgstr "Иконка неверно заполненной формы"
+
+#: components/forms/post-type.php:81
+msgid "Error icon while submitting"
+msgstr "Иконка ошибки во время отправки"
+
+#: components/forms/post-type.php:82
+msgid "Form submit text"
+msgstr "Текст отправки формы"
+
+#: components/forms/post-type.php:83
+msgid "Successful form submission text"
+msgstr "Текст удачной отправки формы"
+
+#: components/forms/post-type.php:84
+msgid "Filled form error text"
+msgstr "Текст ошибки заполненной формы"
+
+#: components/forms/post-type.php:85
+msgid "Error text during form submission"
+msgstr "Текст ошибки в процессе отправки формы"
+
+#: components/forms/post-type.php:86
+msgid "Email templates"
+msgstr "Шаблоны писем email"
+
+#: components/forms/post-type.php:88
+msgid "Email templates for this form"
+msgstr "Шаблоны для данной формы"
+
+#: components/forms/post-type.php:88
+#, php-format
+msgid ""
+"These template settings are relevant only for this form. If left blank, the "
+"default settings from the <a data-tooltip=\"Open Options Page\" href=\"%s\"> "
+"Form Options </a> page will be used instead"
+msgstr ""
+"Эти настройки шаблонов актуальны только для данной формы. Если оставить их "
+"незаполненными, вместо них будут использованы стандартные установки со "
+"страницы <a data-tooltip=\"Открыть страницу опций\" href=\"%s\">Опции формы</"
+"a>"
+
+#: components/forms/post-type.php:89
+msgid "Email subject for admin"
+msgstr "Тема письма для администратора"
+
+#: components/forms/post-type.php:90
+msgid "Default email content for admin"
+msgstr "Стандартное содержимое письма для администратора"
+
+#: components/forms/post-type.php:91
+msgid ""
+"Send a email to the form filler to the address specified by him, if the form "
+"had an email field and it was filled in correctly."
+msgstr ""
+"Отправлять письмо заполнителю формы по указанному им адресу, в случае, если "
+"в форме было поле email и оно было корректно заполнено."
+
+#: components/forms/post-type.php:92
+msgid "Placeholder email subject"
+msgstr "Тема письма для заполнителя"
+
+#: components/forms/post-type.php:93
+msgid "Default email content for placeholder"
+msgstr "Стандартное содержимое письма для заполнителя"
+
+#: components/forms/post-type.php:96
+msgid "JavaScript that will be executed if the form is submitted successfully."
+msgstr "JavaScript, который будет выполнен в случае удачной отправки формы."
+
+#: components/forms/post-type.php:96
+msgid "Filling example:"
+msgstr "Пример заполнения:"
+
+#: components/migration/includes/hooks.php:84
+msgid "Migration Panel"
+msgstr "Панель миграции"
+
+#: components/migration/template/options.php:7
+msgid "Site ready to mirgate..."
+msgstr "Сайт готов к миграции..."
+
+#: components/migration/template/options.php:9
+msgid ""
+"Download site & MySQL dump files via FTP or Client Panel by you'r hosting."
+msgstr ""
+"Скачайте файлы сайта и дампа базы данных  через FTP или панель вашего "
+"хостинга."
+
+#: components/migration/template/options.php:10
+msgid "Upload this files on you'r new server."
+msgstr "Загрузите эти файлы на Ваш новый сервер."
+
+#: components/migration/template/options.php:11
+msgid ""
+"Connect site to new MySQL server, change connect data in wp-config.php file"
+msgstr ""
+"Подсоедините сайт к базе данных нового сервера, указав данные в файле wp-"
+"config.php"
+
+#: components/migration/template/options.php:12
+msgid ""
+"Go to new home page. Now you see message: \"hiWeb Migrate Site Process\". "
+"This message indicates the beginning of a process to automatically replace "
+"the old ways to the new database. Wait until the end, it should not take "
+"more than few easy\n"
+"\t\t\tseconds."
+msgstr ""
+"Откройте главную страницу сайта. Вы увидите сообщение: \"hiWeb Migrate Site "
+"Process\". Это сообщение обозначает начало процесса автоматического "
+"изменения старых путей на новые в базе данных. Дождитесь окончания, это не "
+"займет много времени."
+
+#: components/migration/template/options.php:15
+msgid "Done. Enjoy ;)"
+msgstr "Готово. Приятного аппетита ;)"
+
+#: components/migration/template/options.php:19
+msgid "Force Re-Migrate"
+msgstr "Ручная Ре-Миграция"
+
+#: components/migration/template/options.php:22
+msgid ""
+"This option is useful if the domain has changed, but the hosting site and "
+"the folder is not changed"
+msgstr ""
+"Эта опция полезна, если вы меняете домен, но хостинг и папка не изменяется"
+
+#: components/migration/template/options.php:24
+msgid "From Old Domain... (select one or more)"
+msgstr "С указанного домена(ов)..."
+
+#: components/migration/template/options.php:26
+msgid "current URL"
+msgstr "текущий URL"
+
+#: components/migration/template/options.php:38
+msgid "To New Domain..."
+msgstr "На новый домен..."
+
+#: components/migration/template/options.php:40
+msgid "RE-MIGRATE to New Domain"
+msgstr "Ре-МИГРАЦИЯ на новый домен"
+
+#: components/migration/template/options.php:43
+msgid ""
+"Enter new domain (or stay them clear) and click this button to force a re-"
+"migrate procedure to new domain.<br>\n"
+"\t\tDon't forget about <b>http://</b> prefix."
+msgstr ""
+"Укажите новый домен (или оставьте поле пустым) и кликните на эту кнопку для "
+"принудительной ре-миграции на новый домен.<br>\n"
+"Не забудьте указать <b>https://</b> перед доменом."
+
+#: hiweb-core-4/components/AdminMenu/AdminMenu_Page.php:188
+msgid "Update"
+msgstr "Обновить"
+
+#: hiweb-core-4/components/AdminNotices/init.php:4
+msgid ""
+"Show styled posts from WordPress. The ability to temporarily hide these "
+"messages, even if these messages are not hidden."
+msgstr ""
+"Показывать стилизованные сообщения от WordPress. Возможность временно "
+"скрывать эти сообщения, даже если эти сообщения не скрываемы."
+
+#: hiweb-core-4/components/ComponentsManager/options.php:6
+msgid "hiWeb Components"
+msgstr "hiWeb Компоненты"
+
+#: hiweb-core-4/components/ComponentsManager/options.php:9
+msgid "No registered components"
+msgstr "Не найдено зарегистрированных компонентов"
+
+#: hiweb-core-4/components/ComponentsManager/options.php:9
+#, php-format
+msgid "Use code% s to register your component"
+msgstr "Используйте код %s для регистрации компонента"
+
+#: hiweb-core-4/components/Fields/FieldsAdmin.js:38
+#: hiweb-core-4/components/Fields/FieldsAdmin.min.js:8
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr ""
+"Изменения, которые Вы сделали делали, не сохраняться, если Вы покините эту "
+"страницу."
+
+#: hiweb-core-4/components/Fields/FieldsFactory_Admin/templates/tabs.php:60
+msgid "No fields inside tab"
+msgstr "Нет полей в данном табе"
+
+#: hiweb-core-4/components/Fields/Types/Content/templates/template.php:16
+msgid "Click to edit"
+msgstr "Кликните для редактирования"
+
+#: hiweb-core-4/components/Fields/Types/File/Field_File_Options.php:17
+#: hiweb-core-4/components/Fields/Types/Image/Field_Image_Options.php:17
+msgid "File not select. Click or Upload file in to that place"
+msgstr "Файл не выбран. Кликните или Загрузите файл прямо сюда"
+
+#: hiweb-core-4/components/Fields/Types/File/Field_File_Options.php:22
+#: hiweb-core-4/components/Fields/Types/Image/Field_Image_Options.php:22
+msgid "Select file"
+msgstr "Выбрать файл"
+
+#: hiweb-core-4/components/Fields/Types/File/template.php:38
+msgid "Select other"
+msgstr "Выбрать другой"
+
+#: hiweb-core-4/components/Fields/Types/File/template.php:39
+msgid "Edit attachment"
+msgstr "Редактировать файл"
+
+#: hiweb-core-4/components/Fields/Types/File/template.php:40
+msgid "Download the file"
+msgstr "Скачать файл"
+
+#: hiweb-core-4/components/Fields/Types/File/template.php:41
+msgid "Unselect file (clear)"
+msgstr "Отменить выбор файла"
+
+#: hiweb-core-4/components/Fields/Types/File/template.php:45
+msgid "Drag&Drop uploaded file in that place"
+msgstr "Перетащите файл в эту область"
+
+#: hiweb-core-4/components/Fields/Types/Fontawesome/ajax_short.php:29
+msgid "Icon not exists"
+msgstr "Иконка не существует"
+
+#: hiweb-core-4/components/Fields/Types/Images/Field_Images_Options.php:16
+msgid "Select images"
+msgstr "Выбрать изображение"
+
+#: hiweb-core-4/components/Fields/Types/Images/templates/template.php:42
+msgid "No images, press \"+\" for select and adding first file"
+msgstr "Нет изображений, нажмите \"+\" для выбора файла"
+
+#: hiweb-core-4/components/Fields/Types/Post/Field_Post_Options.php:18
+msgid "Select posts"
+msgstr "Выбрать записи"
+
+#: hiweb-core-4/components/Fields/Types/Post/Field_Post_Options.php:18
+msgid "Select post"
+msgstr "Выбрать запись"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:43
+msgid "Add new row"
+msgstr "Добавить строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:52
+msgid "Clear repeat"
+msgstr "Очистить поля"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:57
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:26
+msgid "Copy all rows"
+msgstr "Копировать все строки"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:68
+msgid "Collapse / Expand rows"
+msgstr "Свернуть / Развернуть строки"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/Field_Repeat_Options.php:72
+msgid "Remove all table rows?"
+msgstr "Удалить все поля?"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:26
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:52
+msgid "Copy"
+msgstr "Копировать"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:27
+msgid "Paste rows"
+msgstr "Вставить скопированные строки"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:27
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:56
+msgid "Paste"
+msgstr "Вставить"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:36
+msgid "Remove"
+msgstr "Удалить"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:39
+msgid "Collapse / Expand Row"
+msgstr "Свернуть / Развернуть строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:41
+msgid "Collapse"
+msgstr "Схлопнуть"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:46
+msgid "Append row"
+msgstr "Добавить строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:50
+msgid "Copy row"
+msgstr "Копировать строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:54
+msgid "Paste row"
+msgstr "Вставить строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:58
+msgid "Duplicate row"
+msgstr "Дублировать строку"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/dropdown.php:60
+msgid "Duplicate"
+msgstr "Дублировать"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/message-empty.php:13
+#, php-format
+msgid ""
+"The table is empty. To add at least one field, click on the <b>%s</b> button"
+msgstr ""
+"Таблица пуста. Для добавления хотя бы одной строки, кликните по кнопке <b>"
+"%s</b>"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/row-fields.php:97
+msgid "Options for this row"
+msgstr "Опции для данной строки"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/row-left.php:10
+msgid "click - collapse / expand; drag - sorting this row"
+msgstr "клик - свернуть / развернуть; потяните - поменять порядок строк11"
+
+#: hiweb-core-4/components/Fields/Types/Repeat/templates/template.php:15
+#, php-format
+msgid ""
+"For repeat input [%s] not add col fields. For that do this: "
+"<code>add_field_repeat(...)->add_col_field( add_field_text(...) )</code>"
+msgstr ""
+"Для данного поля  [%s] не добавлены колонки. Для этого добавьте код: "
+"<code>add_field_repeat(...)->add_col_field( add_field_text(...) )</code>"
+
+#: hiweb-core-4/components/Fields/Types/Select/Field_Select_Options.php:26
+msgid "Select options"
+msgstr "Выбрать варианты"
+
+#: hiweb-core-4/components/Fields/Types/Select/Field_Select_Options.php:26
+msgid "Select option"
+msgstr "Выбрать вариант"
+
+#: hiweb-core-4/components/Images/init.php:3
+msgid "Create a new image file of the required size if it does not exist"
+msgstr ""
+"Создавать новый файл изображения требуемого размера, если он не существует"
+
+#: hiweb-core-4/components/Images/init.php:4
+msgid "Images Defer"
+msgstr "Отложенные загрузки изображений"
+
+#: hiweb-core-4/components/Images/init.php:5
+msgid "Use <picture/> html tag"
+msgstr "Использовать <picture/> html тег"
+
+#: hiweb-core-4/components/Images/init.php:6
+msgid "Use WebP images format if server is support them"
+msgstr "Использовать WebP формат изображений, если хостинг поддерживает из"
+
+#: hiweb-core-4/components/Taxonomy_Main_Select/init.php:3
+msgid "Taxonomy/Category Main Select"
+msgstr "Выбор главной Таксономии / Категории"
+
+#: hiweb-core-4/components/TinyMCE/init.php:3
+msgid "TinyMCE Addons"
+msgstr "Дополнения для TinyMCE"
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:198
+msgid "B"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:200
+msgid "KB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:202
+msgid "MB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:204
+msgid "GB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:206
+msgid "TB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:208
+msgid "PB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:210
+msgid "EB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:212
+msgid "ZB"
+msgstr ""
+
+#: hiweb-core-4/core/Paths/PathsFactory.php:214
+msgid "YiB"
+msgstr ""
+
+#: hiweb-core-4/hiweb-core-4.php:18
+msgid "Your version of PHP must be 7.2 or higher."
+msgstr "Ваша версия PHP должна быть 7.2 или выше."
+
+#: widgets/menu_collapse/widget.php:195
+#, php-format
+msgid "No menus have been created yet. <a href=\"%s\">Create some</a>."
+msgstr ""
+
+#: widgets/menu_collapse/widget.php:199
+msgid "Title:"
+msgstr "Заголовок:"
+
+#: widgets/menu_collapse/widget.php:203
+msgid "Select Menu:"
+msgstr "Выбрать меню:"
+
+#: widgets/menu_collapse/widget.php:205
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#: widgets/menu_collapse/widget.php:215
+msgid "Edit Menu"
+msgstr "Редактировать меню"
+
+#~ msgid "Save Changes"
+#~ msgstr "Сохранить Изменения"

@@ -10,6 +10,6 @@
 
 	get_header( 'error-404' );
 
-	get_template_part( HIWEB_THEME_PARTS . '/404-content' );
+	hw_template_part( HIWEB_THEME_PARTS . '/404-content' );
 
 	get_footer( 'error-404' );

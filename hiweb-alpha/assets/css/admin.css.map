@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAUA,kBAAmB,CAIlB,SAAS,CAAE,IAAI,CAHf,8BAAY,CACX,SAAS,CAAE,KAAK",
-"sources": ["admin.scss"],
-"names": [],
-"file": "admin.css"
-}
