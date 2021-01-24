@@ -16,7 +16,7 @@ use hiweb\core\Paths\PathsFactory;
 /**
  * Include css and js files for WordPress
  * @package hiweb\components\Includes
- * @version 1.3
+ * @version 1.4
  */
 class IncludesFactory {
 
@@ -78,7 +78,7 @@ class IncludesFactory {
      * @param null|string $fileNameOrPath
      * @param string      $extension - file extension. like css/js
      * @return Path
-     * @version 1.1
+     * @version 1.2
      */
     static private function get_Path_bySearch($fileNameOrPath = null, $extension = 'css'): Path {
         return CacheFactory::get($fileNameOrPath . ':' . $extension, __METHOD__, function() {
@@ -113,17 +113,26 @@ class IncludesFactory {
                     HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . '.' . $extension,
                     HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.min.' . $extension,
                     HIWEB_DIR_ASSETS . '/' . $fileNameOrPath . 'style.' . $extension,
-                    //не работают в shortinit
-                    //get_stylesheet_directory() . '/' . $fileNameOrPath,
-                    //get_stylesheet_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
-                    //get_stylesheet_directory() . '/' . $fileNameOrPath . '.' . $extension,
-                    //get_template_directory() . '/' . $fileNameOrPath,
-                    //get_template_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
-                    //get_template_directory() . '/' . $fileNameOrPath . '.' . $extension,
+                ];
+                if (function_exists('get_stylesheet_directory')) {
+                    $search_paths = array_merge($search_paths, [
+                        get_stylesheet_directory() . '/' . $fileNameOrPath,
+                        get_stylesheet_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
+                        get_stylesheet_directory() . '/' . $fileNameOrPath . '.' . $extension
+                    ]);
+                }
+                if (function_exists('get_template_directory')) {
+                    $search_paths = array_merge($search_paths, [
+                        get_template_directory() . '/' . $fileNameOrPath,
+                        get_template_directory() . '/' . $fileNameOrPath . '.min.' . $extension,
+                        get_template_directory() . '/' . $fileNameOrPath . '.' . $extension
+                    ]);
+                }
+                $search_paths = array_merge($search_paths, [
                     PathsFactory::get_root_path() . '/' . $fileNameOrPath,
                     PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.min.' . $extension,
-                    PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.' . $extension,
-                ];
+                    PathsFactory::get_root_path() . '/' . $fileNameOrPath . '.' . $extension
+                ]);
 
                 $Path = PathsFactory::get_bySearch($search_paths);
             }
