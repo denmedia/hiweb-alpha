@@ -18,9 +18,9 @@
 	
 	
 			static function add_repeat_field( Field_Repeat_Options $parent_repeat_field ){
-				$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( 'Отправить' )->default_value( 'Отправить' ) )->label( 'Кнопка с текстом' )->compact( 1 )->flex()->icon('<i class="fas fa-envelope-square"></i>');
-				$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_select( 'type' )->options( [ 'submit' => 'Отправка формы', 'reset' => 'Сброс формы' ] ) );
-				$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_fontawesome( 'icon' )->label('Иконка для поля') );
+				$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_text( 'label' )->placeholder( __('Submit','hiweb-core-4') )->default_value( __('Submit','hiweb-core-4') ) )->label( __('Button with text','hiweb-core-4') )->compact( 1 )->flex()->icon('fas fa-envelope-square');
+				$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_select( 'type' )->options( [ 'submit' => __('Form submit','hiweb-core-4'), 'reset' => __('Form reset','hiweb-core-4') ] ) );
+				//$parent_repeat_field->add_col_flex_field( self::$input_title, add_field_fontawesome( 'icon' )->label('Иконка для поля') );
 			}
 	
 			public function the_prefix(){

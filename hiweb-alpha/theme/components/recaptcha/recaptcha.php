@@ -16,7 +16,7 @@
 	/**
 	 * Class recaptcha
 	 * @package theme
-	 * @version 1.2
+	 * @version 1.3
 	 */
 	class recaptcha{
 		
@@ -29,7 +29,6 @@
 		static function init(){
 			///Options reCaptcha
 			require_once __DIR__ . '/options.php';
-			require_once __DIR__ . '/woocommerce.php';
             include_frontend_js(__DIR__ . '/App.min.js', 'jquery-core');
 			///
 			add_filter( '\theme\forms\form::do_submit-allow_submit_form', function( $array, $form, $submit_data ){
@@ -41,6 +40,10 @@
 				return null;
 			}, 10, 3 );
 		}
+
+		static function _wc_support_init(){
+            require_once __DIR__ . '/woocommerce.php';
+        }
 		
 		
 		/**
@@ -111,7 +114,7 @@
 		
 		static function the_input(){
 			if( self::is_enable() ){
-				include_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key( true ) );
+				include_frontend_js( 'https://www.google.com/recaptcha/api.js?render=' . self::get_recaptcha_key( true ) );
 				$id_rand = Strings::rand();
 				?>
 				<input type="hidden" id="<?= $id_rand ?>" name="recaptcha-token" data-key="<?= self::get_recaptcha_key() ?>" data-hiweb-form-recaptcha-input>

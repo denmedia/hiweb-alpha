@@ -78,7 +78,7 @@ class IncludesFactory {
      * @param null|string $fileNameOrPath
      * @param string      $extension - file extension. like css/js
      * @return Path
-     * @version 1.2
+     * @version 1.3
      */
     static private function get_Path_bySearch($fileNameOrPath = null, $extension = 'css'): Path {
         return CacheFactory::get($fileNameOrPath . ':' . $extension, __METHOD__, function() {
@@ -136,9 +136,9 @@ class IncludesFactory {
 
                 $Path = PathsFactory::get_bySearch($search_paths);
             }
-            if ($Path->file()->get_extension() != $extension) {
+            /*if ($Path->file()->get_extension() != $extension) {
                 ConsoleFactory::add('file [' . $fileNameOrPath . '] not found', 'warn', __CLASS__ . ' - the file is not have ' . $extension . ' extension', $Path->get_path_relative(), true);
-            } elseif ( !$Path->is_local()) {
+            } else*/if ( !$Path->is_local()) {
                 return $Path;
             } elseif ( !$Path->file()->is_file()) {
                 ConsoleFactory::add('file [' . $fileNameOrPath . '] not file', 'warn', __CLASS__ . ' - ' . $extension . ' file not found', $search_paths, true);

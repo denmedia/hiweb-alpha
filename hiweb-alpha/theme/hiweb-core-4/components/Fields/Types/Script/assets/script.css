@@ -2,6 +2,8 @@
   max-width: 100%;
   overflow: auto; }
   .hiweb-field_script .CodeMirror-scroll {
-    position: absolute; }
+    position: absolute;
+    left: 0;
+    right: 0; }
 
 /*# sourceMappingURL=script.css.map */
