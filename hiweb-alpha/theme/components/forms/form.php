@@ -148,7 +148,7 @@ class form {
             <?php
         } else {
             forms::setup_postdata($this->get_id());
-            hw_template_part(HIWEB_THEME_PARTS . '/widgets/forms/form', forms::$template_name);
+            hw_template_part(HIWEB_THEME_PARTS . '/forms/form', forms::$template_name);
         }
     }
 

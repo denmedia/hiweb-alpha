@@ -1,3 +1,3 @@
 <?php
 
-register_hiweb_component('\theme\pages_cache::init','Pages Cache');
+//register_hiweb_component('\theme\pages_cache::init','Pages Cache');

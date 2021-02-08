@@ -3,6 +3,9 @@
 namespace hiweb\components\Console;
 
 
+use hiweb\components\Context;
+
+
 /**
  * Class ConsoleFactory
  * @package hiweb\components\Console
@@ -74,6 +77,7 @@ class ConsoleFactory {
      * @version 1.5
      */
     static function the() {
+        if(!Context::is_frontend_page() && !Context::is_admin_page() && !Context::is_login_page()) return;
         echo self::get_html();
     }
 }
